@@ -1,0 +1,1 @@
+RabbitSense V3.4 — filtro conservador de errores de movimiento. Requiere opencv-python, numpy, pandas. Ejecutar con --video, --tracks, --out y opcional --video-out. Las etiquetas son candidatas, no comportamientos confirmados. Las cajas interpoladas no equivalen a detección real.

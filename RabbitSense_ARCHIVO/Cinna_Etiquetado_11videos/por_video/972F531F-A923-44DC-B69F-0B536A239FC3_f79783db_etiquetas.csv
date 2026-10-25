@@ -1,0 +1,4 @@
+video_original,parte,inicio_segundos,fin_segundos,etiqueta,comentario,certeza_de_anotacion,id_video_exportado,clip_id,usar_para_entrenamiento
+972F531F-A923-44DC-B69F-0B536A239FC3.mp4,1,0.00,4.00,resting,"Sentado quieto sobre cartón, sin desplazamiento evidente.",media,972F531F-A923-44DC-B69F-0B536A239FC3_f79783db,0000,si
+972F531F-A923-44DC-B69F-0B536A239FC3.mp4,1,4.00,8.00,resting,Continúa quieto en el cartón; se inclina para adoptar postura más baja al final.,media,972F531F-A923-44DC-B69F-0B536A239FC3_f79783db,0001,si
+972F531F-A923-44DC-B69F-0B536A239FC3.mp4,1,8.00,11.78,resting,Postura baja sostenida sobre el cartón; no se observa desplazamiento.,media,972F531F-A923-44DC-B69F-0B536A239FC3_f79783db,0002,si

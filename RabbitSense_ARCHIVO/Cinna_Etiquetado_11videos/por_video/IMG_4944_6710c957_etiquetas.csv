@@ -1,0 +1,4 @@
+video_original,parte,inicio_segundos,fin_segundos,etiqueta,comentario,certeza_de_anotacion,id_video_exportado,clip_id,usar_para_entrenamiento
+IMG_4944.MOV,1,0.00,4.00,resting,"Tumbado estirado en el suelo, patas posteriores extendidas.",alta,IMG_4944_6710c957,0000,si
+IMG_4944.MOV,1,4.00,8.00,resting,Mantiene posición extendida; movimientos de cámara.,alta,IMG_4944_6710c957,0001,si
+IMG_4944.MOV,1,8.00,10.47,resting,"Continúa tumbado en reposo, sin cambio apreciable.",alta,IMG_4944_6710c957,0002,no

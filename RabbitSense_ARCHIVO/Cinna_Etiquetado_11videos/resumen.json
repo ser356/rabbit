@@ -1,0 +1,11 @@
+{
+  "videos": 11,
+  "tramos": 40,
+  "etiquetas": {
+    "exploring_sniffing": 7,
+    "unknown": 21,
+    "resting": 12
+  },
+  "duracion_total_segundos": 140.88,
+  "advertencia": "No son etiquetas de estrés/dolor. Unknown excluido del entrenamiento. Clips de menos de 2.5s marcados no."
+}

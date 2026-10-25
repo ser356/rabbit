@@ -1,0 +1,4 @@
+video_original,parte,inicio_segundos,fin_segundos,etiqueta,comentario,certeza_de_anotacion,id_video_exportado,clip_id,usar_para_entrenamiento
+DD198567-8565-448D-96E3-01941C27D034.mp4,1,0.00,4.00,resting,Se mantiene recogido en el suelo; pequeños movimientos de cabeza.,media,DD198567-8565-448D-96E3-01941C27D034_5738e7e4,0000,si
+DD198567-8565-448D-96E3-01941C27D034.mp4,1,4.00,8.00,resting,"Postura quieta; la cámara se acerca y se aleja, no el conejo.",media,DD198567-8565-448D-96E3-01941C27D034_5738e7e4,0001,si
+DD198567-8565-448D-96E3-01941C27D034.mp4,1,8.00,9.97,unknown,"Fragmento final de menos de dos segundos, insuficiente para confirmar acción.",alta,DD198567-8565-448D-96E3-01941C27D034_5738e7e4,0002,no

@@ -1,0 +1,4 @@
+video_original,parte,inicio_segundos,fin_segundos,etiqueta,comentario,certeza_de_anotacion,id_video_exportado,clip_id,usar_para_entrenamiento
+IMG_5006.MOV,1,0.00,4.00,exploring_sniffing,Dirige y acerca el hocico a un envase; inspección visible.,media,IMG_5006_d512630d,0000,si
+IMG_5006.MOV,1,4.00,8.00,exploring_sniffing,"Alterna cabeza baja y aproximación al envase, compatible con exploración.",media,IMG_5006_d512630d,0001,si
+IMG_5006.MOV,1,8.00,11.50,exploring_sniffing,Sigue examinando el envase; no puede afirmarse que coma.,media,IMG_5006_d512630d,0002,si

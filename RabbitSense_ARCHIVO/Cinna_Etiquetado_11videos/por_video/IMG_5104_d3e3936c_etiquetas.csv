@@ -1,0 +1,5 @@
+video_original,parte,inicio_segundos,fin_segundos,etiqueta,comentario,certeza_de_anotacion,id_video_exportado,clip_id,usar_para_entrenamiento
+IMG_5104.MOV,1,0.00,4.00,unknown,El conejo está tras barrotes y poco definido; acción concreta no visible.,alta,IMG_5104_d3e3936c,0000,no
+IMG_5104.MOV,1,4.00,8.00,unknown,Permanece en zona tras rejas; actividad oculta/ambigua.,alta,IMG_5104_d3e3936c,0001,no
+IMG_5104.MOV,1,8.00,12.00,unknown,No se aprecia con detalle la actividad corporal detrás de las rejas.,alta,IMG_5104_d3e3936c,0002,no
+IMG_5104.MOV,1,12.00,14.03,unknown,Cierre breve con oclusión; descartar para entrenar.,alta,IMG_5104_d3e3936c,0003,no
