@@ -1,0 +1,33 @@
+video,start_s,end_s,label,review_status,notes
+IMG_5190,0,4,locomotion,revisado_fotogramas_0_5s_pendiente_video_continuo,Muestreo visual 0.5 s; no certificado como ground truth. Etiqueta provisional conservada; verificar movimiento entre fotogramas.
+IMG_5190,4,8,locomotion,revisado_fotogramas_0_5s_pendiente_video_continuo,Muestreo visual 0.5 s; no certificado como ground truth. Etiqueta provisional conservada; verificar movimiento entre fotogramas.
+IMG_5190,8,12,locomotion,revisado_fotogramas_0_5s_pendiente_video_continuo,Muestreo visual 0.5 s; no certificado como ground truth. Etiqueta provisional conservada; verificar movimiento entre fotogramas.
+IMG_5190,12,16,unknown,revisado_fotogramas_0_5s_pendiente_video_continuo,Muestreo visual 0.5 s; no certificado como ground truth. Intervalo ambiguo: unknown.
+IMG_5190,16,20,unknown,revisado_fotogramas_0_5s_pendiente_video_continuo,Muestreo visual 0.5 s; no certificado como ground truth. Intervalo ambiguo: unknown.
+IMG_5190,20,24,resting,revisado_fotogramas_0_5s_pendiente_video_continuo,Muestreo visual 0.5 s; no certificado como ground truth. Etiqueta provisional conservada; verificar movimiento entre fotogramas.
+IMG_5190,24,28,resting,revisado_fotogramas_0_5s_pendiente_video_continuo,Muestreo visual 0.5 s; no certificado como ground truth. Etiqueta provisional conservada; verificar movimiento entre fotogramas.
+IMG_5190,28,32,resting,revisado_fotogramas_0_5s_pendiente_video_continuo,Muestreo visual 0.5 s; no certificado como ground truth. Etiqueta provisional conservada; verificar movimiento entre fotogramas.
+IMG_5190,32,36,unknown,revisado_fotogramas_0_5s_pendiente_video_continuo,Muestreo visual 0.5 s; no certificado como ground truth. Intervalo ambiguo: unknown.
+IMG_5190,36,40,locomotion,revisado_fotogramas_0_5s_pendiente_video_continuo,Muestreo visual 0.5 s; no certificado como ground truth. Etiqueta provisional conservada; verificar movimiento entre fotogramas.
+IMG_5190,40,44,locomotion,revisado_fotogramas_0_5s_pendiente_video_continuo,Muestreo visual 0.5 s; no certificado como ground truth. Etiqueta provisional conservada; verificar movimiento entre fotogramas.
+IMG_5190,44,48,locomotion,revisado_fotogramas_0_5s_pendiente_video_continuo,Muestreo visual 0.5 s; no certificado como ground truth. Etiqueta provisional conservada; verificar movimiento entre fotogramas.
+IMG_5190,48,52,unknown,revisado_fotogramas_0_5s_pendiente_video_continuo,Muestreo visual 0.5 s; no certificado como ground truth. Intervalo ambiguo: unknown.
+IMG_5190,52,56,unknown,revisado_fotogramas_0_5s_pendiente_video_continuo,Muestreo visual 0.5 s; no certificado como ground truth. Intervalo ambiguo: unknown.
+IMG_5190,56,60,unknown,revisado_fotogramas_0_5s_pendiente_video_continuo,Muestreo visual 0.5 s; no certificado como ground truth. Intervalo ambiguo: unknown.
+IMG_5190,60,64,unknown,revisado_fotogramas_0_5s_pendiente_video_continuo,Muestreo visual 0.5 s; no certificado como ground truth. Intervalo ambiguo: unknown.
+IMG_5190,64,66.1,unknown,revisado_fotogramas_0_5s_pendiente_video_continuo,Muestreo visual 0.5 s; no certificado como ground truth. Intervalo ambiguo: unknown.
+IMG_5191,0,4,unknown,revisado_fotogramas_0_5s_pendiente_video_continuo,Muestreo visual 0.5 s; no certificado como ground truth. Intervalo ambiguo: unknown.
+IMG_5191,4,8,unknown,revisado_fotogramas_0_5s_pendiente_video_continuo,Muestreo visual 0.5 s; no certificado como ground truth. Intervalo ambiguo: unknown.
+IMG_5191,8,12,unknown,revisado_fotogramas_0_5s_pendiente_video_continuo,Muestreo visual 0.5 s; no certificado como ground truth. Intervalo ambiguo: unknown.
+IMG_5191,12,16,unknown,revisado_fotogramas_0_5s_pendiente_video_continuo,Muestreo visual 0.5 s; no certificado como ground truth. Intervalo ambiguo: unknown.
+IMG_5191,16,20,locomotion,revisado_fotogramas_0_5s_pendiente_video_continuo,Muestreo visual 0.5 s; no certificado como ground truth. Etiqueta provisional conservada; verificar movimiento entre fotogramas.
+IMG_5191,20,23.9,locomotion,revisado_fotogramas_0_5s_pendiente_video_continuo,Muestreo visual 0.5 s; no certificado como ground truth. Etiqueta provisional conservada; verificar movimiento entre fotogramas.
+IMG_5192,0,4,locomotion,revisado_fotogramas_0_5s_pendiente_video_continuo,Muestreo visual 0.5 s; no certificado como ground truth. Etiqueta provisional conservada; verificar movimiento entre fotogramas.
+IMG_5192,4,8,locomotion,revisado_fotogramas_0_5s_pendiente_video_continuo,Muestreo visual 0.5 s; no certificado como ground truth. Etiqueta provisional conservada; verificar movimiento entre fotogramas.
+IMG_5192,8,12,locomotion,revisado_fotogramas_0_5s_pendiente_video_continuo,Muestreo visual 0.5 s; no certificado como ground truth. Etiqueta provisional conservada; verificar movimiento entre fotogramas.
+IMG_5192,12,16,resting,revisado_fotogramas_0_5s_pendiente_video_continuo,Muestreo visual 0.5 s; no certificado como ground truth. Etiqueta provisional conservada; verificar movimiento entre fotogramas.
+IMG_5192,16,20,resting,revisado_fotogramas_0_5s_pendiente_video_continuo,Muestreo visual 0.5 s; no certificado como ground truth. Etiqueta provisional conservada; verificar movimiento entre fotogramas.
+IMG_5192,20,22.0,resting,revisado_fotogramas_0_5s_pendiente_video_continuo,Muestreo visual 0.5 s; no certificado como ground truth. Etiqueta provisional conservada; verificar movimiento entre fotogramas.
+IMG_5193,0,4,resting,revisado_fotogramas_0_5s_pendiente_video_continuo,Muestreo visual 0.5 s; no certificado como ground truth. Etiqueta provisional conservada; verificar movimiento entre fotogramas.
+IMG_5193,4,8,unknown,revisado_fotogramas_0_5s_pendiente_video_continuo,Muestreo visual 0.5 s; no certificado como ground truth. Intervalo ambiguo: unknown.
+IMG_5193,8,9.1,unknown,revisado_fotogramas_0_5s_pendiente_video_continuo,Muestreo visual 0.5 s; no certificado como ground truth. Intervalo ambiguo: unknown.

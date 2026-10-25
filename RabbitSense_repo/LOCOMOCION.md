@@ -57,6 +57,26 @@ Decisión del responsable técnico: evaluar locomoción **con movimiento de cám
 7. **Anclas:** cajas cada 2 s sobre los originales con `RabbitSense_V32/rabbitsense_v32.py prepare --every 2`.
 8. **Alcance:** si pasa, locomoción candidata con cámara en mano en vídeos no vistos durante el desarrollo. Si no pasa, la locomoción con cámara en mano queda cerrada definitivamente con este enfoque.
 
+#### Enmienda (2026-10-25, antes de ejecutar): procedimiento automático
+
+Sustituye el punto 7. Sigue sin haberse ejecutado ningún método sobre IMG_5190–5193.
+
+- **Anclas automáticas.** Una caja manual en el primer fotograma de cada vídeo; SAM2 sigue a Cinna y cada máscara produce una guía por fotograma. Las máscaras vacías o por debajo del 0,1 % de la imagen dejan la guía ausente y el método se abstiene. Son **guías, no verdad-terreno**. En este conjunto, el IoU de seguimiento de `comparison.json` compara contra guías de SAM2 y **no valida el seguimiento**. Se revisa `runs/handheld/segmentation/<vídeo>/overlay.mp4` antes de verificar las etiquetas.
+- **Método decisorio:** `flow` sobre esas guías. No se añade `sam2_masked_flow` al veredicto: usaría las mismas máscaras dos veces.
+- **Verificación de etiquetas** en `revision.html`: cada clip se repite en bucle sobre el **original**; una tecla por clip. Solo los clips confirmados ahí pasan a `revisado_video_continuo`; `prepare` los convierte en `reviewed=si` si duran al menos 3 s.
+- **Puerta mecánica:** `handheld run` comprueba la suficiencia y **no ejecuta** el cierre si faltan clips verificados.
+
+#### Estado de suficiencia (2026-10-25)
+
+Revisión visual de ChatGPT archivada sin cambios en [etiquetas_mano_revision_visual](../RabbitSense_ARCHIVO/etiquetas_mano_revision_visual/): fotogramas cada 0,5 s, sin revisión de vídeo continuo. Respecto a las provisionales, pasa IMG_5191 12–16 s e IMG_5193 4–8 s de locomoción a `unknown`. Convertida a [etiquetas_mano.csv](../RabbitSense_ARCHIVO/etiquetas_mano.csv) con `reviewed=no` en todas las filas. Informe: [cierre/suficiencia_mano.json](cierre/suficiencia_mano.json).
+
+| Clase (≥ 3 s) | Verificados | Propuestos pendientes | Mínimo | ¿Alcanzable con las propuestas actuales? |
+|---|---:|---:|---:|---|
+| Locomoción | 0 | 11 | 5 | Sí |
+| Reposo | 0 | 6 | 10 | **No** |
+
+**Reposo insuficiente.** Aunque se confirmaran los seis clips propuestos, faltarían al menos cuatro. No se reetiquetan `unknown` como reposo para alcanzar el mínimo. Hace falta grabar al menos 16 s más de reposo con cámara en mano, en tramos de 4 s. En la hoja de contacto de IMG_5192, Cinna parece desplazarse entre 20 y 22 s, un tramo propuesto como reposo. Al durar menos de 3 s no se evalúa, pero confirma que el muestreo no sustituye la verificación.
+
 ---
 
 ## Cierre (v0.5.0): método

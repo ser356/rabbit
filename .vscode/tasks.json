@@ -276,6 +276,108 @@
 			"dependsOrder": "sequence",
 			"isBackground": false,
 			"problemMatcher": []
+		},
+		{
+			"label": "RabbitSense mano 1: semillas (una caja por vídeo)",
+			"type": "shell",
+			"command": "./RabbitSense_repo/.venv/bin/python",
+			"args": [
+				"-u",
+				"-m",
+				"rabbitsense.handheld",
+				"seeds",
+				"--videos",
+				"${userHome}/Downloads",
+				"--out",
+				"RabbitSense_repo/runs/handheld",
+				"--names",
+				"IMG_5190",
+				"IMG_5191",
+				"IMG_5192",
+				"IMG_5193"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "RabbitSense mano 2: anclas automáticas SAM2",
+			"type": "shell",
+			"command": "/usr/bin/env",
+			"args": [
+				"PYTHONPATH=RabbitSense_repo/src",
+				"./RabbitSense_Training/.venv/bin/python",
+				"-u",
+				"-m",
+				"rabbitsense.handheld",
+				"anchors",
+				"--videos",
+				"${userHome}/Downloads",
+				"--out",
+				"RabbitSense_repo/runs/handheld",
+				"--seeds",
+				"${userHome}/Downloads/semillas.json",
+				"--model",
+				"RabbitSense_repo/weights/sam2.1_s.pt",
+				"--device",
+				"mps"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "RabbitSense mano 3: verificar etiquetas",
+			"type": "shell",
+			"command": "./RabbitSense_repo/.venv/bin/python",
+			"args": [
+				"-u",
+				"-m",
+				"rabbitsense.handheld",
+				"review",
+				"--videos",
+				"${userHome}/Downloads",
+				"--out",
+				"RabbitSense_repo/runs/handheld",
+				"--labels",
+				"RabbitSense_ARCHIVO/etiquetas_mano_revision_visual/labels_revision_visual.csv"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "RabbitSense mano 4: preparar etiquetas verificadas",
+			"type": "shell",
+			"command": "./RabbitSense_repo/.venv/bin/python",
+			"args": [
+				"-u",
+				"-m",
+				"rabbitsense.handheld",
+				"prepare",
+				"--labels",
+				"${userHome}/Downloads/etiquetas_verificadas.csv",
+				"--output",
+				"RabbitSense_ARCHIVO/etiquetas_mano.csv"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "RabbitSense mano 5: cierre (solo si hay suficiencia)",
+			"type": "shell",
+			"command": "./RabbitSense_repo/.venv/bin/python",
+			"args": [
+				"-u",
+				"-m",
+				"rabbitsense.handheld",
+				"run",
+				"--manifest",
+				"RabbitSense_repo/benchmarks/closure_mano.json",
+				"--labels",
+				"RabbitSense_ARCHIVO/etiquetas_mano.csv",
+				"--out",
+				"RabbitSense_repo/runs/closure_mano"
+			],
+			"isBackground": false,
+			"problemMatcher": []
 		}
 	]
 }

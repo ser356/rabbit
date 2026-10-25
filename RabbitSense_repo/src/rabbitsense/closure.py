@@ -64,29 +64,22 @@ def copy_masks(source, destination):
     return destination
 
 
-def main():
-    parser = argparse.ArgumentParser(description='Cierre de locomoción con criterios fijados antes de ejecutar')
-    parser.add_argument('--suite', required=True)
-    parser.add_argument('--out', required=True)
-    parser.add_argument('--segmentation', action='append', default=[], metavar='CASO=DIR',
-                        help='Máscaras SAM2 existentes; se copian, nunca se sobrescriben. Todos los casos o ninguno.')
-    args = parser.parse_args()
-    out = Path(args.out)
-    suite = run_suite(args.suite, out / 'suite')
+def close(suite_path, out, segmentation_sources=None):
+    out = Path(out)
+    suite = run_suite(suite_path, out / 'suite')
     segmentation = None
-    if args.segmentation:
+    if segmentation_sources:
         from .segment import assess_masks, measure_masks
-        sources = dict(item.split('=', 1) for item in args.segmentation)
-        missing = set(suite) - set(sources)
+        missing = set(suite) - set(segmentation_sources)
         if missing:
             raise ValueError(f'Faltan máscaras SAM2 para: {sorted(missing)}')
-        directories = {name: copy_masks(path, out / 'segmentation' / name) for name, path in sources.items()}
+        directories = {name: copy_masks(path, out / 'segmentation' / name) for name, path in segmentation_sources.items()}
         for directory in directories.values():
             measure_masks(directory)
-        segmentation = assess_masks(args.suite, out / 'suite' / 'suite.json', directories,
+        segmentation = assess_masks(suite_path, out / 'suite' / 'suite.json', directories,
                                     out / 'segmentation' / 'comparison.json')
     result = verdict(suite, segmentation)
-    result['inputs'] = {'manifest_sha256': sha256(args.suite),
+    result['inputs'] = {'manifest_sha256': sha256(suite_path),
                         'source_sha256': {p.name: sha256(p) for p in Path(__file__).parent.glob('*.py')}}
     (out / 'verdict.json').write_text(json.dumps(result, indent=2, allow_nan=False))
     print(f"\n{'Método':<18} {'Sens.':>7} {'Espec.':>7} {'Falsos':>7}  Resultado")
@@ -95,6 +88,17 @@ def main():
               f"{r['resting_correct']}/{r['resting_clips']:<5} {r['resting_false_events']:>7}  "
               f"{'PASA' if r['passed'] else 'NO PASA'}")
     print(f"\nEstado: {result['status']}")
+    return result
+
+
+def main():
+    parser = argparse.ArgumentParser(description='Cierre de locomoción con criterios fijados antes de ejecutar')
+    parser.add_argument('--suite', required=True)
+    parser.add_argument('--out', required=True)
+    parser.add_argument('--segmentation', action='append', default=[], metavar='CASO=DIR',
+                        help='Máscaras SAM2 existentes; se copian, nunca se sobrescriben. Todos los casos o ninguno.')
+    args = parser.parse_args()
+    close(args.suite, args.out, dict(item.split('=', 1) for item in args.segmentation))
 
 
 if __name__ == '__main__':

@@ -181,7 +181,7 @@ def run_suite(suite, out, video_out=False):
     cases = json.loads(manifest.read_text())['cases']
     reports = {}
     for case in cases:
-        paths = {key: (manifest.parent / case[key]).resolve()
+        paths = {key: (manifest.parent / Path(case[key]).expanduser()).resolve()
                  for key in ('video', 'anchors', 'labels')}
         destination = Path(out) / case['name']
         destination.mkdir(parents=True, exist_ok=True)

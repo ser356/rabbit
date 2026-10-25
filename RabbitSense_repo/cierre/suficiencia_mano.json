@@ -1,0 +1,19 @@
+{
+  "locomotion": {
+    "verified": 0,
+    "pending_candidates": 11,
+    "required": 5,
+    "reachable_if_all_pending_confirmed": true
+  },
+  "resting": {
+    "verified": 0,
+    "pending_candidates": 6,
+    "required": 10,
+    "reachable_if_all_pending_confirmed": false
+  },
+  "sufficient": false,
+  "rule": "Clips de al menos 3 s verificados en vídeo continuo. Sin suficiencia no se ejecuta el cierre; no se reetiqueta para alcanzar el mínimo.",
+  "fecha": "2026-10-25",
+  "fuente": "RabbitSense_ARCHIVO/etiquetas_mano_revision_visual (ChatGPT, fotogramas cada 0,5 s; sin verificación en vídeo continuo)",
+  "estado": "insuficiente: no se ejecuta el cierre con cámara en mano"
+}
