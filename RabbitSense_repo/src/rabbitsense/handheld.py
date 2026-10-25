@@ -180,14 +180,59 @@ def sufficiency(labels):
     return report
 
 
-def run(manifest, labels, out):
+def resolved_manifest(manifest, labels, replacement, path):
+    """Copia del manifest con rutas absolutas; los casos que usan `labels` pasan a usar `replacement`."""
+    manifest = Path(manifest).resolve()
+    cases = json.loads(manifest.read_text())['cases']
+    resolve = lambda value: (manifest.parent / Path(value).expanduser()).resolve()
+    for case in cases:
+        for key in ('video', 'anchors', 'labels', 'tracks'):
+            if key in case:
+                case[key] = str(resolve(case[key]))
+        if Path(case['labels']) == Path(labels).resolve():
+            case['labels'] = str(Path(replacement).resolve())
+    Path(path).write_text(json.dumps(dict(cases=cases), indent=2))
+    return Path(path)
+
+
+def relabel(path, result, status, report, label_source):
+    result['status'] = status
+    result['passing_methods'] = []
+    for method in result['methods'].values():
+        method['meets_thresholds_not_a_verdict'] = method.pop('passed')
+    result.update(sufficiency=report, label_source=label_source)
+    Path(path).write_text(json.dumps(result, indent=2, allow_nan=False, ensure_ascii=False))
+    print(f'\nESTADO REAL: {status} ({label_source}); no es un veredicto de cierre.')
+    return result
+
+
+def run(manifest, labels, out, descriptive=False, include_unverified=False, informative=None):
     report = sufficiency(labels)
     print(json.dumps(report, indent=2, ensure_ascii=False))
-    if not report['sufficient']:
+    if include_unverified and not descriptive:
+        raise ValueError('--include-unverified solo se admite en modo descriptivo.')
+    if not report['sufficient'] and not descriptive:
         print('NO SE EJECUTA: clips verificados insuficientes. Grabar más; no forzar etiquetas.', file=sys.stderr)
         return None
     from .closure import close
-    return close(manifest, out)
+    out = Path(out)
+    out.mkdir(parents=True, exist_ok=True)
+    used, source = Path(labels), 'verified_continuous_video_only'
+    if include_unverified:
+        frame = pd.read_csv(labels)
+        frame['reviewed'] = np.where(frame.duration_seconds >= MINIMUM_SECONDS, 'si', 'no')
+        used, source = out / 'labels_used.csv', 'includes_unverified_proposals'
+        frame.to_csv(used, index=False)
+    decisive = close(resolved_manifest(manifest, labels, used, out / 'manifest_used.json'), out / 'decisive',
+                     announce=report['sufficient'])
+    if not report['sufficient']:
+        decisive = relabel(out / 'decisive' / 'verdict.json', decisive, 'descriptive_only_insufficient_sample',
+                           report, source)
+    if informative:
+        result = close(resolved_manifest(informative, labels, used, out / 'informative_manifest_used.json'),
+                       out / 'informative', announce=False)
+        relabel(out / 'informative' / 'verdict.json', result, 'informative_not_decisive', report, source)
+    return decisive
 
 
 def main():
@@ -208,6 +253,11 @@ def main():
     command = sub.add_parser('run')
     for name in ('manifest', 'labels', 'out'):
         command.add_argument(f'--{name}', required=True)
+    command.add_argument('--descriptive', action='store_true',
+                         help='Ejecuta aunque falten clips; el resultado nunca es un veredicto de cierre')
+    command.add_argument('--include-unverified', action='store_true',
+                         help='Solo descriptivo: evalúa también propuestas no verificadas, marcadas como tales')
+    command.add_argument('--informative', help='Manifest combinado, siempre informativo')
     args = parser.parse_args()
     if args.command == 'seeds':
         print('Abre:', seeds(args.videos, args.names, args.out))
@@ -219,7 +269,8 @@ def main():
         report = prepare(args.labels, args.output)
         print(json.dumps(report, indent=2, ensure_ascii=False))
         sys.exit(0 if report['sufficient'] else 2)
-    elif run(args.manifest, args.labels, args.out) is None:
+    elif run(args.manifest, args.labels, args.out, args.descriptive, args.include_unverified,
+             args.informative) is None:
         sys.exit(2)
 
 

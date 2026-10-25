@@ -15,5 +15,5 @@
   "rule": "Clips de al menos 3 s verificados en vídeo continuo. Sin suficiencia no se ejecuta el cierre; no se reetiqueta para alcanzar el mínimo.",
   "fecha": "2026-10-25",
   "fuente": "RabbitSense_ARCHIVO/etiquetas_mano_revision_visual (ChatGPT, fotogramas cada 0,5 s; sin verificación en vídeo continuo)",
-  "estado": "insuficiente: no se ejecuta el cierre con cámara en mano"
+  "estado": "insuficiente: sin veredicto decisivo con cámara en mano; solo evaluación descriptiva e informativa (decisión de no grabar más)"
 }

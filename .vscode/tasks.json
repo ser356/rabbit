@@ -361,7 +361,7 @@
 			"problemMatcher": []
 		},
 		{
-			"label": "RabbitSense mano 5: cierre (solo si hay suficiencia)",
+			"label": "RabbitSense mano 5: evaluación descriptiva + informativa (etiquetas verificadas)",
 			"type": "shell",
 			"command": "./RabbitSense_repo/.venv/bin/python",
 			"args": [
@@ -374,7 +374,33 @@
 				"--labels",
 				"RabbitSense_ARCHIVO/etiquetas_mano.csv",
 				"--out",
-				"RabbitSense_repo/runs/closure_mano"
+				"RabbitSense_repo/runs/closure_mano",
+				"--descriptive",
+				"--informative",
+				"RabbitSense_repo/benchmarks/closure_mano_informativo.json"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "RabbitSense mano 5b: igual, incluyendo propuestas sin verificar",
+			"type": "shell",
+			"command": "./RabbitSense_repo/.venv/bin/python",
+			"args": [
+				"-u",
+				"-m",
+				"rabbitsense.handheld",
+				"run",
+				"--manifest",
+				"RabbitSense_repo/benchmarks/closure_mano.json",
+				"--labels",
+				"RabbitSense_ARCHIVO/etiquetas_mano.csv",
+				"--out",
+				"RabbitSense_repo/runs/closure_mano_sin_verificar",
+				"--descriptive",
+				"--informative",
+				"RabbitSense_repo/benchmarks/closure_mano_informativo.json",
+				"--include-unverified"
 			],
 			"isBackground": false,
 			"problemMatcher": []

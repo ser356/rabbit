@@ -75,6 +75,15 @@ Revisión visual de ChatGPT archivada sin cambios en [etiquetas_mano_revision_vi
 | Locomoción | 0 | 11 | 5 | Sí |
 | Reposo | 0 | 6 | 10 | **No** |
 
+#### Decisión: no se graba más (2026-10-25)
+
+El responsable técnico decide no grabar más. Consecuencia, registrada antes de ejecutar:
+
+- **No habrá veredicto decisivo con cámara en mano.** El criterio de 10 clips de reposo no se rebaja; hacerlo ahora sería ajustarlo a los datos disponibles. Estado oficial: **locomoción con cámara en mano no resuelta y sin veredicto**.
+- **Evaluación descriptiva** (`handheld run --descriptive`): mismas métricas sobre IMG_5190–5193, con estado `descriptive_only_insufficient_sample`. No puede producir `closed_resolved…`. El campo `passed` se renombra a `meets_thresholds_not_a_verdict`.
+- **Evaluación informativa** (`--informative benchmarks/closure_mano_informativo.json`): los cinco vídeos de desarrollo más los cuatro nuevos, con estado `informative_not_decisive`. Combina material ya usado para desarrollar; no es un test independiente.
+- **Etiquetas sin verificar** (`--include-unverified`, tarea 5b): evalúa también las propuestas de ChatGPT de 3 s o más. El resultado registra `label_source=includes_unverified_proposals`. `etiquetas_mano.csv` no se modifica: la copia usada se escribe en la carpeta de salida.
+
 **Reposo insuficiente.** Aunque se confirmaran los seis clips propuestos, faltarían al menos cuatro. No se reetiquetan `unknown` como reposo para alcanzar el mínimo. Hace falta grabar al menos 16 s más de reposo con cámara en mano, en tramos de 4 s. En la hoja de contacto de IMG_5192, Cinna parece desplazarse entre 20 y 22 s, un tramo propuesto como reposo. Al durar menos de 3 s no se evalúa, pero confirma que el muestreo no sustituye la verificación.
 
 ---

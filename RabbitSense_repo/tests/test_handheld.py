@@ -1,4 +1,5 @@
 import json
+from pathlib import Path
 
 import cv2
 import numpy as np
@@ -43,17 +44,61 @@ def test_only_continuous_video_verification_of_long_clips_counts(tmp_path):
     assert not report['sufficient']
 
 
+def fake_close(calls):
+    def close(manifest, out, announce=True):
+        calls.append(json.loads(Path(manifest).read_text()))
+        Path(out).mkdir(parents=True, exist_ok=True)
+        return dict(status='closed_resolved_on_development_benchmark', passing_methods=['flow'],
+                    methods=dict(flow=dict(passed=True)))
+    return close
+
+
+def manifest(tmp_path, labels):
+    path = tmp_path / 'manifest.json'
+    path.write_text(json.dumps(dict(cases=[dict(name='IMG_1', video='~/IMG_1.MOV', anchors='a.json', labels=labels.name)])))
+    return path
+
+
 def test_run_refuses_without_enough_verified_clips(tmp_path, monkeypatch):
     rows = [['IMG_1', 4 * i, 4 * i + 4, 'locomotion' if i < 5 else 'resting', handheld.VERIFIED, ''] for i in range(14)]
-    handheld.prepare(labels_csv(tmp_path / 'in.csv', rows), tmp_path / 'labels.csv')
+    labels = tmp_path / 'labels.csv'
+    handheld.prepare(labels_csv(tmp_path / 'in.csv', rows), labels)
     calls = []
-    monkeypatch.setattr('rabbitsense.closure.close', lambda *args: calls.append(args) or {})
-    assert handheld.run('manifest.json', tmp_path / 'labels.csv', tmp_path / 'out') is None
+    monkeypatch.setattr('rabbitsense.closure.close', fake_close(calls))
+    assert handheld.run(manifest(tmp_path, labels), labels, tmp_path / 'out') is None
     assert calls == []
+    with pytest.raises(ValueError, match='descriptivo'):
+        handheld.run(manifest(tmp_path, labels), labels, tmp_path / 'out', include_unverified=True)
     rows.append(['IMG_1', 56, 60, 'resting', handheld.VERIFIED, ''])
-    handheld.prepare(labels_csv(tmp_path / 'in.csv', rows), tmp_path / 'labels.csv')
-    assert handheld.run('manifest.json', tmp_path / 'labels.csv', tmp_path / 'out') == {}
-    assert len(calls) == 1
+    handheld.prepare(labels_csv(tmp_path / 'in.csv', rows), labels)
+    assert handheld.run(manifest(tmp_path, labels), labels, tmp_path / 'out')['passing_methods'] == ['flow']
+    case = calls[0]['cases'][0]
+    assert case['labels'] == str(labels.resolve()) and case['video'] == str(Path('~/IMG_1.MOV').expanduser())
+
+
+def test_descriptive_run_is_never_a_verdict_and_marks_unverified_labels(tmp_path, monkeypatch):
+    rows = [['IMG_1', 0, 4, 'locomotion', 'pendiente', ''], ['IMG_1', 4, 8, 'resting', handheld.VERIFIED, ''],
+            ['IMG_1', 8, 10, 'resting', 'pendiente', '']]
+    labels = tmp_path / 'labels.csv'
+    handheld.prepare(labels_csv(tmp_path / 'in.csv', rows), labels)
+    old = tmp_path / 'old.csv'
+    old.write_text('x')
+    combined = tmp_path / 'combined.json'
+    combined.write_text(json.dumps(dict(cases=[dict(name='old', video='v', anchors='a', labels='old.csv'),
+                                               dict(name='IMG_1', video='v', anchors='a', labels='labels.csv')])))
+    calls = []
+    monkeypatch.setattr('rabbitsense.closure.close', fake_close(calls))
+    result = handheld.run(manifest(tmp_path, labels), labels, tmp_path / 'out', descriptive=True,
+                          include_unverified=True, informative=combined)
+    assert result['status'] == 'descriptive_only_insufficient_sample' and result['passing_methods'] == []
+    assert 'passed' not in result['methods']['flow'] and result['label_source'] == 'includes_unverified_proposals'
+    used = pd.read_csv(tmp_path / 'out' / 'labels_used.csv')
+    assert used.reviewed.tolist() == ['si', 'si', 'no']
+    assert calls[0]['cases'][0]['labels'] == str((tmp_path / 'out' / 'labels_used.csv').resolve())
+    assert [c['labels'] for c in calls[1]['cases']] == [str(old.resolve()), str((tmp_path / 'out' / 'labels_used.csv').resolve())]
+    informative = json.loads((tmp_path / 'out' / 'informative' / 'verdict.json').read_text())
+    assert informative['status'] == 'informative_not_decisive'
+    assert pd.read_csv(labels).reviewed.tolist() == ['no', 'si', 'no']
 
 
 def test_seed_and_review_pages_reference_original_videos(tmp_path):
@@ -72,3 +117,32 @@ def test_seed_and_review_pages_reference_original_videos(tmp_path):
     assert '"evaluable": false' in text and handheld.VERIFIED in text and '__' not in text.replace('__proto__', '')
     with pytest.raises(FileNotFoundError):
         handheld.video_path(videos, 'IMG_2')
+
+
+def test_descriptive_run_end_to_end_with_real_closure(tmp_path):
+    rng = np.random.default_rng(3)
+    background = rng.integers(25, 100, (240, 320), dtype=np.uint8)
+    patch = rng.integers(150, 230, (70, 80), dtype=np.uint8)
+    writer = cv2.VideoWriter(str(tmp_path / 'IMG_1.avi'), cv2.VideoWriter_fourcc(*'MJPG'), 12., (320, 240))
+    marks = []
+    for frame in range(73):
+        x = 40 + 3 * min(frame, 36)
+        image = background.copy()
+        image[85:155, x:x + 80] = patch
+        writer.write(cv2.cvtColor(image, cv2.COLOR_GRAY2BGR))
+        marks.append(dict(time=frame / 12, box=[x, 85, 80, 70]))
+    writer.release()
+    (tmp_path / 'a.json').write_text(json.dumps(dict(width=320, height=240, marks=marks)))
+    labels = tmp_path / 'labels.csv'
+    handheld.prepare(labels_csv(tmp_path / 'in.csv', [['IMG_1', 0, 3, 'locomotion', 'pendiente', ''],
+                                                      ['IMG_1', 3, 6, 'resting', 'pendiente', '']]), labels)
+    labels.write_text(labels.read_text().replace('IMG_1.MOV', 'IMG_1.avi'))
+    (tmp_path / 'm.json').write_text(json.dumps(dict(cases=[dict(name='IMG_1', video='IMG_1.avi', anchors='a.json',
+                                                                 labels='labels.csv')])))
+    assert handheld.run(tmp_path / 'm.json', labels, tmp_path / 'out') is None
+    result = handheld.run(tmp_path / 'm.json', labels, tmp_path / 'out', descriptive=True, include_unverified=True)
+    flow = result['methods']['flow']
+    assert (flow['locomotion_hits'], flow['resting_correct'], flow['resting_false_events']) == (1, 1, 0)
+    assert result['status'] == 'descriptive_only_insufficient_sample'
+    saved = json.loads((tmp_path / 'out' / 'decisive' / 'verdict.json').read_text())
+    assert saved['status'] == result['status'] and saved['sufficiency']['sufficient'] is False

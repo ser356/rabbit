@@ -64,7 +64,7 @@ def copy_masks(source, destination):
     return destination
 
 
-def close(suite_path, out, segmentation_sources=None):
+def close(suite_path, out, segmentation_sources=None, announce=True):
     out = Path(out)
     suite = run_suite(suite_path, out / 'suite')
     segmentation = None
@@ -87,7 +87,8 @@ def close(suite_path, out, segmentation_sources=None):
         print(f"{method:<18} {r['locomotion_hits']}/{r['locomotion_clips']:<5} "
               f"{r['resting_correct']}/{r['resting_clips']:<5} {r['resting_false_events']:>7}  "
               f"{'PASA' if r['passed'] else 'NO PASA'}")
-    print(f"\nEstado: {result['status']}")
+    if announce:
+        print(f"\nEstado: {result['status']}")
     return result
 
 
