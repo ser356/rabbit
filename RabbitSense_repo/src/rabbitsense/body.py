@@ -5,7 +5,7 @@ from .tracking import rectangle_mask, transform_points
 
 
 class BodyMotion:
-    def reset(self, gray, box):
+    def reset(self, gray, box, masks=None):
         self.previous = gray
         self.box = box
         self.invalid = box is None
@@ -18,16 +18,24 @@ class BodyMotion:
         center = box[:2] + box[2:] / 2
         yy, xx = np.ogrid[:gray.shape[0], :gray.shape[1]]
         background = 255 - rectangle_mask(gray.shape, box, -.2)
+        foreground_mask = rectangle_mask(gray.shape, box, .2)
+        if masks is not None:
+            foreground_mask, background = masks[0], masks[1].copy()
         background[(xx - center[0]) ** 2 + (yy - center[1]) ** 2 > (1.5 * max(box[2:])) ** 2] = 0
-        for foreground, mask, count in [(True, rectangle_mask(gray.shape, box, .2), 250),
+        for foreground, mask, count in [(True, foreground_mask, 250),
                                          (False, background, 500)]:
-            found = cv2.goodFeaturesToTrack(gray, count, .01, 4, mask=mask, blockSize=5)
-            if found is not None:
-                self.points = np.concatenate([self.points, found.reshape(-1, 2)])
-                self.foreground = np.r_[self.foreground, np.full(len(found), foreground)]
+            regions = [mask]
+            if masks is not None and not foreground:
+                sectors = (xx > center[0]).astype(int) + 2 * (yy > center[1])
+                regions = [np.where(sectors == sector, mask, 0).astype(np.uint8) for sector in range(4)]
+            for region in regions:
+                found = cv2.goodFeaturesToTrack(gray, count // len(regions), .01, 4, mask=region, blockSize=5)
+                if found is not None:
+                    self.points = np.concatenate([self.points, found.reshape(-1, 2)])
+                    self.foreground = np.r_[self.foreground, np.full(len(found), foreground)]
         self.paths = [self.points.copy()]
 
-    def update(self, gray, box):
+    def update(self, gray, box, masks=None):
         if self.invalid:
             return
         if box is None:
@@ -51,6 +59,11 @@ class BodyMotion:
                               (b[:, 1] >= y + .1 * h) & (b[:, 1] <= y + .9 * h))
                     outside = ((b[:, 0] < x - .2 * w) | (b[:, 0] > x + 1.2 * w) |
                                (b[:, 1] < y - .2 * h) | (b[:, 1] > y + 1.2 * h))
+                    if masks is not None:
+                        xy = np.rint(np.where(np.isfinite(b), b, 0)).astype(int)
+                        xy = np.clip(xy, [0, 0], [gray.shape[1] - 1, gray.shape[0] - 1])
+                        inside = masks[0][xy[:, 1], xy[:, 0]] > 0
+                        outside = masks[1][xy[:, 1], xy[:, 0]] > 0
                     good = ((status.ravel() == 1) & (reverse.ravel() == 1) & (fb <= 1.) &
                             np.isfinite(b).all(axis=1) & (b[:, 0] >= 0) & (b[:, 0] < gray.shape[1]) &
                             (b[:, 1] >= 0) & (b[:, 1] < gray.shape[0]) &

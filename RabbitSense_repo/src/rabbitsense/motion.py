@@ -54,10 +54,15 @@ def frame_evidence(prev, cur, box, rabbit):
     median = np.median(residuals, axis=0)
     scatter = float(np.median(np.linalg.norm(residuals - median, axis=1)))
     width = float((box[2] + rabbit['old_box'][2]) / 2)
-    return {'reason': 'measured', 'vector': median / width,
-            'uncertainty': (camera['error'] + rabbit['fb_error'] + scatter) / width,
-            'quality': min(camera['quality'], rabbit['quality']),
-            'camera_error_px': camera['error'], 'rabbit_points': rabbit['rabbit_points']}
+    result = {'reason': 'measured', 'vector': median / width,
+              'uncertainty': (camera['error'] + rabbit['fb_error'] + scatter) / width,
+              'quality': min(camera['quality'], rabbit['quality']),
+              'camera_error_px': camera['error'], 'rabbit_points': rabbit['rabbit_points']}
+    if 'centers' in rabbit:
+        first, second = rabbit['centers']
+        result.update(centroid_vector=(second - transform_points(camera['matrix'], first[None])[0]) / width,
+                      centroid_camera_error=camera['error'] / width)
+    return result
 
 
 def aggregate(evidence, duration, threshold, minimum_coverage=.8):
@@ -85,6 +90,16 @@ def aggregate(evidence, duration, threshold, minimum_coverage=.8):
             row.update(movement='low_motion_candidate', reason='visual_motion_below_threshold')
         else:
             row['reason'] = 'incomplete_interval' if upper is None else 'motion_near_uncertainty_band'
+    centered = [e for e in good if 'centroid_vector' in e]
+    if centered:
+        center_distances = np.array([np.linalg.norm(e['centroid_vector']) for e in centered])
+        center_errors = np.array([e['centroid_camera_error'] for e in centered])
+        center_adjusted = float(np.maximum(0., center_distances - center_errors).sum() / duration)
+        center_coverage = len(centered) / max(1, len(evidence))
+        row.update(centroid_speed_bodywidths_s=float(center_distances.sum() / duration),
+                   centroid_speed_camera_adjusted=center_adjusted, centroid_valid_fraction=center_coverage)
+        if row['movement'] == 'locomotion_candidate' and (center_adjusted < threshold or center_coverage < minimum_coverage):
+            row.update(movement='unknown', reason='surface_motion_without_centroid_translation')
     return row
 
 

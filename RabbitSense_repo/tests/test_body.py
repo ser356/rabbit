@@ -92,6 +92,25 @@ def test_dead_points_are_not_reacquired():
         assert np.isnan(tracker.points[:20]).all()
 
 
+def test_mask_points_exclude_floor_inside_loose_box():
+    image, box = scene()
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    foreground = np.zeros_like(gray)
+    cv2.ellipse(foreground, (150, 120), (35, 25), 0, 0, 360, 255, -1)
+    background = 255 - cv2.dilate(foreground, np.ones((21, 21), np.uint8))
+    tracker = BodyMotion()
+    tracker.reset(gray, np.array([70., 40., 180., 160.]), (foreground, background))
+    xy = np.rint(tracker.points).astype(int)
+    assert tracker.foreground.sum() >= 12
+    assert (~tracker.foreground).sum() >= 24
+    assert (foreground[xy[tracker.foreground, 1], xy[tracker.foreground, 0]] > 0).all()
+    assert (background[xy[~tracker.foreground, 1], xy[~tracker.foreground, 0]] > 0).all()
+    empty = np.zeros_like(gray)
+    tracker.update(gray, box, (empty, background))
+    assert np.isnan(tracker.points[tracker.foreground]).all()
+    assert tracker.measure(.5, .2)['movement'] == 'unknown'
+
+
 def test_body_video_covers_partial_interval_without_inventing_guides(tmp_path):
     image, box = scene()
     video = tmp_path / 'input.avi'

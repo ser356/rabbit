@@ -102,6 +102,83 @@
 			],
 			"isBackground": false,
 			"problemMatcher": []
+		},
+		{
+			"label": "RabbitSense: SAM2 single seed",
+			"type": "shell",
+			"command": "/usr/bin/env",
+			"args": [
+				"PYTHONPATH=RabbitSense_repo/src",
+				"./RabbitSense_Training/.venv/bin/python",
+				"-u",
+				"-m",
+				"rabbitsense.segment",
+				"--video",
+				"RabbitSense_repo/data/cinna_review_v24/IMG_5177.mp4",
+				"--anchors",
+				"RabbitSense_ARCHIVO/cinna_marcas_v32.json",
+				"--model",
+				"RabbitSense_repo/weights/sam2.1_s.pt",
+				"--out",
+				"RabbitSense_repo/runs/segmentation/5177",
+				"--device",
+				"mps"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "RabbitSense: SAM2 controls",
+			"type": "shell",
+			"command": "/usr/bin/env",
+			"args": [
+				"PYTHONPATH=RabbitSense_repo/src",
+				"./RabbitSense_Training/.venv/bin/python",
+				"-u",
+				"-c",
+				"import json; from pathlib import Path; from rabbitsense.segment import segment, measure_masks; p=Path(\"RabbitSense_repo/benchmarks/local.json\").resolve(); model=Path(\"RabbitSense_repo/weights/sam2.1_s.pt\"); cases=json.loads(p.read_text())[\"cases\"][1:]; [(segment(p.parent/c[\"video\"],p.parent/c[\"anchors\"],model,Path(\"RabbitSense_repo/runs/segmentation\")/c[\"name\"],\"mps\"),measure_masks(Path(\"RabbitSense_repo/runs/segmentation\")/c[\"name\"])) for c in cases]"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "RabbitSense: SAM2 localized resting",
+			"type": "shell",
+			"command": "/usr/bin/env",
+			"args": [
+				"PYTHONPATH=RabbitSense_repo/src",
+				"./RabbitSense_Training/.venv/bin/python",
+				"-u",
+				"-m",
+				"rabbitsense.segment",
+				"--video",
+				"RabbitSense_Training/data/cinna_review_v23/6BE6BE37-E828-4D23-A242-7DD4598128BF.mp4",
+				"--anchors",
+				"RabbitSense_Training/runs/anchors_v23/6BE6BE37-E828-4D23-A242-7DD4598128BF.mp4.json",
+				"--model",
+				"RabbitSense_repo/weights/sam2.1_s.pt",
+				"--out",
+				"RabbitSense_repo/runs/segmentation_localized/resting",
+				"--guided",
+				"--device",
+				"mps"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "RabbitSense: SAM2 motion review",
+			"type": "shell",
+			"command": "/usr/bin/env",
+			"args": [
+				"PYTHONPATH=RabbitSense_repo/src",
+				"./RabbitSense_repo/.venv/bin/python",
+				"-u",
+				"-c",
+				"from rabbitsense.segment import measure_masks, assess_masks; paths={\"5177\":\"RabbitSense_repo/runs/segmentation/5177\",\"locomotion\":\"RabbitSense_repo/runs/segmentation/locomotion\",\"resting\":\"RabbitSense_repo/runs/segmentation_localized/resting\"}; [measure_masks(p) for p in paths.values()]; assess_masks(\"RabbitSense_repo/benchmarks/local.json\",\"RabbitSense_repo/runs/body_verified/suite.json\",paths,\"RabbitSense_repo/runs/segmentation/comparison.json\")"
+			],
+			"isBackground": false,
+			"problemMatcher": []
 		}
 	]
 }

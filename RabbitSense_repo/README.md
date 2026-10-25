@@ -4,6 +4,8 @@ Seguimiento asistido de Cinna y análisis experimental de movimiento. **No es de
 
 ## Estado verificado
 
+**SAM2 ejecutado sobre vídeos reales:** seguimiento de IMG_5177 desde una caja inicial; IoU **0,674** en las mismas diez anclas reservadas, frente a **0,462** del puente. Flujo sobre máscaras con concordancia del centro: **2/3 clips de locomoción** del vídeo principal, frente a 0/3. **No generaliza aún a los dos controles.** Vídeo, límites y reproducción en [SEGMENTACION.md](SEGMENTACION.md).
+
 Tres vídeos ejecutados; resultados y regresiones en [AUDITORIA.md](AUDITORIA.md).
 
 La corrección temporal posterior, episodios candidatos y regresión de cobertura están en [LOCOMOCION.md](LOCOMOCION.md). No convierten las etiquetas mixtas por clip en verdad por fotograma.
@@ -101,6 +103,7 @@ Recalcula V3.6/V3.7/flow/body con semilla 0 y un hilo OpenCV; compara rejilla co
 | [body.py](src/rabbitsense/body.py) | Experimento de traslación, giro y escala con puntos persistentes |
 | [evaluate.py](src/rabbitsense/evaluate.py) | Holdout geométrico, comparación y clips |
 | [detector_audit.py](src/rabbitsense/detector_audit.py) | Auditoría opcional de pesos locales; no genera guías ni etiquetas |
+| [segment.py](src/rabbitsense/segment.py) | SAM2 opcional, máscaras, concordancia silueta/flujo, vídeo y evaluación reservada |
 | [__main__.py](src/rabbitsense/__main__.py) | CLI único |
 
 V3.6/V3.7 son referencias dentro del paquete, sin nuevas carpetas de desarrollo por versión; comparten funciones idénticas. Los scripts legacy y el directorio original de entrenamiento se conservan, pero no son la API pública.
