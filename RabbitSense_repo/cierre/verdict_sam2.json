@@ -1,0 +1,301 @@
+{
+  "status": "closed_not_resolvable_with_existing_data",
+  "passing_methods": [],
+  "criteria": {
+    "minimum_locomotion_clips": 5,
+    "minimum_resting_clips": 10,
+    "sensitivity": 0.8,
+    "specificity": 0.8,
+    "hit_per_locomotion_video": 1
+  },
+  "methods": {
+    "v36": {
+      "passed": false,
+      "checks": {
+        "enough_locomotion_clips": true,
+        "enough_resting_clips": true,
+        "sensitivity": true,
+        "specificity": false,
+        "hit_in_every_locomotion_video": true
+      },
+      "sensitivity": 0.8,
+      "specificity": 0.3,
+      "locomotion_hits": 4,
+      "locomotion_clips": 5,
+      "resting_correct": 3,
+      "resting_clips": 10,
+      "resting_false_events": 3,
+      "per_video": {
+        "5177": {
+          "locomotion_hits": 3,
+          "locomotion_clips": 3,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0
+        },
+        "locomotion": {
+          "locomotion_hits": 1,
+          "locomotion_clips": 2,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0
+        },
+        "resting": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 1,
+          "resting_clips": 4,
+          "resting_false_events": 1
+        },
+        "resting_972F": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 2,
+          "resting_clips": 3,
+          "resting_false_events": 0
+        },
+        "resting_4944": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 0,
+          "resting_clips": 3,
+          "resting_false_events": 2
+        }
+      }
+    },
+    "v37": {
+      "passed": false,
+      "checks": {
+        "enough_locomotion_clips": true,
+        "enough_resting_clips": true,
+        "sensitivity": false,
+        "specificity": false,
+        "hit_in_every_locomotion_video": false
+      },
+      "sensitivity": 0.2,
+      "specificity": 0.4,
+      "locomotion_hits": 1,
+      "locomotion_clips": 5,
+      "resting_correct": 4,
+      "resting_clips": 10,
+      "resting_false_events": 0,
+      "per_video": {
+        "5177": {
+          "locomotion_hits": 1,
+          "locomotion_clips": 3,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0
+        },
+        "locomotion": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 2,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0
+        },
+        "resting": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 2,
+          "resting_clips": 4,
+          "resting_false_events": 0
+        },
+        "resting_972F": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 2,
+          "resting_clips": 3,
+          "resting_false_events": 0
+        },
+        "resting_4944": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 0,
+          "resting_clips": 3,
+          "resting_false_events": 0
+        }
+      }
+    },
+    "flow": {
+      "passed": false,
+      "checks": {
+        "enough_locomotion_clips": true,
+        "enough_resting_clips": true,
+        "sensitivity": true,
+        "specificity": false,
+        "hit_in_every_locomotion_video": true
+      },
+      "sensitivity": 0.8,
+      "specificity": 0.5,
+      "locomotion_hits": 4,
+      "locomotion_clips": 5,
+      "resting_correct": 5,
+      "resting_clips": 10,
+      "resting_false_events": 0,
+      "per_video": {
+        "5177": {
+          "locomotion_hits": 3,
+          "locomotion_clips": 3,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0
+        },
+        "locomotion": {
+          "locomotion_hits": 1,
+          "locomotion_clips": 2,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0
+        },
+        "resting": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 2,
+          "resting_clips": 4,
+          "resting_false_events": 0
+        },
+        "resting_972F": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 2,
+          "resting_clips": 3,
+          "resting_false_events": 0
+        },
+        "resting_4944": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 1,
+          "resting_clips": 3,
+          "resting_false_events": 0
+        }
+      }
+    },
+    "body": {
+      "passed": false,
+      "checks": {
+        "enough_locomotion_clips": true,
+        "enough_resting_clips": true,
+        "sensitivity": false,
+        "specificity": false,
+        "hit_in_every_locomotion_video": false
+      },
+      "sensitivity": 0.0,
+      "specificity": 0.0,
+      "locomotion_hits": 0,
+      "locomotion_clips": 5,
+      "resting_correct": 0,
+      "resting_clips": 10,
+      "resting_false_events": 0,
+      "per_video": {
+        "5177": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 3,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0
+        },
+        "locomotion": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 2,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0
+        },
+        "resting": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 0,
+          "resting_clips": 4,
+          "resting_false_events": 0
+        },
+        "resting_972F": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 0,
+          "resting_clips": 3,
+          "resting_false_events": 0
+        },
+        "resting_4944": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 0,
+          "resting_clips": 3,
+          "resting_false_events": 0
+        }
+      }
+    },
+    "sam2_masked_flow": {
+      "passed": false,
+      "checks": {
+        "enough_locomotion_clips": true,
+        "enough_resting_clips": true,
+        "sensitivity": false,
+        "specificity": false,
+        "hit_in_every_locomotion_video": false
+      },
+      "sensitivity": 0.6,
+      "specificity": 0.5,
+      "locomotion_hits": 3,
+      "locomotion_clips": 5,
+      "resting_correct": 5,
+      "resting_clips": 10,
+      "resting_false_events": 0,
+      "per_video": {
+        "5177": {
+          "locomotion_hits": 3,
+          "locomotion_clips": 3,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0
+        },
+        "locomotion": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 2,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0
+        },
+        "resting": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 0,
+          "resting_clips": 4,
+          "resting_false_events": 0
+        },
+        "resting_972F": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 3,
+          "resting_clips": 3,
+          "resting_false_events": 0
+        },
+        "resting_4944": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 2,
+          "resting_clips": 3,
+          "resting_false_events": 0
+        }
+      }
+    }
+  },
+  "scope": "Reviewed legacy clip labels on development videos; not frame-level truth, not an independent test and not a welfare indicator. A pass means candidate locomotion episodes appear in locomotion clips and measured low motion without episodes in resting clips.",
+  "inputs": {
+    "manifest_sha256": "b5258118de43725a3fc51f73cf9297ae959080104cb596dc74d099df6056cbd8",
+    "source_sha256": {
+      "detector_audit.py": "4259348dc03246b1589c356aa5561dd0622a1fc6e18b1224131ddbeb35d5921e",
+      "body.py": "cbf86261d9c0555874b772e8abfeed6fdc4c102afc0666eae12ebeb1918a1973",
+      "bridge.py": "19e0f80e3fb6a1665a40670eb51fa139f100af07b605404cbd20013fe8a1c6ff",
+      "__init__.py": "b2988ffa8646ca94649ef7296a741e22d7acd1a077c0bc13cbfab00675bd0fe9",
+      "motion.py": "948f9e8daf9c352930c1e1f66dc253990a9cc367167933a8b2b96a686db32c87",
+      "evaluate.py": "2b826dea05a4c8e0864ec1c50c2723c4dec390883c8bf1190bccd883efed6855",
+      "segment.py": "125da7808c8c109ff70dcacedcad1aa9abfb7cf82846b88cf34c98465c9aa8de",
+      "v36.py": "476c24d8a5ed256f1a788fd3d134e0be766244227d739d9a8bf7ea8a250c7e91",
+      "tracking.py": "6ec03ee6e39a746e69ba6db99aac850fc1c621d0cca7e98758004a00e02f9cdf",
+      "__main__.py": "b6a3089000284632d8404c674d60d8f43b1a840a3505c64c7cce94cdd448d89b",
+      "closure.py": "2d456e0f74dc1b376acf05aa6be78c61fbec6f8a4c14541bd0a82af8d574dbb2",
+      "v37.py": "a5d146ad05f940c2b7137b29de0db3910a80b5470bf1424ad828439929711df4"
+    }
+  }
+}

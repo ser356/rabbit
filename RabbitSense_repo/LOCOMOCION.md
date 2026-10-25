@@ -1,6 +1,44 @@
 # Locomoción: diagnóstico, corrección temporal y cierre
 
-## Cierre (v0.5.0)
+## Veredicto: cerrada, no resoluble con los datos existentes
+
+Ejecutado el 2026-10-25 en el Mac (M4, MPS para SAM2) con el código de v0.5.0. Los hashes de `motion.py`, `closure.py`, `evaluate.py`, `segment.py`, `body.py` y del manifest en los veredictos coinciden con el commit. Evidencia: [cierre/verdict_cpu.json](cierre/verdict_cpu.json) y [cierre/verdict_sam2.json](cierre/verdict_sam2.json).
+
+| Método | Locomoción (≥4/5) | Reposo (≥8/10) | Episodios falsos en reposo | Resultado |
+|---|---:|---:|---:|---|
+| V3.6 | 4/5 | 3/10 | 3 | No pasa |
+| V3.7 | 1/5 | 4/10 | 0 | No pasa |
+| **flow** | **4/5** | 5/10 | **0** | No pasa |
+| body | 0/5 | 0/10 | 0 | No pasa |
+| SAM2 + flow | 3/5 | 5/10 | 0 | No pasa |
+
+Estado: `closed_not_resolvable_with_existing_data`. **Ningún método cumple los criterios fijados antes de ejecutar.**
+
+### Lectura
+
+- **flow detecta locomoción** en 4/5 clips, con al menos un acierto en cada vídeo de locomoción, y **ningún episodio falso** en los 10 clips de reposo.
+- **Falla por abstención, no por error.** Con cero episodios falsos, sus cinco fallos de reposo son clips sin mayoría de bajo movimiento medido. La causa principal registrada es `camera_reference_unreliable`: 16/36 muestras en el control de reposo y 14/21 en IMG_4944 (motivos de V3.6, que comparte la referencia de cámara). En esos vídeos Cinna ocupa casi todo el encuadre de una cámara en mano; no queda fondo suficiente para separar el movimiento de la cámara del del animal.
+- La corrección de la medida funcionó donde podía. Flow en el control de reposo pasó de 0/3/33 a 0/14/22 (locomoción/bajo/desconocido) y en IMG_5177 de 7/40/37 a 8/58/18, sin aumentar los candidatos en reposo. Es la mejora que se esperaba de quitar el ruido acumulado, pero no basta para el criterio.
+- SAM2 no resuelve el problema: pierde un acierto en el control de locomoción (0/2) y no mejora la especificidad.
+
+### Qué no se hace
+
+- **No se cambian los criterios.** Contar la abstención como acierto daría a flow 10/10 en reposo; está prohibido de antemano porque un sistema que nunca decide pasaría ese criterio.
+- No se ajustan umbrales, ventanas ni anclas para pasar el veredicto.
+- No se presenta flow como detector validado. Se conserva como análisis experimental, igual que antes.
+
+### Condición para reabrir
+
+Solo con **datos nuevos** que eliminen la causa de la abstención, no con otra iteración sobre estos vídeos:
+
+1. Grabaciones con cámara fija (trípode) o encuadre amplio con suelo visible alrededor del animal; o
+2. anotación por evento (inicio/fin de cada desplazamiento) sobre vídeos donde la cámara sea compensable.
+
+La reapertura vuelve a ejecutar `rabbitsense.closure` con los mismos criterios sobre un manifest ampliado.
+
+---
+
+## Cierre (v0.5.0): método
 
 ### Qué faltaba
 
@@ -53,7 +91,7 @@ RabbitSense_repo/.venv/bin/python -m rabbitsense.closure \
 
 - 53 pruebas pasan, incluida una ejecución extremo a extremo del cierre con vídeo y máscaras sintéticas.
 - Pruebas nuevas que **fallan con la medida anterior**: reposo a 30 FPS, traslación a 30/60 FPS, hueco no puenteado, ida/vuelta como diámetro.
-- **El veredicto sobre los vídeos reales no se ha ejecutado todavía**: los vídeos no están en Git. Hasta ejecutarlo, los recuentos de las secciones siguientes corresponden a la medida anterior (v0.4.0) y no deben citarse como resultado de v0.5.0.
+- Los recuentos de las secciones siguientes corresponden a la medida anterior (v0.4.0) y no deben citarse como resultado de v0.5.0.
 
 ---
 

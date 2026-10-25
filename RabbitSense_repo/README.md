@@ -10,14 +10,14 @@ Tres vídeos ejecutados; resultados y regresiones en [AUDITORIA.md](AUDITORIA.md
 
 La corrección temporal posterior, episodios candidatos y regresión de cobertura están en [LOCOMOCION.md](LOCOMOCION.md). No convierten las etiquetas mixtas por clip en verdad por fotograma.
 
-**Cierre de locomoción (v0.5.0):** corregida la medida que acumulaba ruido con los FPS e impedía clasificar reposo; criterios de cierre fijados antes de ejecutar sobre 5 clips de locomoción y 10 de reposo. **Veredicto pendiente de ejecutar en el Mac** con la tarea **RabbitSense: cierre locomoción**. Detalle en [LOCOMOCION.md](LOCOMOCION.md#cierre-v050).
+**Locomoción: cerrada como no resoluble con los datos existentes (v0.5.0).** Ningún método cumple los criterios fijados de antemano sobre 5 clips de locomoción y 10 de reposo. flow detecta 4/5 clips de locomoción sin ningún episodio falso en reposo, pero se abstiene en la mitad del reposo porque con cámara en mano y el animal llenando el encuadre no se puede compensar la cámara. Solo se reabre con grabaciones nuevas (cámara fija o encuadre amplio). Detalle en [LOCOMOCION.md](LOCOMOCION.md).
 
 El seguimiento corporal persistente y YOLO-World local ya se ejecutaron: **ninguno resuelve la locomoción en estos vídeos**. Métodos, resultados negativos y reproducción en [EVIDENCIA_CORPORAL.md](EVIDENCIA_CORPORAL.md). Permanecen aislados del análisis habitual.
 
 - **v36** permanece como referencia predeterminada, no como verdad-terreno.
 - **flow** analiza fotogramas consecutivos y propone correcciones de centro con puntos persistentes entre anclas. Mejora geométrica limitada en IMG_5177, pero **regresa en otros vídeos**. Selección explícita.
 - **v37** se conserva para comparación; sus predicciones nunca se utilizan como etiquetas.
-- Detección sin anclas, clasificación temporal fiable, interfaz macOS y bienestar no se declaran resueltos.
+- Detección sin anclas, interfaz macOS y bienestar no se declaran resueltos. La locomoción fiable está cerrada como no resoluble con estos datos.
 
 ## Instalación
 
