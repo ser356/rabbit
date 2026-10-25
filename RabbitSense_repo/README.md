@@ -1,42 +1,101 @@
 # RabbitSense
 
-Prototipo de investigación para seguir a **Cinna** en vídeo y estimar **candidatos** de movimiento. **No** diagnostica estrés, dolor ni bienestar. Las cajas de V3.2 son anotaciones manuales/interpoladas, **no** detecciones automáticas.
+Seguimiento asistido de Cinna y análisis experimental de movimiento. **No es detección autónoma ni diagnóstico de estrés, dolor o bienestar.**
 
-## Estado
+## Estado verificado
 
-- **v36**: referencia actual; 20 candidatos de locomoción, 43 de poco movimiento y 21 desconocidos en IMG_5177 (84 muestras). **No hay etiquetas de verdad-terreno que validen precisión.**
-- **v37**: experimento de consistencia con flujo óptico del cuerpo; 1 candidato de locomoción, 43 de poco movimiento y 40 desconocidos. **No es una mejora validada.**
-- **v32**: generación de trayectorias a partir de marcas; conservada en `scripts/legacy/`.
+Tres vídeos ejecutados; resultados y regresiones en [AUDITORIA.md](AUDITORIA.md).
 
-## Instalación (Mac Apple Silicon)
+- **v36** permanece como referencia predeterminada, no como verdad-terreno.
+- **flow** analiza fotogramas consecutivos y propone correcciones de centro con puntos persistentes entre anclas. Mejora geométrica limitada en IMG_5177, pero **regresa en otros vídeos**. Selección explícita.
+- **v37** se conserva para comparación; sus predicciones nunca se utilizan como etiquetas.
+- Detección sin anclas, clasificación temporal fiable, interfaz macOS y bienestar no se declaran resueltos.
+
+## Instalación
+
+Desde este directorio, con Python >=3.11:
 
 ```bash
-cd RabbitSense_repo
 python3 -m venv .venv
+.venv/bin/python -m pip install -e '.[test]'
+.venv/bin/python -m pytest -q
+```
+
+Probado en Python 3.15.0, macOS arm64. [requirements-tested.txt](requirements-tested.txt) fija las versiones observadas; esos pins no implican compatibilidad con todos los Python admitidos por el paquete.
+
+```bash
+.venv/bin/python -m pip install -r requirements-tested.txt
 .venv/bin/python -m pip install -e .
 ```
 
-## Ejecutar
+Un entorno virtual trasladado no es portable: reinstalar el paquete editable después de mover el proyecto. Este análisis usa CPU/OpenCV, sin necesitar PyTorch/MPS ni cargar los modelos originales.
 
-Conserva tus datos existentes y coloca el vídeo en `data/cinna_review_v24/IMG_5177.mp4` y el CSV en `runs/v32/cinna_trayectoria_v32.csv` (o usa rutas absolutas a los originales).
+## Analizar IMG_5177
+
+```bash
+.venv/bin/python -m rabbitsense --version flow \
+  --video data/cinna_review_v24/IMG_5177.mp4 \
+  --anchors ../RabbitSense_ARCHIVO/cinna_marcas_v32.json \
+  --out runs/analysis/5177 --video-out
+```
+
+Requiere el JSON original, no los registros `manual` del CSV derivado. Admite marcas V3.2 (`box` xywh) y anclas V2.3 (`bbox` xyxy), escaladas desde su resolución de referencia.
+
+Salidas:
+
+- `tracks.csv`: guía original en `x,y,width,height`; propuesta en `refined_x,refined_y`; `bridge_points` y procedencia explícita. Las correcciones **no sobrescriben** las guías.
+- `motion.csv`: intervalo terminado en `seconds`, candidatos, abstenciones, velocidad en anchos de caja/s, banda de incertidumbre y calidad de evidencia.
+- `timeline.json`: intervalos contiguos; calidad ponderada por duración, **no probabilidad calibrada**.
+- `summary.json`: versiones, parámetros, hashes de entradas/código y advertencias.
+- `overlay.mp4`: fotogramas y FPS originales; gris = guía, verde = propuesta. Sin audio.
+
+Sin guía, se mantiene desconocido; no se extrapola más allá de la última ancla. La cronología termina en el tiempo del último fotograma decodificado, incluyendo el intervalo parcial final.
+
+## Referencias
 
 ```bash
 .venv/bin/python -m rabbitsense --version v36 \
   --video data/cinna_review_v24/IMG_5177.mp4 \
   --tracks runs/v32/cinna_trayectoria_v32.csv \
-  --out runs/predictions_v36/5177 --video-out
+  --out runs/reference/v36
 ```
 
-Para probar v37 cambia `--version v37` y `--out runs/predictions_v37/5177`.
+Cambiar `v36` por `v37` para reproducir su lógica. En `flow`, `--step` controla la rejilla de resultados, **no reduce la frecuencia del análisis visual**. Se conserva el umbral `.2` de las referencias; no se ajustó para aumentar candidatos.
 
-## Estructura
+## Comparación reproducible
 
-- `src/rabbitsense/`: implementaciones v36 (referencia) y v37 (experimental), ejecutables con `python -m rabbitsense`.
-- `scripts/legacy/`: algoritmos v32, v34, v35 para reproducibilidad; no son la API principal.
-- `data/`: vídeos y anotaciones locales, ignorados por Git.
-- `runs/`: predicciones, modelos y vídeos generados, ignorados por Git.
-- `tests/`: pruebas básicas.
+```bash
+.venv/bin/python -m rabbitsense.evaluate \
+  --suite benchmarks/local.json --out runs/suite --video-out
+```
 
-## Limitaciones
+También disponible como tarea VS Code **RabbitSense: suite existente** desde la raíz del workspace. El manifest referencia datos originales sin copiarlos.
 
-No se ha medido exactitud contra una validación humana de locomoción. El flujo óptico puede incluir fondo dentro de la caja. Las versiones antiguas no se han refactorizado ni garantizado como compatibles. No subir vídeos privados, modelos pesados ni entornos virtuales al repositorio.
+Para un caso concreto:
+
+```bash
+.venv/bin/python -m rabbitsense.evaluate \
+  --video data/cinna_review_v24/IMG_5177.mp4 \
+  --tracks runs/v32/cinna_trayectoria_v32.csv \
+  --anchors ../RabbitSense_ARCHIVO/cinna_marcas_v32.json \
+  --labels ../RabbitSense_ARCHIVO/etiquetas_v24_revision_final.csv \
+  --out runs/comparison
+```
+
+Recalcula V3.6/V3.7/flow con semilla 0 y un hilo OpenCV; compara rejilla común y reserva anclas originales antes de interpolar. Evalúa etiquetas revisadas **por clip**, sin convertirlas en verdad por fotograma. Excluye `exploring_sniffing` y etiquetas no revisadas de la evaluación binaria.
+
+## Arquitectura
+
+| Módulo | Responsabilidad |
+|---|---|
+| [tracking.py](src/rabbitsense/tracking.py) | Anclas, correspondencias ida/vuelta y guías |
+| [bridge.py](src/rabbitsense/bridge.py) | Puntos persistentes y corrección temporal candidata |
+| [motion.py](src/rabbitsense/motion.py) | Cámara, movimiento relativo, agregación, cronología y vídeo |
+| [evaluate.py](src/rabbitsense/evaluate.py) | Holdout geométrico, comparación y clips |
+| [__main__.py](src/rabbitsense/__main__.py) | CLI único |
+
+V3.6/V3.7 son referencias dentro del paquete, sin nuevas carpetas de desarrollo por versión; comparten funciones idénticas. Los scripts legacy y el directorio original de entrenamiento se conservan, pero no son la API pública.
+
+## Límites
+
+Las cajas pueden contener fondo; los puntos no tienen identidad semántica garantizada. Oclusión, paralaje, desenfoque y guías holgadas causan errores. El puente necesita anclas inicial y final: análisis offline, no seguimiento causal. Las anclas reservadas del mismo vídeo son diagnóstico de desarrollo, no test independiente. No se infieren intenciones, estrés, dolor, enfermedad ni bienestar.

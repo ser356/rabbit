@@ -4,11 +4,20 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "rabbitsense"
-version = "0.3.7"
+version = "0.4.0"
 description = "Experimental rabbit tracking and motion analysis"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 dependencies = ["numpy>=1.24,<3", "pandas>=2,<3", "opencv-python>=4.8,<5"]
+
+[project.optional-dependencies]
+test = ["pytest>=8,<10"]
+
+[project.scripts]
+rabbitsense = "rabbitsense.__main__:main"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
 
 [tool.setuptools.packages.find]
 where = ["src"]

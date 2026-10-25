@@ -1,18 +1,11 @@
-# Migración sin perder datos
+# Workspace consolidado
 
-**No borres `~/Downloads/RabbitSense_Training`**. La estructura nueva se crea aparte.
+El código activo permanece en este directorio. RabbitSense_Training y RabbitSense_ARCHIVO son recursos hermanos; no es necesario copiarlos a Descargas ni descargar ZIP.
 
-1. Descomprime `RabbitSense_repo.zip` en Descargas.
-2. Desde `~/Downloads`, ejecuta:
+1. Instalar el paquete editable siguiendo [README.md](README.md).
+2. Ejecutar pruebas y suite existente.
+3. Si cambia la ubicación de los datos, editar [benchmarks/local.json](benchmarks/local.json), o pasar rutas explícitas al CLI.
 
-```bash
-mkdir -p RabbitSense_repo/data/cinna_review_v24 RabbitSense_repo/runs/v32
-cp RabbitSense_Training/data/cinna_review_v24/IMG_5177.mp4 RabbitSense_repo/data/cinna_review_v24/
-cp RabbitSense_Training/runs/v32/cinna_trayectoria_v32.csv RabbitSense_repo/runs/v32/
-cd RabbitSense_repo
-python3 -m venv .venv
-.venv/bin/python -m pip install -e .
-.venv/bin/python -m rabbitsense --version v36 --video data/cinna_review_v24/IMG_5177.mp4 --tracks runs/v32/cinna_trayectoria_v32.csv --out runs/predictions_v36/5177 --video-out
-```
+No reutilizar un entorno virtual copiado: sus enlaces editables pueden apuntar al directorio anterior. El recibido apuntaba a Descargas y se reparó reinstalando el paquete.
 
-3. Comprueba el MP4/CSV generados antes de decidir qué carpetas viejas archivar. El repositorio no elimina ningún archivo.
+Vídeos, pesos y resultados voluminosos siguen fuera de Git. El historial único está en la raíz del workspace e incluye el código recibido antes de modificarlo. Ninguna migración borra datos originales.

@@ -1,0 +1,49 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "RabbitSense: benchmark IMG_5177",
+			"type": "shell",
+			"command": "./RabbitSense_repo/.venv/bin/python",
+			"args": [
+				"-X",
+				"faulthandler",
+				"-u",
+				"-m",
+				"rabbitsense.evaluate",
+				"--video",
+				"RabbitSense_repo/data/cinna_review_v24/IMG_5177.mp4",
+				"--tracks",
+				"RabbitSense_repo/runs/v32/cinna_trayectoria_v32.csv",
+				"--anchors",
+				"RabbitSense_ARCHIVO/cinna_marcas_v32.json",
+				"--labels",
+				"RabbitSense_ARCHIVO/etiquetas_v24_revision_final.csv",
+				"--out",
+				"RabbitSense_repo/runs/verified",
+				"--video-out"
+			],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "test"
+		},
+		{
+			"label": "RabbitSense: suite existente",
+			"type": "shell",
+			"command": "./RabbitSense_repo/.venv/bin/python",
+			"args": [
+				"-u",
+				"-m",
+				"rabbitsense.evaluate",
+				"--suite",
+				"RabbitSense_repo/benchmarks/local.json",
+				"--out",
+				"RabbitSense_repo/runs/suite",
+				"--video-out"
+			],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "test"
+		}
+	]
+}

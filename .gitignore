@@ -1,2 +1,21 @@
 # graft's local graph cache — regenerable, not committed (run `graft build`).
 /graft/
+.DS_Store
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+*.mp4
+*.MP4
+*.mov
+*.MOV
+*.pt
+*.pth
+*.onnx
+*.npz
+*.joblib
+*.zip
+/RabbitSense_Training/data/
+/RabbitSense_Training/runs/
+/RabbitSense_Training/weights/

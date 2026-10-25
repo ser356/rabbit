@@ -113,7 +113,7 @@ def run(args):
              'notes':['body_flow is supporting evidence, not a locomotion label','Interpolated boxes are not independent detections','No validated stress or welfare inference']}
     (out/'summary_v36.json').write_text(json.dumps(summary,ensure_ascii=False,indent=2))
     if args.video_out:
-        writer=cv2.VideoWriter(str(out/'motion_v36.mp4'),cv2.VideoWriter_fourcc(*'mp4v'),min(10,fps),(w,h))
+        writer=cv2.VideoWriter(str(out/'motion_v36.mp4'),cv2.VideoWriter_fourcc(*'mp4v'),fps/step,(w,h))
         if not writer.isOpened():raise RuntimeError('No se puede crear el MP4')
         for (t,im,b,source),r in zip(samples,rows):
             if b is not None:
