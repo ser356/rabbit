@@ -1,0 +1,1 @@
+Etiquetas preliminares por inspección de fotogramas muestreados cada 2 segundos. No se ha consultado ningún modelo. NO SON ground truth validado; revisar todos los intervalos a velocidad normal y corregir antes de evaluación. Los tiempos se reconstruyen por duración acumulada de clips; pueden diferir ligeramente del vídeo original por recodificación.

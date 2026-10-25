@@ -1,0 +1,56 @@
+[
+  {
+    "video": "IMG_5190",
+    "clip": "clip_000.mp4",
+    "start_s": 0,
+    "end_s": 20.0
+  },
+  {
+    "video": "IMG_5190",
+    "clip": "clip_001.mp4",
+    "start_s": 20.0,
+    "end_s": 40.0
+  },
+  {
+    "video": "IMG_5190",
+    "clip": "clip_002.mp4",
+    "start_s": 40.0,
+    "end_s": 60.0
+  },
+  {
+    "video": "IMG_5190",
+    "clip": "clip_003.mp4",
+    "start_s": 60.0,
+    "end_s": 66.1
+  },
+  {
+    "video": "IMG_5191",
+    "clip": "clip_000.mp4",
+    "start_s": 0,
+    "end_s": 20.0
+  },
+  {
+    "video": "IMG_5191",
+    "clip": "clip_001.mp4",
+    "start_s": 20.0,
+    "end_s": 23.9
+  },
+  {
+    "video": "IMG_5192",
+    "clip": "clip_000.mp4",
+    "start_s": 0,
+    "end_s": 20.0
+  },
+  {
+    "video": "IMG_5192",
+    "clip": "clip_001.mp4",
+    "start_s": 20.0,
+    "end_s": 22.0
+  },
+  {
+    "video": "IMG_5193",
+    "clip": "clip_000.mp4",
+    "start_s": 0,
+    "end_s": 9.1
+  }
+]

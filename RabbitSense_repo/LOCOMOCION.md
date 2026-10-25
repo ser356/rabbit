@@ -44,6 +44,19 @@ La reapertura vuelve a ejecutar `rabbitsense.closure` con los mismos criterios s
 4. **Anclas:** `RabbitSense_V32/rabbitsense_v32.py prepare --every 2`, cajas cada 2 s, primera en 0 s.
 5. **Alcance si pasa:** locomoción candidata en grabaciones con cámara fija y encuadre amplio. La cámara en mano sigue cerrada como no resoluble.
 
+### Protocolo de reapertura con cámara en mano (2026-10-25; sustituye al de cámara fija)
+
+Decisión del responsable técnico: evaluar locomoción **con movimiento de cámara**, que es el uso real. Sustituye al protocolo de cámara fija. Se registra **antes de ejecutar ningún método** sobre los vídeos nuevos.
+
+1. **Conjunto de decisión:** solo los vídeos nuevos IMG_5190–IMG_5193, más los que se añadan antes de ejecutar. Es el primer **test independiente**: ningún método ni constante se ajustó con ellos. Manifest `benchmarks/closure_mano.json`. Mismos `CRITERIA`, sin cambios. Método principal: `flow`; el resto se publica.
+2. **Informativo, no decisorio:** `closure.json` + vídeos nuevos.
+3. **Etiquetas provisionales archivadas sin cambios** en [etiquetas_mano_provisionales](../RabbitSense_ARCHIVO/etiquetas_mano_provisionales/). Las preparó ChatGPT a partir de fotogramas muestreados cada 2 s, sin consultar ningún modelo. **No son ground truth.** Los tiempos se reconstruyeron desde clips recodificados.
+4. **Puerta de ejecución:** las etiquetas entran al CSV de evaluación con `reviewed=no`. Solo pasan a `reviewed=si` tras revisión humana a velocidad normal sobre el **archivo original**, con tiempos medidos desde su primer fotograma. Se commitean antes de ejecutar. Cualquier cambio de etiquetas después de ejecutar invalida el veredicto.
+5. **Clips de menos de 3 s no se evalúan** (rejilla de 0,5 s: demasiado cortos para mayoría o episodio).
+6. **Suficiencia antes de ejecutar:** si tras la revisión hay menos de 5 clips de locomoción o menos de 10 de reposo, **no se ejecuta**: se graba más, porque el criterio fallaría por construcción. Con las provisionales hay 13 / 6 (≥ 3 s): falta reposo.
+7. **Anclas:** cajas cada 2 s sobre los originales con `RabbitSense_V32/rabbitsense_v32.py prepare --every 2`.
+8. **Alcance:** si pasa, locomoción candidata con cámara en mano en vídeos no vistos durante el desarrollo. Si no pasa, la locomoción con cámara en mano queda cerrada definitivamente con este enfoque.
+
 ---
 
 ## Cierre (v0.5.0): método
