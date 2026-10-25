@@ -102,6 +102,8 @@ def test_pipeline_full_duration_and_missing_guides(tmp_path):
     output = tmp_path / 'result'
     result = analyze(video, anchors, output, video_out=True)
     assert result['frames'] == 13
+    assert not (output / 'body_motion.csv').exists()
+    assert 'body_movement' not in result
     frame = pd.read_csv(output / 'motion.csv')
     assert frame.iloc[-1].seconds == 1.2
     assert frame.iloc[-1].movement == 'unknown'

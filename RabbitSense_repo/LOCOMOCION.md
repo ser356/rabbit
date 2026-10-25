@@ -69,11 +69,11 @@ Se probaron 1, 2, 3 y 5 pares por intervalo de 0.5 s, contra el análisis de tod
 
 Separar observaciones recupera bajo movimiento en reposo, pero pierde episodios positivos del principal. No se incorpora ese cambio ni se elige una separación distinta para cada vídeo. Diagnóstico exploratorio, sin afirmación de generalización.
 
-## Qué falta para resolverlo
+## Requisito identificado y experimento ejecutado
 
 El objetivo correcto es detectar **traslación corporal respecto al suelo**, localizar sus episodios y abstenerse durante oclusión, cámara no compensable o identidad visual perdida. No asignar locomoción a cada fotograma de un clip mixto ni inferir bienestar.
 
-El siguiente cambio sustancial necesita correspondencias persistentes específicas del animal y una referencia de suelo validada espacialmente; después, distinguir traslación de giro, postura y movimiento local. Las cajas interpoladas y el flujo de un rectángulo no garantizan esas propiedades. Los modelos existentes de detección/postura son candidatos a evaluar, no una solución probada. No se instalaron ni entrenaron modelos en esta corrección.
+Este diagnóstico llevó a implementar correspondencias persistentes y validación espacial del fondo, separando traslación, giro y escala. También se ejecutaron los pesos locales YOLO-World/CLIP. La evaluación posterior y sus límites están en [EVIDENCIA_CORPORAL.md](EVIDENCIA_CORPORAL.md): cobertura corporal insuficiente, identidad semántica no resuelta y ninguna mejora demostrada de locomoción. No se instalaron ni entrenaron modelos; el detector usó el entorno de entrenamiento existente.
 
 Se puede continuar con vídeos y anotaciones existentes, sin pedir nuevas grabaciones ni etiquetado manual. Con las etiquetas actuales solo se verifican geometría, coherencia, invariancia a cámara y observaciones por clip; no una precisión temporal completa del comportamiento.
 

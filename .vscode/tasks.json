@@ -61,6 +61,47 @@
 			],
 			"isBackground": false,
 			"problemMatcher": []
+		},
+		{
+			"label": "RabbitSense: persistent body benchmark",
+			"type": "shell",
+			"command": "./RabbitSense_repo/.venv/bin/python",
+			"args": [
+				"-u",
+				"-m",
+				"rabbitsense.evaluate",
+				"--suite",
+				"RabbitSense_repo/benchmarks/local.json",
+				"--out",
+				"RabbitSense_repo/runs/body_verified",
+				"--video-out"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "RabbitSense: audit local detector",
+			"type": "shell",
+			"command": "/usr/bin/env",
+			"args": [
+				"PYTHONPATH=RabbitSense_repo/src",
+				"./RabbitSense_Training/.venv/bin/python",
+				"-u",
+				"-m",
+				"rabbitsense.detector_audit",
+				"--suite",
+				"RabbitSense_repo/benchmarks/local.json",
+				"--model",
+				"RabbitSense_Training/yolov8s-worldv2.pt",
+				"--clip",
+				"RabbitSense_Training/weights/clip/ViT-B-32.pt",
+				"--out",
+				"RabbitSense_repo/runs/detector_audit",
+				"--device",
+				"mps"
+			],
+			"isBackground": false,
+			"problemMatcher": []
 		}
 	]
 }

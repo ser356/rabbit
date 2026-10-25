@@ -8,8 +8,9 @@ import numpy as np
 import pandas as pd
 
 from . import v36, v37
+from .body import analyze_body
 from .bridge import refine_video
-from .motion import analyze, sha256
+from .motion import analyze, sha256, timeline
 from .tracking import Anchors, export_guides, load_anchors
 
 
@@ -123,6 +124,13 @@ def compare(video, tracks, anchors, labels, out, video_out=False):
         frames[name] = pd.read_csv(out / name / f'motion_{name}.csv')
     summary = analyze(video, anchors, out / 'flow', video_out=video_out)
     frames['flow'] = pd.read_csv(out / 'flow' / 'motion.csv')
+    body_out = out / 'body'
+    body_out.mkdir(parents=True, exist_ok=True)
+    body_rows = analyze_body(video, load_anchors(anchors, summary['width'], summary['height']), .5, .2,
+                             body_out / 'overlay.mp4' if video_out else None)
+    frames['body'] = pd.DataFrame(body_rows)
+    frames['body'].to_csv(body_out / 'motion.csv', index=False)
+    (body_out / 'timeline.json').write_text(json.dumps(timeline(body_rows), indent=2))
     annotations = pd.read_csv(labels)
     reference = frames['v36'].seconds.to_numpy()
     report = {'inputs': {key: {'path': str(Path(path).resolve()), 'sha256': sha256(path)}
@@ -130,6 +138,11 @@ def compare(video, tracks, anchors, labels, out, video_out=False):
                                            ('anchors', anchors), ('labels', labels)]},
               'environment': summary['environment'], 'parameters': summary['parameters'],
               'source_sha256': summary['source_sha256'],
+              'body_measure': 'Persistent guide-core points; similarity center translation after spatially validated '
+                              'background affine. Speed is trajectory diameter / interval, not distance traveled. '
+                              'Low motion describes stable center, not rest. No semantic floor or body identity guarantee. '
+                              'Error bands and evidence quality are uncalibrated diagnostics.',
+              'body_reasons': frames['body'].reason.value_counts().to_dict(),
               'sampling_note': 'Counts include the zero-duration first sample for compatibility. '
                                'Time coverage excludes it. Anchors use nearest decoded frame.',
               'tracking_holdout': heldout_tracking(video, anchors), 'motion': {}}

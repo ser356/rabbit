@@ -8,6 +8,8 @@ Tres vídeos ejecutados; resultados y regresiones en [AUDITORIA.md](AUDITORIA.md
 
 La corrección temporal posterior, episodios candidatos y regresión de cobertura están en [LOCOMOCION.md](LOCOMOCION.md). No convierten las etiquetas mixtas por clip en verdad por fotograma.
 
+El seguimiento corporal persistente y YOLO-World local ya se ejecutaron: **ninguno resuelve la locomoción en estos vídeos**. Métodos, resultados negativos y reproducción en [EVIDENCIA_CORPORAL.md](EVIDENCIA_CORPORAL.md). Permanecen aislados del análisis habitual.
+
 - **v36** permanece como referencia predeterminada, no como verdad-terreno.
 - **flow** analiza fotogramas consecutivos y propone correcciones de centro con puntos persistentes entre anclas. Mejora geométrica limitada en IMG_5177, pero **regresa en otros vídeos**. Selección explícita.
 - **v37** se conserva para comparación; sus predicciones nunca se utilizan como etiquetas.
@@ -85,7 +87,9 @@ Para un caso concreto:
   --out runs/comparison
 ```
 
-Recalcula V3.6/V3.7/flow con semilla 0 y un hilo OpenCV; compara rejilla común y reserva anclas originales antes de interpolar. Evalúa etiquetas revisadas **por clip**, sin convertirlas en verdad por fotograma. Excluye `exploring_sniffing` y etiquetas no revisadas de la evaluación binaria.
+Recalcula V3.6/V3.7/flow/body con semilla 0 y un hilo OpenCV; compara rejilla común y reserva anclas originales antes de interpolar. Evalúa etiquetas revisadas **por clip**, sin convertirlas en verdad por fotograma. Excluye `exploring_sniffing` y etiquetas no revisadas de la evaluación binaria.
+
+`body` solo se ejecuta en la comparación: escribe movimiento, cronología y vídeo en su propio subdirectorio. No altera la CLI habitual `--version flow` ni incorpora PyTorch. La tarea **RabbitSense: persistent body benchmark** conserva esta comparación en [runs/body_verified/suite.json](runs/body_verified/suite.json).
 
 ## Arquitectura
 
@@ -94,7 +98,9 @@ Recalcula V3.6/V3.7/flow con semilla 0 y un hilo OpenCV; compara rejilla común 
 | [tracking.py](src/rabbitsense/tracking.py) | Anclas, correspondencias ida/vuelta y guías |
 | [bridge.py](src/rabbitsense/bridge.py) | Puntos persistentes y corrección temporal candidata |
 | [motion.py](src/rabbitsense/motion.py) | Cámara, movimiento relativo, agregación, cronología y vídeo |
+| [body.py](src/rabbitsense/body.py) | Experimento de traslación, giro y escala con puntos persistentes |
 | [evaluate.py](src/rabbitsense/evaluate.py) | Holdout geométrico, comparación y clips |
+| [detector_audit.py](src/rabbitsense/detector_audit.py) | Auditoría opcional de pesos locales; no genera guías ni etiquetas |
 | [__main__.py](src/rabbitsense/__main__.py) | CLI único |
 
 V3.6/V3.7 son referencias dentro del paquete, sin nuevas carpetas de desarrollo por versión; comparten funciones idénticas. Los scripts legacy y el directorio original de entrenamiento se conservan, pero no son la API pública.
