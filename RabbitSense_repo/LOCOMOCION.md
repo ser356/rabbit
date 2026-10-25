@@ -36,6 +36,14 @@ Solo con **datos nuevos** que eliminen la causa de la abstención, no con otra i
 
 La reapertura vuelve a ejecutar `rabbitsense.closure` con los mismos criterios sobre un manifest ampliado.
 
+### Protocolo de reapertura con cámara fija (fijado el 2026-10-25, antes de grabar)
+
+1. **Conjunto de decisión:** `benchmarks/closure_fija.json`, solo con vídeos nuevos grabados con cámara fija. Mismos `CRITERIA` sin cambios: ≥ 5 clips de locomoción, ≥ 10 de reposo, sensibilidad y especificidad ≥ 0,8, al menos un acierto por vídeo con locomoción. Método principal: `flow`.
+2. **Informativo, no decisorio:** `closure.json` + vídeos nuevos. Se publica igualmente.
+3. **Etiquetas a ciegas:** clips de 4 s en la rejilla 0, 4, 8… s, revisados viendo el vídeo, **antes de ejecutar ningún método**, y commiteados en Git antes de la ejecución. `locomotion` = cambia de sitio sobre el suelo dentro del clip; `resting` = no se desplaza en todo el clip (movimientos de cabeza permitidos). Lo dudoso va como `unknown` o `exploring_sniffing` y no se evalúa.
+4. **Anclas:** `RabbitSense_V32/rabbitsense_v32.py prepare --every 2`, cajas cada 2 s, primera en 0 s.
+5. **Alcance si pasa:** locomoción candidata en grabaciones con cámara fija y encuadre amplio. La cámara en mano sigue cerrada como no resoluble.
+
 ---
 
 ## Cierre (v0.5.0): método
