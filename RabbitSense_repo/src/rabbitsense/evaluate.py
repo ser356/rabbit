@@ -82,7 +82,18 @@ def clip_metrics(frame, labels, video_name):
         predicted = max(votes, key=votes.get) if total else 'unknown'
         if total == 0 or votes[predicted] <= total / 2:
             predicted = 'unknown'
+        events = []
+        for start, stop, movement in zip(starts[inside], times[inside], subset.movement):
+            if movement != 'locomotion_candidate':
+                continue
+            if events and abs(events[-1]['end_seconds'] - start) < 1e-6:
+                events[-1]['end_seconds'] = float(stop)
+                events[-1]['duration_seconds'] = float(stop - events[-1]['start_seconds'])
+            else:
+                events.append({'start_seconds': float(start), 'end_seconds': float(stop),
+                               'duration_seconds': float(stop - start)})
         rows.append({'clip_id': clip.clip_id, 'label': clip.label, 'prediction': predicted,
+                     'candidate_events': events,
                      'correct': predicted == mapping[clip.label], 'votes_seconds': votes,
                      'evaluated_seconds': total, 'clip_seconds': clip.duration_seconds,
                      'known_fraction': 1 - votes['unknown'] / total if total else 0.})
@@ -95,6 +106,7 @@ def clip_metrics(frame, labels, video_name):
             'clip_coverage': len(known) / len(rows) if rows else None,
             'balanced_accuracy': float(np.mean(recalls)) if len(recalls) == 2 else None,
             'warning': 'Reviewed legacy clip labels; not frame-level truth. Exploring is not a negative class. '
+                       'Candidate events describe predictions, not event precision or recall. '
                        'A single-class subset cannot establish specificity or balanced accuracy.'}
 
 

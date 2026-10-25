@@ -6,6 +6,8 @@ Seguimiento asistido de Cinna y análisis experimental de movimiento. **No es de
 
 Tres vídeos ejecutados; resultados y regresiones en [AUDITORIA.md](AUDITORIA.md).
 
+La corrección temporal posterior, episodios candidatos y regresión de cobertura están en [LOCOMOCION.md](LOCOMOCION.md). No convierten las etiquetas mixtas por clip en verdad por fotograma.
+
 - **v36** permanece como referencia predeterminada, no como verdad-terreno.
 - **flow** analiza fotogramas consecutivos y propone correcciones de centro con puntos persistentes entre anclas. Mejora geométrica limitada en IMG_5177, pero **regresa en otros vídeos**. Selección explícita.
 - **v37** se conserva para comparación; sus predicciones nunca se utilizan como etiquetas.
@@ -45,6 +47,7 @@ Salidas:
 
 - `tracks.csv`: guía original en `x,y,width,height`; propuesta en `refined_x,refined_y`; `bridge_points` y procedencia explícita. Las correcciones **no sobrescriben** las guías.
 - `motion.csv`: intervalo terminado en `seconds`, candidatos, abstenciones, velocidad en anchos de caja/s, banda de incertidumbre y calidad de evidencia.
+- En `flow`, velocidad = recorrido residual observado / duración completa, no desplazamiento neto. Con evidencia ausente, `speed_upper` queda vacío y no se declara bajo movimiento. La banda no está calibrada.
 - `timeline.json`: intervalos contiguos; calidad ponderada por duración, **no probabilidad calibrada**.
 - `summary.json`: versiones, parámetros, hashes de entradas/código y advertencias.
 - `overlay.mp4`: fotogramas y FPS originales; gris = guía, verde = propuesta. Sin audio.

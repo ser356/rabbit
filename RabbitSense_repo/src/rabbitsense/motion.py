@@ -57,8 +57,7 @@ def frame_evidence(prev, cur, box, rabbit):
     return {'reason': 'measured', 'vector': median / width,
             'uncertainty': (camera['error'] + rabbit['fb_error'] + scatter) / width,
             'quality': min(camera['quality'], rabbit['quality']),
-            'camera_error_px': camera['error'], 'rabbit_points': rabbit['rabbit_points'],
-            'linear': camera['matrix'][:, :2]}
+            'camera_error_px': camera['error'], 'rabbit_points': rabbit['rabbit_points']}
 
 
 def aggregate(evidence, duration, threshold, minimum_coverage=.8):
@@ -70,18 +69,11 @@ def aggregate(evidence, duration, threshold, minimum_coverage=.8):
            'rabbit_points': 0, 'interval_seconds': duration}
     if not good or duration <= 0:
         return row
-    rotation = np.eye(2)
-    vectors = []
-    for e in evidence:
-        if e['reason'] != 'measured':
-            continue
-        u, _, vh = np.linalg.svd(e['linear'])
-        rotation = (u @ vh) @ rotation
-        vectors.append(rotation.T @ e['vector'])
-    effective_duration = duration * coverage
-    speed = float(np.linalg.norm(np.sum(vectors, axis=0)) / effective_duration)
-    error = float(np.sum([e['uncertainty'] for e in good]) / effective_duration)
-    lower, upper = max(0., speed - error), speed + error
+    distances = np.array([np.linalg.norm(e['vector']) for e in good])
+    errors = np.array([e['uncertainty'] for e in good])
+    speed = float(distances.sum() / duration)
+    lower = float(np.maximum(0., distances - errors).sum() / duration)
+    upper = float((distances + errors).sum() / duration) if coverage == 1. else None
     row.update(speed_bodywidths_s=speed, speed_lower=lower, speed_upper=upper,
                evidence_quality=float(coverage * np.mean([e['quality'] for e in good])),
                camera_error_px=float(np.mean([e['camera_error_px'] for e in good])),
@@ -89,10 +81,10 @@ def aggregate(evidence, duration, threshold, minimum_coverage=.8):
     if coverage >= minimum_coverage:
         if lower >= threshold:
             row.update(movement='locomotion_candidate', reason='visual_motion_above_noise')
-        elif upper < threshold:
+        elif upper is not None and upper < threshold:
             row.update(movement='low_motion_candidate', reason='visual_motion_below_threshold')
         else:
-            row['reason'] = 'motion_near_uncertainty_band'
+            row['reason'] = 'incomplete_interval' if upper is None else 'motion_near_uncertainty_band'
     return row
 
 
@@ -215,6 +207,8 @@ def analyze(video, anchors_path, out, step=.5, threshold=.2, video_out=False, an
                'refinement': refined.refinement.value_counts().to_dict(),
                'frame_reasons': dict(reasons), 'sample_reasons': dict(Counter(r['reason'] for r in rows)),
                'parameters': {'step': step, 'threshold': threshold, 'seed': 0, 'opencv_threads': 1},
+               'motion_measure': 'Observed residual path length per full interval; missing frames add no distance. '
+                                 'Upper bound unavailable with missing evidence; body articulation is not excluded.',
                'environment': {'python': platform.python_version(), 'opencv': cv2.__version__,
                                'numpy': np.__version__, 'pandas': pd.__version__, 'platform': platform.platform()},
                'inputs': {'video': str(Path(video).resolve()), 'video_sha256': sha256(video),

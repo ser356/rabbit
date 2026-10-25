@@ -44,6 +44,23 @@
 			"isBackground": false,
 			"problemMatcher": [],
 			"group": "test"
+		},
+		{
+			"label": "RabbitSense: locomotion regression",
+			"type": "shell",
+			"command": "./RabbitSense_repo/.venv/bin/python",
+			"args": [
+				"-u",
+				"-m",
+				"rabbitsense.evaluate",
+				"--suite",
+				"RabbitSense_repo/benchmarks/local.json",
+				"--out",
+				"RabbitSense_repo/runs/locomotion_suite",
+				"--video-out"
+			],
+			"isBackground": false,
+			"problemMatcher": []
 		}
 	]
 }
