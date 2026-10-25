@@ -93,21 +93,28 @@ def clip_metrics(frame, labels, video_name):
             else:
                 events.append({'start_seconds': float(start), 'end_seconds': float(stop),
                                'duration_seconds': float(stop - start)})
+        detected = predicted == 'low_motion_candidate' and not events if clip.label == 'resting' else bool(events)
         rows.append({'clip_id': clip.clip_id, 'label': clip.label, 'prediction': predicted,
-                     'candidate_events': events,
+                     'candidate_events': events, 'detection_correct': detected,
                      'correct': predicted == mapping[clip.label], 'votes_seconds': votes,
                      'evaluated_seconds': total, 'clip_seconds': clip.duration_seconds,
                      'known_fraction': 1 - votes['unknown'] / total if total else 0.})
     recalls = [np.mean([r['correct'] for r in rows if r['label'] == label])
                for label in mapping if any(r['label'] == label for r in rows)]
     known = [r for r in rows if r['prediction'] != 'unknown']
+    detection = {label: [r['detection_correct'] for r in rows if r['label'] == label] for label in mapping}
     return {'clips': rows, 'n': len(rows),
+            'detection': {'locomotion_hits': sum(detection['locomotion']), 'locomotion_clips': len(detection['locomotion']),
+                          'resting_correct': sum(detection['resting']), 'resting_clips': len(detection['resting']),
+                          'resting_false_events': sum(bool(r['candidate_events']) for r in rows if r['label'] == 'resting')},
             'accuracy_including_abstentions': float(np.mean([r['correct'] for r in rows])) if rows else None,
             'accuracy_on_predicted': float(np.mean([r['correct'] for r in known])) if known else None,
             'clip_coverage': len(known) / len(rows) if rows else None,
             'balanced_accuracy': float(np.mean(recalls)) if len(recalls) == 2 else None,
             'warning': 'Reviewed legacy clip labels; not frame-level truth. Exploring is not a negative class. '
                        'Candidate events describe predictions, not event precision or recall. '
+                       'Detection: locomotion clip hit = at least one candidate episode; resting clip correct = '
+                       'low-motion strict majority and no episode. Abstention is never correct. '
                        'A single-class subset cannot establish specificity or balanced accuracy.'}
 
 
@@ -169,6 +176,34 @@ def compare(video, tracks, anchors, labels, out, video_out=False):
     return report
 
 
+def run_suite(suite, out, video_out=False):
+    manifest = Path(suite).resolve()
+    cases = json.loads(manifest.read_text())['cases']
+    reports = {}
+    for case in cases:
+        paths = {key: (manifest.parent / case[key]).resolve()
+                 for key in ('video', 'anchors', 'labels')}
+        destination = Path(out) / case['name']
+        destination.mkdir(parents=True, exist_ok=True)
+        if 'tracks' in case:
+            tracks = (manifest.parent / case['tracks']).resolve()
+        else:
+            tracks = destination / 'guides.csv'
+            cap = cv2.VideoCapture(str(paths['video']))
+            try:
+                if not cap.isOpened():
+                    raise ValueError(f'Vídeo ausente: {paths["video"]}')
+                anchors = load_anchors(paths['anchors'], int(cap.get(3)), int(cap.get(4)))
+                export_guides(anchors, cap.get(cv2.CAP_PROP_FPS),
+                              int(cap.get(cv2.CAP_PROP_FRAME_COUNT)), tracks)
+            finally:
+                cap.release()
+        reports[case['name']] = compare(paths['video'], tracks, paths['anchors'], paths['labels'],
+                                         destination, video_out)
+    Path(out, 'suite.json').write_text(json.dumps(reports, indent=2))
+    return reports
+
+
 def main():
     parser = argparse.ArgumentParser(description='Comparación reproducible, sin entrenamiento ni pseudoetiquetas')
     for name in ('video', 'tracks', 'anchors', 'labels'):
@@ -178,30 +213,7 @@ def main():
     parser.add_argument('--video-out', action='store_true')
     args = parser.parse_args()
     if args.suite:
-        manifest = Path(args.suite).resolve()
-        cases = json.loads(manifest.read_text())['cases']
-        reports = {}
-        for case in cases:
-            paths = {key: (manifest.parent / case[key]).resolve()
-                     for key in ('video', 'anchors', 'labels')}
-            destination = Path(args.out) / case['name']
-            destination.mkdir(parents=True, exist_ok=True)
-            if 'tracks' in case:
-                tracks = (manifest.parent / case['tracks']).resolve()
-            else:
-                tracks = destination / 'guides.csv'
-                cap = cv2.VideoCapture(str(paths['video']))
-                try:
-                    if not cap.isOpened():
-                        raise ValueError(f'Vídeo ausente: {paths["video"]}')
-                    anchors = load_anchors(paths['anchors'], int(cap.get(3)), int(cap.get(4)))
-                    export_guides(anchors, cap.get(cv2.CAP_PROP_FPS),
-                                  int(cap.get(cv2.CAP_PROP_FRAME_COUNT)), tracks)
-                finally:
-                    cap.release()
-            reports[case['name']] = compare(paths['video'], tracks, paths['anchors'], paths['labels'],
-                                             destination, args.video_out)
-        Path(args.out, 'suite.json').write_text(json.dumps(reports, indent=2))
+        run_suite(args.suite, args.out, args.video_out)
     else:
         if not all((args.video, args.tracks, args.anchors, args.labels)):
             parser.error('Indique --suite o bien --video, --tracks, --anchors y --labels.')

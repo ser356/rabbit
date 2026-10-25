@@ -10,6 +10,8 @@ Tres vídeos ejecutados; resultados y regresiones en [AUDITORIA.md](AUDITORIA.md
 
 La corrección temporal posterior, episodios candidatos y regresión de cobertura están en [LOCOMOCION.md](LOCOMOCION.md). No convierten las etiquetas mixtas por clip en verdad por fotograma.
 
+**Cierre de locomoción (v0.5.0):** corregida la medida que acumulaba ruido con los FPS e impedía clasificar reposo; criterios de cierre fijados antes de ejecutar sobre 5 clips de locomoción y 10 de reposo. **Veredicto pendiente de ejecutar en el Mac** con la tarea **RabbitSense: cierre locomoción**. Detalle en [LOCOMOCION.md](LOCOMOCION.md#cierre-v050).
+
 El seguimiento corporal persistente y YOLO-World local ya se ejecutaron: **ninguno resuelve la locomoción en estos vídeos**. Métodos, resultados negativos y reproducción en [EVIDENCIA_CORPORAL.md](EVIDENCIA_CORPORAL.md). Permanecen aislados del análisis habitual.
 
 - **v36** permanece como referencia predeterminada, no como verdad-terreno.
@@ -51,7 +53,7 @@ Salidas:
 
 - `tracks.csv`: guía original en `x,y,width,height`; propuesta en `refined_x,refined_y`; `bridge_points` y procedencia explícita. Las correcciones **no sobrescriben** las guías.
 - `motion.csv`: intervalo terminado en `seconds`, candidatos, abstenciones, velocidad en anchos de caja/s, banda de incertidumbre y calidad de evidencia.
-- En `flow`, velocidad = recorrido residual observado / duración completa, no desplazamiento neto. Con evidencia ausente, `speed_upper` queda vacío y no se declara bajo movimiento. La banda no está calibrada.
+- En `flow`, velocidad = diámetro de la trayectoria residual acumulada / duración completa; errores por fotograma en cuadratura y huecos sin puentear. Con evidencia ausente, `speed_upper` queda vacío y no se declara bajo movimiento. La banda no está calibrada.
 - `timeline.json`: intervalos contiguos; calidad ponderada por duración, **no probabilidad calibrada**.
 - `summary.json`: versiones, parámetros, hashes de entradas/código y advertencias.
 - `overlay.mp4`: fotogramas y FPS originales; gris = guía, verde = propuesta. Sin audio.
@@ -104,6 +106,7 @@ Recalcula V3.6/V3.7/flow/body con semilla 0 y un hilo OpenCV; compara rejilla co
 | [evaluate.py](src/rabbitsense/evaluate.py) | Holdout geométrico, comparación y clips |
 | [detector_audit.py](src/rabbitsense/detector_audit.py) | Auditoría opcional de pesos locales; no genera guías ni etiquetas |
 | [segment.py](src/rabbitsense/segment.py) | SAM2 opcional, máscaras, concordancia silueta/flujo, vídeo y evaluación reservada |
+| [closure.py](src/rabbitsense/closure.py) | Veredicto de locomoción con criterios fijados de antemano |
 | [__main__.py](src/rabbitsense/__main__.py) | CLI único |
 
 V3.6/V3.7 son referencias dentro del paquete, sin nuevas carpetas de desarrollo por versión; comparten funciones idénticas. Los scripts legacy y el directorio original de entrenamiento se conservan, pero no son la API pública.

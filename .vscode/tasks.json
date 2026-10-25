@@ -179,6 +179,103 @@
 			],
 			"isBackground": false,
 			"problemMatcher": []
+		},
+		{
+			"label": "RabbitSense: cierre locomoción",
+			"type": "shell",
+			"command": "./RabbitSense_repo/.venv/bin/python",
+			"args": [
+				"-u",
+				"-m",
+				"rabbitsense.closure",
+				"--suite",
+				"RabbitSense_repo/benchmarks/closure.json",
+				"--out",
+				"RabbitSense_repo/runs/closure"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "RabbitSense: SAM2 resting_972F",
+			"type": "shell",
+			"command": "/usr/bin/env",
+			"args": [
+				"PYTHONPATH=RabbitSense_repo/src",
+				"./RabbitSense_Training/.venv/bin/python",
+				"-u",
+				"-m",
+				"rabbitsense.segment",
+				"--video",
+				"RabbitSense_Training/data/cinna_review_v23/972F531F-A923-44DC-B69F-0B536A239FC3.mp4",
+				"--anchors",
+				"RabbitSense_Training/runs/anchors_v23/972F531F-A923-44DC-B69F-0B536A239FC3.mp4.json",
+				"--model",
+				"RabbitSense_repo/weights/sam2.1_s.pt",
+				"--out",
+				"RabbitSense_repo/runs/segmentation_localized/resting_972F",
+				"--guided",
+				"--device",
+				"mps"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "RabbitSense: SAM2 resting_4944",
+			"type": "shell",
+			"command": "/usr/bin/env",
+			"args": [
+				"PYTHONPATH=RabbitSense_repo/src",
+				"./RabbitSense_Training/.venv/bin/python",
+				"-u",
+				"-m",
+				"rabbitsense.segment",
+				"--video",
+				"RabbitSense_Training/data/cinna_review_v23/IMG_4944.MOV",
+				"--anchors",
+				"RabbitSense_Training/runs/anchors_v23/IMG_4944.MOV.json",
+				"--model",
+				"RabbitSense_repo/weights/sam2.1_s.pt",
+				"--out",
+				"RabbitSense_repo/runs/segmentation_localized/resting_4944",
+				"--guided",
+				"--device",
+				"mps"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "RabbitSense: cierre locomoción con SAM2",
+			"type": "shell",
+			"command": "./RabbitSense_repo/.venv/bin/python",
+			"args": [
+				"-u",
+				"-m",
+				"rabbitsense.closure",
+				"--suite",
+				"RabbitSense_repo/benchmarks/closure.json",
+				"--out",
+				"RabbitSense_repo/runs/closure_sam2",
+				"--segmentation",
+				"5177=RabbitSense_repo/runs/segmentation/5177",
+				"--segmentation",
+				"locomotion=RabbitSense_repo/runs/segmentation/locomotion",
+				"--segmentation",
+				"resting=RabbitSense_repo/runs/segmentation_localized/resting",
+				"--segmentation",
+				"resting_972F=RabbitSense_repo/runs/segmentation_localized/resting_972F",
+				"--segmentation",
+				"resting_4944=RabbitSense_repo/runs/segmentation_localized/resting_4944"
+			],
+			"dependsOn": [
+				"RabbitSense: SAM2 resting_972F",
+				"RabbitSense: SAM2 resting_4944"
+			],
+			"dependsOrder": "sequence",
+			"isBackground": false,
+			"problemMatcher": []
 		}
 	]
 }

@@ -65,6 +65,34 @@ def frame_evidence(prev, cur, box, rabbit):
     return result
 
 
+def runs(evidence, key):
+    """Consecutive measured frames; any gap starts a new run instead of being bridged."""
+    groups, current = [], []
+    for item in evidence:
+        if item['reason'] == 'measured' and key in item:
+            current.append(item)
+        elif current:
+            groups.append(current)
+            current = []
+    return groups + [current] if current else groups
+
+
+def trajectory_span(steps, errors):
+    """Diameter of the cumulative path and its bounds. Per-frame errors add in quadrature,
+    so noise grows with the square root of the frame count instead of linearly."""
+    positions = np.vstack([np.zeros(2), np.cumsum(steps, axis=0)])
+    variance = np.r_[0., np.cumsum(np.square(errors))]
+    distances = np.linalg.norm(positions[:, None] - positions[None, :], axis=2)
+    sigma = np.sqrt(np.abs(variance[:, None] - variance[None, :]))
+    return (float(distances.max()), float(np.maximum(0., distances - sigma).max()),
+            float((distances + sigma).max()))
+
+
+def span_over_runs(groups, vector, error):
+    spans = [trajectory_span(np.array([e[vector] for e in g]), np.array([e[error] for e in g])) for g in groups]
+    return tuple(max(values) for values in zip(*spans))
+
+
 def aggregate(evidence, duration, threshold, minimum_coverage=.8):
     good = [e for e in evidence if e['reason'] == 'measured']
     coverage = len(good) / max(1, len(evidence))
@@ -74,11 +102,9 @@ def aggregate(evidence, duration, threshold, minimum_coverage=.8):
            'rabbit_points': 0, 'interval_seconds': duration}
     if not good or duration <= 0:
         return row
-    distances = np.array([np.linalg.norm(e['vector']) for e in good])
-    errors = np.array([e['uncertainty'] for e in good])
-    speed = float(distances.sum() / duration)
-    lower = float(np.maximum(0., distances - errors).sum() / duration)
-    upper = float((distances + errors).sum() / duration) if coverage == 1. else None
+    span, lower, upper = span_over_runs(runs(evidence, 'vector'), 'vector', 'uncertainty')
+    speed, lower = span / duration, lower / duration
+    upper = upper / duration if coverage == 1. else None
     row.update(speed_bodywidths_s=speed, speed_lower=lower, speed_upper=upper,
                evidence_quality=float(coverage * np.mean([e['quality'] for e in good])),
                camera_error_px=float(np.mean([e['camera_error_px'] for e in good])),
@@ -92,11 +118,11 @@ def aggregate(evidence, duration, threshold, minimum_coverage=.8):
             row['reason'] = 'incomplete_interval' if upper is None else 'motion_near_uncertainty_band'
     centered = [e for e in good if 'centroid_vector' in e]
     if centered:
-        center_distances = np.array([np.linalg.norm(e['centroid_vector']) for e in centered])
-        center_errors = np.array([e['centroid_camera_error'] for e in centered])
-        center_adjusted = float(np.maximum(0., center_distances - center_errors).sum() / duration)
+        center_span, center_lower, _ = span_over_runs(runs(evidence, 'centroid_vector'),
+                                                      'centroid_vector', 'centroid_camera_error')
+        center_adjusted = center_lower / duration
         center_coverage = len(centered) / max(1, len(evidence))
-        row.update(centroid_speed_bodywidths_s=float(center_distances.sum() / duration),
+        row.update(centroid_speed_bodywidths_s=center_span / duration,
                    centroid_speed_camera_adjusted=center_adjusted, centroid_valid_fraction=center_coverage)
         if row['movement'] == 'locomotion_candidate' and (center_adjusted < threshold or center_coverage < minimum_coverage):
             row.update(movement='unknown', reason='surface_motion_without_centroid_translation')
@@ -222,7 +248,8 @@ def analyze(video, anchors_path, out, step=.5, threshold=.2, video_out=False, an
                'refinement': refined.refinement.value_counts().to_dict(),
                'frame_reasons': dict(reasons), 'sample_reasons': dict(Counter(r['reason'] for r in rows)),
                'parameters': {'step': step, 'threshold': threshold, 'seed': 0, 'opencv_threads': 1},
-               'motion_measure': 'Observed residual path length per full interval; missing frames add no distance. '
+               'motion_measure': 'Diameter of the cumulative camera-compensated residual path per full interval; '
+                                 'per-frame errors add in quadrature; gaps split the path and add no distance. '
                                  'Upper bound unavailable with missing evidence; body articulation is not excluded.',
                'environment': {'python': platform.python_version(), 'opencv': cv2.__version__,
                                'numpy': np.__version__, 'pandas': pd.__version__, 'platform': platform.platform()},

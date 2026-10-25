@@ -1,6 +1,65 @@
-# Locomoción: diagnóstico y corrección temporal
+# Locomoción: diagnóstico, corrección temporal y cierre
 
-## Resultado y decisión
+## Cierre (v0.5.0)
+
+### Qué faltaba
+
+1. **Un defecto de medida que impedía clasificar reposo.** `aggregate` sumaba longitudes y bandas de error fotograma a fotograma. El ruido y la banda crecían linealmente con los FPS: con un conejo quieto, la velocidad medida era ≈0,10 / 0,25 / 0,50 anchos/s a 12 / 30 / 60 FPS (simulación con ruido de 1 px y error estimado de 2 px, ancho 150 px). A 30 FPS el ruido ya superaba el umbral 0,2 y `low_motion` era prácticamente inalcanzable. Explica la abstención casi total de los controles de reposo, también con SAM2 (0/0/36).
+2. **Una métrica que no correspondía a las etiquetas.** Los clips de locomoción contienen pausas; la mayoría estricta penaliza un clip con desplazamiento real seguido de pausa. Faltaba una métrica de detección por clip.
+3. **Especificidad sustentada en un único vídeo** (4 clips de reposo).
+4. **Un criterio de cierre fijado de antemano.** Sin él, cada iteración producía otra comparación sin decisión.
+
+### Qué se cambió
+
+- **Medida.** Velocidad = diámetro de la trayectoria acumulada del residuo compensado por cámara, dividido por la duración del intervalo; misma definición que `body.py`. Errores por fotograma en cuadratura: el ruido crece con √n, no con n. Los huecos cortan la trayectoria; nunca se puentean ni extrapolan. La ida y vuelta no se cancela: cuenta la excursión máxima. Se aplica igual a la concordancia del centro de máscara SAM2. No se cambiaron umbral (0,2), rejilla (0,5 s), etiquetas ni anclas.
+- **Métrica de detección por clip** (`detection` en `clip_metrics`), además de la mayoría estricta, que se conserva:
+  - clip de locomoción acertado = al menos un episodio candidato dentro del clip;
+  - clip de reposo acertado = mayoría estricta de bajo movimiento medido **y** ningún episodio. La abstención nunca cuenta como acierto.
+- **Manifest de cierre** [benchmarks/closure.json](benchmarks/closure.json): los tres casos anteriores más dos controles de reposo con anclas V2.3 existentes (972F531F, 3 clips; IMG_4944, 3 clips). Total: **5 clips de locomoción en 2 vídeos y 10 de reposo en 3 vídeos.** `local.json` no cambia.
+- **Comando de cierre** `python -m rabbitsense.closure`: ejecuta la suite, opcionalmente mide máscaras SAM2 sobre **copias** (no sobrescribe resultados previos) y escribe `verdict.json` con hashes de código y manifest.
+
+### Criterios fijados antes de ejecutar (`closure.CRITERIA`)
+
+Un método **cierra la locomoción como resuelta en el benchmark de desarrollo** si cumple todo:
+
+| Criterio | Valor |
+|---|---|
+| Clips de locomoción evaluados | ≥ 5 |
+| Clips de reposo evaluados | ≥ 10 |
+| Sensibilidad por clip (agregada) | ≥ 0,8 (≥ 4/5) |
+| Especificidad por clip (agregada) | ≥ 0,8 (≥ 8/10) |
+| Cada vídeo con clips de locomoción | ≥ 1 acierto |
+
+Resultado posible, ambos cierran el tema:
+
+- `closed_resolved_on_development_benchmark`: se adopta el mejor método que pase como análisis de locomoción candidata. Alcance: vídeos de desarrollo y etiquetas por clip; no validación independiente, precisión temporal por evento ni indicador de bienestar.
+- `closed_not_resolvable_with_existing_data`: se archiva la locomoción con los datos actuales. Reabrirla exige datos nuevos (anotación por evento o vídeos con cámara fija), no otra iteración de umbrales.
+
+**No se modifican los criterios después de ver resultados.** Si se cambian, el veredicto anterior queda invalidado y se documenta.
+
+### Ejecutar (Mac, desde la raíz del workspace)
+
+1. Tarea VS Code **RabbitSense: cierre locomoción** → `runs/closure/verdict.json` (V3.6, V3.7, flow, body; CPU).
+2. Opcional, **RabbitSense: cierre locomoción con SAM2** → segmenta antes los dos controles nuevos con el protocolo guiado (anclas impares reservadas) y añade `sam2_masked_flow` en `runs/closure_sam2/verdict.json`. Requiere el entorno de entrenamiento con MPS y `weights/sam2.1_s.pt`.
+
+Equivalente por terminal:
+
+```bash
+RabbitSense_repo/.venv/bin/python -m rabbitsense.closure \
+  --suite RabbitSense_repo/benchmarks/closure.json --out RabbitSense_repo/runs/closure
+```
+
+### Estado de verificación
+
+- 53 pruebas pasan, incluida una ejecución extremo a extremo del cierre con vídeo y máscaras sintéticas.
+- Pruebas nuevas que **fallan con la medida anterior**: reposo a 30 FPS, traslación a 30/60 FPS, hueco no puenteado, ida/vuelta como diámetro.
+- **El veredicto sobre los vídeos reales no se ha ejecutado todavía**: los vídeos no están en Git. Hasta ejecutarlo, los recuentos de las secciones siguientes corresponden a la medida anterior (v0.4.0) y no deben citarse como resultado de v0.5.0.
+
+---
+
+## Diagnóstico previo (v0.4.0)
+
+### Resultado y decisión (v0.4.0)
 
 **Locomoción fiable no resuelta.** Se corrigieron dos defectos matemáticos y se separaron episodios candidatos de la clasificación mayoritaria de un clip. No se cambiaron umbrales, etiquetas ni anclas. V3.6 sigue como referencia predeterminada; `flow` continúa experimental.
 
