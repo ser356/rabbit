@@ -76,11 +76,26 @@ select(i);
 </script></html>'''
 
 
+VIDEO_SUFFIXES = ('.mov', '.mp4')
+
+
 def video_path(videos, name):
-    matches = sorted(p for p in Path(videos).expanduser().glob(f'{name}.*') if p.suffix.lower() in ('.mov', '.mp4'))
+    matches = sorted(p for p in Path(videos).expanduser().iterdir()
+                     if p.is_file() and p.stem == name and p.suffix.lower() in VIDEO_SUFFIXES)
     if len(matches) != 1:
         raise FileNotFoundError(f'Se esperaba un único vídeo {name}.MOV/.MP4 en {videos}; encontrados: {matches}')
     return matches[0].resolve()
+
+
+def discover(videos, pattern):
+    """Nombres (sin extensión) de los vídeos .mov/.mp4 que cumplen el patrón, p. ej. 'WhatsApp*'."""
+    names = sorted(p.stem for p in Path(videos).expanduser().glob(pattern)
+                   if p.is_file() and p.suffix.lower() in VIDEO_SUFFIXES)
+    if not names:
+        raise FileNotFoundError(f'Ningún vídeo .MOV/.MP4 con el patrón {pattern!r} en {videos}.')
+    if len(set(names)) != len(names):
+        raise ValueError('Hay vídeos con el mismo nombre y distinta extensión.')
+    return names
 
 
 def seeds(videos, names, out):
@@ -157,9 +172,16 @@ def grid(videos, names, output, length=4.):
     for name in names:
         capture = cv2.VideoCapture(str(video_path(videos, name)))
         fps, count = capture.get(cv2.CAP_PROP_FPS), int(capture.get(cv2.CAP_PROP_FRAME_COUNT))
-        capture.release()
         if not np.isfinite(fps) or fps <= 0 or count <= 0:
+            capture.release()
             raise ValueError(f'Metadatos inválidos: {name}.')
+        capture.set(cv2.CAP_PROP_POS_FRAMES, count - 1)
+        if capture.read()[0]:
+            real, assumed = capture.get(cv2.CAP_PROP_POS_MSEC) / 1000, (count - 1) / fps
+            if abs(real - assumed) > max(.25, .02 * assumed):
+                print(f'AVISO {name}: fotogramas a ritmo variable ({real:.2f} s reales frente a {assumed:.2f} s '
+                      'contados); los tiempos de revisión y de análisis pueden no coincidir.')
+        capture.release()
         duration = round(count / fps, 3)
         rows += [dict(video=name, start_s=start, end_s=round(min(start + length, duration), 3), label='unknown',
                       review_status='sin_etiquetar', notes='') for start in np.arange(0., duration, length)]
@@ -267,7 +289,6 @@ def main():
         command = sub.add_parser(name)
         command.add_argument('--videos', required=True, help='Carpeta con los .MOV originales')
         command.add_argument('--out', required=True)
-    sub.choices['seeds'].add_argument('--names', nargs='+', required=True)
     sub.choices['anchors'].add_argument('--seeds', required=True)
     sub.choices['anchors'].add_argument('--model', required=True)
     sub.choices['anchors'].add_argument('--device', choices=['cpu', 'mps'], default='mps')
@@ -279,11 +300,13 @@ def main():
     command = sub.add_parser('grid')
     for name in ('videos', 'output'):
         command.add_argument(f'--{name}', required=True)
-    command.add_argument('--names', nargs='+', required=True)
     command = sub.add_parser('manifest')
     for name in ('videos', 'labels', 'runs', 'output'):
         command.add_argument(f'--{name}', required=True)
-    command.add_argument('--names', nargs='+', required=True)
+    for name in ('seeds', 'grid', 'manifest'):
+        group = sub.choices[name].add_mutually_exclusive_group(required=True)
+        group.add_argument('--names', nargs='+')
+        group.add_argument('--pattern', help="Patrón de nombre, p. ej. 'WhatsApp*' (entre comillas)")
     command = sub.add_parser('run')
     for name in ('manifest', 'labels', 'out'):
         command.add_argument(f'--{name}', required=True)
@@ -293,6 +316,9 @@ def main():
                          help='Solo descriptivo: evalúa también propuestas no verificadas, marcadas como tales')
     command.add_argument('--informative', help='Manifest combinado, siempre informativo')
     args = parser.parse_args()
+    if getattr(args, 'pattern', None):
+        args.names = discover(args.videos, args.pattern)
+        print(f'{len(args.names)} vídeos:', *args.names, sep='\n  ')
     if args.command == 'seeds':
         print('Abre:', seeds(args.videos, args.names, args.out))
     elif args.command == 'anchors':

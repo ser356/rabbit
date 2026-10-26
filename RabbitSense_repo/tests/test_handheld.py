@@ -165,3 +165,25 @@ def test_grid_manifest_and_real_extension(tmp_path):
                                               tmp_path / 'm.json').read_text())['cases'][0]
     assert case['video'] == str((videos / 'NEW_1.mp4').resolve())
     assert case['masks'] == str((tmp_path / 'runs' / 'segmentation' / 'NEW_1').resolve())
+
+
+def test_pattern_finds_whatsapp_videos_with_spaces_and_dots(tmp_path):
+    videos = tmp_path / 'Downloads'
+    videos.mkdir()
+    names = ['WhatsApp Video 2026-10-26 at 12.34.56', 'WhatsApp Video 2026-10-26 at 12.40.01 (1)']
+    for name in names:
+        writer = cv2.VideoWriter(str(videos / f'{name}.mp4'), cv2.VideoWriter_fourcc(*'mp4v'), 10., (32, 24))
+        for _ in range(45):
+            writer.write(np.zeros((24, 32, 3), np.uint8))
+        writer.release()
+    (videos / 'WhatsApp Image 2026-10-26 at 12.00.00.jpeg').write_bytes(b'x')
+    (videos / 'IMG_5190.MOV').write_bytes(b'x')
+    assert handheld.discover(videos, 'WhatsApp*') == names
+    assert handheld.video_path(videos, names[1]).name == f'{names[1]}.mp4'
+    with pytest.raises(FileNotFoundError):
+        handheld.video_path(videos, 'WhatsApp Video 2026-10-26 at 12.34')
+    assert handheld.grid(videos, names, tmp_path / 'grid.csv') == 4
+    handheld.prepare(tmp_path / 'grid.csv', tmp_path / 'labels.csv', videos=videos)
+    assert set(pd.read_csv(tmp_path / 'labels.csv').video_id) == {f'{n}.mp4' for n in names}
+    with pytest.raises(FileNotFoundError):
+        handheld.discover(videos, 'Nada*')
