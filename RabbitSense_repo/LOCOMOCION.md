@@ -7,9 +7,9 @@
 | 5 vídeos de desarrollo | Flujo óptico (V3.6/V3.7/flow/body/SAM2) | Veredicto | Ningún método pasa |
 | **IMG_5190–5193, cámara en mano** | **Flujo óptico** | **Veredicto, test independiente** | **Ningún método pasa** |
 | **IMG_5190–5193, cámara en mano** | **X-CLIP zero-shot (preentrenado)** | **Veredicto, test independiente** | **No pasa** |
-| Desarrollo (+ nuevos) | Ambos | Informativo | Ningún método cumple umbrales |
+| **9 vídeos (validación cruzada)** | **Suelo + silueta SAM2** | **Sensibilidad validada 0,59** | **No alcanza 0,8: `not_resolved` por protocolo** |
 
-Dos enfoques distintos fallan en el mismo test independiente: el flujo óptico por la compensación de cámara y la pérdida de seguimiento, y el modelo vídeo-texto preentrenado porque no discrimina. No se graban más vídeos ni se ajustan variantes sobre estos datos. **La locomoción queda cerrada como no resuelta.** Reabrirla exigiría entrenar o ajustar un modelo con ejemplos etiquetados de locomoción de Cinna que hoy no existen en cantidad suficiente.
+Tres enfoques distintos fallan: el flujo óptico por la compensación de cámara y la pérdida de seguimiento; X-CLIP porque no discrimina; suelo + silueta porque SAM2 pierde a Cinna, los desplazamientos lentos quedan bajo cualquier umbral y la máscara salta en reposo. Con los vídeos nuevos, casi todos de reposo, el protocolo ya fija `not_resolved`. **La locomoción queda cerrada como no resuelta.** Reabrirla exige vídeos con locomoción etiquetada en cantidad suficiente, al menos decenas de clips, para desarrollar y validar con datos que no se hayan usado.
 
 ## Reapertura: suelo + silueta con vídeos nuevos (pre-registrado el 2026-10-26)
 
@@ -39,6 +39,29 @@ Con vídeo sintético, si la cámara se desplaza y el conejo está quieto, la ve
   - `not_resolved`;
   - `descriptive_only_insufficient_sample`: menos de 10 clips de reposo nuevos.
 - **Una ejecución:** si el test falla, no se ajusta la regla sobre esos vídeos.
+
+## Resultado del desarrollo de suelo + silueta (2026-10-26)
+
+Ejecución de desarrollo en el Mac con el código commiteado (hashes verificados). Características y veredicto en [cierre/silueta_dev](cierre/silueta_dev/). La selección y la validación cruzada (`silhouette develop`) se ejecutaron sin cambios en la lista de candidatas. La regla congelada está en [benchmarks/silueta_regla.json](benchmarks/silueta_regla.json).
+
+| | Locomoción | Reposo | Episodios falsos |
+|---|---:|---:|---:|
+| Regla por defecto (suelo, 0,2), 9 vídeos | 12/17 | 7/22 | 11 |
+| **Validación cruzada por vídeo** | **10/17 (0,59)** | 10/22 (0,45) | 7 |
+
+**Regla congelada:** solo suelo, umbral 0,3. Incluso sobre todos los datos de desarrollo, la mejor de las 28 candidatas solo alcanza 0,45 en min(sensibilidad, especificidad): las características no separan las clases en estos vídeos, y no es cuestión de ajustar umbrales. La sensibilidad validada no llega a 0,8 y hay vídeos de locomoción sin ningún acierto (AE22 0/2, IMG_5191 0/3).
+
+**Consecuencia pre-registrada:** los vídeos nuevos son casi todos de reposo. Con menos de 5 clips de locomoción en ellos, la sensibilidad sale de la validación cruzada (0,59 < 0,8) y el estado es `not_resolved`, sea cual sea la especificidad. Ejecutar el test solo mediría la especificidad, como dato informativo.
+
+**Causas observadas, clip a clip:**
+
+1. **SAM2 pierde a Cinna:** IMG_5191 no tiene máscara entre 12 y 24 s, justo los 3 clips de locomoción.
+2. **Desplazamiento lento:** AE22 avanza despacio olfateando a 0,04–0,08 tamaños/s, indistinguible del reposo con cualquier umbral razonable.
+3. **Saltos de la máscara en reposo:** intervalos aislados con 0,6–3 tamaños/s y cambio grande de elongación. Compatible con la máscara ganando o perdiendo orejas, mano o sombra de golpe.
+
+Donde la máscara es estable y hay suelo visible, sí separa reposo y desplazamiento; por ejemplo, IMG_5190 44–48 s frente a 20–36 s.
+
+No se añaden candidatas a la vista de estos resultados, por ejemplo exigir dos intervalos consecutivos para filtrar los saltos aislados: la validación cruzada dejaría de ser honesta. Serían hipótesis para datos nuevos con locomoción etiquetada.
 
 ## Resultado X-CLIP zero-shot (2026-10-26)
 

@@ -1,0 +1,540 @@
+{
+  "rule": {
+    "kind": "floor",
+    "threshold": 0.3
+  },
+  "criteria": {
+    "minimum_locomotion_clips": 5,
+    "minimum_resting_clips": 10,
+    "sensitivity": 0.8,
+    "specificity": 0.8,
+    "hit_per_locomotion_video": 1
+  },
+  "cross_validated": {
+    "locomotion_hits": 10,
+    "locomotion_clips": 17,
+    "resting_correct": 10,
+    "resting_clips": 22,
+    "resting_false_events": 7,
+    "per_video": {
+      "5177": {
+        "locomotion_hits": 3,
+        "locomotion_clips": 3,
+        "resting_correct": 0,
+        "resting_clips": 0,
+        "resting_false_events": 0
+      },
+      "locomotion": {
+        "locomotion_hits": 0,
+        "locomotion_clips": 2,
+        "resting_correct": 0,
+        "resting_clips": 0,
+        "resting_false_events": 0
+      },
+      "resting": {
+        "locomotion_hits": 0,
+        "locomotion_clips": 0,
+        "resting_correct": 1,
+        "resting_clips": 4,
+        "resting_false_events": 1
+      },
+      "resting_972F": {
+        "locomotion_hits": 0,
+        "locomotion_clips": 0,
+        "resting_correct": 2,
+        "resting_clips": 3,
+        "resting_false_events": 1
+      },
+      "resting_4944": {
+        "locomotion_hits": 0,
+        "locomotion_clips": 0,
+        "resting_correct": 0,
+        "resting_clips": 3,
+        "resting_false_events": 1
+      },
+      "IMG_5190": {
+        "locomotion_hits": 5,
+        "locomotion_clips": 7,
+        "resting_correct": 5,
+        "resting_clips": 9,
+        "resting_false_events": 4
+      },
+      "IMG_5191": {
+        "locomotion_hits": 0,
+        "locomotion_clips": 3,
+        "resting_correct": 2,
+        "resting_clips": 3,
+        "resting_false_events": 0
+      },
+      "IMG_5192": {
+        "locomotion_hits": 2,
+        "locomotion_clips": 2,
+        "resting_correct": 0,
+        "resting_clips": 0,
+        "resting_false_events": 0
+      },
+      "IMG_5193": {
+        "locomotion_hits": 0,
+        "locomotion_clips": 0,
+        "resting_correct": 0,
+        "resting_clips": 0,
+        "resting_false_events": 0
+      }
+    }
+  },
+  "held_out": {
+    "5177": {
+      "rule": {
+        "kind": "floor",
+        "threshold": 0.3
+      },
+      "detection": {
+        "locomotion_hits": 3,
+        "locomotion_clips": 3,
+        "resting_correct": 0,
+        "resting_clips": 0,
+        "resting_false_events": 0
+      }
+    },
+    "locomotion": {
+      "rule": {
+        "kind": "floor",
+        "threshold": 0.3
+      },
+      "detection": {
+        "locomotion_hits": 0,
+        "locomotion_clips": 2,
+        "resting_correct": 0,
+        "resting_clips": 0,
+        "resting_false_events": 0
+      }
+    },
+    "resting": {
+      "rule": {
+        "kind": "floor",
+        "threshold": 0.3
+      },
+      "detection": {
+        "locomotion_hits": 0,
+        "locomotion_clips": 0,
+        "resting_correct": 1,
+        "resting_clips": 4,
+        "resting_false_events": 1
+      }
+    },
+    "resting_972F": {
+      "rule": {
+        "kind": "floor",
+        "threshold": 0.3
+      },
+      "detection": {
+        "locomotion_hits": 0,
+        "locomotion_clips": 0,
+        "resting_correct": 2,
+        "resting_clips": 3,
+        "resting_false_events": 1
+      }
+    },
+    "resting_4944": {
+      "rule": {
+        "kind": "floor",
+        "threshold": 0.3
+      },
+      "detection": {
+        "locomotion_hits": 0,
+        "locomotion_clips": 0,
+        "resting_correct": 0,
+        "resting_clips": 3,
+        "resting_false_events": 1
+      }
+    },
+    "IMG_5190": {
+      "rule": {
+        "kind": "floor",
+        "threshold": 0.3
+      },
+      "detection": {
+        "locomotion_hits": 5,
+        "locomotion_clips": 7,
+        "resting_correct": 5,
+        "resting_clips": 9,
+        "resting_false_events": 4
+      }
+    },
+    "IMG_5191": {
+      "rule": {
+        "kind": "floor",
+        "threshold": 0.3
+      },
+      "detection": {
+        "locomotion_hits": 0,
+        "locomotion_clips": 3,
+        "resting_correct": 2,
+        "resting_clips": 3,
+        "resting_false_events": 0
+      }
+    },
+    "IMG_5192": {
+      "rule": {
+        "kind": "floor",
+        "threshold": 0.3
+      },
+      "detection": {
+        "locomotion_hits": 2,
+        "locomotion_clips": 2,
+        "resting_correct": 0,
+        "resting_clips": 0,
+        "resting_false_events": 0
+      }
+    },
+    "IMG_5193": {
+      "rule": {
+        "kind": "floor",
+        "threshold": 0.3
+      },
+      "detection": {
+        "locomotion_hits": 0,
+        "locomotion_clips": 0,
+        "resting_correct": 0,
+        "resting_clips": 0,
+        "resting_false_events": 0
+      }
+    }
+  },
+  "training_scores": [
+    {
+      "rule": {
+        "kind": "floor",
+        "threshold": 0.15
+      },
+      "objective": [
+        0.18181818181818182,
+        -11
+      ]
+    },
+    {
+      "rule": {
+        "kind": "floor",
+        "threshold": 0.2
+      },
+      "objective": [
+        0.3181818181818182,
+        -11
+      ]
+    },
+    {
+      "rule": {
+        "kind": "floor",
+        "threshold": 0.3
+      },
+      "objective": [
+        0.45454545454545453,
+        -7
+      ]
+    },
+    {
+      "rule": {
+        "kind": "floor",
+        "threshold": 0.4
+      },
+      "objective": [
+        0.45454545454545453,
+        -7
+      ]
+    },
+    {
+      "rule": {
+        "kind": "floor_shape",
+        "threshold": 0.15,
+        "shape": 0.05
+      },
+      "objective": [
+        0.18181818181818182,
+        -11
+      ]
+    },
+    {
+      "rule": {
+        "kind": "floor_shape",
+        "threshold": 0.15,
+        "shape": 0.1
+      },
+      "objective": [
+        0.22727272727272727,
+        -10
+      ]
+    },
+    {
+      "rule": {
+        "kind": "floor_shape",
+        "threshold": 0.15,
+        "shape": 0.2
+      },
+      "objective": [
+        0.22727272727272727,
+        -8
+      ]
+    },
+    {
+      "rule": {
+        "kind": "floor_shape",
+        "threshold": 0.2,
+        "shape": 0.05
+      },
+      "objective": [
+        0.3181818181818182,
+        -11
+      ]
+    },
+    {
+      "rule": {
+        "kind": "floor_shape",
+        "threshold": 0.2,
+        "shape": 0.1
+      },
+      "objective": [
+        0.36363636363636365,
+        -10
+      ]
+    },
+    {
+      "rule": {
+        "kind": "floor_shape",
+        "threshold": 0.2,
+        "shape": 0.2
+      },
+      "objective": [
+        0.36363636363636365,
+        -8
+      ]
+    },
+    {
+      "rule": {
+        "kind": "floor_shape",
+        "threshold": 0.3,
+        "shape": 0.05
+      },
+      "objective": [
+        0.45454545454545453,
+        -7
+      ]
+    },
+    {
+      "rule": {
+        "kind": "floor_shape",
+        "threshold": 0.3,
+        "shape": 0.1
+      },
+      "objective": [
+        0.45454545454545453,
+        -7
+      ]
+    },
+    {
+      "rule": {
+        "kind": "floor_shape",
+        "threshold": 0.3,
+        "shape": 0.2
+      },
+      "objective": [
+        0.45454545454545453,
+        -7
+      ]
+    },
+    {
+      "rule": {
+        "kind": "floor_shape",
+        "threshold": 0.4,
+        "shape": 0.05
+      },
+      "objective": [
+        0.45454545454545453,
+        -7
+      ]
+    },
+    {
+      "rule": {
+        "kind": "floor_shape",
+        "threshold": 0.4,
+        "shape": 0.1
+      },
+      "objective": [
+        0.45454545454545453,
+        -7
+      ]
+    },
+    {
+      "rule": {
+        "kind": "floor_shape",
+        "threshold": 0.4,
+        "shape": 0.2
+      },
+      "objective": [
+        0.45454545454545453,
+        -7
+      ]
+    },
+    {
+      "rule": {
+        "kind": "floor_or_shape",
+        "threshold": 0.15,
+        "shape": 0.1
+      },
+      "objective": [
+        0.13636363636363635,
+        -18
+      ]
+    },
+    {
+      "rule": {
+        "kind": "floor_or_shape",
+        "threshold": 0.15,
+        "shape": 0.2
+      },
+      "objective": [
+        0.13636363636363635,
+        -17
+      ]
+    },
+    {
+      "rule": {
+        "kind": "floor_or_shape",
+        "threshold": 0.15,
+        "shape": 0.3
+      },
+      "objective": [
+        0.18181818181818182,
+        -13
+      ]
+    },
+    {
+      "rule": {
+        "kind": "floor_or_shape",
+        "threshold": 0.2,
+        "shape": 0.1
+      },
+      "objective": [
+        0.18181818181818182,
+        -17
+      ]
+    },
+    {
+      "rule": {
+        "kind": "floor_or_shape",
+        "threshold": 0.2,
+        "shape": 0.2
+      },
+      "objective": [
+        0.22727272727272727,
+        -16
+      ]
+    },
+    {
+      "rule": {
+        "kind": "floor_or_shape",
+        "threshold": 0.2,
+        "shape": 0.3
+      },
+      "objective": [
+        0.2727272727272727,
+        -13
+      ]
+    },
+    {
+      "rule": {
+        "kind": "floor_or_shape",
+        "threshold": 0.3,
+        "shape": 0.1
+      },
+      "objective": [
+        0.3181818181818182,
+        -14
+      ]
+    },
+    {
+      "rule": {
+        "kind": "floor_or_shape",
+        "threshold": 0.3,
+        "shape": 0.2
+      },
+      "objective": [
+        0.3181818181818182,
+        -14
+      ]
+    },
+    {
+      "rule": {
+        "kind": "floor_or_shape",
+        "threshold": 0.3,
+        "shape": 0.3
+      },
+      "objective": [
+        0.4090909090909091,
+        -11
+      ]
+    },
+    {
+      "rule": {
+        "kind": "floor_or_shape",
+        "threshold": 0.4,
+        "shape": 0.1
+      },
+      "objective": [
+        0.3181818181818182,
+        -14
+      ]
+    },
+    {
+      "rule": {
+        "kind": "floor_or_shape",
+        "threshold": 0.4,
+        "shape": 0.2
+      },
+      "objective": [
+        0.3181818181818182,
+        -14
+      ]
+    },
+    {
+      "rule": {
+        "kind": "floor_or_shape",
+        "threshold": 0.4,
+        "shape": 0.3
+      },
+      "objective": [
+        0.4090909090909091,
+        -11
+      ]
+    }
+  ],
+  "protocol": "Leave-one-video-out over development videos; selection maximizes min(sensitivity, specificity) of clip detection, then fewer false episodes, then candidate order.",
+  "motion_sha256": {
+    "5177": "6cecaf494b8b74464d36716b064aaeee16c392260fa8f72a7a3669aa629ff761",
+    "locomotion": "8e14f6b21109b5b88687af1a99bccf1e75b3fb7d3a7fcd90b80d3c17cbea7709",
+    "resting": "036f98320df4e67c0274b942218c9cb64da07b34eaab4c60f717904fd4d24195",
+    "resting_972F": "6ea7a0b80dab94c398c83a3527a54381387b9660cc578a6dc64b0f4281e79b02",
+    "resting_4944": "dd842f65abb7146bad0d5d13516f4036dc7adad6068343ee351c0ad3fc110ecd",
+    "IMG_5190": "c4b24a231008b566c8a9153669337faf0fadf939ae76d3b5b133a94c71c3ae73",
+    "IMG_5191": "ab32e9738ebf7878294af1ac1c4d4859293cc34fa9363fc3561b08e569329d44",
+    "IMG_5192": "adb7204338b437ae1fecb500fc58efe5eaba5e590985f97cae7d31a2dde32bbf",
+    "IMG_5193": "29f66500f0f8a23feb207f1d437724adf91dc2f29bf5f0b7ad40d3400e01daa5"
+  },
+  "manifest_sha256": "9872b060b272ae29999e6ed362011f370e3ff07a5baf24d174f8ab2b1cc3021d",
+  "source_sha256": {
+    "body.py": "cbf86261d9c0555874b772e8abfeed6fdc4c102afc0666eae12ebeb1918a1973",
+    "v37.py": "a5d146ad05f940c2b7137b29de0db3910a80b5470bf1424ad828439929711df4",
+    "__init__.py": "b2988ffa8646ca94649ef7296a741e22d7acd1a077c0bc13cbfab00675bd0fe9",
+    "detector_audit.py": "4259348dc03246b1589c356aa5561dd0622a1fc6e18b1224131ddbeb35d5921e",
+    "closure.py": "c56f9d6c367af5bf5e7ced159b055bc52a32d881735f0abb5858489790931958",
+    "silhouette.py": "a45ecfec28181cbe07c896cac2910299c25c686b2062a55d6bd44739df712051",
+    "evaluate.py": "d461822e0f9c71fc2c35b8a858007869f0fd9c47337906379f003a03f644afa5",
+    "bridge.py": "19e0f80e3fb6a1665a40670eb51fa139f100af07b605404cbd20013fe8a1c6ff",
+    "v36.py": "476c24d8a5ed256f1a788fd3d134e0be766244227d739d9a8bf7ea8a250c7e91",
+    "handheld.py": "8a6bf2435930c5e69ec74028b26b69901ee695e922c24ad45dd7970789f4e355",
+    "motion.py": "948f9e8daf9c352930c1e1f66dc253990a9cc367167933a8b2b96a686db32c87",
+    "__main__.py": "b6a3089000284632d8404c674d60d8f43b1a840a3505c64c7cce94cdd448d89b",
+    "tracking.py": "6ec03ee6e39a746e69ba6db99aac850fc1c621d0cca7e98758004a00e02f9cdf",
+    "zeroshot.py": "18af487523e6eccc1ad338763e5fa57f6329788023c1eaa4cf444faf3c7c7f5f",
+    "segment.py": "125da7808c8c109ff70dcacedcad1aa9abfb7cf82846b88cf34c98465c9aa8de"
+  }
+}

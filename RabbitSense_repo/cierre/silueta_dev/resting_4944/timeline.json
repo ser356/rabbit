@@ -1,0 +1,56 @@
+[
+  {
+    "start_seconds": 0.0,
+    "end_seconds": 2.0,
+    "movement": "low_motion_candidate",
+    "evidence_quality": 0.9433506321098653
+  },
+  {
+    "start_seconds": 2.0,
+    "end_seconds": 2.5,
+    "movement": "locomotion_candidate",
+    "evidence_quality": 0.9108830423728186
+  },
+  {
+    "start_seconds": 2.5,
+    "end_seconds": 3.0,
+    "movement": "unknown",
+    "evidence_quality": 0.9000135415103675
+  },
+  {
+    "start_seconds": 3.0,
+    "end_seconds": 3.5,
+    "movement": "locomotion_candidate",
+    "evidence_quality": 0.593582051290035
+  },
+  {
+    "start_seconds": 3.5,
+    "end_seconds": 4.0,
+    "movement": "unknown",
+    "evidence_quality": 0.4676474094013228
+  },
+  {
+    "start_seconds": 4.0,
+    "end_seconds": 4.5,
+    "movement": "locomotion_candidate",
+    "evidence_quality": 0.8414000535562968
+  },
+  {
+    "start_seconds": 4.5,
+    "end_seconds": 9.5,
+    "movement": "unknown",
+    "evidence_quality": 0.18152347042458825
+  },
+  {
+    "start_seconds": 9.5,
+    "end_seconds": 10.0,
+    "movement": "low_motion_candidate",
+    "evidence_quality": 0.9590434033021241
+  },
+  {
+    "start_seconds": 10.0,
+    "end_seconds": 10.416666666666666,
+    "movement": "unknown",
+    "evidence_quality": 0.7769578641249344
+  }
+]

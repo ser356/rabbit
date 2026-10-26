@@ -10,7 +10,7 @@ Tres vídeos ejecutados; resultados y regresiones en [AUDITORIA.md](AUDITORIA.md
 
 La corrección temporal posterior, episodios candidatos y regresión de cobertura están en [LOCOMOCION.md](LOCOMOCION.md). No convierten las etiquetas mixtas por clip en verdad por fotograma.
 
-**Locomoción: cerrada, no resuelta (2026-10-26).** En el test independiente con cámara en mano (IMG_5190–5193) fallan dos enfoques distintos: flujo óptico (flow 7/12 locomoción, 3/12 reposo) y X-CLIP zero-shot preentrenado (9/12, 1/12, 11 episodios falsos). No se graban más vídeos. Detalle en [LOCOMOCION.md](LOCOMOCION.md).
+**Locomoción: cerrada, no resuelta (2026-10-26).** Fallan tres enfoques: flujo óptico y X-CLIP en el test independiente con cámara en mano, y suelo + silueta SAM2 con sensibilidad validada 0,59 (mínimo 0,8). Detalle en [LOCOMOCION.md](LOCOMOCION.md).
 
 El seguimiento corporal persistente y YOLO-World local ya se ejecutaron: **ninguno resuelve la locomoción en estos vídeos**. Métodos, resultados negativos y reproducción en [EVIDENCIA_CORPORAL.md](EVIDENCIA_CORPORAL.md). Permanecen aislados del análisis habitual.
 

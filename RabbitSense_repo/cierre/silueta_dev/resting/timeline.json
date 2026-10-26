@@ -1,0 +1,44 @@
+[
+  {
+    "start_seconds": 0.0,
+    "end_seconds": 1.0,
+    "movement": "unknown",
+    "evidence_quality": 0.3298611111111111
+  },
+  {
+    "start_seconds": 1.0,
+    "end_seconds": 1.5,
+    "movement": "locomotion_candidate",
+    "evidence_quality": 0.805482609710551
+  },
+  {
+    "start_seconds": 1.5,
+    "end_seconds": 4.0,
+    "movement": "unknown",
+    "evidence_quality": 0.0
+  },
+  {
+    "start_seconds": 4.0,
+    "end_seconds": 10.0,
+    "movement": "low_motion_candidate",
+    "evidence_quality": 0.9869622399442646
+  },
+  {
+    "start_seconds": 10.0,
+    "end_seconds": 16.5,
+    "movement": "unknown",
+    "evidence_quality": 0.2593982712254309
+  },
+  {
+    "start_seconds": 16.5,
+    "end_seconds": 17.0,
+    "movement": "low_motion_candidate",
+    "evidence_quality": 0.7848996387599328
+  },
+  {
+    "start_seconds": 17.0,
+    "end_seconds": 17.5,
+    "movement": "unknown",
+    "evidence_quality": 0.6821589167200334
+  }
+]
