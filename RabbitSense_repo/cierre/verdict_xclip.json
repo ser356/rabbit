@@ -1,0 +1,743 @@
+{
+  "status": "closed_not_resolvable_with_existing_data",
+  "passing_methods": [],
+  "criteria": {
+    "minimum_locomotion_clips": 5,
+    "minimum_resting_clips": 10,
+    "sensitivity": 0.8,
+    "specificity": 0.8,
+    "hit_per_locomotion_video": 1
+  },
+  "methods": {
+    "xclip": {
+      "passed": false,
+      "checks": {
+        "enough_locomotion_clips": true,
+        "enough_resting_clips": true,
+        "sensitivity": false,
+        "specificity": false,
+        "hit_in_every_locomotion_video": false
+      },
+      "sensitivity": 0.75,
+      "specificity": 0.08333333333333333,
+      "locomotion_hits": 9,
+      "locomotion_clips": 12,
+      "resting_correct": 1,
+      "resting_clips": 12,
+      "resting_false_events": 11,
+      "per_video": {
+        "IMG_5190": {
+          "locomotion_hits": 7,
+          "locomotion_clips": 7,
+          "resting_correct": 1,
+          "resting_clips": 9,
+          "resting_false_events": 8
+        },
+        "IMG_5191": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 3,
+          "resting_correct": 0,
+          "resting_clips": 3,
+          "resting_false_events": 3
+        },
+        "IMG_5192": {
+          "locomotion_hits": 2,
+          "locomotion_clips": 2,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0
+        },
+        "IMG_5193": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0
+        }
+      }
+    }
+  },
+  "scope": "Reviewed legacy clip labels on development videos; not frame-level truth, not an independent test and not a welfare indicator. A pass means candidate locomotion episodes appear in locomotion clips and measured low motion without episodes in resting clips.",
+  "inputs": {
+    "IMG_5190": {
+      "video": {
+        "path": "/Users/sergiogarciaseco/Downloads/IMG_5190.MOV",
+        "sha256": "dd9da0733463690e3a528c41103fe00d5604bd6cbf3e2cc44cbdd1389d7fb179"
+      },
+      "anchors": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_repo/runs/handheld/anchors/IMG_5190.json",
+        "sha256": "acebf8195e2549b976c113fb5b9a9fadccec3062aa1822943753cfdee1e2e7b7"
+      },
+      "labels": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_ARCHIVO/etiquetas_mano.csv",
+        "sha256": "6779e876d66c9838d6425353fd37a803f876e99139804dd8631b299355fc3844"
+      }
+    },
+    "IMG_5191": {
+      "video": {
+        "path": "/Users/sergiogarciaseco/Downloads/IMG_5191.MOV",
+        "sha256": "94f4375ea82962752c0b60da136c3d0f7360a9c4f1bac0ea633c67e718aadeb0"
+      },
+      "anchors": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_repo/runs/handheld/anchors/IMG_5191.json",
+        "sha256": "9218cb170ac18e3ef3f1c99afce038dec45499b66ac62ede275cd320ed3be0bd"
+      },
+      "labels": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_ARCHIVO/etiquetas_mano.csv",
+        "sha256": "6779e876d66c9838d6425353fd37a803f876e99139804dd8631b299355fc3844"
+      }
+    },
+    "IMG_5192": {
+      "video": {
+        "path": "/Users/sergiogarciaseco/Downloads/IMG_5192.MOV",
+        "sha256": "592ac09a9e14bd446a4efef176b811159b9966672f8c4ce4b1c7f0b3a929eb26"
+      },
+      "anchors": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_repo/runs/handheld/anchors/IMG_5192.json",
+        "sha256": "69a9c5d2c23586e404fe62e67d1b2c2b73699fb91e731d441bcfc37e44943b68"
+      },
+      "labels": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_ARCHIVO/etiquetas_mano.csv",
+        "sha256": "6779e876d66c9838d6425353fd37a803f876e99139804dd8631b299355fc3844"
+      }
+    },
+    "IMG_5193": {
+      "video": {
+        "path": "/Users/sergiogarciaseco/Downloads/IMG_5193.MOV",
+        "sha256": "a5f90eabbf9ada805745dc2cc593050d5621a662ecf79cf44c97822035abfca5"
+      },
+      "anchors": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_repo/runs/handheld/anchors/IMG_5193.json",
+        "sha256": "073c6f0e5bc6d0eee8a26b3dfa647302b36988adb425557d35f23618a355094d"
+      },
+      "labels": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_ARCHIVO/etiquetas_mano.csv",
+        "sha256": "6779e876d66c9838d6425353fd37a803f876e99139804dd8631b299355fc3844"
+      }
+    }
+  },
+  "manifest_sha256": "ea774273622c0fef4132ced2112c0f123d7bed748aba1c446f132a0a3001c18d",
+  "source_sha256": {
+    "detector_audit.py": "4259348dc03246b1589c356aa5561dd0622a1fc6e18b1224131ddbeb35d5921e",
+    "body.py": "cbf86261d9c0555874b772e8abfeed6fdc4c102afc0666eae12ebeb1918a1973",
+    "zeroshot.py": "1e2da5e27e0db416c6cb358582a7cc9c5818d7224836619133549010459da91c",
+    "bridge.py": "19e0f80e3fb6a1665a40670eb51fa139f100af07b605404cbd20013fe8a1c6ff",
+    "__init__.py": "b2988ffa8646ca94649ef7296a741e22d7acd1a077c0bc13cbfab00675bd0fe9",
+    "motion.py": "948f9e8daf9c352930c1e1f66dc253990a9cc367167933a8b2b96a686db32c87",
+    "evaluate.py": "d461822e0f9c71fc2c35b8a858007869f0fd9c47337906379f003a03f644afa5",
+    "segment.py": "125da7808c8c109ff70dcacedcad1aa9abfb7cf82846b88cf34c98465c9aa8de",
+    "v36.py": "476c24d8a5ed256f1a788fd3d134e0be766244227d739d9a8bf7ea8a250c7e91",
+    "tracking.py": "6ec03ee6e39a746e69ba6db99aac850fc1c621d0cca7e98758004a00e02f9cdf",
+    "__main__.py": "b6a3089000284632d8404c674d60d8f43b1a840a3505c64c7cce94cdd448d89b",
+    "closure.py": "d2140c4991c5202d0ceb7406c218c6d987f149c576ddd4a94cd084cf9123dc34",
+    "handheld.py": "5742a8b3bbcc8e137cdadaa483afc34ef8396ba309e6e523445da6ce6b1873d0",
+    "v37.py": "a5d146ad05f940c2b7137b29de0db3910a80b5470bf1424ad828439929711df4"
+  },
+  "method": {
+    "prompts": {
+      "locomotion": [
+        "a rabbit hopping across the floor",
+        "a rabbit walking across the room",
+        "a rabbit running"
+      ],
+      "stationary": [
+        "a rabbit sitting still",
+        "a rabbit lying down resting",
+        "a rabbit sitting and looking around",
+        "a rabbit grooming itself"
+      ]
+    },
+    "frames": 8,
+    "spacing_seconds": 0.25,
+    "lead_seconds": 1.25,
+    "band": [
+      0.4,
+      0.6
+    ],
+    "crop_scale": 2.0,
+    "size": 224,
+    "scorer": {
+      "model_id": "microsoft/xclip-base-patch32",
+      "revision": null,
+      "torch": "2.14.1",
+      "transformers": "5.20.2",
+      "device": "mps"
+    },
+    "python": "3.12.15",
+    "opencv": "4.14.0"
+  },
+  "clips": {
+    "IMG_5190": {
+      "clips": [
+        {
+          "clip_id": "mano_IMG_5190_0",
+          "label": "locomotion",
+          "prediction": "unknown",
+          "candidate_events": [
+            {
+              "start_seconds": 0.9931017214397496,
+              "end_seconds": 2.482754303599374,
+              "duration_seconds": 1.4896525821596245
+            }
+          ],
+          "detection_correct": true,
+          "correct": false,
+          "votes_seconds": {
+            "locomotion_candidate": 1.4896525821596245,
+            "low_motion_candidate": 0.0,
+            "unknown": 2.482754303599374
+          },
+          "evaluated_seconds": 3.9724068857589985,
+          "clip_seconds": 4.0,
+          "known_fraction": 0.375
+        },
+        {
+          "clip_id": "mano_IMG_5190_4",
+          "label": "locomotion",
+          "prediction": "unknown",
+          "candidate_events": [
+            {
+              "start_seconds": 6.455161189358373,
+              "end_seconds": 7.944813771517997,
+              "duration_seconds": 1.489652582159624
+            }
+          ],
+          "detection_correct": true,
+          "correct": false,
+          "votes_seconds": {
+            "locomotion_candidate": 1.489652582159624,
+            "low_motion_candidate": 0.99310172143975,
+            "unknown": 0.99310172143975
+          },
+          "evaluated_seconds": 3.475856025039124,
+          "clip_seconds": 4.0,
+          "known_fraction": 0.7142857142857142
+        },
+        {
+          "clip_id": "mano_IMG_5190_8",
+          "label": "locomotion",
+          "prediction": "locomotion_candidate",
+          "candidate_events": [
+            {
+              "start_seconds": 8.441364632237871,
+              "end_seconds": 11.917220657276996,
+              "duration_seconds": 3.475856025039125
+            }
+          ],
+          "detection_correct": true,
+          "correct": true,
+          "votes_seconds": {
+            "locomotion_candidate": 3.475856025039125,
+            "low_motion_candidate": 0.0,
+            "unknown": 0.0
+          },
+          "evaluated_seconds": 3.475856025039125,
+          "clip_seconds": 4.0,
+          "known_fraction": 1.0
+        },
+        {
+          "clip_id": "mano_IMG_5190_12",
+          "label": "resting",
+          "prediction": "locomotion_candidate",
+          "candidate_events": [
+            {
+              "start_seconds": 12.41377151799687,
+              "end_seconds": 15.889627543035994,
+              "duration_seconds": 3.475856025039123
+            }
+          ],
+          "detection_correct": false,
+          "correct": false,
+          "votes_seconds": {
+            "locomotion_candidate": 3.475856025039123,
+            "low_motion_candidate": 0.0,
+            "unknown": 0.0
+          },
+          "evaluated_seconds": 3.475856025039123,
+          "clip_seconds": 4.0,
+          "known_fraction": 1.0
+        },
+        {
+          "clip_id": "mano_IMG_5190_16",
+          "label": "resting",
+          "prediction": "locomotion_candidate",
+          "candidate_events": [
+            {
+              "start_seconds": 16.38617840375587,
+              "end_seconds": 18.868932707355242,
+              "duration_seconds": 2.4827543035993713
+            }
+          ],
+          "detection_correct": false,
+          "correct": false,
+          "votes_seconds": {
+            "locomotion_candidate": 2.4827543035993713,
+            "low_motion_candidate": 0.0,
+            "unknown": 0.99310172143975
+          },
+          "evaluated_seconds": 3.4758560250391213,
+          "clip_seconds": 4.0,
+          "known_fraction": 0.714285714285714
+        },
+        {
+          "clip_id": "mano_IMG_5190_20",
+          "label": "resting",
+          "prediction": "locomotion_candidate",
+          "candidate_events": [
+            {
+              "start_seconds": 21.351687010954617,
+              "end_seconds": 23.83444131455399,
+              "duration_seconds": 2.482754303599375
+            }
+          ],
+          "detection_correct": false,
+          "correct": false,
+          "votes_seconds": {
+            "locomotion_candidate": 2.482754303599375,
+            "low_motion_candidate": 0.0,
+            "unknown": 0.99310172143975
+          },
+          "evaluated_seconds": 3.475856025039125,
+          "clip_seconds": 4.0,
+          "known_fraction": 0.7142857142857143
+        },
+        {
+          "clip_id": "mano_IMG_5190_24",
+          "label": "resting",
+          "prediction": "locomotion_candidate",
+          "candidate_events": [
+            {
+              "start_seconds": 24.330992175273867,
+              "end_seconds": 27.80684820031299,
+              "duration_seconds": 3.475856025039125
+            }
+          ],
+          "detection_correct": false,
+          "correct": false,
+          "votes_seconds": {
+            "locomotion_candidate": 3.475856025039125,
+            "low_motion_candidate": 0.0,
+            "unknown": 0.0
+          },
+          "evaluated_seconds": 3.475856025039125,
+          "clip_seconds": 4.0,
+          "known_fraction": 1.0
+        },
+        {
+          "clip_id": "mano_IMG_5190_28",
+          "label": "resting",
+          "prediction": "locomotion_candidate",
+          "candidate_events": [
+            {
+              "start_seconds": 28.303399061032863,
+              "end_seconds": 31.779255086071988,
+              "duration_seconds": 3.475856025039125
+            }
+          ],
+          "detection_correct": false,
+          "correct": false,
+          "votes_seconds": {
+            "locomotion_candidate": 3.475856025039125,
+            "low_motion_candidate": 0.0,
+            "unknown": 0.0
+          },
+          "evaluated_seconds": 3.475856025039125,
+          "clip_seconds": 4.0,
+          "known_fraction": 1.0
+        },
+        {
+          "clip_id": "mano_IMG_5190_32",
+          "label": "resting",
+          "prediction": "locomotion_candidate",
+          "candidate_events": [
+            {
+              "start_seconds": 32.27580594679186,
+              "end_seconds": 35.751661971830984,
+              "duration_seconds": 3.4758560250391213
+            }
+          ],
+          "detection_correct": false,
+          "correct": false,
+          "votes_seconds": {
+            "locomotion_candidate": 3.4758560250391213,
+            "low_motion_candidate": 0.0,
+            "unknown": 0.0
+          },
+          "evaluated_seconds": 3.4758560250391213,
+          "clip_seconds": 4.0,
+          "known_fraction": 1.0
+        },
+        {
+          "clip_id": "mano_IMG_5190_36",
+          "label": "locomotion",
+          "prediction": "locomotion_candidate",
+          "candidate_events": [
+            {
+              "start_seconds": 36.24821283255086,
+              "end_seconds": 39.724068857589984,
+              "duration_seconds": 3.4758560250391213
+            }
+          ],
+          "detection_correct": true,
+          "correct": true,
+          "votes_seconds": {
+            "locomotion_candidate": 3.4758560250391213,
+            "low_motion_candidate": 0.0,
+            "unknown": 0.0
+          },
+          "evaluated_seconds": 3.4758560250391213,
+          "clip_seconds": 4.0,
+          "known_fraction": 1.0
+        },
+        {
+          "clip_id": "mano_IMG_5190_40",
+          "label": "locomotion",
+          "prediction": "locomotion_candidate",
+          "candidate_events": [
+            {
+              "start_seconds": 40.22061971830986,
+              "end_seconds": 43.696475743348984,
+              "duration_seconds": 3.4758560250391213
+            }
+          ],
+          "detection_correct": true,
+          "correct": true,
+          "votes_seconds": {
+            "locomotion_candidate": 3.4758560250391213,
+            "low_motion_candidate": 0.0,
+            "unknown": 0.0
+          },
+          "evaluated_seconds": 3.4758560250391213,
+          "clip_seconds": 4.0,
+          "known_fraction": 1.0
+        },
+        {
+          "clip_id": "mano_IMG_5190_44",
+          "label": "locomotion",
+          "prediction": "locomotion_candidate",
+          "candidate_events": [
+            {
+              "start_seconds": 44.689577464788734,
+              "end_seconds": 47.66888262910798,
+              "duration_seconds": 2.97930516431925
+            }
+          ],
+          "detection_correct": true,
+          "correct": true,
+          "votes_seconds": {
+            "locomotion_candidate": 2.97930516431925,
+            "low_motion_candidate": 0.0,
+            "unknown": 0.4965508607198714
+          },
+          "evaluated_seconds": 3.4758560250391213,
+          "clip_seconds": 4.0,
+          "known_fraction": 0.857142857142858
+        },
+        {
+          "clip_id": "mano_IMG_5190_48",
+          "label": "resting",
+          "prediction": "locomotion_candidate",
+          "candidate_events": [
+            {
+              "start_seconds": 48.165433489827855,
+              "end_seconds": 50.151636932707355,
+              "duration_seconds": 1.9862034428795
+            }
+          ],
+          "detection_correct": false,
+          "correct": false,
+          "votes_seconds": {
+            "locomotion_candidate": 1.9862034428795,
+            "low_motion_candidate": 0.0,
+            "unknown": 1.4896525821596285
+          },
+          "evaluated_seconds": 3.4758560250391284,
+          "clip_seconds": 4.0,
+          "known_fraction": 0.5714285714285708
+        },
+        {
+          "clip_id": "mano_IMG_5190_52",
+          "label": "resting",
+          "prediction": "low_motion_candidate",
+          "candidate_events": [],
+          "detection_correct": true,
+          "correct": true,
+          "votes_seconds": {
+            "locomotion_candidate": 0.0,
+            "low_motion_candidate": 3.4758560250391284,
+            "unknown": 0.0
+          },
+          "evaluated_seconds": 3.4758560250391284,
+          "clip_seconds": 4.0,
+          "known_fraction": 1.0
+        },
+        {
+          "clip_id": "mano_IMG_5190_56",
+          "label": "locomotion",
+          "prediction": "locomotion_candidate",
+          "candidate_events": [
+            {
+              "start_seconds": 57.103348982785604,
+              "end_seconds": 59.586103286384976,
+              "duration_seconds": 2.4827543035993713
+            }
+          ],
+          "detection_correct": true,
+          "correct": true,
+          "votes_seconds": {
+            "locomotion_candidate": 2.4827543035993713,
+            "low_motion_candidate": 0.4965508607198714,
+            "unknown": 0.49655086071987853
+          },
+          "evaluated_seconds": 3.4758560250391213,
+          "clip_seconds": 4.0,
+          "known_fraction": 0.857142857142856
+        },
+        {
+          "clip_id": "mano_IMG_5190_60",
+          "label": "resting",
+          "prediction": "locomotion_candidate",
+          "candidate_events": [
+            {
+              "start_seconds": 60.082654147104854,
+              "end_seconds": 63.558510172143976,
+              "duration_seconds": 3.4758560250391213
+            }
+          ],
+          "detection_correct": false,
+          "correct": false,
+          "votes_seconds": {
+            "locomotion_candidate": 3.4758560250391213,
+            "low_motion_candidate": 0.0,
+            "unknown": 0.0
+          },
+          "evaluated_seconds": 3.4758560250391213,
+          "clip_seconds": 4.0,
+          "known_fraction": 1.0
+        }
+      ],
+      "n": 16,
+      "detection": {
+        "locomotion_hits": 7,
+        "locomotion_clips": 7,
+        "resting_correct": 1,
+        "resting_clips": 9,
+        "resting_false_events": 8
+      },
+      "accuracy_including_abstentions": 0.375,
+      "accuracy_on_predicted": 0.42857142857142855,
+      "clip_coverage": 0.875,
+      "balanced_accuracy": 0.4126984126984127,
+      "warning": "Reviewed legacy clip labels; not frame-level truth. Exploring is not a negative class. Candidate events describe predictions, not event precision or recall. Detection: locomotion clip hit = at least one candidate episode; resting clip correct = low-motion strict majority and no episode. Abstention is never correct. A single-class subset cannot establish specificity or balanced accuracy."
+    },
+    "IMG_5191": {
+      "clips": [
+        {
+          "clip_id": "mano_IMG_5191_0",
+          "label": "resting",
+          "prediction": "locomotion_candidate",
+          "candidate_events": [
+            {
+              "start_seconds": 1.000839160839161,
+              "end_seconds": 3.502937062937063,
+              "duration_seconds": 2.502097902097902
+            }
+          ],
+          "detection_correct": false,
+          "correct": false,
+          "votes_seconds": {
+            "locomotion_candidate": 2.5020979020979017,
+            "low_motion_candidate": 0.0,
+            "unknown": 1.000839160839161
+          },
+          "evaluated_seconds": 3.502937062937063,
+          "clip_seconds": 4.0,
+          "known_fraction": 0.7142857142857142
+        },
+        {
+          "clip_id": "mano_IMG_5191_4",
+          "label": "resting",
+          "prediction": "locomotion_candidate",
+          "candidate_events": [
+            {
+              "start_seconds": 4.003356643356644,
+              "end_seconds": 7.5062937062937065,
+              "duration_seconds": 3.502937062937063
+            }
+          ],
+          "detection_correct": false,
+          "correct": false,
+          "votes_seconds": {
+            "locomotion_candidate": 3.502937062937063,
+            "low_motion_candidate": 0.0,
+            "unknown": 0.0
+          },
+          "evaluated_seconds": 3.502937062937063,
+          "clip_seconds": 4.0,
+          "known_fraction": 1.0
+        },
+        {
+          "clip_id": "mano_IMG_5191_8",
+          "label": "resting",
+          "prediction": "locomotion_candidate",
+          "candidate_events": [
+            {
+              "start_seconds": 8.006713286713287,
+              "end_seconds": 10.008391608391609,
+              "duration_seconds": 2.0016783216783214
+            }
+          ],
+          "detection_correct": false,
+          "correct": false,
+          "votes_seconds": {
+            "locomotion_candidate": 2.0016783216783214,
+            "low_motion_candidate": 0.0,
+            "unknown": 1.5012587412587415
+          },
+          "evaluated_seconds": 3.502937062937063,
+          "clip_seconds": 4.0,
+          "known_fraction": 0.5714285714285714
+        },
+        {
+          "clip_id": "mano_IMG_5191_12",
+          "label": "locomotion",
+          "prediction": "unknown",
+          "candidate_events": [],
+          "detection_correct": false,
+          "correct": false,
+          "votes_seconds": {
+            "locomotion_candidate": 0.0,
+            "low_motion_candidate": 0.0,
+            "unknown": 3.502937062937063
+          },
+          "evaluated_seconds": 3.502937062937063,
+          "clip_seconds": 4.0,
+          "known_fraction": 0.0
+        },
+        {
+          "clip_id": "mano_IMG_5191_16",
+          "label": "locomotion",
+          "prediction": "unknown",
+          "candidate_events": [],
+          "detection_correct": false,
+          "correct": false,
+          "votes_seconds": {
+            "locomotion_candidate": 0.0,
+            "low_motion_candidate": 0.0,
+            "unknown": 3.502937062937061
+          },
+          "evaluated_seconds": 3.502937062937061,
+          "clip_seconds": 4.0,
+          "known_fraction": 0.0
+        },
+        {
+          "clip_id": "mano_IMG_5191_20",
+          "label": "locomotion",
+          "prediction": "unknown",
+          "candidate_events": [],
+          "detection_correct": false,
+          "correct": false,
+          "votes_seconds": {
+            "locomotion_candidate": 0.0,
+            "low_motion_candidate": 0.0,
+            "unknown": 3.803188811188811
+          },
+          "evaluated_seconds": 3.803188811188811,
+          "clip_seconds": 3.9,
+          "known_fraction": 0.0
+        }
+      ],
+      "n": 6,
+      "detection": {
+        "locomotion_hits": 0,
+        "locomotion_clips": 3,
+        "resting_correct": 0,
+        "resting_clips": 3,
+        "resting_false_events": 3
+      },
+      "accuracy_including_abstentions": 0.0,
+      "accuracy_on_predicted": 0.0,
+      "clip_coverage": 0.5,
+      "balanced_accuracy": 0.0,
+      "warning": "Reviewed legacy clip labels; not frame-level truth. Exploring is not a negative class. Candidate events describe predictions, not event precision or recall. Detection: locomotion clip hit = at least one candidate episode; resting clip correct = low-motion strict majority and no episode. Abstention is never correct. A single-class subset cannot establish specificity or balanced accuracy."
+    },
+    "IMG_5192": {
+      "clips": [
+        {
+          "clip_id": "mano_IMG_5192_0",
+          "label": "locomotion",
+          "prediction": "locomotion_candidate",
+          "candidate_events": [
+            {
+              "start_seconds": 1.0003790750568613,
+              "end_seconds": 3.5013267626990143,
+              "duration_seconds": 2.500947687642153
+            }
+          ],
+          "detection_correct": true,
+          "correct": true,
+          "votes_seconds": {
+            "locomotion_candidate": 2.500947687642153,
+            "low_motion_candidate": 0.0,
+            "unknown": 1.0003790750568613
+          },
+          "evaluated_seconds": 3.5013267626990143,
+          "clip_seconds": 4.0,
+          "known_fraction": 0.7142857142857142
+        },
+        {
+          "clip_id": "mano_IMG_5192_4",
+          "label": "locomotion",
+          "prediction": "locomotion_candidate",
+          "candidate_events": [
+            {
+              "start_seconds": 4.001516300227445,
+              "end_seconds": 7.50284306292646,
+              "duration_seconds": 3.5013267626990148
+            }
+          ],
+          "detection_correct": true,
+          "correct": true,
+          "votes_seconds": {
+            "locomotion_candidate": 3.5013267626990148,
+            "low_motion_candidate": 0.0,
+            "unknown": 0.0
+          },
+          "evaluated_seconds": 3.5013267626990148,
+          "clip_seconds": 4.0,
+          "known_fraction": 1.0
+        }
+      ],
+      "n": 2,
+      "detection": {
+        "locomotion_hits": 2,
+        "locomotion_clips": 2,
+        "resting_correct": 0,
+        "resting_clips": 0,
+        "resting_false_events": 0
+      },
+      "accuracy_including_abstentions": 1.0,
+      "accuracy_on_predicted": 1.0,
+      "clip_coverage": 1.0,
+      "balanced_accuracy": null,
+      "warning": "Reviewed legacy clip labels; not frame-level truth. Exploring is not a negative class. Candidate events describe predictions, not event precision or recall. Detection: locomotion clip hit = at least one candidate episode; resting clip correct = low-motion strict majority and no episode. Abstention is never correct. A single-class subset cannot establish specificity or balanced accuracy."
+    },
+    "IMG_5193": {
+      "clips": [],
+      "n": 0,
+      "detection": {
+        "locomotion_hits": 0,
+        "locomotion_clips": 0,
+        "resting_correct": 0,
+        "resting_clips": 0,
+        "resting_false_events": 0
+      },
+      "accuracy_including_abstentions": null,
+      "accuracy_on_predicted": null,
+      "clip_coverage": null,
+      "balanced_accuracy": null,
+      "warning": "Reviewed legacy clip labels; not frame-level truth. Exploring is not a negative class. Candidate events describe predictions, not event precision or recall. Detection: locomotion clip hit = at least one candidate episode; resting clip correct = low-motion strict majority and no episode. Abstention is never correct. A single-class subset cannot establish specificity or balanced accuracy."
+    }
+  },
+  "test_set": "independent_handheld_IMG_5190-5193"
+}
