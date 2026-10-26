@@ -10,7 +10,7 @@ Tres vídeos ejecutados; resultados y regresiones en [AUDITORIA.md](AUDITORIA.md
 
 La corrección temporal posterior, episodios candidatos y regresión de cobertura están en [LOCOMOCION.md](LOCOMOCION.md). No convierten las etiquetas mixtas por clip en verdad por fotograma.
 
-**Locomoción: cerrada como no resoluble con los datos existentes (v0.5.0).** Ningún método cumple los criterios fijados de antemano sobre 5 clips de locomoción y 10 de reposo. flow detecta 4/5 clips de locomoción sin ningún episodio falso en reposo, pero se abstiene en la mitad del reposo porque con cámara en mano y el animal llenando el encuadre no se puede compensar la cámara. Solo se reabre con grabaciones nuevas (cámara fija o encuadre amplio). Detalle en [LOCOMOCION.md](LOCOMOCION.md).
+**Locomoción: cerrada, no resuelta (2026-10-26).** Ningún método pasa los criterios fijados de antemano, ni en los 5 vídeos de desarrollo ni en el test independiente con cámara en mano (IMG_5190–5193: flow 7/12 en locomoción, 3/12 en reposo, 6 episodios falsos). No se graban más vídeos. Detalle en [LOCOMOCION.md](LOCOMOCION.md).
 
 El seguimiento corporal persistente y YOLO-World local ya se ejecutaron: **ninguno resuelve la locomoción en estos vídeos**. Métodos, resultados negativos y reproducción en [EVIDENCIA_CORPORAL.md](EVIDENCIA_CORPORAL.md). Permanecen aislados del análisis habitual.
 

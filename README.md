@@ -8,6 +8,6 @@ Un único historial Git en esta raíz; no se necesitan ZIP ni nuevos directorios
 - [Tareas VS Code](.vscode/tasks.json): benchmark principal y suite existente.
 - RabbitSense_Training y RabbitSense_ARCHIVO conservan material original; no se borraron vídeos, pesos ni anotaciones.
 
-Locomoción: **cerrada, no resoluble con los datos existentes**; veredicto en [LOCOMOCION.md](RabbitSense_repo/LOCOMOCION.md).
+Locomoción: **cerrada, no resuelta** (también en el test independiente con cámara en mano); veredicto en [LOCOMOCION.md](RabbitSense_repo/LOCOMOCION.md).
 
 El seguimiento sigue siendo asistido. Ningún resultado constituye diagnóstico ni indicador validado de bienestar.

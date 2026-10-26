@@ -1,6 +1,43 @@
 # Locomoción: diagnóstico, corrección temporal y cierre
 
-## Veredicto: cerrada, no resoluble con los datos existentes
+## Estado final (2026-10-26): cerrada, no resuelta
+
+| Conjunto | Cámara | Naturaleza | Resultado |
+|---|---|---|---|
+| 5 vídeos de desarrollo | En mano | Veredicto (2026-10-25) | Ningún método pasa |
+| **IMG_5190–5193** | **En mano** | **Veredicto, test independiente** | **Ningún método pasa** |
+| Desarrollo + nuevos | En mano | Informativo | Ningún método cumple umbrales |
+
+No se graban más vídeos. Con este enfoque (flujo óptico compensado por cámara sobre guías), la locomoción **no está resuelta** y el tema queda cerrado. Solo se reabriría con un enfoque distinto, no con otra iteración de umbrales.
+
+## Veredicto con cámara en mano sobre vídeos nuevos (2026-10-26)
+
+Primer test independiente: ningún método ni constante se ajustó con IMG_5190–5193. Etiquetas verificadas en vídeo continuo y commiteadas antes de ejecutar (`2ee024c`, 2026-10-26 10:52). Anclas automáticas SAM2 desde una caja inicial por vídeo. Mismos criterios.
+
+Suficiencia: 12 clips de locomoción y 12 de reposo verificados (mínimos 5 y 10). La ejecución es un **veredicto decisivo**, no descriptivo.
+
+| Método | Locomoción (≥ 0,8) | Reposo (≥ 0,8) | Episodios falsos en reposo | Resultado |
+|---|---:|---:|---:|---|
+| V3.6 | 7/12 | 3/12 | 6 | No pasa |
+| V3.7 | 1/12 | 5/12 | 0 | No pasa |
+| **flow** | 7/12 | 3/12 | **6** | No pasa |
+| body | 0/12 | 0/12 | 0 | No pasa |
+
+Estado: `closed_not_resolvable_with_existing_data`.
+
+Informativo (5 vídeos de desarrollo + 4 nuevos; no decide): flow 11/17 en locomoción, 8/22 en reposo, 6 episodios falsos. V3.6 11/17, 6/22, 9.
+
+### Lectura
+
+- **flow falla en los dos criterios.** La sensibilidad (7/12 = 0,58) no llega a 0,8 con independencia de cómo se etiquetara el reposo.
+- **No generaliza la ausencia de falsos positivos.** En los vídeos de desarrollo flow no producía episodios en reposo (0/10); en los nuevos produce 6. La conclusión anterior de que flow "falla por abstención, no por error" no se sostiene fuera de los vídeos de desarrollo.
+- **Abstención y pérdida de seguimiento.** `camera_reference_unreliable` sigue dominando en IMG_5192 (30/44 muestras, motivos V3.6). En IMG_5191, SAM2 pierde a Cinna en 26 de 48 muestras (`rabbit_not_marked`).
+- **Origen de las etiquetas de reposo.** De los 12 clips verificados, 9 eran `unknown` en la revisión por fotogramas de ChatGPT y se marcaron como reposo al verlos en continuo. Tres reposos propuestos quedaron sin verificar y no se evaluaron. Se registra como hecho; no altera el veredicto, porque la sensibilidad falla por sí sola.
+- El IoU de seguimiento ≈ 0,98 de estas ejecuciones compara contra guías de SAM2 y **no valida el seguimiento**.
+
+---
+
+## Veredicto sobre vídeos de desarrollo (2026-10-25)
 
 Ejecutado el 2026-10-25 en el Mac (M4, MPS para SAM2) con el código de v0.5.0. Los hashes de `motion.py`, `closure.py`, `evaluate.py`, `segment.py`, `body.py` y del manifest en los veredictos coinciden con el commit. Evidencia: [cierre/verdict_cpu.json](cierre/verdict_cpu.json) y [cierre/verdict_sam2.json](cierre/verdict_sam2.json).
 
@@ -79,7 +116,7 @@ Revisión visual de ChatGPT archivada sin cambios en [etiquetas_mano_revision_vi
 
 El responsable técnico decide no grabar más. Consecuencia, registrada antes de ejecutar:
 
-- **No habrá veredicto decisivo con cámara en mano.** El criterio de 10 clips de reposo no se rebaja; hacerlo ahora sería ajustarlo a los datos disponibles. Estado oficial: **locomoción con cámara en mano no resuelta y sin veredicto**.
+- *Superado el 2026-10-26: la verificación en vídeo continuo alcanzó 12 clips de reposo y hubo veredicto decisivo (ver arriba).* **No habrá veredicto decisivo con cámara en mano.** El criterio de 10 clips de reposo no se rebaja; hacerlo ahora sería ajustarlo a los datos disponibles. Estado oficial: **locomoción con cámara en mano no resuelta y sin veredicto**.
 - **Evaluación descriptiva** (`handheld run --descriptive`): mismas métricas sobre IMG_5190–5193, con estado `descriptive_only_insufficient_sample`. No puede producir `closed_resolved…`. El campo `passed` se renombra a `meets_thresholds_not_a_verdict`.
 - **Evaluación informativa** (`--informative benchmarks/closure_mano_informativo.json`): los cinco vídeos de desarrollo más los cuatro nuevos, con estado `informative_not_decisive`. Combina material ya usado para desarrollar; no es un test independiente.
 - **Etiquetas sin verificar** (`--include-unverified`, tarea 5b): evalúa también las propuestas de ChatGPT de 3 s o más. El resultado registra `label_source=includes_unverified_proposals`. `etiquetas_mano.csv` no se modifica: la copia usada se escribe en la carpeta de salida.
