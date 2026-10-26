@@ -109,6 +109,7 @@ Recalcula V3.6/V3.7/flow/body con semilla 0 y un hilo OpenCV; compara rejilla co
 | [closure.py](src/rabbitsense/closure.py) | Veredicto de locomoción con criterios fijados de antemano |
 | [handheld.py](src/rabbitsense/handheld.py) | Cámara en mano: semillas, anclas SAM2, verificación de etiquetas y cierre con puerta de suficiencia |
 | [zeroshot.py](src/rabbitsense/zeroshot.py) | Locomoción zero-shot con X-CLIP (preentrenado, sin ajuste); mismo veredicto |
+| [silhouette.py](src/rabbitsense/silhouette.py) | Locomoción respecto al suelo (homografía del anillo de suelo) y forma de la máscara SAM2 |
 | [__main__.py](src/rabbitsense/__main__.py) | CLI único |
 
 V3.6/V3.7 son referencias dentro del paquete, sin nuevas carpetas de desarrollo por versión; comparten funciones idénticas. Los scripts legacy y el directorio original de entrenamiento se conservan, pero no son la API pública.

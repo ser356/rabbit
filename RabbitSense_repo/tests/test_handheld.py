@@ -146,3 +146,22 @@ def test_descriptive_run_end_to_end_with_real_closure(tmp_path):
     assert result['status'] == 'descriptive_only_insufficient_sample'
     saved = json.loads((tmp_path / 'out' / 'decisive' / 'verdict.json').read_text())
     assert saved['status'] == result['status'] and saved['sufficiency']['sufficient'] is False
+
+
+def test_grid_manifest_and_real_extension(tmp_path):
+    videos = tmp_path / 'videos'
+    videos.mkdir()
+    writer = cv2.VideoWriter(str(videos / 'NEW_1.mp4'), cv2.VideoWriter_fourcc(*'mp4v'), 10., (32, 24))
+    for _ in range(95):
+        writer.write(np.zeros((24, 32, 3), np.uint8))
+    writer.release()
+    assert handheld.grid(videos, ['NEW_1'], tmp_path / 'grid.csv') == 3
+    grid = pd.read_csv(tmp_path / 'grid.csv')
+    assert grid.end_s.tolist() == [4., 8., 9.5] and set(grid.label) == {'unknown'}
+    report = handheld.prepare(tmp_path / 'grid.csv', tmp_path / 'labels.csv', videos=videos)
+    assert pd.read_csv(tmp_path / 'labels.csv').video_id.unique().tolist() == ['NEW_1.mp4']
+    assert not report['sufficient']
+    case = json.loads(handheld.build_manifest(videos, ['NEW_1'], tmp_path / 'labels.csv', tmp_path / 'runs',
+                                              tmp_path / 'm.json').read_text())['cases'][0]
+    assert case['video'] == str((videos / 'NEW_1.mp4').resolve())
+    assert case['masks'] == str((tmp_path / 'runs' / 'segmentation' / 'NEW_1').resolve())

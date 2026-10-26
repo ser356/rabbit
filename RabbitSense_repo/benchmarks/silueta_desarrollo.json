@@ -1,0 +1,68 @@
+{
+  "cases": [
+    {
+      "name": "5177",
+      "video": "../data/cinna_review_v24/IMG_5177.mp4",
+      "tracks": "../runs/v32/cinna_trayectoria_v32.csv",
+      "anchors": "../../RabbitSense_ARCHIVO/cinna_marcas_v32.json",
+      "labels": "../../RabbitSense_ARCHIVO/etiquetas_v24_revision_final.csv",
+      "masks": "../runs/segmentation/5177"
+    },
+    {
+      "name": "locomotion",
+      "video": "../../RabbitSense_Training/data/cinna_review_v23/AE22D736-2B56-419D-886E-7926A182891E.mp4",
+      "anchors": "../../RabbitSense_Training/runs/anchors_v23/AE22D736-2B56-419D-886E-7926A182891E.mp4.json",
+      "labels": "../../RabbitSense_ARCHIVO/etiquetas_v24_revision_final.csv",
+      "masks": "../runs/segmentation/locomotion"
+    },
+    {
+      "name": "resting",
+      "video": "../../RabbitSense_Training/data/cinna_review_v23/6BE6BE37-E828-4D23-A242-7DD4598128BF.mp4",
+      "anchors": "../../RabbitSense_Training/runs/anchors_v23/6BE6BE37-E828-4D23-A242-7DD4598128BF.mp4.json",
+      "labels": "../../RabbitSense_ARCHIVO/etiquetas_v24_revision_final.csv",
+      "masks": "../runs/segmentation_localized/resting"
+    },
+    {
+      "name": "resting_972F",
+      "video": "../../RabbitSense_Training/data/cinna_review_v23/972F531F-A923-44DC-B69F-0B536A239FC3.mp4",
+      "anchors": "../../RabbitSense_Training/runs/anchors_v23/972F531F-A923-44DC-B69F-0B536A239FC3.mp4.json",
+      "labels": "../../RabbitSense_ARCHIVO/etiquetas_v24_revision_final.csv",
+      "masks": "../runs/segmentation_localized/resting_972F"
+    },
+    {
+      "name": "resting_4944",
+      "video": "../../RabbitSense_Training/data/cinna_review_v23/IMG_4944.MOV",
+      "anchors": "../../RabbitSense_Training/runs/anchors_v23/IMG_4944.MOV.json",
+      "labels": "../../RabbitSense_ARCHIVO/etiquetas_v24_revision_final.csv",
+      "masks": "../runs/segmentation_localized/resting_4944"
+    },
+    {
+      "name": "IMG_5190",
+      "video": "~/Downloads/IMG_5190.MOV",
+      "anchors": "../runs/handheld/anchors/IMG_5190.json",
+      "labels": "../../RabbitSense_ARCHIVO/etiquetas_mano.csv",
+      "masks": "../runs/handheld/segmentation/IMG_5190"
+    },
+    {
+      "name": "IMG_5191",
+      "video": "~/Downloads/IMG_5191.MOV",
+      "anchors": "../runs/handheld/anchors/IMG_5191.json",
+      "labels": "../../RabbitSense_ARCHIVO/etiquetas_mano.csv",
+      "masks": "../runs/handheld/segmentation/IMG_5191"
+    },
+    {
+      "name": "IMG_5192",
+      "video": "~/Downloads/IMG_5192.MOV",
+      "anchors": "../runs/handheld/anchors/IMG_5192.json",
+      "labels": "../../RabbitSense_ARCHIVO/etiquetas_mano.csv",
+      "masks": "../runs/handheld/segmentation/IMG_5192"
+    },
+    {
+      "name": "IMG_5193",
+      "video": "~/Downloads/IMG_5193.MOV",
+      "anchors": "../runs/handheld/anchors/IMG_5193.json",
+      "labels": "../../RabbitSense_ARCHIVO/etiquetas_mano.csv",
+      "masks": "../runs/handheld/segmentation/IMG_5193"
+    }
+  ]
+}

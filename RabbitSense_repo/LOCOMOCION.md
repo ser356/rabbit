@@ -11,6 +11,24 @@
 
 Dos enfoques distintos fallan en el mismo test independiente: el flujo óptico por la compensación de cámara y la pérdida de seguimiento, y el modelo vídeo-texto preentrenado porque no discrimina. No se graban más vídeos ni se ajustan variantes sobre estos datos. **La locomoción queda cerrada como no resuelta.** Reabrirla exigiría entrenar o ajustar un modelo con ejemplos etiquetados de locomoción de Cinna que hoy no existen en cantidad suficiente.
 
+## Reapertura: suelo + silueta con vídeos nuevos (pre-registrado el 2026-10-26)
+
+**Por qué otro intento.** SAM2 sigue a Cinna, pero su posición en la imagen mezcla su movimiento y el de la cámara: si la cámara la sigue, parece quieta; si la cámara gira, parece moverse. Los métodos anteriores estimaban la cámara con todo lo que rodea la caja, muebles incluidos, y con la caja, que contiene suelo. El método nuevo ([silhouette.py](src/rabbitsense/silhouette.py)):
+
+1. **Suelo.** Homografía RANSAC solo con puntos del anillo que rodea la máscara, entre 0,15 y 1,0 × √área desde su borde. Exige 20 puntos en al menos 3 cuadrantes, validación con puntos reservados (≤ 3 px) y una deformación plausible.
+2. **Conejo.** Centroide de la **máscara** frente al centroide anterior proyectado por esa homografía, normalizado por √área. Se agrega con el diámetro de trayectoria y los errores en cuadratura de `flow`; umbral 0,2/s.
+3. **Silueta.** Rango de elongación y de log-área de la máscara por intervalo: cambian al saltar aunque la cámara se mueva. Se registran como características para el desarrollo.
+
+Con vídeo sintético, si la cámara se desplaza y el conejo está quieto, la velocidad en imagen es 0,6/s y la medida respecto al suelo 0,0/s. Si el conejo avanza y la cámara lo sigue, en imagen es 0,0/s y respecto al suelo 0,6/s.
+
+**Protocolo.**
+
+- **Desarrollo:** los 9 vídeos ya usados ([silueta_desarrollo.json](benchmarks/silueta_desarrollo.json)), incluidos IMG_5190–5193, que dejan de ser test. Ahí se pueden mirar resultados y elegir la regla: solo suelo, o suelo combinado con silueta; como máximo 3 parámetros.
+- **Congelación:** la regla elegida se escribe en `FROZEN_RULE` y se commitea **antes** de procesar los vídeos nuevos con cualquier método de locomoción. Mientras sea `None`, `--decisive` se niega a ejecutarse.
+- **Test decisivo:** solo los vídeos nuevos. Clips de 4 s etiquetados **desde cero** con `handheld grid` y `revision.html`, sin propuestas; verificados y commiteados antes de ejecutar. SAM2 se ejecuta antes porque genera las guías, no decisiones.
+- **Criterios:** los mismos (`CRITERIA`). Si los vídeos nuevos no alcanzan 5 clips de locomoción y 10 de reposo verificados, el resultado es descriptivo y la locomoción sigue cerrada como no resuelta.
+- **Una ejecución:** si el test falla, no se ajusta la regla sobre esos vídeos.
+
 ## Resultado X-CLIP zero-shot (2026-10-26)
 
 Ejecutado en el Mac (MPS) según el protocolo pre-registrado (`c0aecc4`), sin cambios de frases, recorte ni umbrales.

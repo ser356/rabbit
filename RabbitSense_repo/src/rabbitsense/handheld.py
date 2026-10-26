@@ -151,13 +151,38 @@ def review(videos, labels, out):
     return page
 
 
-def prepare(labels, output, extension='.MOV'):
+def grid(videos, names, output, length=4.):
+    """Clips consecutivos de 4 s sin etiqueta propuesta: se etiquetan desde cero en revision.html."""
+    rows = []
+    for name in names:
+        capture = cv2.VideoCapture(str(video_path(videos, name)))
+        fps, count = capture.get(cv2.CAP_PROP_FPS), int(capture.get(cv2.CAP_PROP_FRAME_COUNT))
+        capture.release()
+        if not np.isfinite(fps) or fps <= 0 or count <= 0:
+            raise ValueError(f'Metadatos inválidos: {name}.')
+        duration = round(count / fps, 3)
+        rows += [dict(video=name, start_s=start, end_s=round(min(start + length, duration), 3), label='unknown',
+                      review_status='sin_etiquetar', notes='') for start in np.arange(0., duration, length)]
+    pd.DataFrame(rows).to_csv(output, index=False)
+    return len(rows)
+
+
+def build_manifest(videos, names, labels, runs, output):
+    runs = Path(runs).resolve()
+    cases = [dict(name=name, video=str(video_path(videos, name)), anchors=str(runs / 'anchors' / f'{name}.json'),
+                  masks=str(runs / 'segmentation' / name), labels=str(Path(labels).resolve())) for name in names]
+    Path(output).write_text(json.dumps(dict(cases=cases), indent=2) + '\n')
+    return Path(output)
+
+
+def prepare(labels, output, extension='.MOV', videos=None):
     """Formato de evaluación: solo clips verificados en vídeo continuo y de al menos 3 s quedan reviewed=si."""
     rows = pd.read_csv(labels).fillna({'notes': ''})
     duration = rows.end_s.astype(float) - rows.start_s.astype(float)
     verified = (rows.review_status == VERIFIED) & (duration >= MINIMUM_SECONDS)
     result = pd.DataFrame(dict(clip_id=[f'mano_{v}_{s:g}' for v, s in zip(rows.video, rows.start_s.astype(float))],
-                               video_id=rows.video + extension, start_seconds=rows.start_s.astype(float),
+                               video_id=[video_path(videos, v).name if videos else v + extension
+                                         for v in rows.video], start_seconds=rows.start_s.astype(float),
                                duration_seconds=duration.round(3), label=rows.label,
                                reviewed=np.where(verified, 'si', 'no'), review_status=rows.review_status,
                                notes=rows.notes))
@@ -250,6 +275,15 @@ def main():
     command = sub.add_parser('prepare')
     command.add_argument('--labels', required=True, help='CSV verificado exportado por revision.html')
     command.add_argument('--output', required=True)
+    command.add_argument('--videos', help='Carpeta de los originales, para usar su extensión real')
+    command = sub.add_parser('grid')
+    for name in ('videos', 'output'):
+        command.add_argument(f'--{name}', required=True)
+    command.add_argument('--names', nargs='+', required=True)
+    command = sub.add_parser('manifest')
+    for name in ('videos', 'labels', 'runs', 'output'):
+        command.add_argument(f'--{name}', required=True)
+    command.add_argument('--names', nargs='+', required=True)
     command = sub.add_parser('run')
     for name in ('manifest', 'labels', 'out'):
         command.add_argument(f'--{name}', required=True)
@@ -266,9 +300,13 @@ def main():
     elif args.command == 'review':
         print('Abre en Safari:', review(args.videos, args.labels, args.out))
     elif args.command == 'prepare':
-        report = prepare(args.labels, args.output)
+        report = prepare(args.labels, args.output, videos=args.videos)
         print(json.dumps(report, indent=2, ensure_ascii=False))
         sys.exit(0 if report['sufficient'] else 2)
+    elif args.command == 'grid':
+        print('Clips a etiquetar:', grid(args.videos, args.names, args.output))
+    elif args.command == 'manifest':
+        print('Manifest:', build_manifest(args.videos, args.names, args.labels, args.runs, args.output))
     elif run(args.manifest, args.labels, args.out, args.descriptive, args.include_unverified,
              args.informative) is None:
         sys.exit(2)

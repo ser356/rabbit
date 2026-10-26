@@ -11,11 +11,8 @@ from pathlib import Path
 
 import cv2
 import numpy as np
-import pandas as pd
 
-from .closure import verdict
-from .evaluate import clip_metrics
-from .motion import sha256, timeline
+from .closure import evaluate_cases
 from .tracking import load_anchors
 
 MODEL_ID = 'microsoft/xclip-base-patch32'
@@ -121,30 +118,11 @@ class XClipScorer:
 
 
 def evaluate(manifest, out, scorer):
-    manifest, out = Path(manifest).resolve(), Path(out)
-    suite, inputs = {}, {}
-    for case in json.loads(manifest.read_text())['cases']:
-        paths = {key: (manifest.parent / Path(case[key]).expanduser()).resolve() for key in ('video', 'anchors', 'labels')}
-        destination = out / case['name']
-        destination.mkdir(parents=True, exist_ok=True)
-        rows = classify(*sample_crops(paths['video'], paths['anchors']), scorer)
-        frame = pd.DataFrame(rows)
-        frame.to_csv(destination / 'motion.csv', index=False)
-        (destination / 'timeline.json').write_text(json.dumps(timeline(rows), indent=2))
-        clips = clip_metrics(frame, pd.read_csv(paths['labels']), paths['video'].name)
-        suite[case['name']] = dict(motion=dict(xclip=dict(legacy_clips=clips)))
-        inputs[case['name']] = {key: dict(path=str(path), sha256=sha256(path)) for key, path in paths.items()}
-        print(case['name'], frame.movement.value_counts().to_dict(), flush=True)
-    result = verdict(suite)
-    result.update(inputs=inputs, manifest_sha256=sha256(manifest),
-                  source_sha256={p.name: sha256(p) for p in Path(__file__).parent.glob('*.py')},
-                  method=dict(prompts=PROMPTS, frames=FRAMES, spacing_seconds=SPACING, lead_seconds=LEAD, band=BAND,
-                              crop_scale=CROP_SCALE, size=SIZE, scorer=getattr(scorer, 'info', None),
-                              python=platform.python_version(), opencv=cv2.__version__),
-                  clips={name: case['motion']['xclip']['legacy_clips'] for name, case in suite.items()})
-    out.mkdir(parents=True, exist_ok=True)
-    (out / 'verdict.json').write_text(json.dumps(result, indent=2, allow_nan=False, ensure_ascii=False))
-    return result
+    info = dict(prompts=PROMPTS, frames=FRAMES, spacing_seconds=SPACING, lead_seconds=LEAD, band=BAND,
+                crop_scale=CROP_SCALE, size=SIZE, scorer=getattr(scorer, 'info', None),
+                python=platform.python_version(), opencv=cv2.__version__)
+    return evaluate_cases(manifest, out, 'xclip',
+                          lambda paths: classify(*sample_crops(paths['video'], paths['anchors']), scorer), info)
 
 
 def run(manifest, labels, out, scorer, informative=None):

@@ -3,8 +3,10 @@ import json
 import shutil
 from pathlib import Path
 
-from .evaluate import run_suite
-from .motion import sha256
+import pandas as pd
+
+from .evaluate import clip_metrics, run_suite
+from .motion import sha256, timeline
 
 # Fixed before running on the videos; changing them after seeing results invalidates the verdict.
 CRITERIA = {'minimum_locomotion_clips': 5, 'minimum_resting_clips': 10,
@@ -51,6 +53,33 @@ def verdict(suite, segmentation=None, criteria=CRITERIA):
                 scope='Reviewed legacy clip labels on development videos; not frame-level truth, not an independent '
                       'test and not a welfare indicator. A pass means candidate locomotion episodes appear in '
                       'locomotion clips and measured low motion without episodes in resting clips.')
+
+
+def evaluate_cases(manifest, out, method, analyze, info):
+    """Ejecuta `analyze(paths) -> filas` por caso del manifest y aplica el mismo veredicto que el resto de métodos."""
+    manifest, out = Path(manifest).resolve(), Path(out)
+    suite, inputs = {}, {}
+    for case in json.loads(manifest.read_text())['cases']:
+        paths = {key: (manifest.parent / Path(case[key]).expanduser()).resolve()
+                 for key in ('video', 'anchors', 'labels', 'masks') if key in case}
+        destination = out / case['name']
+        destination.mkdir(parents=True, exist_ok=True)
+        rows = analyze(paths)
+        frame = pd.DataFrame(rows)
+        frame.to_csv(destination / 'motion.csv', index=False)
+        (destination / 'timeline.json').write_text(json.dumps(timeline(rows), indent=2))
+        clips = clip_metrics(frame, pd.read_csv(paths['labels']), paths['video'].name)
+        suite[case['name']] = dict(motion={method: dict(legacy_clips=clips)})
+        inputs[case['name']] = {key: dict(path=str(path), sha256=sha256(path))
+                                for key, path in paths.items() if path.is_file()}
+        print(case['name'], frame.movement.value_counts().to_dict(), flush=True)
+    result = verdict(suite)
+    result.update(inputs=inputs, manifest_sha256=sha256(manifest), method=info,
+                  source_sha256={p.name: sha256(p) for p in Path(__file__).parent.glob('*.py')},
+                  clips={name: case['motion'][method]['legacy_clips'] for name, case in suite.items()})
+    out.mkdir(parents=True, exist_ok=True)
+    (out / 'verdict.json').write_text(json.dumps(result, indent=2, allow_nan=False, ensure_ascii=False))
+    return result
 
 
 def copy_masks(source, destination):
