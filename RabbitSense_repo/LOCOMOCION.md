@@ -21,12 +21,23 @@ Dos enfoques distintos fallan en el mismo test independiente: el flujo óptico p
 
 Con vídeo sintético, si la cámara se desplaza y el conejo está quieto, la velocidad en imagen es 0,6/s y la medida respecto al suelo 0,0/s. Si el conejo avanza y la cámara lo sigue, en imagen es 0,0/s y respecto al suelo 0,6/s.
 
-**Protocolo.**
+**Protocolo: test mixto (opción 1, decidida el 2026-10-26 antes de ver resultados).** Los vídeos nuevos son casi todos de reposo, así que:
 
-- **Desarrollo:** los 9 vídeos ya usados ([silueta_desarrollo.json](benchmarks/silueta_desarrollo.json)), incluidos IMG_5190–5193, que dejan de ser test. Ahí se pueden mirar resultados y elegir la regla: solo suelo, o suelo combinado con silueta; como máximo 3 parámetros.
-- **Congelación:** la regla elegida se escribe en `FROZEN_RULE` y se commitea **antes** de procesar los vídeos nuevos con cualquier método de locomoción. Mientras sea `None`, `--decisive` se niega a ejecutarse.
-- **Test decisivo:** solo los vídeos nuevos. Clips de 4 s etiquetados **desde cero** con `handheld grid` y `revision.html`, sin propuestas; verificados y commiteados antes de ejecutar. SAM2 se ejecuta antes porque genera las guías, no decisiones.
-- **Criterios:** los mismos (`CRITERIA`). Si los vídeos nuevos no alcanzan 5 clips de locomoción y 10 de reposo verificados, el resultado es descriptivo y la locomoción sigue cerrada como no resuelta.
+- **Desarrollo:** los 9 vídeos ya usados ([silueta_desarrollo.json](benchmarks/silueta_desarrollo.json)), incluidos IMG_5190–5193, que dejan de ser test.
+- **Reglas candidatas, lista cerrada** (`CANDIDATES`, 28):
+  - `floor`: solo suelo, umbral en 0,15 / 0,2 / 0,3 / 0,4;
+  - `floor_shape`: además exige cambio de elongación de 0,05 / 0,1 / 0,2 para declarar locomoción;
+  - `floor_or_shape`: si el suelo no decide, un cambio de elongación de 0,1 / 0,2 / 0,3 con máscara completa declara locomoción.
+- **Selección:** maximizar min(sensibilidad, especificidad) de detección por clip; después, menos episodios falsos; después, la primera de la lista (la más simple).
+- **Validación cruzada por vídeo:** para cada vídeo de desarrollo se elige la regla con los otros 8 y se evalúa en él. La sensibilidad agregada de esos vídeos excluidos es la **sensibilidad validada**. La regla final se elige con los 9 y se congela en `benchmarks/silueta_regla.json` (`silhouette develop`), commiteada antes de procesar los vídeos nuevos con cualquier método de locomoción. Sin ese archivo, `--decisive` no se ejecuta.
+- **Test decisivo:** vídeos nuevos, etiquetados desde cero (`handheld grid` + `revision.html`), verificados y commiteados antes de ejecutar.
+  - **Especificidad** siempre en los vídeos nuevos: al menos 10 clips de reposo y ≥ 0,8.
+  - **Sensibilidad** en los vídeos nuevos si tienen al menos 5 clips de locomoción; si no, la validada. En ambos casos ≥ 0,8, al menos 5 clips y un acierto por vídeo con locomoción.
+- **Estados:**
+  - `resolved_independent_test`;
+  - `resolved_specificity_independent_sensitivity_cross_validated`: conclusión más débil, porque la sensibilidad viene de vídeos de desarrollo aunque cada uno se evalúe con una regla elegida sin él;
+  - `not_resolved`;
+  - `descriptive_only_insufficient_sample`: menos de 10 clips de reposo nuevos.
 - **Una ejecución:** si el test falla, no se ajusta la regla sobre esos vídeos.
 
 ## Resultado X-CLIP zero-shot (2026-10-26)

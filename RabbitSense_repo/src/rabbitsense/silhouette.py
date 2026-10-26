@@ -6,7 +6,9 @@ Dos señales por par de fotogramas consecutivos:
    normalizado por sqrt(área de la máscara). Se agrega con el mismo diámetro de trayectoria que `flow`.
 2. Silueta: elongación y área de la máscara, que cambian al saltar aunque la cámara se mueva.
 
-La regla de decisión se fija con vídeos de desarrollo y se congela (FROZEN_RULE) antes del test con vídeos nuevos.
+La regla se elige entre CANDIDATES con los vídeos de desarrollo (validación cruzada por vídeo) y se congela en
+benchmarks/silueta_regla.json antes del test. Test mixto pre-registrado: especificidad en vídeos nuevos; sensibilidad
+en vídeos nuevos si tienen suficientes clips de locomoción, si no, la de la validación cruzada.
 """
 import argparse
 import json
@@ -15,6 +17,7 @@ from pathlib import Path
 
 import cv2
 import numpy as np
+import pandas as pd
 
 from .motion import aggregate, sha256
 from .tracking import correspondences
@@ -22,8 +25,16 @@ from .tracking import correspondences
 RING = (.15, 1.)  # suelo entre 0,15 y 1,0 × sqrt(área) desde el borde de la máscara
 MIN_POINTS, MIN_QUADRANTS, RANSAC_PX, MAX_ERROR_PX, MASK_JITTER_PX = 20, 3, 2., 3., 1.
 THRESHOLD, STEP, MAX_SIDE, MIN_MASK_FRACTION = .2, .5, 960, .001
-DEFAULT_RULE = dict(kind='floor')  # decisión de `aggregate` sobre el desplazamiento respecto al suelo
-FROZEN_RULE = None  # se fija tras el desarrollo; el test decisivo se niega a ejecutarse mientras sea None
+MINIMUM_COVERAGE = .8
+DEFAULT_RULE = dict(kind='floor', threshold=.2)
+# Lista cerrada, fijada antes de ver resultados de desarrollo:
+# floor: solo suelo; floor_shape: además la silueta debe cambiar para declarar locomoción;
+# floor_or_shape: si el suelo no decide, un cambio grande de silueta con máscara completa declara locomoción.
+CANDIDATES = ([dict(kind='floor', threshold=t) for t in (.15, .2, .3, .4)] +
+              [dict(kind=k, threshold=t, shape=e) for k, shapes in (('floor_shape', (.05, .1, .2)),
+                                                                    ('floor_or_shape', (.1, .2, .3)))
+               for t in (.15, .2, .3, .4) for e in shapes])
+RULE_FILE = Path(__file__).resolve().parents[2] / 'benchmarks' / 'silueta_regla.json'
 
 
 def project(matrix, points):
@@ -70,10 +81,102 @@ def floor_step(prev, gray, first, second):
                 camera_error_px=error, rabbit_points=int(len(a)))
 
 
+def value(row, key):
+    item = row.get(key)
+    return None if item is None or (isinstance(item, float) and np.isnan(item)) else float(item)
+
+
 def decide(row, rule):
-    if rule['kind'] == 'floor':
-        return row['movement']
-    raise ValueError(f'Regla desconocida: {rule}')
+    if rule['kind'] not in ('floor', 'floor_shape', 'floor_or_shape'):
+        raise ValueError(f'Regla desconocida: {rule}')
+    lower, upper, shape_change = value(row, 'speed_lower'), value(row, 'speed_upper'), value(row, 'elongation_range')
+    movement = 'unknown'
+    if lower is not None and (value(row, 'valid_fraction') or 0.) >= MINIMUM_COVERAGE:
+        if lower >= rule['threshold']:
+            movement = 'locomotion_candidate'
+        elif upper is not None and upper < rule['threshold']:
+            movement = 'low_motion_candidate'
+    if rule['kind'] == 'floor_shape' and movement == 'locomotion_candidate' and (
+            shape_change is None or shape_change < rule['shape']):
+        movement = 'unknown'
+    if (rule['kind'] == 'floor_or_shape' and movement == 'unknown' and shape_change is not None
+            and shape_change >= rule['shape'] and value(row, 'mask_fraction') == 1.):
+        movement = 'locomotion_candidate'
+    return movement
+
+
+def redecide(frame, rule):
+    frame = frame.copy()
+    rows = frame.to_dict('records')
+    frame['movement'] = ['unknown' if i == 0 else decide(r, rule) for i, r in enumerate(rows)]
+    return frame
+
+
+def objective(counts):
+    rates = [counts[a] / counts[b] for a, b in (('locomotion_hits', 'locomotion_clips'),
+                                                ('resting_correct', 'resting_clips')) if counts[b]]
+    return (min(rates) if rates else 0., -counts['resting_false_events'])
+
+
+def select(detections, names):
+    """Mejor candidata sobre `names`: max(min(sensibilidad, especificidad)), luego menos episodios falsos,
+    luego la primera de CANDIDATES (la más simple)."""
+    from .closure import tally
+    scores = [objective(tally({n: dict(detection=detections[i][n]) for n in names})) for i in range(len(CANDIDATES))]
+    best = max(range(len(CANDIDATES)), key=lambda i: (scores[i], -i))
+    return best, scores
+
+
+def develop(manifest, dev_out, output=RULE_FILE):
+    from .closure import CRITERIA, tally
+    from .evaluate import clip_metrics
+    manifest = Path(manifest).resolve()
+    cases = json.loads(manifest.read_text())['cases']
+    detections, hashes = [dict() for _ in CANDIDATES], {}
+    for case in cases:
+        motion = Path(dev_out) / case['name'] / 'motion.csv'
+        frame = pd.read_csv(motion)
+        labels = pd.read_csv((manifest.parent / Path(case['labels']).expanduser()).resolve())
+        video = Path(case['video']).name
+        hashes[case['name']] = sha256(motion)
+        for i, rule in enumerate(CANDIDATES):
+            detections[i][case['name']] = clip_metrics(redecide(frame, rule), labels, video)['detection']
+    names = [c['name'] for c in cases]
+    held_out = {}
+    for name in names:
+        best, _ = select(detections, [n for n in names if n != name])
+        held_out[name] = dict(rule=CANDIDATES[best], detection=detections[best][name])
+    cross_validated = tally({n: dict(detection=h['detection']) for n, h in held_out.items()})
+    best, scores = select(detections, names)
+    report = dict(rule=CANDIDATES[best], criteria=CRITERIA, cross_validated=cross_validated, held_out=held_out,
+                  training_scores=[dict(rule=r, objective=list(sc)) for r, sc in zip(CANDIDATES, scores)],
+                  protocol='Leave-one-video-out over development videos; selection maximizes min(sensitivity, '
+                           'specificity) of clip detection, then fewer false episodes, then candidate order.',
+                  motion_sha256=hashes, manifest_sha256=sha256(manifest),
+                  source_sha256={p.name: sha256(p) for p in Path(__file__).parent.glob('*.py')})
+    Path(output).write_text(json.dumps(report, indent=2, ensure_ascii=False) + '\n')
+    return report
+
+
+def mixed_verdict(test, cross_validated, criteria):
+    """Especificidad siempre en vídeos nuevos. Sensibilidad en vídeos nuevos si hay suficientes clips; si no, la
+    estimada por validación cruzada en desarrollo."""
+    if test['resting_clips'] < criteria['minimum_resting_clips']:
+        return dict(status='descriptive_only_insufficient_sample', passed=False)
+    independent = test['locomotion_clips'] >= criteria['minimum_locomotion_clips']
+    source = test if independent else cross_validated
+    sensitivity = source['locomotion_hits'] / source['locomotion_clips'] if source['locomotion_clips'] else 0.
+    specificity = test['resting_correct'] / test['resting_clips']
+    checks = dict(specificity_new_videos=specificity >= criteria['specificity'],
+                  enough_locomotion_clips=source['locomotion_clips'] >= criteria['minimum_locomotion_clips'],
+                  sensitivity=sensitivity >= criteria['sensitivity'],
+                  hit_in_every_locomotion_video=all(d['locomotion_hits'] >= criteria['hit_per_locomotion_video']
+                                                    for d in source['per_video'].values() if d['locomotion_clips']))
+    passed = all(checks.values())
+    status = ('not_resolved' if not passed else 'resolved_independent_test' if independent else
+              'resolved_specificity_independent_sensitivity_cross_validated')
+    return dict(status=status, passed=passed, checks=checks, specificity_new_videos=specificity,
+                sensitivity=sensitivity, sensitivity_source='new_videos' if independent else 'cross_validation')
 
 
 def analyze(video, masks, rule=DEFAULT_RULE):
@@ -115,40 +218,54 @@ def analyze(video, masks, rule=DEFAULT_RULE):
     return rows
 
 
-def run(manifest, out, labels=None, decisive=False):
-    from .closure import evaluate_cases
+def run(manifest, out, labels=None, decisive=False, rule_file=RULE_FILE):
+    from .closure import CRITERIA, evaluate_cases, tally
     from .handheld import relabel, sufficiency
-    rule = FROZEN_RULE if decisive else DEFAULT_RULE
-    if decisive and rule is None:
-        raise SystemExit('NO SE EJECUTA: la regla no está congelada (FROZEN_RULE). Primero desarrollo, después test.')
+    if decisive and not Path(rule_file).is_file():
+        raise SystemExit('NO SE EJECUTA: la regla no está congelada. Primero desarrollo, después test.')
+    frozen = json.loads(Path(rule_file).read_text()) if decisive else None
+    rule = frozen['rule'] if decisive else DEFAULT_RULE
     cv2.setNumThreads(1)
     info = dict(rule=rule, ring=RING, min_points=MIN_POINTS, min_quadrants=MIN_QUADRANTS, ransac_px=RANSAC_PX,
-                max_error_px=MAX_ERROR_PX, mask_jitter_px=MASK_JITTER_PX, threshold=THRESHOLD, step=STEP,
-                max_side=MAX_SIDE, python=platform.python_version(), opencv=cv2.__version__)
+                max_error_px=MAX_ERROR_PX, mask_jitter_px=MASK_JITTER_PX, step=STEP, max_side=MAX_SIDE,
+                python=platform.python_version(), opencv=cv2.__version__)
     result = evaluate_cases(manifest, out, 'silhouette', lambda paths: analyze(paths['video'], paths['masks'], rule), info)
-    if decisive:
-        report = sufficiency(labels)
-        if not report['sufficient']:
-            return relabel(Path(out) / 'verdict.json', result, 'descriptive_only_insufficient_sample', report,
-                           'verified_continuous_video_only')
-        r = result['methods']['silhouette']
-        print(f"\nSilueta, test con vídeos nuevos: locomoción {r['locomotion_hits']}/{r['locomotion_clips']}, "
-              f"reposo {r['resting_correct']}/{r['resting_clips']}, episodios falsos {r['resting_false_events']} → "
-              f"{'PASA' if r['passed'] else 'NO PASA'}\nEstado: {result['status']}")
-        return result
-    return relabel(Path(out) / 'verdict.json', result, 'development_not_decisive', None, 'development_labels')
+    if not decisive:
+        return relabel(Path(out) / 'verdict.json', result, 'development_not_decisive', None, 'development_labels')
+    test = tally(result['clips'])
+    mixed = mixed_verdict(test, frozen['cross_validated'], CRITERIA)
+    result.update(status=mixed['status'], passing_methods=['silhouette'] if mixed['passed'] else [], mixed=mixed,
+                  test_counts=test, rule_file_sha256=sha256(rule_file), sufficiency=sufficiency(labels),
+                  original_closure_status=result['status'])
+    (Path(out) / 'verdict.json').write_text(json.dumps(result, indent=2, allow_nan=False, ensure_ascii=False))
+    cv = frozen['cross_validated']
+    print(f"\nVídeos nuevos: reposo {test['resting_correct']}/{test['resting_clips']}, episodios falsos "
+          f"{test['resting_false_events']}, locomoción {test['locomotion_hits']}/{test['locomotion_clips']}"
+          f"\nValidación cruzada (desarrollo): locomoción {cv['locomotion_hits']}/{cv['locomotion_clips']}"
+          f"\nEstado: {mixed['status']}")
+    return result
 
 
 def main():
     parser = argparse.ArgumentParser(description='Locomoción respecto al suelo con máscaras SAM2')
-    parser.add_argument('--manifest', required=True)
-    parser.add_argument('--out', required=True)
-    parser.add_argument('--labels', help='Etiquetas de los vídeos de test (solo con --decisive)')
-    parser.add_argument('--decisive', action='store_true', help='Test con vídeos nuevos y regla congelada')
+    sub = parser.add_subparsers(dest='command', required=True)
+    command = sub.add_parser('run', help='Desarrollo (por defecto) o test decisivo con la regla congelada')
+    command.add_argument('--manifest', required=True)
+    command.add_argument('--out', required=True)
+    command.add_argument('--labels', help='Etiquetas de los vídeos de test (solo con --decisive)')
+    command.add_argument('--decisive', action='store_true')
+    command = sub.add_parser('develop', help='Validación cruzada y congelación de la regla')
+    command.add_argument('--manifest', required=True)
+    command.add_argument('--dev-out', required=True)
+    command.add_argument('--output', default=str(RULE_FILE))
     args = parser.parse_args()
-    if args.decisive and not args.labels:
+    if args.command == 'develop':
+        report = develop(args.manifest, args.dev_out, args.output)
+        print(json.dumps(dict(rule=report['rule'], cross_validated=report['cross_validated']), indent=2))
+    elif args.decisive and not args.labels:
         parser.error('--decisive requiere --labels')
-    run(args.manifest, args.out, args.labels, args.decisive)
+    else:
+        run(args.manifest, args.out, args.labels, args.decisive)
 
 
 if __name__ == '__main__':
