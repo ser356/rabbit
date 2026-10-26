@@ -2,15 +2,30 @@
 
 ## Estado final (2026-10-26): cerrada, no resuelta
 
-| Conjunto | Cámara | Naturaleza | Resultado |
+| Conjunto | Enfoque | Naturaleza | Resultado |
 |---|---|---|---|
-| 5 vídeos de desarrollo | En mano | Veredicto (2026-10-25) | Ningún método pasa |
-| **IMG_5190–5193** | **En mano** | **Veredicto, test independiente** | **Ningún método pasa** |
-| Desarrollo + nuevos | En mano | Informativo | Ningún método cumple umbrales |
+| 5 vídeos de desarrollo | Flujo óptico (V3.6/V3.7/flow/body/SAM2) | Veredicto | Ningún método pasa |
+| **IMG_5190–5193, cámara en mano** | **Flujo óptico** | **Veredicto, test independiente** | **Ningún método pasa** |
+| **IMG_5190–5193, cámara en mano** | **X-CLIP zero-shot (preentrenado)** | **Veredicto, test independiente** | **No pasa** |
+| Desarrollo (+ nuevos) | Ambos | Informativo | Ningún método cumple umbrales |
 
-No se graban más vídeos. Con este enfoque (flujo óptico compensado por cámara sobre guías), la locomoción **no está resuelta** y el tema queda cerrado. Solo se reabriría con un enfoque distinto, no con otra iteración de umbrales.
+Dos enfoques distintos fallan en el mismo test independiente: el flujo óptico por la compensación de cámara y la pérdida de seguimiento, y el modelo vídeo-texto preentrenado porque no discrimina. No se graban más vídeos ni se ajustan variantes sobre estos datos. **La locomoción queda cerrada como no resuelta.** Reabrirla exigiría entrenar o ajustar un modelo con ejemplos etiquetados de locomoción de Cinna que hoy no existen en cantidad suficiente.
 
-## Nuevo enfoque pre-registrado: X-CLIP zero-shot (2026-10-26, antes de ejecutar)
+## Resultado X-CLIP zero-shot (2026-10-26)
+
+Ejecutado en el Mac (MPS) según el protocolo pre-registrado (`c0aecc4`), sin cambios de frases, recorte ni umbrales.
+
+| Conjunto | Locomoción | Reposo | Episodios falsos en reposo | Resultado |
+|---|---:|---:|---:|---|
+| **IMG_5190–5193 (decisivo)** | 9/12 | **1/12** | **11** | **No pasa** |
+
+Muestras (locomoción / bajo movimiento / desconocido): IMG_5190 102/13/20, IMG_5191 18/0/31, IMG_5192 40/0/5, IMG_5193 4/8/8.
+
+Informativo, vídeos de desarrollo: también predice locomoción en los tres controles de reposo (8, 6 y 9 muestras) y casi nunca bajo movimiento (1, 8 y 7).
+
+**Lectura.** X-CLIP asigna locomoción por defecto. Su sensibilidad de 9/12 no tiene valor sin especificidad: marca episodios en 11 de 12 clips de reposo. Las frases sobre conejos no separan desplazamiento de reposo en estos recortes; el modelo no vio conejos domésticos con cámara en mano durante su entrenamiento. Como estaba pre-registrado, **no se prueban otras frases ni umbrales**: elegirlos viendo estos resultados convertiría el test en ajuste.
+
+## Protocolo X-CLIP zero-shot (pre-registrado el 2026-10-26, antes de ejecutar)
 
 El flujo óptico falla en la compensación de cámara. Se prueba un enfoque distinto: un modelo vídeo-texto ya entrenado clasifica cada ventana sin entrenamiento ni ajuste con nuestros vídeos.
 
