@@ -404,6 +404,30 @@
 			],
 			"isBackground": false,
 			"problemMatcher": []
+		},
+		{
+			"label": "RabbitSense: locomoción X-CLIP zero-shot",
+			"type": "shell",
+			"command": "/usr/bin/env",
+			"args": [
+				"PYTHONPATH=RabbitSense_repo/src",
+				"./RabbitSense_Training/.venv/bin/python",
+				"-u",
+				"-m",
+				"rabbitsense.zeroshot",
+				"--manifest",
+				"RabbitSense_repo/benchmarks/closure_mano.json",
+				"--labels",
+				"RabbitSense_ARCHIVO/etiquetas_mano.csv",
+				"--informative",
+				"RabbitSense_repo/benchmarks/closure.json",
+				"--out",
+				"RabbitSense_repo/runs/zeroshot",
+				"--device",
+				"mps"
+			],
+			"isBackground": false,
+			"problemMatcher": []
 		}
 	]
 }

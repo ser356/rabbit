@@ -10,6 +10,21 @@
 
 No se graban más vídeos. Con este enfoque (flujo óptico compensado por cámara sobre guías), la locomoción **no está resuelta** y el tema queda cerrado. Solo se reabriría con un enfoque distinto, no con otra iteración de umbrales.
 
+## Nuevo enfoque pre-registrado: X-CLIP zero-shot (2026-10-26, antes de ejecutar)
+
+El flujo óptico falla en la compensación de cámara. Se prueba un enfoque distinto: un modelo vídeo-texto ya entrenado clasifica cada ventana sin entrenamiento ni ajuste con nuestros vídeos.
+
+- **Modelo:** `microsoft/xclip-base-patch32` (X-CLIP, Transformers). Sin ajuste fino. Se registra la revisión descargada.
+- **Entrada:** 8 fotogramas cada 0,25 s, desde t−1,25 s hasta t+0,5 s, para cada intervalo de 0,5 s que termina en t. Recorte cuadrado de 2 × max(ancho, alto) de la guía, centrado en ella y escalado a 224 px. Sin guía o fuera del vídeo: desconocido.
+- **Frases** (fijadas en [zeroshot.py](src/rabbitsense/zeroshot.py)):
+  - locomoción: *hopping across the floor*, *walking across the room*, *running*;
+  - quieto: *sitting still*, *lying down resting*, *sitting and looking around*, *grooming itself*.
+
+  p(locomoción) = suma del softmax de las frases de locomoción.
+- **Decisión:** p ≥ 0,6 locomoción; p ≤ 0,4 bajo movimiento; entre ambas, desconocido. Sin ajustar.
+- **Veredicto:** IMG_5190–5193, etiquetas verificadas `2ee024c`, mismos `CRITERIA`. Los 5 vídeos de desarrollo solo son informativos. Un único método nuevo: no se prueban variantes de frases, recortes ni umbrales tras ver resultados.
+- **Limitación conocida:** X-CLIP no se entrenó con conejos domésticos y clasifica apariencia y movimiento corporal; un salto en el sitio podría verse como locomoción. Quien diseña esto ha visto los resultados agregados de flow y las hojas de contacto de estos vídeos, pero ninguna salida de X-CLIP.
+
 ## Veredicto con cámara en mano sobre vídeos nuevos (2026-10-26)
 
 Primer test independiente: ningún método ni constante se ajustó con IMG_5190–5193. Etiquetas verificadas en vídeo continuo y commiteadas antes de ejecutar (`2ee024c`, 2026-10-26 10:52). Anclas automáticas SAM2 desde una caja inicial por vídeo. Mismos criterios.
