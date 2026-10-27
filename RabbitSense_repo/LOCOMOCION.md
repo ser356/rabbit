@@ -49,6 +49,23 @@ El código ejecutado coincide por hash con [pointtrack.py](src/rabbitsense/point
 
 **Conclusión.** CoTracker3 aporta la mejor señal de desplazamiento hasta ahora, pero con estos clips no basta. Dos tercios de los errores dependen de cómo se defina la locomoción: avanzar despacio olfateando y recolocarse dentro de un reposo. El resto viene de máscaras ausentes o de movimientos de cámara grandes.
 
+### Reetiquetado a ciegas con definición física (pre-registrado el 2026-10-27, antes de reetiquetar)
+
+El usuario revisó los vídeos de diagnóstico de CoTracker y considera correctas sus medidas en los clips que discrepan. Por tanto, la discrepancia está en lo que cada parte entiende por «locomoción», no en el seguimiento. Corregir solo esos clips sería circular, así que se reetiquetan los 57 con una definición escrita antes:
+
+- **Locomoción:** Cinna cambia de sitio sobre el suelo con el cuerpo entero, aunque sea despacio.
+- **Reposo:** el cuerpo se queda en el mismo sitio. Girar la cabeza, acicalarse o estirarse sin cambiar de sitio es reposo.
+- **Desconocido:** no se ve bien, o se recoloca menos de medio cuerpo.
+
+**Procedimiento** ([blind.py](src/rabbitsense/blind.py)):
+
+1. **Página de revisión.** Muestra los vídeos originales sin superposiciones, sin etiquetas anteriores ni notas, en orden aleatorio (semilla 0) y con códigos opacos. El mapa código → clip se guarda aparte.
+2. **Etiquetas nuevas.** Las respuestas generan `RabbitSense_ARCHIVO/etiquetas_ciegas.csv` y `benchmarks/pose_ciego.json`. Las etiquetas anteriores no se modifican.
+3. **Concordancia** entre las etiquetas anteriores y las nuevas: proporción de acuerdo y kappa de Cohen.
+4. **Evaluación.** La regla de CoTracker, congelada (`885b7006…`), se evalúa sobre los tramos ya seguidos, sin volver a seguir puntos y sin cambiar umbrales ni código.
+
+**Limitación.** El usuario vio algunos clips con la predicción superpuesta. El reetiquetado es ciego al orden y a las etiquetas anteriores, pero no a ese recuerdo. Un aprobado aquí sería más débil que uno con vídeos nuevos, y así se documentaría. Los veredictos `not_resolved` anteriores no cambian.
+
 ## Línea experimental nueva: adaptación del modelo temporal a Cinna (pre-registrada el 2026-10-27)
 
 Esta línea no modifica los veredictos `not_resolved` anteriores ni sus modelos congelados. Es una evaluación exploratoria con validación cruzada agrupada, no un test independiente.
