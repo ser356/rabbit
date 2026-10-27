@@ -55,6 +55,14 @@ Con vídeo sintético, si la cámara se desplaza y el conejo está quieto, la ve
 5. **Decisión:** p ≥ 0,6 locomoción; p ≤ 0,4 bajo movimiento; entre ambas, desconocido.
 6. **Test:** una ejecución sobre los 17 vídeos de Cinna ([pose_desarrollo.json](benchmarks/pose_desarrollo.json)) con `CRITERIA`: al menos 5 clips de locomoción y 10 de reposo, sensibilidad y especificidad ≥ 0,8, y al menos un acierto por vídeo con locomoción. Estado `resolved_independent_test` o `not_resolved`. Si falla, no se reentrena mirando a Cinna.
 
+**Etiquetas de YouTube (2026-10-27):** [etiquetas_youtube.csv](../RabbitSense_ARCHIVO/etiquetas_youtube.csv), 536 clips de 74 vídeos, etiquetados por Claude mirando las hojas de contacto antes de calcular ninguna característica:
+
+- 82 clips de `locomotion` (de 32 vídeos), 127 de `resting` (de 45 vídeos) y 327 `unknown`.
+- 58 vídeos aportan al menos un clip útil.
+- Van a `unknown` los cortes de plano, títulos y cartelas, el conejo sujetado o acariciado, varios conejos, el conejo diminuto o en visión nocturna, la animación, la cámara caótica y los desplazamientos dudosos.
+- Comer, acicalarse, girar la cabeza o tumbarse sin desplazarse cuentan como `resting`, aunque se mueva la cámara.
+- La columna `notes` explica cada decisión.
+
 ## Resultado del desarrollo de la marcha (DeepLabCut, 2026-10-27)
 
 Ejecutado en el Mac (MPS) con el código commiteado (hashes verificados) y el modelo `superanimal_quadruped_hrnet_w32` (SHA-256 `a42e58d5…`). Salidas y mosaicos en [cierre/pose_dev](cierre/pose_dev/) y [cierre/pose_keypoints](cierre/pose_keypoints/). Regla congelada en [benchmarks/pose_regla.json](benchmarks/pose_regla.json).
