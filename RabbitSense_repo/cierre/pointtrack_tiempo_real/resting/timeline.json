@@ -1,0 +1,44 @@
+[
+  {
+    "start_seconds": 0.0,
+    "end_seconds": 3.0,
+    "movement": "unknown",
+    "evidence_quality": 0.0
+  },
+  {
+    "start_seconds": 3.0,
+    "end_seconds": 5.0,
+    "movement": "low_motion_candidate",
+    "evidence_quality": 1.0
+  },
+  {
+    "start_seconds": 5.0,
+    "end_seconds": 6.0,
+    "movement": "unknown",
+    "evidence_quality": 0.0
+  },
+  {
+    "start_seconds": 6.0,
+    "end_seconds": 10.5,
+    "movement": "low_motion_candidate",
+    "evidence_quality": 0.9822222222222222
+  },
+  {
+    "start_seconds": 10.5,
+    "end_seconds": 15.5,
+    "movement": "unknown",
+    "evidence_quality": 0.0
+  },
+  {
+    "start_seconds": 15.5,
+    "end_seconds": 16.5,
+    "movement": "locomotion_candidate",
+    "evidence_quality": 0.9
+  },
+  {
+    "start_seconds": 16.5,
+    "end_seconds": 17.5,
+    "movement": "low_motion_candidate",
+    "evidence_quality": 1.0
+  }
+]
