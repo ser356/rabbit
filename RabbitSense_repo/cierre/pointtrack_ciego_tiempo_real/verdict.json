@@ -1,0 +1,2018 @@
+{
+  "status": "not_resolved",
+  "passing_methods": [],
+  "criteria": {
+    "minimum_locomotion_clips": 5,
+    "minimum_resting_clips": 10,
+    "sensitivity": 0.8,
+    "specificity": 0.8,
+    "hit_per_locomotion_video": 1
+  },
+  "methods": {
+    "pointtrack": {
+      "passed": false,
+      "checks": {
+        "enough_locomotion_clips": true,
+        "enough_resting_clips": true,
+        "sensitivity": false,
+        "specificity": false,
+        "hit_in_every_locomotion_video": false
+      },
+      "sensitivity": 0.7727272727272727,
+      "specificity": 0.5142857142857142,
+      "locomotion_hits": 17,
+      "locomotion_clips": 22,
+      "resting_correct": 18,
+      "resting_clips": 35,
+      "resting_false_events": 11,
+      "per_video": {
+        "5177": {
+          "locomotion_hits": 3,
+          "locomotion_clips": 3,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0
+        },
+        "locomotion": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 2,
+          "resting_clips": 2,
+          "resting_false_events": 0
+        },
+        "resting": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 2,
+          "resting_clips": 4,
+          "resting_false_events": 1
+        },
+        "resting_972F": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 3,
+          "resting_clips": 3,
+          "resting_false_events": 0
+        },
+        "resting_4944": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 3,
+          "resting_clips": 3,
+          "resting_false_events": 0
+        },
+        "IMG_5190": {
+          "locomotion_hits": 9,
+          "locomotion_clips": 9,
+          "resting_correct": 2,
+          "resting_clips": 7,
+          "resting_false_events": 2
+        },
+        "IMG_5191": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 3,
+          "resting_correct": 1,
+          "resting_clips": 3,
+          "resting_false_events": 1
+        },
+        "IMG_5192": {
+          "locomotion_hits": 2,
+          "locomotion_clips": 2,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0
+        },
+        "IMG_5193": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.34": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 1,
+          "resting_clips": 2,
+          "resting_false_events": 1
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.35": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 0,
+          "resting_clips": 1,
+          "resting_false_events": 0
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.36": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 0,
+          "resting_clips": 2,
+          "resting_false_events": 2
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.37": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 1,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.38": {
+          "locomotion_hits": 1,
+          "locomotion_clips": 1,
+          "resting_correct": 0,
+          "resting_clips": 2,
+          "resting_false_events": 2
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.38 (1)": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 0,
+          "resting_clips": 2,
+          "resting_false_events": 2
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.40": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 4,
+          "resting_clips": 4,
+          "resting_false_events": 0
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.41": {
+          "locomotion_hits": 2,
+          "locomotion_clips": 3,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0
+        }
+      }
+    }
+  },
+  "scope": "Regla física fijada antes de ejecutar, sin entrenamiento ni selección; los 57 clips verificados se usaron en enfoques anteriores, así que no es un test con vídeos nuevos.",
+  "inputs": {
+    "5177": {
+      "video": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_repo/data/cinna_review_v24/IMG_5177.mp4",
+        "sha256": "3ab323f706e18eb8073088c7d0570ce21d1e740da5e12685a37497eaf673d0d7"
+      },
+      "anchors": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_ARCHIVO/cinna_marcas_v32.json",
+        "sha256": "026886cff0a06d34c21fbe62cd0b7bfb19fdb78fb1dd7e4227dad20fb097ef58"
+      },
+      "labels": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_ARCHIVO/etiquetas_ciegas.csv",
+        "sha256": "4768202fb9c55bdf773eb51027c1f598f7abf43f824ab406f73c800f10a6f6aa"
+      },
+      "floor": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_repo/cierre/silueta_dev/5177/motion.csv",
+        "sha256": "6cecaf494b8b74464d36716b064aaeee16c392260fa8f72a7a3669aa629ff761"
+      }
+    },
+    "locomotion": {
+      "video": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_Training/data/cinna_review_v23/AE22D736-2B56-419D-886E-7926A182891E.mp4",
+        "sha256": "a7fe899552f9fdb4ee48b0c6b5906321739424e788a8966e2bfee82ca13fa379"
+      },
+      "anchors": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_Training/runs/anchors_v23/AE22D736-2B56-419D-886E-7926A182891E.mp4.json",
+        "sha256": "141b4b72d9f466b891a95ca7237cdfc88d34f526761e1ea7a9dccf919d4e4d2d"
+      },
+      "labels": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_ARCHIVO/etiquetas_ciegas.csv",
+        "sha256": "4768202fb9c55bdf773eb51027c1f598f7abf43f824ab406f73c800f10a6f6aa"
+      },
+      "floor": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_repo/cierre/silueta_dev/locomotion/motion.csv",
+        "sha256": "8e14f6b21109b5b88687af1a99bccf1e75b3fb7d3a7fcd90b80d3c17cbea7709"
+      }
+    },
+    "resting": {
+      "video": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_Training/data/cinna_review_v23/6BE6BE37-E828-4D23-A242-7DD4598128BF.mp4",
+        "sha256": "d9d37d64e4d7e05e1bbcb8a51a65f943df62f7abf50f724a8abb40e1edc8a7f0"
+      },
+      "anchors": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_Training/runs/anchors_v23/6BE6BE37-E828-4D23-A242-7DD4598128BF.mp4.json",
+        "sha256": "dc61669f1d75e27982ec354d2f37c04d929dcd80ded764e39f42e28b92ed48f9"
+      },
+      "labels": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_ARCHIVO/etiquetas_ciegas.csv",
+        "sha256": "4768202fb9c55bdf773eb51027c1f598f7abf43f824ab406f73c800f10a6f6aa"
+      },
+      "floor": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_repo/cierre/silueta_dev/resting/motion.csv",
+        "sha256": "036f98320df4e67c0274b942218c9cb64da07b34eaab4c60f717904fd4d24195"
+      }
+    },
+    "resting_972F": {
+      "video": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_Training/data/cinna_review_v23/972F531F-A923-44DC-B69F-0B536A239FC3.mp4",
+        "sha256": "e1c86be56c09f9669b614e1e54fcbeea7fe863a3278b3d20ee3dd70983e72b46"
+      },
+      "anchors": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_Training/runs/anchors_v23/972F531F-A923-44DC-B69F-0B536A239FC3.mp4.json",
+        "sha256": "c1412b16b9334ecb147151aa06b88b3357d59a77b2e466f2cc36399696ac0164"
+      },
+      "labels": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_ARCHIVO/etiquetas_ciegas.csv",
+        "sha256": "4768202fb9c55bdf773eb51027c1f598f7abf43f824ab406f73c800f10a6f6aa"
+      },
+      "floor": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_repo/cierre/silueta_dev/resting_972F/motion.csv",
+        "sha256": "6ea7a0b80dab94c398c83a3527a54381387b9660cc578a6dc64b0f4281e79b02"
+      }
+    },
+    "resting_4944": {
+      "video": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_Training/data/cinna_review_v23/IMG_4944.MOV",
+        "sha256": "59614ef4010bf5c64dfa7f9eb8165cf3fc45d006ffc23312c733ccab56af0ef1"
+      },
+      "anchors": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_Training/runs/anchors_v23/IMG_4944.MOV.json",
+        "sha256": "78d49a23d85f8ba8d351b92c9ac230354a50ccbc397e3ee7f6157f51b677ca20"
+      },
+      "labels": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_ARCHIVO/etiquetas_ciegas.csv",
+        "sha256": "4768202fb9c55bdf773eb51027c1f598f7abf43f824ab406f73c800f10a6f6aa"
+      },
+      "floor": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_repo/cierre/silueta_dev/resting_4944/motion.csv",
+        "sha256": "dd842f65abb7146bad0d5d13516f4036dc7adad6068343ee351c0ad3fc110ecd"
+      }
+    },
+    "IMG_5190": {
+      "video": {
+        "path": "/Users/sergiogarciaseco/Downloads/IMG_5190.MOV",
+        "sha256": "dd9da0733463690e3a528c41103fe00d5604bd6cbf3e2cc44cbdd1389d7fb179"
+      },
+      "anchors": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_repo/runs/handheld/anchors/IMG_5190.json",
+        "sha256": "acebf8195e2549b976c113fb5b9a9fadccec3062aa1822943753cfdee1e2e7b7"
+      },
+      "labels": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_ARCHIVO/etiquetas_ciegas.csv",
+        "sha256": "4768202fb9c55bdf773eb51027c1f598f7abf43f824ab406f73c800f10a6f6aa"
+      },
+      "floor": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_repo/cierre/silueta_dev/IMG_5190/motion.csv",
+        "sha256": "c4b24a231008b566c8a9153669337faf0fadf939ae76d3b5b133a94c71c3ae73"
+      }
+    },
+    "IMG_5191": {
+      "video": {
+        "path": "/Users/sergiogarciaseco/Downloads/IMG_5191.MOV",
+        "sha256": "94f4375ea82962752c0b60da136c3d0f7360a9c4f1bac0ea633c67e718aadeb0"
+      },
+      "anchors": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_repo/runs/handheld/anchors/IMG_5191.json",
+        "sha256": "9218cb170ac18e3ef3f1c99afce038dec45499b66ac62ede275cd320ed3be0bd"
+      },
+      "labels": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_ARCHIVO/etiquetas_ciegas.csv",
+        "sha256": "4768202fb9c55bdf773eb51027c1f598f7abf43f824ab406f73c800f10a6f6aa"
+      },
+      "floor": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_repo/cierre/silueta_dev/IMG_5191/motion.csv",
+        "sha256": "ab32e9738ebf7878294af1ac1c4d4859293cc34fa9363fc3561b08e569329d44"
+      }
+    },
+    "IMG_5192": {
+      "video": {
+        "path": "/Users/sergiogarciaseco/Downloads/IMG_5192.MOV",
+        "sha256": "592ac09a9e14bd446a4efef176b811159b9966672f8c4ce4b1c7f0b3a929eb26"
+      },
+      "anchors": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_repo/runs/handheld/anchors/IMG_5192.json",
+        "sha256": "69a9c5d2c23586e404fe62e67d1b2c2b73699fb91e731d441bcfc37e44943b68"
+      },
+      "labels": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_ARCHIVO/etiquetas_ciegas.csv",
+        "sha256": "4768202fb9c55bdf773eb51027c1f598f7abf43f824ab406f73c800f10a6f6aa"
+      },
+      "floor": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_repo/cierre/silueta_dev/IMG_5192/motion.csv",
+        "sha256": "adb7204338b437ae1fecb500fc58efe5eaba5e590985f97cae7d31a2dde32bbf"
+      }
+    },
+    "IMG_5193": {
+      "video": {
+        "path": "/Users/sergiogarciaseco/Downloads/IMG_5193.MOV",
+        "sha256": "a5f90eabbf9ada805745dc2cc593050d5621a662ecf79cf44c97822035abfca5"
+      },
+      "anchors": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_repo/runs/handheld/anchors/IMG_5193.json",
+        "sha256": "073c6f0e5bc6d0eee8a26b3dfa647302b36988adb425557d35f23618a355094d"
+      },
+      "labels": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_ARCHIVO/etiquetas_ciegas.csv",
+        "sha256": "4768202fb9c55bdf773eb51027c1f598f7abf43f824ab406f73c800f10a6f6aa"
+      },
+      "floor": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_repo/cierre/silueta_dev/IMG_5193/motion.csv",
+        "sha256": "29f66500f0f8a23feb207f1d437724adf91dc2f29bf5f0b7ad40d3400e01daa5"
+      }
+    },
+    "WhatsApp Video 2026-10-26 at 18.44.34": {
+      "video": {
+        "path": "/Users/sergiogarciaseco/Downloads/WhatsApp Video 2026-10-26 at 18.44.34.mp4",
+        "sha256": "8b57c2dc2dcc03c82a98bf3106f1dd55fccacd0c03a4fed1b91a30126480e5bc"
+      },
+      "anchors": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_repo/runs/handheld/anchors/WhatsApp Video 2026-10-26 at 18.44.34.json",
+        "sha256": "f88007061f27c7ead36166cda62da4d1d1fe6b639e3124090797e7731db060dc"
+      },
+      "labels": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_ARCHIVO/etiquetas_ciegas.csv",
+        "sha256": "4768202fb9c55bdf773eb51027c1f598f7abf43f824ab406f73c800f10a6f6aa"
+      },
+      "floor": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_repo/runs/silueta_test/WhatsApp Video 2026-10-26 at 18.44.34/motion.csv",
+        "sha256": "6c9ec819cafca2eb3b6a03cab2b1dfb663050dc5dfbcde0b9fa5b9cff4700876"
+      }
+    },
+    "WhatsApp Video 2026-10-26 at 18.44.35": {
+      "video": {
+        "path": "/Users/sergiogarciaseco/Downloads/WhatsApp Video 2026-10-26 at 18.44.35.mp4",
+        "sha256": "7875be4c7e756031c34976fea01adaeff2a724591c44259d51b0a98fcda5b68a"
+      },
+      "anchors": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_repo/runs/handheld/anchors/WhatsApp Video 2026-10-26 at 18.44.35.json",
+        "sha256": "64423faf22b6fd85b31a27fbea7ca86c2ef5c81ec62b26d75b90d100fff64911"
+      },
+      "labels": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_ARCHIVO/etiquetas_ciegas.csv",
+        "sha256": "4768202fb9c55bdf773eb51027c1f598f7abf43f824ab406f73c800f10a6f6aa"
+      },
+      "floor": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_repo/runs/silueta_test/WhatsApp Video 2026-10-26 at 18.44.35/motion.csv",
+        "sha256": "9f5f272ab30bc44b743c2163ef206827b20e17383e03f63c8272cbe6d0b5fbc2"
+      }
+    },
+    "WhatsApp Video 2026-10-26 at 18.44.36": {
+      "video": {
+        "path": "/Users/sergiogarciaseco/Downloads/WhatsApp Video 2026-10-26 at 18.44.36.mp4",
+        "sha256": "76c61ec2c50efd4790bd67ed0080cb45b28ac004cfd930f134970fda22f4e560"
+      },
+      "anchors": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_repo/runs/handheld/anchors/WhatsApp Video 2026-10-26 at 18.44.36.json",
+        "sha256": "3d3b481ae27d1eda3736f300f2bdc6a64bca66576af3ad1743bf183f54ee54fa"
+      },
+      "labels": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_ARCHIVO/etiquetas_ciegas.csv",
+        "sha256": "4768202fb9c55bdf773eb51027c1f598f7abf43f824ab406f73c800f10a6f6aa"
+      },
+      "floor": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_repo/runs/silueta_test/WhatsApp Video 2026-10-26 at 18.44.36/motion.csv",
+        "sha256": "372fe0f25f5964061dbc3c88602149909b5358f1089441dbd8d21daf09b737cc"
+      }
+    },
+    "WhatsApp Video 2026-10-26 at 18.44.37": {
+      "video": {
+        "path": "/Users/sergiogarciaseco/Downloads/WhatsApp Video 2026-10-26 at 18.44.37.mp4",
+        "sha256": "b2f9906dfb6d79b576cd05b8b318d45ba3831d10dff63a9364c78be382c137ef"
+      },
+      "anchors": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_repo/runs/handheld/anchors/WhatsApp Video 2026-10-26 at 18.44.37.json",
+        "sha256": "24f565322d99aabb20a226585e745f8def36b7a2458952d9d95bad6aca3fc4bb"
+      },
+      "labels": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_ARCHIVO/etiquetas_ciegas.csv",
+        "sha256": "4768202fb9c55bdf773eb51027c1f598f7abf43f824ab406f73c800f10a6f6aa"
+      },
+      "floor": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_repo/runs/silueta_test/WhatsApp Video 2026-10-26 at 18.44.37/motion.csv",
+        "sha256": "92c7740dd209f0f21732a0877483a2e8c0a5e8d66cfb3a5a9e5b6ad2a4dd00f6"
+      }
+    },
+    "WhatsApp Video 2026-10-26 at 18.44.38": {
+      "video": {
+        "path": "/Users/sergiogarciaseco/Downloads/WhatsApp Video 2026-10-26 at 18.44.38.mp4",
+        "sha256": "4a56bdfb0eaef5a3f622bb1732be64daa6051349db731d468ad969e538910bba"
+      },
+      "anchors": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_repo/runs/handheld/anchors/WhatsApp Video 2026-10-26 at 18.44.38.json",
+        "sha256": "fd39d0e9450b727efb460a6acacc22f2a1e6fa7318a94565cc59065148a538d1"
+      },
+      "labels": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_ARCHIVO/etiquetas_ciegas.csv",
+        "sha256": "4768202fb9c55bdf773eb51027c1f598f7abf43f824ab406f73c800f10a6f6aa"
+      },
+      "floor": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_repo/runs/silueta_test/WhatsApp Video 2026-10-26 at 18.44.38/motion.csv",
+        "sha256": "c4dc9df8b822ba23d3868faf14826cbc6c63fd889a322d2fb0895956a4f5a89b"
+      }
+    },
+    "WhatsApp Video 2026-10-26 at 18.44.38 (1)": {
+      "video": {
+        "path": "/Users/sergiogarciaseco/Downloads/WhatsApp Video 2026-10-26 at 18.44.38 (1).mp4",
+        "sha256": "9d2bdf70b197d59a8f9aeea3cc6deed32fdca257c07ad0eaf6904a23a620fb89"
+      },
+      "anchors": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_repo/runs/handheld/anchors/WhatsApp Video 2026-10-26 at 18.44.38 (1).json",
+        "sha256": "632b7ce63c02548e8eb29091d5b77093d9a161ac3e037c371bb80f7ab53b0015"
+      },
+      "labels": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_ARCHIVO/etiquetas_ciegas.csv",
+        "sha256": "4768202fb9c55bdf773eb51027c1f598f7abf43f824ab406f73c800f10a6f6aa"
+      },
+      "floor": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_repo/runs/silueta_test/WhatsApp Video 2026-10-26 at 18.44.38 (1)/motion.csv",
+        "sha256": "0c14356b49ebaa2ce9a5dee72f7c37650778a47ab90112ba6d710abe454c3e89"
+      }
+    },
+    "WhatsApp Video 2026-10-26 at 18.44.40": {
+      "video": {
+        "path": "/Users/sergiogarciaseco/Downloads/WhatsApp Video 2026-10-26 at 18.44.40.mp4",
+        "sha256": "45de8a163988809a8303a05aa175646aa39dd2d2b7dea36a1ecc6689b0b102c5"
+      },
+      "anchors": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_repo/runs/handheld/anchors/WhatsApp Video 2026-10-26 at 18.44.40.json",
+        "sha256": "2bb4664eb5587158f0e407eff5cd68e022da56b8f2b09517749d96b815ff7375"
+      },
+      "labels": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_ARCHIVO/etiquetas_ciegas.csv",
+        "sha256": "4768202fb9c55bdf773eb51027c1f598f7abf43f824ab406f73c800f10a6f6aa"
+      },
+      "floor": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_repo/runs/silueta_test/WhatsApp Video 2026-10-26 at 18.44.40/motion.csv",
+        "sha256": "93657d59d074eba6ce35cb567f1e680c037fe7f2c34312e936b828709f47994f"
+      }
+    },
+    "WhatsApp Video 2026-10-26 at 18.44.41": {
+      "video": {
+        "path": "/Users/sergiogarciaseco/Downloads/WhatsApp Video 2026-10-26 at 18.44.41.mp4",
+        "sha256": "8718cb42c146d243dd9e8fd9183cd5dbdbd3a74d8c0eb5f156dc410ddc7e1906"
+      },
+      "anchors": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_repo/runs/handheld/anchors/WhatsApp Video 2026-10-26 at 18.44.41.json",
+        "sha256": "0954155ef39038d0072a10c2ef106b6a8cfba01452655721b6416b37b5cdbfe6"
+      },
+      "labels": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_ARCHIVO/etiquetas_ciegas.csv",
+        "sha256": "4768202fb9c55bdf773eb51027c1f598f7abf43f824ab406f73c800f10a6f6aa"
+      },
+      "floor": {
+        "path": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_repo/runs/silueta_test/WhatsApp Video 2026-10-26 at 18.44.41/motion.csv",
+        "sha256": "b3bfb1f3e99699595a89388db34e5899493d75bd715ce03c5bd762c86353a596"
+      }
+    }
+  },
+  "manifest_sha256": "998396e515ba16d66b5d566dd4d277b05974baae90684e5fccf779c197583d3f",
+  "method": {
+    "model": {
+      "repo": "facebookresearch/co-tracker",
+      "name": "cotracker3_offline"
+    },
+    "chunk_seconds": 4.0,
+    "stride_seconds": 2.0,
+    "half_window_seconds": 1.0,
+    "target_fps": 15.0,
+    "side": 512,
+    "locomotion_lower": 0.5,
+    "low_upper": 0.25,
+    "min_valid": 0.6,
+    "ransac_px": 3.0,
+    "points": {
+      "rabbit": 64,
+      "background_grid": [
+        20,
+        15
+      ],
+      "ring": 64
+    },
+    "python": "3.12.15",
+    "source_sha256": "866722666221e7546990f90cb5c6116ef73445cc51dca63dc48a04bd658264af",
+    "time_base": "tiempo real por fotograma (CAP_PROP_POS_MSEC), no fotograma ÷ fps"
+  },
+  "source_sha256": {
+    "blind.py": "c80c0680a5db9274756374cbfcf4dc9e8f7bb5b10cb3ad373910e8919ebad817",
+    "detector_audit.py": "4259348dc03246b1589c356aa5561dd0622a1fc6e18b1224131ddbeb35d5921e",
+    "body.py": "cbf86261d9c0555874b772e8abfeed6fdc4c102afc0666eae12ebeb1918a1973",
+    "zeroshot.py": "18af487523e6eccc1ad338763e5fa57f6329788023c1eaa4cf444faf3c7c7f5f",
+    "silhouette.py": "20f21fc0bae3f6c60e2ebaa1a34c4f0e3fd8f0d7461fd8653553d56b27455f02",
+    "bridge.py": "19e0f80e3fb6a1665a40670eb51fa139f100af07b605404cbd20013fe8a1c6ff",
+    "__init__.py": "b2988ffa8646ca94649ef7296a741e22d7acd1a077c0bc13cbfab00675bd0fe9",
+    "motion.py": "948f9e8daf9c352930c1e1f66dc253990a9cc367167933a8b2b96a686db32c87",
+    "adapt_motion.py": "181671fd7c3692de01564974b52a628549b8ebc9a03827c2abee7ce3c5365000",
+    "pose.py": "89d0ce7067f1bd1485e6277c2f47a77d96d784d79eae4558dd8616dd80225660",
+    "adapt.py": "bdc61090351a5e4b0e873bcdff4b9032dfbc1a2b79de3733e38e9d491259c2c5",
+    "evaluate.py": "d461822e0f9c71fc2c35b8a858007869f0fd9c47337906379f003a03f644afa5",
+    "segment.py": "125da7808c8c109ff70dcacedcad1aa9abfb7cf82846b88cf34c98465c9aa8de",
+    "v36.py": "476c24d8a5ed256f1a788fd3d134e0be766244227d739d9a8bf7ea8a250c7e91",
+    "pointtrack.py": "866722666221e7546990f90cb5c6116ef73445cc51dca63dc48a04bd658264af",
+    "tracking.py": "6ec03ee6e39a746e69ba6db99aac850fc1c621d0cca7e98758004a00e02f9cdf",
+    "webclips.py": "7803e54cc1458a3678a693a2e44f104c8622e93f4b3a9fc755e4025acc93096b",
+    "__main__.py": "b6a3089000284632d8404c674d60d8f43b1a840a3505c64c7cce94cdd448d89b",
+    "closure.py": "416fe3983b082ca68e03db8edae7933410ad3fdb4dcf1fb287f75c0615bdedf0",
+    "handheld.py": "6b66233a1c75874ac9969233527797e90476d876991ac347f096778cf8f1ece7",
+    "v37.py": "a5d146ad05f940c2b7137b29de0db3910a80b5470bf1424ad828439929711df4"
+  },
+  "clips": {
+    "5177": {
+      "clips": [
+        {
+          "clip_id": "v24_5177_00",
+          "label": "locomotion",
+          "prediction": "unknown",
+          "candidate_events": [
+            {
+              "start_seconds": 32.0,
+              "end_seconds": 32.5,
+              "duration_seconds": 0.5
+            },
+            {
+              "start_seconds": 33.0,
+              "end_seconds": 33.5,
+              "duration_seconds": 0.5
+            }
+          ],
+          "detection_correct": true,
+          "correct": false,
+          "votes_seconds": {
+            "locomotion_candidate": 1.0,
+            "low_motion_candidate": 0.0,
+            "unknown": 2.5
+          },
+          "evaluated_seconds": 3.5,
+          "clip_seconds": 3.5,
+          "known_fraction": 0.2857142857142857
+        },
+        {
+          "clip_id": "v24_5177_01",
+          "label": "locomotion",
+          "prediction": "low_motion_candidate",
+          "candidate_events": [
+            {
+              "start_seconds": 34.0,
+              "end_seconds": 35.5,
+              "duration_seconds": 1.5
+            }
+          ],
+          "detection_correct": true,
+          "correct": false,
+          "votes_seconds": {
+            "locomotion_candidate": 1.5,
+            "low_motion_candidate": 2.0,
+            "unknown": 0.0
+          },
+          "evaluated_seconds": 3.5,
+          "clip_seconds": 3.5,
+          "known_fraction": 1.0
+        },
+        {
+          "clip_id": "v24_5177_02",
+          "label": "locomotion",
+          "prediction": "locomotion_candidate",
+          "candidate_events": [
+            {
+              "start_seconds": 38.0,
+              "end_seconds": 41.0,
+              "duration_seconds": 3.0
+            }
+          ],
+          "detection_correct": true,
+          "correct": true,
+          "votes_seconds": {
+            "locomotion_candidate": 3.0,
+            "low_motion_candidate": 0.0,
+            "unknown": 0.0
+          },
+          "evaluated_seconds": 3.0,
+          "clip_seconds": 3.3,
+          "known_fraction": 1.0
+        }
+      ],
+      "n": 3,
+      "detection": {
+        "locomotion_hits": 3,
+        "locomotion_clips": 3,
+        "resting_correct": 0,
+        "resting_clips": 0,
+        "resting_false_events": 0
+      },
+      "accuracy_including_abstentions": 0.3333333333333333,
+      "accuracy_on_predicted": 0.5,
+      "clip_coverage": 0.6666666666666666,
+      "balanced_accuracy": null,
+      "warning": "Reviewed legacy clip labels; not frame-level truth. Exploring is not a negative class. Candidate events describe predictions, not event precision or recall. Detection: locomotion clip hit = at least one candidate episode; resting clip correct = low-motion strict majority and no episode. Abstention is never correct. A single-class subset cannot establish specificity or balanced accuracy."
+    },
+    "locomotion": {
+      "clips": [
+        {
+          "clip_id": "v24_0010",
+          "label": "resting",
+          "prediction": "low_motion_candidate",
+          "candidate_events": [],
+          "detection_correct": true,
+          "correct": true,
+          "votes_seconds": {
+            "locomotion_candidate": 0.0,
+            "low_motion_candidate": 4.0,
+            "unknown": 0.0
+          },
+          "evaluated_seconds": 4.0,
+          "clip_seconds": 4.0,
+          "known_fraction": 1.0
+        },
+        {
+          "clip_id": "v24_0011",
+          "label": "resting",
+          "prediction": "low_motion_candidate",
+          "candidate_events": [],
+          "detection_correct": true,
+          "correct": true,
+          "votes_seconds": {
+            "locomotion_candidate": 0.0,
+            "low_motion_candidate": 3.5,
+            "unknown": 0.5
+          },
+          "evaluated_seconds": 4.0,
+          "clip_seconds": 4.0,
+          "known_fraction": 0.875
+        }
+      ],
+      "n": 2,
+      "detection": {
+        "locomotion_hits": 0,
+        "locomotion_clips": 0,
+        "resting_correct": 2,
+        "resting_clips": 2,
+        "resting_false_events": 0
+      },
+      "accuracy_including_abstentions": 1.0,
+      "accuracy_on_predicted": 1.0,
+      "clip_coverage": 1.0,
+      "balanced_accuracy": null,
+      "warning": "Reviewed legacy clip labels; not frame-level truth. Exploring is not a negative class. Candidate events describe predictions, not event precision or recall. Detection: locomotion clip hit = at least one candidate episode; resting clip correct = low-motion strict majority and no episode. Abstention is never correct. A single-class subset cannot establish specificity or balanced accuracy."
+    },
+    "resting": {
+      "clips": [
+        {
+          "clip_id": "v24_0002",
+          "label": "resting",
+          "prediction": "unknown",
+          "candidate_events": [],
+          "detection_correct": false,
+          "correct": false,
+          "votes_seconds": {
+            "locomotion_candidate": 0.0,
+            "low_motion_candidate": 1.0,
+            "unknown": 3.0
+          },
+          "evaluated_seconds": 4.0,
+          "clip_seconds": 4.0,
+          "known_fraction": 0.25
+        },
+        {
+          "clip_id": "v24_0003",
+          "label": "resting",
+          "prediction": "low_motion_candidate",
+          "candidate_events": [],
+          "detection_correct": true,
+          "correct": true,
+          "votes_seconds": {
+            "locomotion_candidate": 0.0,
+            "low_motion_candidate": 3.0,
+            "unknown": 1.0
+          },
+          "evaluated_seconds": 4.0,
+          "clip_seconds": 4.0,
+          "known_fraction": 0.75
+        },
+        {
+          "clip_id": "v24_0004",
+          "label": "resting",
+          "prediction": "low_motion_candidate",
+          "candidate_events": [],
+          "detection_correct": true,
+          "correct": true,
+          "votes_seconds": {
+            "locomotion_candidate": 0.0,
+            "low_motion_candidate": 2.5,
+            "unknown": 1.5
+          },
+          "evaluated_seconds": 4.0,
+          "clip_seconds": 4.0,
+          "known_fraction": 0.625
+        },
+        {
+          "clip_id": "v24_0005",
+          "label": "resting",
+          "prediction": "unknown",
+          "candidate_events": [
+            {
+              "start_seconds": 15.5,
+              "end_seconds": 16.0,
+              "duration_seconds": 0.5
+            }
+          ],
+          "detection_correct": false,
+          "correct": false,
+          "votes_seconds": {
+            "locomotion_candidate": 0.5,
+            "low_motion_candidate": 0.0,
+            "unknown": 3.5
+          },
+          "evaluated_seconds": 4.0,
+          "clip_seconds": 4.0,
+          "known_fraction": 0.125
+        }
+      ],
+      "n": 4,
+      "detection": {
+        "locomotion_hits": 0,
+        "locomotion_clips": 0,
+        "resting_correct": 2,
+        "resting_clips": 4,
+        "resting_false_events": 1
+      },
+      "accuracy_including_abstentions": 0.5,
+      "accuracy_on_predicted": 1.0,
+      "clip_coverage": 0.5,
+      "balanced_accuracy": null,
+      "warning": "Reviewed legacy clip labels; not frame-level truth. Exploring is not a negative class. Candidate events describe predictions, not event precision or recall. Detection: locomotion clip hit = at least one candidate episode; resting clip correct = low-motion strict majority and no episode. Abstention is never correct. A single-class subset cannot establish specificity or balanced accuracy."
+    },
+    "resting_972F": {
+      "clips": [
+        {
+          "clip_id": "v24_0007",
+          "label": "resting",
+          "prediction": "low_motion_candidate",
+          "candidate_events": [],
+          "detection_correct": true,
+          "correct": true,
+          "votes_seconds": {
+            "locomotion_candidate": 0.0,
+            "low_motion_candidate": 4.0,
+            "unknown": 0.0
+          },
+          "evaluated_seconds": 4.0,
+          "clip_seconds": 4.0,
+          "known_fraction": 1.0
+        },
+        {
+          "clip_id": "v24_0008",
+          "label": "resting",
+          "prediction": "low_motion_candidate",
+          "candidate_events": [],
+          "detection_correct": true,
+          "correct": true,
+          "votes_seconds": {
+            "locomotion_candidate": 0.0,
+            "low_motion_candidate": 4.0,
+            "unknown": 0.0
+          },
+          "evaluated_seconds": 4.0,
+          "clip_seconds": 4.0,
+          "known_fraction": 1.0
+        },
+        {
+          "clip_id": "v24_0009",
+          "label": "resting",
+          "prediction": "low_motion_candidate",
+          "candidate_events": [],
+          "detection_correct": true,
+          "correct": true,
+          "votes_seconds": {
+            "locomotion_candidate": 0.0,
+            "low_motion_candidate": 3.5,
+            "unknown": 0.0
+          },
+          "evaluated_seconds": 3.5,
+          "clip_seconds": 3.78,
+          "known_fraction": 1.0
+        }
+      ],
+      "n": 3,
+      "detection": {
+        "locomotion_hits": 0,
+        "locomotion_clips": 0,
+        "resting_correct": 3,
+        "resting_clips": 3,
+        "resting_false_events": 0
+      },
+      "accuracy_including_abstentions": 1.0,
+      "accuracy_on_predicted": 1.0,
+      "clip_coverage": 1.0,
+      "balanced_accuracy": null,
+      "warning": "Reviewed legacy clip labels; not frame-level truth. Exploring is not a negative class. Candidate events describe predictions, not event precision or recall. Detection: locomotion clip hit = at least one candidate episode; resting clip correct = low-motion strict majority and no episode. Abstention is never correct. A single-class subset cannot establish specificity or balanced accuracy."
+    },
+    "resting_4944": {
+      "clips": [
+        {
+          "clip_id": "v24_0017",
+          "label": "resting",
+          "prediction": "low_motion_candidate",
+          "candidate_events": [],
+          "detection_correct": true,
+          "correct": true,
+          "votes_seconds": {
+            "locomotion_candidate": 0.0,
+            "low_motion_candidate": 3.5,
+            "unknown": 0.5
+          },
+          "evaluated_seconds": 4.0,
+          "clip_seconds": 4.0,
+          "known_fraction": 0.875
+        },
+        {
+          "clip_id": "v24_0018",
+          "label": "resting",
+          "prediction": "low_motion_candidate",
+          "candidate_events": [],
+          "detection_correct": true,
+          "correct": true,
+          "votes_seconds": {
+            "locomotion_candidate": 0.0,
+            "low_motion_candidate": 3.0,
+            "unknown": 1.0
+          },
+          "evaluated_seconds": 4.0,
+          "clip_seconds": 4.0,
+          "known_fraction": 0.75
+        },
+        {
+          "clip_id": "v24_0019",
+          "label": "resting",
+          "prediction": "low_motion_candidate",
+          "candidate_events": [],
+          "detection_correct": true,
+          "correct": true,
+          "votes_seconds": {
+            "locomotion_candidate": 0.0,
+            "low_motion_candidate": 2.416666666666666,
+            "unknown": 0.0
+          },
+          "evaluated_seconds": 2.416666666666666,
+          "clip_seconds": 2.47,
+          "known_fraction": 1.0
+        }
+      ],
+      "n": 3,
+      "detection": {
+        "locomotion_hits": 0,
+        "locomotion_clips": 0,
+        "resting_correct": 3,
+        "resting_clips": 3,
+        "resting_false_events": 0
+      },
+      "accuracy_including_abstentions": 1.0,
+      "accuracy_on_predicted": 1.0,
+      "clip_coverage": 1.0,
+      "balanced_accuracy": null,
+      "warning": "Reviewed legacy clip labels; not frame-level truth. Exploring is not a negative class. Candidate events describe predictions, not event precision or recall. Detection: locomotion clip hit = at least one candidate episode; resting clip correct = low-motion strict majority and no episode. Abstention is never correct. A single-class subset cannot establish specificity or balanced accuracy."
+    },
+    "IMG_5190": {
+      "clips": [
+        {
+          "clip_id": "mano_IMG_5190_0",
+          "label": "locomotion",
+          "prediction": "unknown",
+          "candidate_events": [
+            {
+              "start_seconds": 0.0,
+              "end_seconds": 2.0,
+              "duration_seconds": 2.0
+            }
+          ],
+          "detection_correct": true,
+          "correct": false,
+          "votes_seconds": {
+            "locomotion_candidate": 2.0,
+            "low_motion_candidate": 2.0,
+            "unknown": 0.0
+          },
+          "evaluated_seconds": 4.0,
+          "clip_seconds": 4.0,
+          "known_fraction": 1.0
+        },
+        {
+          "clip_id": "mano_IMG_5190_4",
+          "label": "resting",
+          "prediction": "unknown",
+          "candidate_events": [],
+          "detection_correct": false,
+          "correct": false,
+          "votes_seconds": {
+            "locomotion_candidate": 0.0,
+            "low_motion_candidate": 1.5,
+            "unknown": 2.5
+          },
+          "evaluated_seconds": 4.0,
+          "clip_seconds": 4.0,
+          "known_fraction": 0.375
+        },
+        {
+          "clip_id": "mano_IMG_5190_8",
+          "label": "locomotion",
+          "prediction": "locomotion_candidate",
+          "candidate_events": [
+            {
+              "start_seconds": 8.0,
+              "end_seconds": 12.0,
+              "duration_seconds": 4.0
+            }
+          ],
+          "detection_correct": true,
+          "correct": true,
+          "votes_seconds": {
+            "locomotion_candidate": 4.0,
+            "low_motion_candidate": 0.0,
+            "unknown": 0.0
+          },
+          "evaluated_seconds": 4.0,
+          "clip_seconds": 4.0,
+          "known_fraction": 1.0
+        },
+        {
+          "clip_id": "mano_IMG_5190_12",
+          "label": "locomotion",
+          "prediction": "unknown",
+          "candidate_events": [
+            {
+              "start_seconds": 12.0,
+              "end_seconds": 13.0,
+              "duration_seconds": 1.0
+            }
+          ],
+          "detection_correct": true,
+          "correct": false,
+          "votes_seconds": {
+            "locomotion_candidate": 1.0,
+            "low_motion_candidate": 2.0,
+            "unknown": 1.0
+          },
+          "evaluated_seconds": 4.0,
+          "clip_seconds": 4.0,
+          "known_fraction": 0.75
+        },
+        {
+          "clip_id": "mano_IMG_5190_16",
+          "label": "resting",
+          "prediction": "low_motion_candidate",
+          "candidate_events": [
+            {
+              "start_seconds": 19.5,
+              "end_seconds": 20.0,
+              "duration_seconds": 0.5
+            }
+          ],
+          "detection_correct": false,
+          "correct": true,
+          "votes_seconds": {
+            "locomotion_candidate": 0.5,
+            "low_motion_candidate": 3.0,
+            "unknown": 0.5
+          },
+          "evaluated_seconds": 4.0,
+          "clip_seconds": 4.0,
+          "known_fraction": 0.875
+        },
+        {
+          "clip_id": "mano_IMG_5190_20",
+          "label": "resting",
+          "prediction": "unknown",
+          "candidate_events": [],
+          "detection_correct": false,
+          "correct": false,
+          "votes_seconds": {
+            "locomotion_candidate": 0.0,
+            "low_motion_candidate": 2.0,
+            "unknown": 2.0
+          },
+          "evaluated_seconds": 4.0,
+          "clip_seconds": 4.0,
+          "known_fraction": 0.5
+        },
+        {
+          "clip_id": "mano_IMG_5190_24",
+          "label": "resting",
+          "prediction": "low_motion_candidate",
+          "candidate_events": [],
+          "detection_correct": true,
+          "correct": true,
+          "votes_seconds": {
+            "locomotion_candidate": 0.0,
+            "low_motion_candidate": 2.5,
+            "unknown": 1.5
+          },
+          "evaluated_seconds": 4.0,
+          "clip_seconds": 4.0,
+          "known_fraction": 0.625
+        },
+        {
+          "clip_id": "mano_IMG_5190_28",
+          "label": "resting",
+          "prediction": "low_motion_candidate",
+          "candidate_events": [],
+          "detection_correct": true,
+          "correct": true,
+          "votes_seconds": {
+            "locomotion_candidate": 0.0,
+            "low_motion_candidate": 3.0,
+            "unknown": 1.0
+          },
+          "evaluated_seconds": 4.0,
+          "clip_seconds": 4.0,
+          "known_fraction": 0.75
+        },
+        {
+          "clip_id": "mano_IMG_5190_32",
+          "label": "locomotion",
+          "prediction": "unknown",
+          "candidate_events": [
+            {
+              "start_seconds": 34.5,
+              "end_seconds": 36.0,
+              "duration_seconds": 1.5
+            }
+          ],
+          "detection_correct": true,
+          "correct": false,
+          "votes_seconds": {
+            "locomotion_candidate": 1.5,
+            "low_motion_candidate": 0.0,
+            "unknown": 2.5
+          },
+          "evaluated_seconds": 4.0,
+          "clip_seconds": 4.0,
+          "known_fraction": 0.375
+        },
+        {
+          "clip_id": "mano_IMG_5190_36",
+          "label": "locomotion",
+          "prediction": "low_motion_candidate",
+          "candidate_events": [
+            {
+              "start_seconds": 36.0,
+              "end_seconds": 37.0,
+              "duration_seconds": 1.0
+            }
+          ],
+          "detection_correct": true,
+          "correct": false,
+          "votes_seconds": {
+            "locomotion_candidate": 1.0,
+            "low_motion_candidate": 2.5,
+            "unknown": 0.5
+          },
+          "evaluated_seconds": 4.0,
+          "clip_seconds": 4.0,
+          "known_fraction": 0.875
+        },
+        {
+          "clip_id": "mano_IMG_5190_40",
+          "label": "resting",
+          "prediction": "locomotion_candidate",
+          "candidate_events": [
+            {
+              "start_seconds": 40.5,
+              "end_seconds": 42.5,
+              "duration_seconds": 2.0
+            },
+            {
+              "start_seconds": 43.5,
+              "end_seconds": 44.0,
+              "duration_seconds": 0.5
+            }
+          ],
+          "detection_correct": false,
+          "correct": false,
+          "votes_seconds": {
+            "locomotion_candidate": 2.5,
+            "low_motion_candidate": 0.0,
+            "unknown": 1.5
+          },
+          "evaluated_seconds": 4.0,
+          "clip_seconds": 4.0,
+          "known_fraction": 0.625
+        },
+        {
+          "clip_id": "mano_IMG_5190_44",
+          "label": "locomotion",
+          "prediction": "unknown",
+          "candidate_events": [
+            {
+              "start_seconds": 44.0,
+              "end_seconds": 44.5,
+              "duration_seconds": 0.5
+            }
+          ],
+          "detection_correct": true,
+          "correct": false,
+          "votes_seconds": {
+            "locomotion_candidate": 0.5,
+            "low_motion_candidate": 0.5,
+            "unknown": 3.0
+          },
+          "evaluated_seconds": 4.0,
+          "clip_seconds": 4.0,
+          "known_fraction": 0.25
+        },
+        {
+          "clip_id": "mano_IMG_5190_48",
+          "label": "resting",
+          "prediction": "unknown",
+          "candidate_events": [],
+          "detection_correct": false,
+          "correct": false,
+          "votes_seconds": {
+            "locomotion_candidate": 0.0,
+            "low_motion_candidate": 1.0,
+            "unknown": 3.0
+          },
+          "evaluated_seconds": 4.0,
+          "clip_seconds": 4.0,
+          "known_fraction": 0.25
+        },
+        {
+          "clip_id": "mano_IMG_5190_52",
+          "label": "locomotion",
+          "prediction": "low_motion_candidate",
+          "candidate_events": [
+            {
+              "start_seconds": 55.5,
+              "end_seconds": 56.0,
+              "duration_seconds": 0.5
+            }
+          ],
+          "detection_correct": true,
+          "correct": false,
+          "votes_seconds": {
+            "locomotion_candidate": 0.5,
+            "low_motion_candidate": 3.5,
+            "unknown": 0.0
+          },
+          "evaluated_seconds": 4.0,
+          "clip_seconds": 4.0,
+          "known_fraction": 1.0
+        },
+        {
+          "clip_id": "mano_IMG_5190_56",
+          "label": "locomotion",
+          "prediction": "locomotion_candidate",
+          "candidate_events": [
+            {
+              "start_seconds": 56.0,
+              "end_seconds": 59.0,
+              "duration_seconds": 3.0
+            }
+          ],
+          "detection_correct": true,
+          "correct": true,
+          "votes_seconds": {
+            "locomotion_candidate": 3.0,
+            "low_motion_candidate": 0.0,
+            "unknown": 1.0
+          },
+          "evaluated_seconds": 4.0,
+          "clip_seconds": 4.0,
+          "known_fraction": 0.75
+        },
+        {
+          "clip_id": "mano_IMG_5190_60",
+          "label": "locomotion",
+          "prediction": "unknown",
+          "candidate_events": [
+            {
+              "start_seconds": 63.5,
+              "end_seconds": 64.0,
+              "duration_seconds": 0.5
+            }
+          ],
+          "detection_correct": true,
+          "correct": false,
+          "votes_seconds": {
+            "locomotion_candidate": 0.5,
+            "low_motion_candidate": 0.0,
+            "unknown": 3.5
+          },
+          "evaluated_seconds": 4.0,
+          "clip_seconds": 4.0,
+          "known_fraction": 0.125
+        }
+      ],
+      "n": 16,
+      "detection": {
+        "locomotion_hits": 9,
+        "locomotion_clips": 9,
+        "resting_correct": 2,
+        "resting_clips": 7,
+        "resting_false_events": 2
+      },
+      "accuracy_including_abstentions": 0.3125,
+      "accuracy_on_predicted": 0.625,
+      "clip_coverage": 0.5,
+      "balanced_accuracy": 0.32539682539682535,
+      "warning": "Reviewed legacy clip labels; not frame-level truth. Exploring is not a negative class. Candidate events describe predictions, not event precision or recall. Detection: locomotion clip hit = at least one candidate episode; resting clip correct = low-motion strict majority and no episode. Abstention is never correct. A single-class subset cannot establish specificity or balanced accuracy."
+    },
+    "IMG_5191": {
+      "clips": [
+        {
+          "clip_id": "mano_IMG_5191_0",
+          "label": "resting",
+          "prediction": "unknown",
+          "candidate_events": [],
+          "detection_correct": false,
+          "correct": false,
+          "votes_seconds": {
+            "locomotion_candidate": 0.0,
+            "low_motion_candidate": 2.0,
+            "unknown": 2.0
+          },
+          "evaluated_seconds": 4.0,
+          "clip_seconds": 4.0,
+          "known_fraction": 0.5
+        },
+        {
+          "clip_id": "mano_IMG_5191_4",
+          "label": "resting",
+          "prediction": "low_motion_candidate",
+          "candidate_events": [],
+          "detection_correct": true,
+          "correct": true,
+          "votes_seconds": {
+            "locomotion_candidate": 0.0,
+            "low_motion_candidate": 4.0,
+            "unknown": 0.0
+          },
+          "evaluated_seconds": 4.0,
+          "clip_seconds": 4.0,
+          "known_fraction": 1.0
+        },
+        {
+          "clip_id": "mano_IMG_5191_8",
+          "label": "resting",
+          "prediction": "unknown",
+          "candidate_events": [
+            {
+              "start_seconds": 9.0,
+              "end_seconds": 10.5,
+              "duration_seconds": 1.5
+            }
+          ],
+          "detection_correct": false,
+          "correct": false,
+          "votes_seconds": {
+            "locomotion_candidate": 1.5,
+            "low_motion_candidate": 0.0,
+            "unknown": 2.5
+          },
+          "evaluated_seconds": 4.0,
+          "clip_seconds": 4.0,
+          "known_fraction": 0.375
+        },
+        {
+          "clip_id": "mano_IMG_5191_12",
+          "label": "locomotion",
+          "prediction": "unknown",
+          "candidate_events": [],
+          "detection_correct": false,
+          "correct": false,
+          "votes_seconds": {
+            "locomotion_candidate": 0.0,
+            "low_motion_candidate": 0.0,
+            "unknown": 4.0
+          },
+          "evaluated_seconds": 4.0,
+          "clip_seconds": 4.0,
+          "known_fraction": 0.0
+        },
+        {
+          "clip_id": "mano_IMG_5191_16",
+          "label": "locomotion",
+          "prediction": "unknown",
+          "candidate_events": [],
+          "detection_correct": false,
+          "correct": false,
+          "votes_seconds": {
+            "locomotion_candidate": 0.0,
+            "low_motion_candidate": 0.0,
+            "unknown": 4.0
+          },
+          "evaluated_seconds": 4.0,
+          "clip_seconds": 4.0,
+          "known_fraction": 0.0
+        },
+        {
+          "clip_id": "mano_IMG_5191_20",
+          "label": "locomotion",
+          "prediction": "unknown",
+          "candidate_events": [],
+          "detection_correct": false,
+          "correct": false,
+          "votes_seconds": {
+            "locomotion_candidate": 0.0,
+            "low_motion_candidate": 0.0,
+            "unknown": 3.8200000000000003
+          },
+          "evaluated_seconds": 3.8200000000000003,
+          "clip_seconds": 3.9,
+          "known_fraction": 0.0
+        }
+      ],
+      "n": 6,
+      "detection": {
+        "locomotion_hits": 0,
+        "locomotion_clips": 3,
+        "resting_correct": 1,
+        "resting_clips": 3,
+        "resting_false_events": 1
+      },
+      "accuracy_including_abstentions": 0.16666666666666666,
+      "accuracy_on_predicted": 1.0,
+      "clip_coverage": 0.16666666666666666,
+      "balanced_accuracy": 0.16666666666666666,
+      "warning": "Reviewed legacy clip labels; not frame-level truth. Exploring is not a negative class. Candidate events describe predictions, not event precision or recall. Detection: locomotion clip hit = at least one candidate episode; resting clip correct = low-motion strict majority and no episode. Abstention is never correct. A single-class subset cannot establish specificity or balanced accuracy."
+    },
+    "IMG_5192": {
+      "clips": [
+        {
+          "clip_id": "mano_IMG_5192_0",
+          "label": "locomotion",
+          "prediction": "unknown",
+          "candidate_events": [
+            {
+              "start_seconds": 0.0,
+              "end_seconds": 1.5,
+              "duration_seconds": 1.5
+            }
+          ],
+          "detection_correct": true,
+          "correct": false,
+          "votes_seconds": {
+            "locomotion_candidate": 1.5,
+            "low_motion_candidate": 1.5,
+            "unknown": 1.0
+          },
+          "evaluated_seconds": 4.0,
+          "clip_seconds": 4.0,
+          "known_fraction": 0.75
+        },
+        {
+          "clip_id": "mano_IMG_5192_4",
+          "label": "locomotion",
+          "prediction": "locomotion_candidate",
+          "candidate_events": [
+            {
+              "start_seconds": 4.0,
+              "end_seconds": 7.5,
+              "duration_seconds": 3.5
+            }
+          ],
+          "detection_correct": true,
+          "correct": true,
+          "votes_seconds": {
+            "locomotion_candidate": 3.5,
+            "low_motion_candidate": 0.0,
+            "unknown": 0.5
+          },
+          "evaluated_seconds": 4.0,
+          "clip_seconds": 4.0,
+          "known_fraction": 0.875
+        }
+      ],
+      "n": 2,
+      "detection": {
+        "locomotion_hits": 2,
+        "locomotion_clips": 2,
+        "resting_correct": 0,
+        "resting_clips": 0,
+        "resting_false_events": 0
+      },
+      "accuracy_including_abstentions": 0.5,
+      "accuracy_on_predicted": 1.0,
+      "clip_coverage": 0.5,
+      "balanced_accuracy": null,
+      "warning": "Reviewed legacy clip labels; not frame-level truth. Exploring is not a negative class. Candidate events describe predictions, not event precision or recall. Detection: locomotion clip hit = at least one candidate episode; resting clip correct = low-motion strict majority and no episode. Abstention is never correct. A single-class subset cannot establish specificity or balanced accuracy."
+    },
+    "IMG_5193": {
+      "clips": [],
+      "n": 0,
+      "detection": {
+        "locomotion_hits": 0,
+        "locomotion_clips": 0,
+        "resting_correct": 0,
+        "resting_clips": 0,
+        "resting_false_events": 0
+      },
+      "accuracy_including_abstentions": null,
+      "accuracy_on_predicted": null,
+      "clip_coverage": null,
+      "balanced_accuracy": null,
+      "warning": "Reviewed legacy clip labels; not frame-level truth. Exploring is not a negative class. Candidate events describe predictions, not event precision or recall. Detection: locomotion clip hit = at least one candidate episode; resting clip correct = low-motion strict majority and no episode. Abstention is never correct. A single-class subset cannot establish specificity or balanced accuracy."
+    },
+    "WhatsApp Video 2026-10-26 at 18.44.34": {
+      "clips": [
+        {
+          "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.34_0",
+          "label": "resting",
+          "prediction": "unknown",
+          "candidate_events": [
+            {
+              "start_seconds": 2.0,
+              "end_seconds": 3.5,
+              "duration_seconds": 1.5
+            }
+          ],
+          "detection_correct": false,
+          "correct": false,
+          "votes_seconds": {
+            "locomotion_candidate": 1.5,
+            "low_motion_candidate": 0.5,
+            "unknown": 2.0
+          },
+          "evaluated_seconds": 4.0,
+          "clip_seconds": 4.0,
+          "known_fraction": 0.5
+        },
+        {
+          "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.34_4",
+          "label": "resting",
+          "prediction": "low_motion_candidate",
+          "candidate_events": [],
+          "detection_correct": true,
+          "correct": true,
+          "votes_seconds": {
+            "locomotion_candidate": 0.0,
+            "low_motion_candidate": 3.0,
+            "unknown": 1.0
+          },
+          "evaluated_seconds": 4.0,
+          "clip_seconds": 4.0,
+          "known_fraction": 0.75
+        }
+      ],
+      "n": 2,
+      "detection": {
+        "locomotion_hits": 0,
+        "locomotion_clips": 0,
+        "resting_correct": 1,
+        "resting_clips": 2,
+        "resting_false_events": 1
+      },
+      "accuracy_including_abstentions": 0.5,
+      "accuracy_on_predicted": 1.0,
+      "clip_coverage": 0.5,
+      "balanced_accuracy": null,
+      "warning": "Reviewed legacy clip labels; not frame-level truth. Exploring is not a negative class. Candidate events describe predictions, not event precision or recall. Detection: locomotion clip hit = at least one candidate episode; resting clip correct = low-motion strict majority and no episode. Abstention is never correct. A single-class subset cannot establish specificity or balanced accuracy."
+    },
+    "WhatsApp Video 2026-10-26 at 18.44.35": {
+      "clips": [
+        {
+          "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.35_0",
+          "label": "resting",
+          "prediction": "unknown",
+          "candidate_events": [],
+          "detection_correct": false,
+          "correct": false,
+          "votes_seconds": {
+            "locomotion_candidate": 0.0,
+            "low_motion_candidate": 0.5,
+            "unknown": 3.5
+          },
+          "evaluated_seconds": 4.0,
+          "clip_seconds": 4.0,
+          "known_fraction": 0.125
+        }
+      ],
+      "n": 1,
+      "detection": {
+        "locomotion_hits": 0,
+        "locomotion_clips": 0,
+        "resting_correct": 0,
+        "resting_clips": 1,
+        "resting_false_events": 0
+      },
+      "accuracy_including_abstentions": 0.0,
+      "accuracy_on_predicted": null,
+      "clip_coverage": 0.0,
+      "balanced_accuracy": null,
+      "warning": "Reviewed legacy clip labels; not frame-level truth. Exploring is not a negative class. Candidate events describe predictions, not event precision or recall. Detection: locomotion clip hit = at least one candidate episode; resting clip correct = low-motion strict majority and no episode. Abstention is never correct. A single-class subset cannot establish specificity or balanced accuracy."
+    },
+    "WhatsApp Video 2026-10-26 at 18.44.36": {
+      "clips": [
+        {
+          "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.36_0",
+          "label": "resting",
+          "prediction": "unknown",
+          "candidate_events": [
+            {
+              "start_seconds": 3.5,
+              "end_seconds": 4.0,
+              "duration_seconds": 0.5
+            }
+          ],
+          "detection_correct": false,
+          "correct": false,
+          "votes_seconds": {
+            "locomotion_candidate": 0.5,
+            "low_motion_candidate": 0.0,
+            "unknown": 3.5
+          },
+          "evaluated_seconds": 4.0,
+          "clip_seconds": 4.0,
+          "known_fraction": 0.125
+        },
+        {
+          "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.36_4",
+          "label": "resting",
+          "prediction": "unknown",
+          "candidate_events": [
+            {
+              "start_seconds": 4.0,
+              "end_seconds": 4.5,
+              "duration_seconds": 0.5
+            },
+            {
+              "start_seconds": 5.0,
+              "end_seconds": 6.0,
+              "duration_seconds": 1.0
+            }
+          ],
+          "detection_correct": false,
+          "correct": false,
+          "votes_seconds": {
+            "locomotion_candidate": 1.5,
+            "low_motion_candidate": 0.0,
+            "unknown": 2.420000000000001
+          },
+          "evaluated_seconds": 3.920000000000001,
+          "clip_seconds": 3.96,
+          "known_fraction": 0.3826530612244897
+        }
+      ],
+      "n": 2,
+      "detection": {
+        "locomotion_hits": 0,
+        "locomotion_clips": 0,
+        "resting_correct": 0,
+        "resting_clips": 2,
+        "resting_false_events": 2
+      },
+      "accuracy_including_abstentions": 0.0,
+      "accuracy_on_predicted": null,
+      "clip_coverage": 0.0,
+      "balanced_accuracy": null,
+      "warning": "Reviewed legacy clip labels; not frame-level truth. Exploring is not a negative class. Candidate events describe predictions, not event precision or recall. Detection: locomotion clip hit = at least one candidate episode; resting clip correct = low-motion strict majority and no episode. Abstention is never correct. A single-class subset cannot establish specificity or balanced accuracy."
+    },
+    "WhatsApp Video 2026-10-26 at 18.44.37": {
+      "clips": [
+        {
+          "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.37_0",
+          "label": "locomotion",
+          "prediction": "unknown",
+          "candidate_events": [],
+          "detection_correct": false,
+          "correct": false,
+          "votes_seconds": {
+            "locomotion_candidate": 0.0,
+            "low_motion_candidate": 1.0,
+            "unknown": 3.0
+          },
+          "evaluated_seconds": 4.0,
+          "clip_seconds": 4.0,
+          "known_fraction": 0.25
+        }
+      ],
+      "n": 1,
+      "detection": {
+        "locomotion_hits": 0,
+        "locomotion_clips": 1,
+        "resting_correct": 0,
+        "resting_clips": 0,
+        "resting_false_events": 0
+      },
+      "accuracy_including_abstentions": 0.0,
+      "accuracy_on_predicted": null,
+      "clip_coverage": 0.0,
+      "balanced_accuracy": null,
+      "warning": "Reviewed legacy clip labels; not frame-level truth. Exploring is not a negative class. Candidate events describe predictions, not event precision or recall. Detection: locomotion clip hit = at least one candidate episode; resting clip correct = low-motion strict majority and no episode. Abstention is never correct. A single-class subset cannot establish specificity or balanced accuracy."
+    },
+    "WhatsApp Video 2026-10-26 at 18.44.38": {
+      "clips": [
+        {
+          "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.38_0",
+          "label": "resting",
+          "prediction": "unknown",
+          "candidate_events": [
+            {
+              "start_seconds": 1.5,
+              "end_seconds": 3.0,
+              "duration_seconds": 1.5
+            }
+          ],
+          "detection_correct": false,
+          "correct": false,
+          "votes_seconds": {
+            "locomotion_candidate": 1.5,
+            "low_motion_candidate": 1.0,
+            "unknown": 1.5
+          },
+          "evaluated_seconds": 4.0,
+          "clip_seconds": 4.0,
+          "known_fraction": 0.625
+        },
+        {
+          "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.38_4",
+          "label": "resting",
+          "prediction": "unknown",
+          "candidate_events": [
+            {
+              "start_seconds": 5.0,
+              "end_seconds": 6.0,
+              "duration_seconds": 1.0
+            },
+            {
+              "start_seconds": 7.0,
+              "end_seconds": 8.0,
+              "duration_seconds": 1.0
+            }
+          ],
+          "detection_correct": false,
+          "correct": false,
+          "votes_seconds": {
+            "locomotion_candidate": 2.0,
+            "low_motion_candidate": 0.5,
+            "unknown": 1.5
+          },
+          "evaluated_seconds": 4.0,
+          "clip_seconds": 4.0,
+          "known_fraction": 0.625
+        },
+        {
+          "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.38_8",
+          "label": "locomotion",
+          "prediction": "locomotion_candidate",
+          "candidate_events": [
+            {
+              "start_seconds": 8.0,
+              "end_seconds": 8.5,
+              "duration_seconds": 0.5
+            },
+            {
+              "start_seconds": 9.0,
+              "end_seconds": 10.96,
+              "duration_seconds": 1.9600000000000009
+            }
+          ],
+          "detection_correct": true,
+          "correct": true,
+          "votes_seconds": {
+            "locomotion_candidate": 2.460000000000001,
+            "low_motion_candidate": 0.0,
+            "unknown": 0.5
+          },
+          "evaluated_seconds": 2.960000000000001,
+          "clip_seconds": 3.0,
+          "known_fraction": 0.8310810810810811
+        }
+      ],
+      "n": 3,
+      "detection": {
+        "locomotion_hits": 1,
+        "locomotion_clips": 1,
+        "resting_correct": 0,
+        "resting_clips": 2,
+        "resting_false_events": 2
+      },
+      "accuracy_including_abstentions": 0.3333333333333333,
+      "accuracy_on_predicted": 1.0,
+      "clip_coverage": 0.3333333333333333,
+      "balanced_accuracy": 0.5,
+      "warning": "Reviewed legacy clip labels; not frame-level truth. Exploring is not a negative class. Candidate events describe predictions, not event precision or recall. Detection: locomotion clip hit = at least one candidate episode; resting clip correct = low-motion strict majority and no episode. Abstention is never correct. A single-class subset cannot establish specificity or balanced accuracy."
+    },
+    "WhatsApp Video 2026-10-26 at 18.44.38 (1)": {
+      "clips": [
+        {
+          "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.38 (1)_0",
+          "label": "resting",
+          "prediction": "unknown",
+          "candidate_events": [
+            {
+              "start_seconds": 2.0,
+              "end_seconds": 4.0,
+              "duration_seconds": 2.0
+            }
+          ],
+          "detection_correct": false,
+          "correct": false,
+          "votes_seconds": {
+            "locomotion_candidate": 2.0,
+            "low_motion_candidate": 0.0,
+            "unknown": 2.0
+          },
+          "evaluated_seconds": 4.0,
+          "clip_seconds": 4.0,
+          "known_fraction": 0.5
+        },
+        {
+          "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.38 (1)_4",
+          "label": "resting",
+          "prediction": "unknown",
+          "candidate_events": [
+            {
+              "start_seconds": 4.0,
+              "end_seconds": 4.5,
+              "duration_seconds": 0.5
+            }
+          ],
+          "detection_correct": false,
+          "correct": false,
+          "votes_seconds": {
+            "locomotion_candidate": 0.5,
+            "low_motion_candidate": 0.5,
+            "unknown": 3.0
+          },
+          "evaluated_seconds": 4.0,
+          "clip_seconds": 4.0,
+          "known_fraction": 0.25
+        }
+      ],
+      "n": 2,
+      "detection": {
+        "locomotion_hits": 0,
+        "locomotion_clips": 0,
+        "resting_correct": 0,
+        "resting_clips": 2,
+        "resting_false_events": 2
+      },
+      "accuracy_including_abstentions": 0.0,
+      "accuracy_on_predicted": null,
+      "clip_coverage": 0.0,
+      "balanced_accuracy": null,
+      "warning": "Reviewed legacy clip labels; not frame-level truth. Exploring is not a negative class. Candidate events describe predictions, not event precision or recall. Detection: locomotion clip hit = at least one candidate episode; resting clip correct = low-motion strict majority and no episode. Abstention is never correct. A single-class subset cannot establish specificity or balanced accuracy."
+    },
+    "WhatsApp Video 2026-10-26 at 18.44.40": {
+      "clips": [
+        {
+          "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.40_0",
+          "label": "resting",
+          "prediction": "low_motion_candidate",
+          "candidate_events": [],
+          "detection_correct": true,
+          "correct": true,
+          "votes_seconds": {
+            "locomotion_candidate": 0.0,
+            "low_motion_candidate": 4.0,
+            "unknown": 0.0
+          },
+          "evaluated_seconds": 4.0,
+          "clip_seconds": 4.0,
+          "known_fraction": 1.0
+        },
+        {
+          "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.40_4",
+          "label": "resting",
+          "prediction": "low_motion_candidate",
+          "candidate_events": [],
+          "detection_correct": true,
+          "correct": true,
+          "votes_seconds": {
+            "locomotion_candidate": 0.0,
+            "low_motion_candidate": 4.0,
+            "unknown": 0.0
+          },
+          "evaluated_seconds": 4.0,
+          "clip_seconds": 4.0,
+          "known_fraction": 1.0
+        },
+        {
+          "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.40_8",
+          "label": "resting",
+          "prediction": "low_motion_candidate",
+          "candidate_events": [],
+          "detection_correct": true,
+          "correct": true,
+          "votes_seconds": {
+            "locomotion_candidate": 0.0,
+            "low_motion_candidate": 4.0,
+            "unknown": 0.0
+          },
+          "evaluated_seconds": 4.0,
+          "clip_seconds": 4.0,
+          "known_fraction": 1.0
+        },
+        {
+          "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.40_12",
+          "label": "resting",
+          "prediction": "low_motion_candidate",
+          "candidate_events": [],
+          "detection_correct": true,
+          "correct": true,
+          "votes_seconds": {
+            "locomotion_candidate": 0.0,
+            "low_motion_candidate": 4.0,
+            "unknown": 0.0
+          },
+          "evaluated_seconds": 4.0,
+          "clip_seconds": 4.0,
+          "known_fraction": 1.0
+        }
+      ],
+      "n": 4,
+      "detection": {
+        "locomotion_hits": 0,
+        "locomotion_clips": 0,
+        "resting_correct": 4,
+        "resting_clips": 4,
+        "resting_false_events": 0
+      },
+      "accuracy_including_abstentions": 1.0,
+      "accuracy_on_predicted": 1.0,
+      "clip_coverage": 1.0,
+      "balanced_accuracy": null,
+      "warning": "Reviewed legacy clip labels; not frame-level truth. Exploring is not a negative class. Candidate events describe predictions, not event precision or recall. Detection: locomotion clip hit = at least one candidate episode; resting clip correct = low-motion strict majority and no episode. Abstention is never correct. A single-class subset cannot establish specificity or balanced accuracy."
+    },
+    "WhatsApp Video 2026-10-26 at 18.44.41": {
+      "clips": [
+        {
+          "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.41_0",
+          "label": "locomotion",
+          "prediction": "unknown",
+          "candidate_events": [],
+          "detection_correct": false,
+          "correct": false,
+          "votes_seconds": {
+            "locomotion_candidate": 0.0,
+            "low_motion_candidate": 0.5,
+            "unknown": 3.5
+          },
+          "evaluated_seconds": 4.0,
+          "clip_seconds": 4.0,
+          "known_fraction": 0.125
+        },
+        {
+          "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.41_4",
+          "label": "locomotion",
+          "prediction": "locomotion_candidate",
+          "candidate_events": [
+            {
+              "start_seconds": 5.0,
+              "end_seconds": 7.5,
+              "duration_seconds": 2.5
+            }
+          ],
+          "detection_correct": true,
+          "correct": true,
+          "votes_seconds": {
+            "locomotion_candidate": 2.5,
+            "low_motion_candidate": 0.5,
+            "unknown": 1.0
+          },
+          "evaluated_seconds": 4.0,
+          "clip_seconds": 4.0,
+          "known_fraction": 0.75
+        },
+        {
+          "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.41_8",
+          "label": "locomotion",
+          "prediction": "locomotion_candidate",
+          "candidate_events": [
+            {
+              "start_seconds": 8.0,
+              "end_seconds": 10.5,
+              "duration_seconds": 2.5
+            }
+          ],
+          "detection_correct": true,
+          "correct": true,
+          "votes_seconds": {
+            "locomotion_candidate": 2.5,
+            "low_motion_candidate": 0.0,
+            "unknown": 1.375
+          },
+          "evaluated_seconds": 3.875,
+          "clip_seconds": 3.917,
+          "known_fraction": 0.6451612903225806
+        }
+      ],
+      "n": 3,
+      "detection": {
+        "locomotion_hits": 2,
+        "locomotion_clips": 3,
+        "resting_correct": 0,
+        "resting_clips": 0,
+        "resting_false_events": 0
+      },
+      "accuracy_including_abstentions": 0.6666666666666666,
+      "accuracy_on_predicted": 1.0,
+      "clip_coverage": 0.6666666666666666,
+      "balanced_accuracy": null,
+      "warning": "Reviewed legacy clip labels; not frame-level truth. Exploring is not a negative class. Candidate events describe predictions, not event precision or recall. Detection: locomotion clip hit = at least one candidate episode; resting clip correct = low-motion strict majority and no episode. Abstention is never correct. A single-class subset cannot establish specificity or balanced accuracy."
+    }
+  },
+  "original_closure_status": "closed_not_resolvable_with_existing_data",
+  "clip_auc_max_span": 0.9114285714285715,
+  "within_video_auc_max_span": {
+    "IMG_5190": 1.0,
+    "IMG_5191": 0.6666666666666666,
+    "WhatsApp Video 2026-10-26 at 18.44.38": 0.5
+  },
+  "clips_without_measure": 2,
+  "clip_coverage": 0.5263157894736842,
+  "timing": {
+    "IMG_5177.mp4": {
+      "nominal_fps": 30.0,
+      "frames": 1251,
+      "real_seconds": 41.7,
+      "max_offset_seconds": 7.105427357601002e-15
+    },
+    "AE22D736-2B56-419D-886E-7926A182891E.mp4": {
+      "nominal_fps": 12.0,
+      "frames": 166,
+      "real_seconds": 13.833333333333334,
+      "max_offset_seconds": 1.7763568394002505e-15
+    },
+    "6BE6BE37-E828-4D23-A242-7DD4598128BF.mp4": {
+      "nominal_fps": 12.0,
+      "frames": 211,
+      "real_seconds": 17.583333333333332,
+      "max_offset_seconds": 3.552713678800501e-15
+    },
+    "972F531F-A923-44DC-B69F-0B536A239FC3.mp4": {
+      "nominal_fps": 12.0,
+      "frames": 139,
+      "real_seconds": 11.583333333333334,
+      "max_offset_seconds": 1.7763568394002505e-15
+    },
+    "IMG_4944.MOV": {
+      "nominal_fps": 12.0,
+      "frames": 126,
+      "real_seconds": 10.5,
+      "max_offset_seconds": 1.7763568394002505e-15
+    },
+    "IMG_5190.MOV": {
+      "nominal_fps": 32.22227825122283,
+      "frames": 2130,
+      "real_seconds": 66.10333333333335,
+      "max_offset_seconds": 4.263892018779342
+    },
+    "IMG_5191.MOV": {
+      "nominal_fps": 29.974846282839575,
+      "frames": 715,
+      "real_seconds": 23.85333333333333,
+      "max_offset_seconds": 0.0015547785547767035
+    },
+    "IMG_5192.MOV": {
+      "nominal_fps": 59.97726411519515,
+      "frames": 1319,
+      "real_seconds": 21.991666666666667,
+      "max_offset_seconds": 0.0015226181450600507
+    },
+    "IMG_5193.MOV": {
+      "nominal_fps": 59.97803002563164,
+      "frames": 546,
+      "real_seconds": 9.103333333333335,
+      "max_offset_seconds": 0.0011355311355316644
+    },
+    "WhatsApp Video 2026-10-26 at 18.44.34.mp4": {
+      "nominal_fps": 23.977695167286246,
+      "frames": 258,
+      "real_seconds": 10.760000000000002,
+      "max_offset_seconds": 0.03829457364341086
+    },
+    "WhatsApp Video 2026-10-26 at 18.44.35.mp4": {
+      "nominal_fps": 24.0,
+      "frames": 155,
+      "real_seconds": 6.458333333333334,
+      "max_offset_seconds": 8.881784197001252e-16
+    },
+    "WhatsApp Video 2026-10-26 at 18.44.36.mp4": {
+      "nominal_fps": 23.99497487437186,
+      "frames": 191,
+      "real_seconds": 7.960000000000001,
+      "max_offset_seconds": 0.038534031413612446
+    },
+    "WhatsApp Video 2026-10-26 at 18.44.37.mp4": {
+      "nominal_fps": 29.959514170040485,
+      "frames": 185,
+      "real_seconds": 6.175000000000001,
+      "max_offset_seconds": 0.02995495495495496
+    },
+    "WhatsApp Video 2026-10-26 at 18.44.38.mp4": {
+      "nominal_fps": 24.0,
+      "frames": 264,
+      "real_seconds": 11.0,
+      "max_offset_seconds": 0.0400000000000027
+    },
+    "WhatsApp Video 2026-10-26 at 18.44.38 (1).mp4": {
+      "nominal_fps": 23.972602739726028,
+      "frames": 210,
+      "real_seconds": 8.760000000000002,
+      "max_offset_seconds": 0.03828571428571429
+    },
+    "WhatsApp Video 2026-10-26 at 18.44.40.mp4": {
+      "nominal_fps": 23.96288209606987,
+      "frames": 439,
+      "real_seconds": 18.32,
+      "max_offset_seconds": 0.03826879271070615
+    },
+    "WhatsApp Video 2026-10-26 at 18.44.41.mp4": {
+      "nominal_fps": 23.916083916083917,
+      "frames": 285,
+      "real_seconds": 11.916666666666666,
+      "max_offset_seconds": 0.021637426900585233
+    }
+  }
+}

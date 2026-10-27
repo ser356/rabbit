@@ -1,0 +1,14 @@
+[
+  {
+    "start_seconds": 0.0,
+    "end_seconds": 16.0,
+    "movement": "low_motion_candidate",
+    "evidence_quality": 0.99609375
+  },
+  {
+    "start_seconds": 16.0,
+    "end_seconds": 18.28,
+    "movement": "unknown",
+    "evidence_quality": 0.0
+  }
+]
