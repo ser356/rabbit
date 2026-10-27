@@ -11,6 +11,7 @@
 | **Vídeos nuevos de WhatsApp** | **Suelo + silueta SAM2** | **Veredicto, test independiente** | **No pasa: 4/8 locomoción, 6/10 reposo, 1 episodio falso** |
 | 17 vídeos (validación cruzada) | Marcha, DeepLabCut SuperAnimal | Desarrollo | Señal ≈ azar (AUC 0,60); reposo 3/32 |
 | **Los 17 vídeos de Cinna** | **Clasificador entrenado con YouTube** | **Veredicto, test independiente** | **No pasa: 14/25 locomoción, 22/32 reposo, 10 episodios falsos** |
+| **Los 17 vídeos de Cinna** | **Clasificador YouTube v2 (2,6× más datos)** | **Veredicto, segunda mirada al test** | **No pasa: 11/25 locomoción, 24/32 reposo, 8 episodios falsos** |
 
 Cinco enfoques distintos fallan:
 
@@ -18,7 +19,7 @@ Cinco enfoques distintos fallan:
 - **X-CLIP zero-shot:** no discrimina.
 - **Marcha con DeepLabCut:** los puntos de las patas son demasiado inestables en estos planos.
 - **Suelo + silueta:** SAM2 pierde a Cinna, los desplazamientos lentos quedan bajo cualquier umbral y la máscara salta en reposo. En los vídeos nuevos de WhatsApp es el más equilibrado (1 episodio falso), pero detecta solo la mitad de los desplazamientos.
-- **Clasificador entrenado con YouTube:** es el que mejor generaliza a los 17 vídeos (sensibilidad 0,56, especificidad 0,69), pero queda lejos del 0,8 y da 10 episodios falsos. **La locomoción queda cerrada como no resuelta.** Reabrirla exige vídeos con locomoción etiquetada en cantidad suficiente, al menos decenas de clips, para desarrollar y validar con datos que no se hayan usado.
+- **Clasificador entrenado con YouTube:** es el que mejor generaliza a los 17 vídeos (sensibilidad 0,56, especificidad 0,69), pero queda lejos del 0,8 y da 10 episodios falsos. Con 2,6 veces más clips de locomoción (v2), mejora dentro de YouTube (AUC 0,70 → 0,78), pero no en Cinna: el reposo sube a 0,75 y la sensibilidad baja a 0,44. **La locomoción queda cerrada como no resuelta.** Reabrirla exige vídeos con locomoción etiquetada en cantidad suficiente, al menos decenas de clips, para desarrollar y validar con datos que no se hayan usado.
 
 ## Reapertura: suelo + silueta con vídeos nuevos (pre-registrado el 2026-10-26)
 
@@ -48,6 +49,24 @@ Con vídeo sintético, si la cámara se desplaza y el conejo está quieto, la ve
   - `not_resolved`;
   - `descriptive_only_insufficient_sample`: menos de 10 clips de reposo nuevos.
 - **Una ejecución:** si el test falla, no se ajusta la regla sobre esos vídeos.
+
+## Resultado del segundo intento con YouTube (2026-10-27)
+
+Modelo congelado en [webclips_modelo_v2.json](benchmarks/webclips_modelo_v2.json) (commit `6560485`) antes del test; su `labels_sha256` (`f3193194…`) coincide con [etiquetas_youtube.csv](../RabbitSense_ARCHIVO/etiquetas_youtube.csv). Test ejecutado una vez sobre las mismas características de Cinna.
+
+| | v1 (536 clips, 74 vídeos) | v2 (1.702 clips, 228 vídeos) |
+|---|---:|---:|
+| Ventanas de entrenamiento | 965 | 2.490 |
+| AUC con validación cruzada en YouTube | 0,70 | **0,78** |
+| Acierto en YouTube (sobre lo decidido) | 0,64 | 0,71 |
+| **Cinna: locomoción** | 14/25 (0,56) | **11/25 (0,44)** |
+| **Cinna: reposo** | 22/32 (0,69) | **24/32 (0,75)** |
+| **Cinna: episodios falsos** | 10 | 8 |
+
+- **Estado `not_resolved`.** Por protocolo, no hay tercer reentrenamiento.
+- **Más datos mejoran el modelo en YouTube, pero no se transfieren a Cinna.** El AUC dentro de YouTube sube 0,08, y en Cinna solo se desplaza el compromiso: algo más de reposo y menos locomoción. Con 25 y 32 clips, ninguna de las dos diferencias frente a v1 es significativa.
+- **Fallo sistemático en el vídeo de locomoción.** En `locomotion` (IMG_5177) v2 declara locomoción en solo 2 de 29 intervalos, frente a 4 con v1. Los desplazamientos lentos y cortos de una belier en interior se parecen poco a las carreras y saltos que dominan los clips de YouTube.
+- **Conclusión.** El cuello de botella ya no es la cantidad de datos de YouTube, sino la distancia entre ese dominio y los vídeos de Cinna. Lo que separa clases en YouTube no basta para Cinna. Mejorar haría falta ejemplos etiquetados de la propia Cinna para entrenar, y entonces habría que reservar otros para el test.
 
 ## Segundo intento con YouTube: mismo método, más datos (pre-registrado el 2026-10-27)
 

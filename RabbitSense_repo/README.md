@@ -10,7 +10,7 @@ Tres vídeos ejecutados; resultados y regresiones en [AUDITORIA.md](AUDITORIA.md
 
 La corrección temporal posterior, episodios candidatos y regresión de cobertura están en [LOCOMOCION.md](LOCOMOCION.md). No convierten las etiquetas mixtas por clip en verdad por fotograma.
 
-**Locomoción: cerrada, no resuelta (2026-10-27).** Fallan cinco enfoques con cámara en mano: flujo óptico, X-CLIP, marcha con DeepLabCut SuperAnimal (señal ≈ azar), suelo + silueta SAM2 (4/8 desplazamientos y 6/10 reposos en vídeos nuevos) y un clasificador entrenado con vídeos de YouTube. Este último es el mejor en test amplio: 14/25 desplazamientos y 22/32 reposos en los 17 vídeos de Cinna, con 10 episodios falsos (mínimo exigido: 0,8). Detalle en [LOCOMOCION.md](LOCOMOCION.md).
+**Locomoción: cerrada, no resuelta (2026-10-27).** Fallan cinco enfoques con cámara en mano: flujo óptico, X-CLIP, marcha con DeepLabCut SuperAnimal (señal ≈ azar), suelo + silueta SAM2 (4/8 desplazamientos y 6/10 reposos en vídeos nuevos) y un clasificador entrenado con vídeos de YouTube. Este último es el mejor en test amplio: 14/25 desplazamientos y 22/32 reposos en los 17 vídeos de Cinna, con 10 episodios falsos. Con 2,6 veces más datos (v2) mejora en YouTube (AUC 0,78), pero en Cinna queda en 11/25 y 24/32 (mínimo exigido: 0,8). Detalle en [LOCOMOCION.md](LOCOMOCION.md).
 
 El seguimiento corporal persistente y YOLO-World local ya se ejecutaron: **ninguno resuelve la locomoción en estos vídeos**. Métodos, resultados negativos y reproducción en [EVIDENCIA_CORPORAL.md](EVIDENCIA_CORPORAL.md). Permanecen aislados del análisis habitual.
 
