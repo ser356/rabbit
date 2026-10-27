@@ -1,6 +1,6 @@
 # Locomoción: diagnóstico, corrección temporal y cierre
 
-## Estado final (2026-10-26): cerrada, no resuelta
+## Estado final (2026-10-27): cerrada, no resuelta
 
 | Conjunto | Enfoque | Naturaleza | Resultado |
 |---|---|---|---|
@@ -10,8 +10,15 @@
 | 9 vídeos (validación cruzada) | Suelo + silueta SAM2 | Desarrollo | Sensibilidad validada 0,59 |
 | **Vídeos nuevos de WhatsApp** | **Suelo + silueta SAM2** | **Veredicto, test independiente** | **No pasa: 4/8 locomoción, 6/10 reposo, 1 episodio falso** |
 | 17 vídeos (validación cruzada) | Marcha, DeepLabCut SuperAnimal | Desarrollo | Señal ≈ azar (AUC 0,60); reposo 3/32 |
+| **Los 17 vídeos de Cinna** | **Clasificador entrenado con YouTube** | **Veredicto, test independiente** | **No pasa: 14/25 locomoción, 22/32 reposo, 10 episodios falsos** |
 
-Cuatro enfoques distintos fallan: el flujo óptico por la compensación de cámara y la pérdida de seguimiento; X-CLIP porque no discrimina; la marcha con DeepLabCut porque los puntos de las patas son demasiado inestables en estos planos; suelo + silueta porque SAM2 pierde a Cinna, los desplazamientos lentos quedan bajo cualquier umbral y la máscara salta en reposo. En los vídeos nuevos de WhatsApp, suelo + silueta es el más equilibrado (1 episodio falso), pero detecta solo la mitad de los desplazamientos. **La locomoción queda cerrada como no resuelta.** Reabrirla exige vídeos con locomoción etiquetada en cantidad suficiente, al menos decenas de clips, para desarrollar y validar con datos que no se hayan usado.
+Cinco enfoques distintos fallan:
+
+- **Flujo óptico:** falla en la compensación de cámara y pierde el seguimiento.
+- **X-CLIP zero-shot:** no discrimina.
+- **Marcha con DeepLabCut:** los puntos de las patas son demasiado inestables en estos planos.
+- **Suelo + silueta:** SAM2 pierde a Cinna, los desplazamientos lentos quedan bajo cualquier umbral y la máscara salta en reposo. En los vídeos nuevos de WhatsApp es el más equilibrado (1 episodio falso), pero detecta solo la mitad de los desplazamientos.
+- **Clasificador entrenado con YouTube:** es el que mejor generaliza a los 17 vídeos (sensibilidad 0,56, especificidad 0,69), pero queda lejos del 0,8 y da 10 episodios falsos. **La locomoción queda cerrada como no resuelta.** Reabrirla exige vídeos con locomoción etiquetada en cantidad suficiente, al menos decenas de clips, para desarrollar y validar con datos que no se hayan usado.
 
 ## Reapertura: suelo + silueta con vídeos nuevos (pre-registrado el 2026-10-26)
 
@@ -41,6 +48,20 @@ Con vídeo sintético, si la cámara se desplaza y el conejo está quieto, la ve
   - `not_resolved`;
   - `descriptive_only_insufficient_sample`: menos de 10 clips de reposo nuevos.
 - **Una ejecución:** si el test falla, no se ajusta la regla sobre esos vídeos.
+
+## Resultado del clasificador entrenado con YouTube (2026-10-27)
+
+Ejecutado en el Mac (MPS). Modelo congelado en [webclips_modelo.json](benchmarks/webclips_modelo.json) (commit `dc09ec9`) antes de procesar a Cinna; su `labels_sha256` coincide con [etiquetas_youtube.csv](../RabbitSense_ARCHIVO/etiquetas_youtube.csv).
+
+| | Locomoción | Reposo | Episodios falsos |
+|---|---:|---:|---:|
+| Validación cruzada en YouTube (58 vídeos, 965 ventanas) | AUC 0,70 | acierto 0,64 en el 96 % decidido | — |
+| **Test independiente: los 17 vídeos de Cinna** | **14/25 (0,56)** | **22/32 (0,69)** | **10** |
+
+- **Estado `not_resolved`.** Ni la sensibilidad ni la especificidad llegan a 0,8. Por protocolo, no se reentrena ni se ajusta la banda mirando a Cinna.
+- **Es el mejor resultado en un test amplio.** La especificidad de 0,69 sobre 32 reposos de 17 vídeos supera la de cualquier método anterior en un conjunto comparable: 3/32 con la marcha y 5/10 con flujo en desarrollo. Aun así, deja 10 episodios falsos.
+- **Errores por vídeo.** En `locomotion` (IMG_5177) declara bajo movimiento en la mayoría de los intervalos (19 frente a 4), y en `resting` declara locomoción en 18 de 36. El modelo responde sobre todo a la escena y al encuadre, no al desplazamiento.
+- **Límite de los datos.** Con 82 clips de locomoción ruidosos, el modelo solo separa las clases en YouTube con AUC 0,70. Esto concuerda con un rendimiento medio en Cinna: no faltan reglas, faltan ejemplos limpios de desplazamiento.
 
 ## Quinto enfoque: clasificador entrenado con vídeos de YouTube (pre-registrado el 2026-10-27)
 
