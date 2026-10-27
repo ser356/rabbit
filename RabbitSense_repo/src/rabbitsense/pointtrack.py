@@ -28,7 +28,7 @@ import pandas as pd
 
 from .closure import evaluate_cases
 from .motion import sha256
-from .webclips import metadata, window_ends
+from .webclips import metadata
 
 REPO = Path(__file__).resolve().parents[2]
 OUT, TRACKS = REPO / 'cierre' / 'pointtrack', REPO / 'runs' / 'pointtrack'
@@ -87,6 +87,50 @@ def chunk_starts(duration):
     if not starts or starts[-1] + CHUNK < duration - 1e-6:
         starts.append(max(0., duration - CHUNK))
     return [float(s) for s in starts]
+
+
+def frame_times(video, cache_dir=None):
+    """Tiempo real (s) de cada fotograma decodificado.
+
+    Los iPhone graban a veces a ritmo variable: en IMG_5190, fotograma ÷ fps se adelanta hasta 4,3 s al tiempo que
+    muestra el navegador, que es el de las etiquetas. Si el decodificador no da marcas fiables, se usa fotograma ÷ fps.
+    """
+    fps, count = metadata(video)
+    path = Path(cache_dir) / f'{Path(video).stem}.npy' if cache_dir else None
+    if path is not None and path.is_file():
+        return np.load(path)
+    capture, times = cv2.VideoCapture(str(video)), []
+    try:
+        while capture.grab():
+            times.append(capture.get(cv2.CAP_PROP_POS_MSEC) / 1000)
+    finally:
+        capture.release()
+    times = np.array(times, float)
+    if len(times) < 2 or not np.isfinite(times).all() or (np.diff(times) < 0).any() or times[-1] <= 0:
+        times = np.arange(len(times) or count) / fps
+    if path is not None:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        np.save(path, times)
+    return times
+
+
+def time_grid(times):
+    """Rejilla de 0,5 s en tiempo real hasta el último fotograma (como window_ends con frecuencia constante)."""
+    end = float(times[-1])
+    grid = [float(g) for g in np.arange(0., end + 1e-9, .5)]
+    if end - grid[-1] > 1e-6:
+        grid.append(end)
+    return grid
+
+
+def duration(times):
+    return float(times[-1] + (np.median(np.diff(times)) if len(times) > 1 else 0.))
+
+
+def chunk_frames(times, start, step):
+    """Fotogramas del tramo [start, start + CHUNK] en tiempo real, uno de cada `step`."""
+    inside = np.nonzero((times >= start - 1e-3) & (times <= start + CHUNK + 1e-3))[0]
+    return list(range(int(inside[0]), int(inside[-1]) + 1, step)) if len(inside) else []
 
 
 def nearest_chunk(starts, centre):
@@ -156,16 +200,23 @@ def read_frames(video, indices):
     return frames
 
 
-def track_case(video, masks, folder, tracker, clips=None):
-    """Sigue puntos en los tramos necesarios y guarda uno por archivo; los ya guardados no se repiten."""
+def track_case(video, masks, folder, tracker, clips=None, times=None):
+    """Sigue puntos en los tramos necesarios y guarda uno por archivo.
+
+    Un tramo guardado se reutiliza si contiene exactamente los fotogramas que tocan en tiempo real; si no (p. ej., se
+    siguió con fotograma ÷ fps en un vídeo de ritmo variable), se vuelve a seguir."""
     fps, count = metadata(video)
+    times = frame_times(video) if times is None else times
     step = max(1, int(round(fps / TARGET_FPS)))
-    starts = chunk_starts(count / fps)
+    starts = chunk_starts(duration(times))
     folder = Path(folder)
     folder.mkdir(parents=True, exist_ok=True)
-    plan = {k: list(range(int(round(starts[k] * fps)), min(count, int(round((starts[k] + CHUNK) * fps)) + 1), step))
-            for k in needed_chunks(starts, window_ends(count, fps), clips)}
-    plan = {k: v for k, v in plan.items() if not (folder / f'chunk_{k:04d}.npz').is_file()}
+    plan = {k: chunk_frames(times, starts[k], step) for k in needed_chunks(starts, time_grid(times), clips)}
+    stale = [k for k in plan if (folder / f'chunk_{k:04d}.npz').is_file() and
+             not np.array_equal(np.load(folder / f'chunk_{k:04d}.npz')['frames'], plan[k])]
+    if stale:
+        print(f'  {len(stale)} tramos guardados no corresponden al tiempo real: se vuelven a seguir', flush=True)
+    plan = {k: v for k, v in plan.items() if v and (k in stale or not (folder / f'chunk_{k:04d}.npz').is_file())}
     if not plan:
         return 0
     frames = read_frames(video, sorted({f for v in plan.values() for f in v}))
@@ -173,7 +224,7 @@ def track_case(video, masks, folder, tracker, clips=None):
     done = 0
     for k, indices in plan.items():
         indices = [f for f in indices if f in frames]
-        centre = int(np.argmin([abs(f / fps - (starts[k] + CHUNK / 2)) for f in indices]))
+        centre = int(np.argmin([abs(times[f] - (starts[k] + CHUNK / 2)) for f in indices]))
         query, mask = None, None
         for j in sorted(range(len(indices)), key=lambda j: abs(j - centre)):
             raw = cv2.imread(str(Path(masks) / 'masks' / f'{indices[j]:06d}.png'), cv2.IMREAD_GRAYSCALE)
@@ -182,14 +233,15 @@ def track_case(video, masks, folder, tracker, clips=None):
                 mask = cv2.resize(raw, frames[indices[j]].shape[1::-1], interpolation=cv2.INTER_NEAREST)
                 break
         if query is None:
-            np.savez(folder / f'chunk_{k:04d}.npz', start=starts[k], frames=np.array(indices), query=-1)
+            np.savez(folder / f'chunk_{k:04d}.npz', start=starts[k], frames=np.array(indices), times=times[indices], query=-1)
             continue
         points, kinds, unit = sample_queries(mask)
         queries = np.c_[np.full(len(points), query), points]
         started = time.perf_counter()
         tracks, visible = tracker(np.stack([frames[f] for f in indices]), queries)
         elapsed = time.perf_counter() - started
-        np.savez(folder / f'chunk_{k:04d}.npz', start=starts[k], frames=np.array(indices), query=query, fps=fps,
+        np.savez(folder / f'chunk_{k:04d}.npz', start=starts[k], frames=np.array(indices), times=times[indices],
+                 query=query, fps=fps,
                  tracks=tracks, visible=visible, kinds=kinds, unit=unit)
         done += 1
         print(f'  [{done}/{len(plan)}] tramo {k} ({starts[k]:.0f}–{starts[k] + CHUNK:.0f} s): {int((kinds == 0).sum())} puntos conejo, '
@@ -236,7 +288,7 @@ def decide(chunk, centre, cached=None):
     if chunk is None or int(chunk['query']) < 0:
         return empty
     offsets, errors, shifts, background = cached if cached is not None else stabilised(chunk)
-    times = np.asarray(chunk['frames']) / float(chunk['fps'])
+    times = np.asarray(chunk['times'])  # tiempo real de cada fotograma del tramo (analyze lo fija)
     window = (times >= centre - HALF - 1e-6) & (times <= centre + HALF + 1e-6)
     valid = window & np.isfinite(offsets[:, 0])
     if not window.any():
@@ -257,9 +309,9 @@ def decide(chunk, centre, cached=None):
     return dict(result, movement=movement, evidence_quality=quality, span=span, span_lower=lower, span_upper=upper)
 
 
-def analyze(video, folder):
-    fps, count = metadata(video)
-    starts, grid = chunk_starts(count / fps), window_ends(count, fps)
+def analyze(video, folder, times=None):
+    times = frame_times(video) if times is None else times
+    starts, grid = chunk_starts(duration(times)), time_grid(times)
     chunks, cache = {}, {}
     rows = []
     for index, t in enumerate(grid):
@@ -271,6 +323,8 @@ def analyze(video, folder):
         if k not in chunks:
             path = Path(folder) / f'chunk_{k:04d}.npz'
             chunks[k] = dict(np.load(path)) if path.is_file() else None
+            if chunks[k] is not None:
+                chunks[k]['times'] = times[np.asarray(chunks[k]['frames'])]
             if chunks[k] is not None and int(chunks[k]['query']) >= 0:
                 cache[k] = stabilised(chunks[k])
         rows.append(dict(row, chunk=k, **decide(chunks[k], t - .25, cache.get(k))))
@@ -311,10 +365,14 @@ def clip_table(result, motion_dir):
 def run(manifest, out=OUT, tracks=TRACKS, tracker=None, everything=False):
     manifest = Path(manifest).resolve()
     tracks = Path(tracks)
-    checked = []
+    checked, timing = [], {}
 
     def analyse(paths):
         folder = tracks / paths['video'].stem
+        times = frame_times(paths['video'], tracks / 'tiempos')
+        fps, count = metadata(paths['video'])
+        timing[paths['video'].name] = dict(nominal_fps=fps, frames=len(times), real_seconds=duration(times),
+                                           max_offset_seconds=float(np.abs(times - np.arange(len(times)) / fps).max()))
         labels = pd.read_csv(paths['labels'])
         labels = labels[(labels.video_id == paths['video'].name) & labels.label.isin(['locomotion', 'resting'])]
         clips = None if everything else pd.DataFrame(dict(start=labels.start_seconds, end=labels.start_seconds +
@@ -324,13 +382,14 @@ def run(manifest, out=OUT, tracks=TRACKS, tracker=None, everything=False):
             model = tracker()
             if not checked:
                 checked.append(smoke(model))  # sin comprobación superada no se sigue ningún vídeo
-            track_case(paths['video'], paths['masks'], folder, model, clips)
-        return analyze(paths['video'], folder)
+            track_case(paths['video'], paths['masks'], folder, model, clips, times)
+        return analyze(paths['video'], folder, times)
 
     info = dict(model=MODEL, chunk_seconds=CHUNK, stride_seconds=STRIDE, half_window_seconds=HALF, target_fps=TARGET_FPS,
                 side=SIDE, locomotion_lower=LOCOMOTION, low_upper=LOW, min_valid=MIN_VALID, ransac_px=RANSAC_PX,
                 points=dict(rabbit=RABBIT_POINTS, background_grid=BACKGROUND_GRID, ring=RING_POINTS),
-                python=platform.python_version(), source_sha256=sha256(Path(__file__)))
+                python=platform.python_version(), source_sha256=sha256(Path(__file__)),
+                time_base='tiempo real por fotograma (CAP_PROP_POS_MSEC), no fotograma ÷ fps')
     result = evaluate_cases(manifest, out, 'pointtrack', analyse, info)
     r = result['methods']['pointtrack']
     table = clip_table(result, out)
@@ -343,7 +402,7 @@ def run(manifest, out=OUT, tracks=TRACKS, tracker=None, everything=False):
                          'se usaron en enfoques anteriores, así que no es un test con vídeos nuevos.'),
                   clip_auc_max_span=auc(scored.max_span, scored.label == 'locomotion'),
                   within_video_auc_max_span=within, clips_without_measure=int(table.max_span.isna().sum()),
-                  clip_coverage=float((table.prediction != 'unknown').mean()))
+                  clip_coverage=float((table.prediction != 'unknown').mean()), timing=timing)
     (Path(out) / 'verdict.json').write_text(json.dumps(result, indent=2, allow_nan=False, ensure_ascii=False, default=float))
     print(f"\nCoTracker (regla fija): locomoción {r['locomotion_hits']}/{r['locomotion_clips']}, reposo "
           f"{r['resting_correct']}/{r['resting_clips']}, reposos con alarma {r['resting_false_events']}, cobertura "
@@ -371,12 +430,12 @@ def render(manifest, out=OUT, tracks=TRACKS, videos=None, width=640):
         chunks = {k: c for k, c in chunks.items() if int(c['query']) >= 0}
         if not chunks:
             continue
-        fps, count = metadata(video)
-        starts = chunk_starts(count / fps)
+        times = frame_times(video, Path(tracks) / 'tiempos')
+        starts = chunk_starts(duration(times))
         by_frame = {}
         for k, c in chunks.items():
             for j, f in enumerate(c['frames']):
-                if nearest_chunk(starts, f / fps) == k:
+                if nearest_chunk(starts, times[f]) == k:
                     by_frame[int(f)] = (k, j)
         frames = read_frames(video, sorted(by_frame))
         scale = width / next(iter(frames.values())).shape[1]
@@ -384,7 +443,7 @@ def render(manifest, out=OUT, tracks=TRACKS, videos=None, width=640):
         writer = cv2.VideoWriter(str(folder / f"{case['name']}.mp4"), cv2.VideoWriter_fourcc(*'mp4v'), TARGET_FPS, size)
         for f in sorted(frames):
             k, j = by_frame[f]
-            c, t = chunks[k], f / fps
+            c, t = chunks[k], float(times[f])
             image = cv2.cvtColor(cv2.resize(frames[f], size, interpolation=cv2.INTER_AREA), cv2.COLOR_RGB2BGR)
             for (x, y), kind, seen in zip(c['tracks'][j], c['kinds'], c['visible'][j]):
                 if seen and kind != 1:

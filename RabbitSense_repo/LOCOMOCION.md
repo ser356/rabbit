@@ -80,6 +80,25 @@ Las etiquetas están en [etiquetas_ciegas.csv](../RabbitSense_ARCHIVO/etiquetas_
 - **El reetiquetado no siguió a CoTracker.** Solo 5 de los 11 cambios van en la dirección de la medida; otros 6 van en contra. Por ejemplo, IMG_5190 52 s pasa a locomoción con un diámetro medido de 0,08, y WhatsApp 18.44.38 0 s pasa a reposo con 1,49. Eso descarta la circularidad que se temía, pero confirma que la etiqueta humana y la medida discrepan también en clips que la medida ve con claridad.
 - **Posible desfase temporal en IMG_5190**, pendiente de comprobar. Su frecuencia nominal es de 32,2 fps, lo que sugiere frecuencia variable. Si es así, convertir fotograma en segundos con la frecuencia media desplazaría la medida respecto al instante que se ve en el navegador. Sería una causa común a todos los enfoques, que usan fotograma ÷ fps.
 
+### Fallo de base temporal: vídeos de frecuencia variable (detectado el 2026-10-27)
+
+En el Mac, con `CAP_PROP_POS_MSEC` fotograma a fotograma, se midió el desfase entre el tiempo real de cada fotograma y fotograma ÷ fps:
+
+| Vídeo | fps nominal | Desfase máximo |
+|---|---:|---:|
+| IMG_5190 | 32,22 | **−4,26 s** (hacia el segundo 9) |
+| IMG_5191 | 29,97 | 0,00 s |
+| IMG_5192 | 59,98 | 0,00 s |
+
+- **Origen.** IMG_5190 tiene frecuencia variable. Las etiquetas se pusieron en el navegador, que usa el tiempo real. **Todos los enfoques anteriores** convierten fotograma en segundos con fotograma ÷ fps (flujo, silueta, X-CLIP, marcha, clasificadores, adaptación y la primera ejecución de CoTracker). Así, en IMG_5190, que aporta el 28 % de los clips, comparaban la medida de un instante con la etiqueta de otro hasta 4,3 s distinto. Sus veredictos se conservan tal como se registraron, pero quedan afectados por este fallo.
+- **Corrección en [pointtrack.py](src/rabbitsense/pointtrack.py).**
+  - Se usa el tiempo real de cada fotograma para la rejilla de 0,5 s, los tramos, la ventana de ±1 s y el fotograma de consulta.
+  - Los tiempos se guardan en `runs/pointtrack/tiempos/`.
+  - Los tramos guardados que no contienen los fotogramas que les corresponden en tiempo real se vuelven a seguir.
+  - El veredicto registra el desfase máximo de cada vídeo.
+  - Es una corrección de la medida: no cambian la regla, sus umbrales ni sus parámetros.
+- **Evaluación pre-registrada antes de ver resultados corregidos.** La regla congelada se ejecuta con tiempo real contra las etiquetas anteriores y contra las ciegas. Se publican ambas, en `cierre/pointtrack_tiempo_real` y `cierre/pointtrack_ciego_tiempo_real`. Solo se declarará resuelto si pasa con los dos conjuntos de etiquetas, para no elegir el que más convenga. Las ejecuciones con fotograma ÷ fps se conservan.
+
 ## Línea experimental nueva: adaptación del modelo temporal a Cinna (pre-registrada el 2026-10-27)
 
 Esta línea no modifica los veredictos `not_resolved` anteriores ni sus modelos congelados. Es una evaluación exploratoria con validación cruzada agrupada, no un test independiente.

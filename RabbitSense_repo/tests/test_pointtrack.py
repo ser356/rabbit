@@ -10,13 +10,18 @@ from rabbitsense import pointtrack
 W, H, FPS, FRAMES, RABBIT = 512, 288, 30., 300, (60, 40)
 
 
-def scenario(kind):
-    """Posición del conejo y desplazamiento de la cámara (en píxeles de imagen) por fotograma.
+def scenario(kind, t=None):
+    """Posición del conejo y desplazamiento de la cámara (en píxeles de imagen) por fotograma, según su tiempo real.
 
     follow: el conejo avanza 0–4 s y la cámara lo sigue (en imagen no se mueve); quieto 6–10 s.
     pan: el conejo avanza 0–4 s con cámara fija; quieto 6–10 s mientras la cámara barre y se acicala.
+    late: quieto 0–4 s mientras la cámara barre; avanza 6–10 s con la cámara siguiéndolo.
     """
-    t = np.arange(FRAMES) / FPS
+    t = np.arange(FRAMES) / FPS if t is None else np.asarray(t)
+    if kind == 'late':
+        world = 150 + 40 * np.clip(t - 6, 0, 4)
+        camera = 40 * np.clip(t, 0, 4) + 40 * np.clip(t - 6, 0, 4)
+        return world - camera + 160, -camera
     world = 150 + 40 * np.clip(t, 0, 4)
     if kind == 'follow':
         camera = 40 * np.clip(t, 0, 4)
@@ -28,8 +33,8 @@ def scenario(kind):
 class FakeTracker:
     """Devuelve las trayectorias exactas de la escena sintética (el índice de fotograma va codificado en el píxel)."""
 
-    def __init__(self, kind, groom=False):
-        self.rabbit_x, self.background = scenario(kind)
+    def __init__(self, kind, groom=False, times=None):
+        self.rabbit_x, self.background = scenario(kind, times)
         self.groom = groom
         self.calls = 0
 
@@ -51,16 +56,17 @@ class FakeTracker:
         return tracks, visible
 
 
-def make_case(tmp_path, name, kind, masked=True):
+def make_case(tmp_path, name, kind, masked=True, times=None):
+    frames = FRAMES if times is None else len(times)
     video = tmp_path / f'{name}.mp4'
     writer = cv2.VideoWriter(str(video), cv2.VideoWriter_fourcc(*'mp4v'), FPS, (W, H))
-    for _ in range(FRAMES):
+    for _ in range(frames):
         writer.write(np.zeros((H, W, 3), np.uint8))
     writer.release()
     masks = tmp_path / f'masks_{name}' / 'masks'
     masks.mkdir(parents=True)
-    rabbit_x, _ = scenario(kind)
-    for f in range(FRAMES):
+    rabbit_x, _ = scenario(kind, times)
+    for f in range(frames):
         mask = np.zeros((H, W), np.uint8)
         if masked:
             x = int(round(rabbit_x[f]))
@@ -155,8 +161,8 @@ def test_run_applies_closure_criteria_and_renders(tmp_path, fake_frames, monkeyp
     current = {}
     original = pointtrack.track_case
 
-    def track(video, masks, folder, tracker, clips=None):
-        return original(video, masks, folder, trackers[video.stem], clips)
+    def track(video, masks, folder, tracker, clips=None, times=None):
+        return original(video, masks, folder, trackers[video.stem], clips, times)
     monkeypatch.setattr(pointtrack, 'track_case', track)
     smoked = []
     monkeypatch.setattr(pointtrack, 'smoke', lambda model: smoked.append(model) or (0., 0.))
@@ -208,3 +214,33 @@ def test_queries_are_fast_for_a_large_rabbit():
     start = __import__('time').perf_counter()
     points, kinds, unit = pointtrack.sample_queries(mask)
     assert __import__('time').perf_counter() - start < 1. and (kinds == 0).sum() > 10
+
+
+def test_frame_times_constant_rate_matches_index_over_fps(tmp_path):
+    video, _ = make_case(tmp_path, 'c', 'pan')
+    times = pointtrack.frame_times(video, tmp_path / 'tiempos')
+    assert len(times) == FRAMES and np.abs(times - np.arange(FRAMES) / FPS).max() < 2e-3
+    assert (tmp_path / 'tiempos' / 'c.npy').is_file()
+    assert pointtrack.time_grid(times)[:3] == [0., .5, 1.] and pointtrack.time_grid(times)[-1] == pytest.approx(times[-1])
+
+
+def test_variable_frame_rate_uses_real_time(tmp_path, fake_frames, monkeypatch):
+    """Ritmo variable: 4 s a 60 fps y 6 s a 30 fps. Fotograma ÷ fps desplazaría los clips varios segundos."""
+    times = np.r_[np.arange(240) / 60, 4 + np.arange(1, 181) / 30]
+    video, masks = make_case(tmp_path, 'vfr', 'late', times=times)
+    clips = pd.DataFrame(dict(start=[0., 6.], end=[4., 10.]))
+    naive = np.arange(len(times)) / FPS
+    monkeypatch.setattr(pointtrack, 'frame_times', lambda video, cache_dir=None: naive)
+    pointtrack.track_case(video, masks, tmp_path / 'tracks', FakeTracker('late', times=times), clips)
+    wrong = pd.DataFrame(pointtrack.analyze(video, tmp_path / 'tracks'))
+    moving = wrong[(wrong.seconds > 7.) & (wrong.seconds <= 9.)]
+    assert not (moving.movement == 'locomotion_candidate').all()  # el error que se corrige
+    monkeypatch.setattr(pointtrack, 'frame_times', lambda video, cache_dir=None: times)
+    assert pointtrack.track_case(video, masks, tmp_path / 'tracks', FakeTracker('late', times=times), clips) > 0
+    rows = pd.DataFrame(pointtrack.analyze(video, tmp_path / 'tracks'))
+    assert rows.seconds.max() == pytest.approx(10.)
+    moving = rows[(rows.seconds > 7.) & (rows.seconds <= 9.)]
+    resting = rows[(rows.seconds > 1.) & (rows.seconds <= 3.)]
+    assert (moving.movement == 'locomotion_candidate').all(), moving[['seconds', 'span']]
+    assert (resting.movement == 'low_motion_candidate').all(), resting[['seconds', 'span']]
+    assert pointtrack.track_case(video, masks, tmp_path / 'tracks', FakeTracker('late', times=times), clips) == 0
