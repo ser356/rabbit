@@ -120,36 +120,37 @@ def objective(counts):
 
 def select(detections, names):
     """Mejor candidata sobre `names`: max(min(sensibilidad, especificidad)), luego menos episodios falsos,
-    luego la primera de CANDIDATES (la más simple)."""
+    luego la primera candidata de la lista (la más simple)."""
     from .closure import tally
-    scores = [objective(tally({n: dict(detection=detections[i][n]) for n in names})) for i in range(len(CANDIDATES))]
-    best = max(range(len(CANDIDATES)), key=lambda i: (scores[i], -i))
+    scores = [objective(tally({n: dict(detection=d[n]) for n in names})) for d in detections]
+    best = max(range(len(detections)), key=lambda i: (scores[i], -i))
     return best, scores
 
 
-def develop(manifest, dev_out, output=RULE_FILE):
+def develop(manifest, dev_out, output=RULE_FILE, candidates=CANDIDATES, apply=None):
     from .closure import CRITERIA, tally
     from .evaluate import clip_metrics
+    apply = apply or redecide
     manifest = Path(manifest).resolve()
     cases = json.loads(manifest.read_text())['cases']
-    detections, hashes = [dict() for _ in CANDIDATES], {}
+    detections, hashes = [dict() for _ in candidates], {}
     for case in cases:
         motion = Path(dev_out) / case['name'] / 'motion.csv'
         frame = pd.read_csv(motion)
         labels = pd.read_csv((manifest.parent / Path(case['labels']).expanduser()).resolve())
         video = Path(case['video']).name
         hashes[case['name']] = sha256(motion)
-        for i, rule in enumerate(CANDIDATES):
-            detections[i][case['name']] = clip_metrics(redecide(frame, rule), labels, video)['detection']
+        for i, rule in enumerate(candidates):
+            detections[i][case['name']] = clip_metrics(apply(frame, rule), labels, video)['detection']
     names = [c['name'] for c in cases]
     held_out = {}
     for name in names:
         best, _ = select(detections, [n for n in names if n != name])
-        held_out[name] = dict(rule=CANDIDATES[best], detection=detections[best][name])
+        held_out[name] = dict(rule=candidates[best], detection=detections[best][name])
     cross_validated = tally({n: dict(detection=h['detection']) for n, h in held_out.items()})
     best, scores = select(detections, names)
-    report = dict(rule=CANDIDATES[best], criteria=CRITERIA, cross_validated=cross_validated, held_out=held_out,
-                  training_scores=[dict(rule=r, objective=list(sc)) for r, sc in zip(CANDIDATES, scores)],
+    report = dict(rule=candidates[best], criteria=CRITERIA, cross_validated=cross_validated, held_out=held_out,
+                  training_scores=[dict(rule=r, objective=list(sc)) for r, sc in zip(candidates, scores)],
                   protocol='Leave-one-video-out over development videos; selection maximizes min(sensitivity, '
                            'specificity) of clip detection, then fewer false episodes, then candidate order.',
                   motion_sha256=hashes, manifest_sha256=sha256(manifest),

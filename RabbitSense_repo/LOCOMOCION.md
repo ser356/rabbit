@@ -41,6 +41,23 @@ Con vídeo sintético, si la cámara se desplaza y el conejo está quieto, la ve
   - `descriptive_only_insufficient_sample`: menos de 10 clips de reposo nuevos.
 - **Una ejecución:** si el test falla, no se ajusta la regla sobre esos vídeos.
 
+## Cuarto enfoque: marcha con DeepLabCut SuperAnimal-Quadruped (pre-registrado el 2026-10-27)
+
+**Idea.** Al desplazarse, las patas se mueven respecto al cuerpo; en reposo no, aunque la cámara se mueva. Esa señal no depende de compensar la cámara.
+
+**Método** ([pose.py](src/rabbitsense/pose.py)):
+
+- **Modelo:** SuperAnimal-Quadruped `hrnet_w32` de DeepLabCut 3.0.2, preentrenado en cuadrúpedos, sin ajuste fino ni adaptación a nuestros vídeos.
+- **Entrada:** modo *top-down* con la caja de la máscara SAM2 ampliada un 10 %, en lugar del detector de DeepLabCut.
+- **Marcha:** posiciones de patas y rodillas con puntuación ≥ 0,4, en el eje del cuerpo (cuello → cola) y en longitudes corporales. Así no influyen la traslación, el giro ni el zoom de la cámara; comprobado en pruebas sintéticas: excursión 0 con cámara en movimiento. Por intervalo de 0,5 s se toma la mediana, entre extremidades, del diámetro de su trayectoria.
+- **Candidatas, lista cerrada (40):** `pose` (solo marcha) y `pose_or_floor` (marcha combinada con la regla de suelo ya congelada); extremidades `all` o `hind` (traseras, para no confundir el acicalado con locomoción); umbral alto 0,15 / 0,2 / 0,3 / 0,4 / 0,5; umbral bajo 0,05 / 0,1.
+
+**Protocolo.**
+
+- **Desarrollo:** los 17 vídeos ya usados ([pose_desarrollo.json](benchmarks/pose_desarrollo.json)), incluidos los de WhatsApp, que dejan de ser test. Validación cruzada por vídeo con el mismo objetivo que en suelo + silueta; regla congelada en `benchmarks/pose_regla.json` antes de procesar vídeos nuevos.
+- **Test:** vídeos nuevos aún no grabados o no usados, etiquetados desde cero y commiteados antes de ejecutar. Protocolo mixto y criterios sin cambios. Una sola ejecución.
+- **Comprobación visual previa:** por cada vídeo se guarda un mosaico con los puntos detectados. Si el modelo no encuentra patas en Cinna, se verá antes de cualquier cifra.
+
 ## Test con vídeos nuevos de WhatsApp: suelo + silueta (2026-10-27)
 
 Vídeos nuevos no usados en ningún desarrollo. Etiquetas desde cero, verificadas y commiteadas antes de ejecutar (`56feb7b`). Regla congelada antes (`5658aa1`): solo suelo, umbral 0,3. Hubo 8 clips de locomoción (≥ 5), así que la sensibilidad se midió en los vídeos nuevos: **test independiente completo**.

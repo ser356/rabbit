@@ -61,7 +61,7 @@ def evaluate_cases(manifest, out, method, analyze, info):
     suite, inputs = {}, {}
     for case in json.loads(manifest.read_text())['cases']:
         paths = {key: (manifest.parent / Path(case[key]).expanduser()).resolve()
-                 for key in ('video', 'anchors', 'labels', 'masks') if key in case}
+                 for key in ('video', 'anchors', 'labels', 'masks', 'floor') if key in case}
         destination = out / case['name']
         destination.mkdir(parents=True, exist_ok=True)
         rows = analyze(paths)
