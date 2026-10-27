@@ -1,5 +1,28 @@
 # Locomoción: diagnóstico, corrección temporal y cierre
 
+## Desplazamiento respecto al suelo con CoTracker3 (pre-registrado el 2026-10-27, antes de ejecutar)
+
+**Por qué.** Los modelos aprendidos distinguen escenas, no desplazamiento: la AUC intra-vídeo queda cerca del azar. Se mide directamente lo que define la locomoción, sin entrenar nada y con una regla física fija, de modo que no hay selección sobre los 57 clips. El modelo es CoTracker3 offline de Meta (`facebookresearch/co-tracker`, `cotracker3_offline`, vía `torch.hub`).
+
+**Método** ([pointtrack.py](src/rabbitsense/pointtrack.py)):
+
+1. **Tramos.** De 4 s, uno cada 2 s, a unos 15 fps y con el lado largo a 512 px. Solo se procesan los tramos necesarios para los clips etiquetados.
+2. **Puntos de consulta**, en el fotograma central del tramo, o el más cercano con máscara SAM2:
+   - hasta 64 en el interior erosionado de la máscara (conejo);
+   - una rejilla de 20×15 fuera de la máscara dilatada (fondo);
+   - 64 en un anillo de hasta 2,5 tamaños (suelo cercano).
+   Si no hay ningún fotograma con máscara, el tramo es desconocido.
+3. **Cámara.** Por cada fotograma, homografía RANSAC (3 px) del fondo al fotograma de consulta. Se usan los puntos del anillo si hay al menos 12 visibles; si no, todo el fondo. Hacen falta al menos 12 puntos inliers.
+4. **Conejo.** Su posición es la mediana del desplazamiento de sus puntos visibles, llevados con esa homografía. Hacen falta al menos 5 puntos. Mover la cabeza o acicalarse mueve una minoría de puntos y apenas cambia la mediana.
+5. **Medida por intervalo de 0,5 s.** El diámetro de la trayectoria estabilizada en ±1 s, dividido por √(área de la máscara), con un margen del doble del error de reproyección del fondo (percentil 95). Requiere al menos el 60 % de fotogramas válidos.
+6. **Regla fija.** Locomoción si el límite inferior es ≥ 0,5; bajo movimiento si el superior es ≤ 0,25; si no, desconocido. Medio tamaño corporal neto en 2 s es desplazamiento; un cuarto o menos no lo es.
+7. **Evaluación.** Mismos `CRITERIA` y métrica por clip que el cierre. Se informa además, sin umbral, del diámetro máximo por clip: AUC global e intra-vídeo.
+   - Estado `resolved_fixed_rule_on_seen_videos` o `not_resolved`.
+   - Aunque no hay entrenamiento ni selección, los vídeos ya se usaron en enfoques anteriores: no es un test con vídeos nuevos.
+8. **Comprobación previa (`smoke`).** El modelo real debe seguir un cuadrado texturizado sintético con un error ≤ 6 px; si no, no se ejecuta.
+
+**Tests.** Usan un rastreador sintético con trayectorias exactas: cámara que sigue al conejo (locomoción), cámara que barre con el conejo quieto y acicalándose (reposo) y vídeo sin máscara (desconocido). Al desactivar la compensación de cámara, fallan.
+
 ## Línea experimental nueva: adaptación del modelo temporal a Cinna (pre-registrada el 2026-10-27)
 
 Esta línea no modifica los veredictos `not_resolved` anteriores ni sus modelos congelados. Es una evaluación exploratoria con validación cruzada agrupada, no un test independiente.
