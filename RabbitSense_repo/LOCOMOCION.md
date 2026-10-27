@@ -26,6 +26,29 @@
 
 **Tests.** Usan un rastreador sintético con trayectorias exactas: cámara que sigue al conejo (locomoción), cámara que barre con el conejo quieto y acicalándose (reposo) y vídeo sin máscara (desconocido). Al desactivar la compensación de cámara, fallan.
 
+### Resultado de CoTracker3 (Mac M4, MPS, 2026-10-27)
+
+El código ejecutado coincide por hash con [pointtrack.py](src/rabbitsense/pointtrack.py) (`885b7006…`). Resultados por clip en [cierre/pointtrack/clips.csv](cierre/pointtrack/clips.csv) y veredicto en [verdict.json](cierre/pointtrack/verdict.json).
+
+| | Locomoción | Reposo | Reposos con alarma | Cobertura | AUC clip | Intra-vídeo |
+|---|---:|---:|---:|---:|---:|---|
+| **CoTracker3, regla fija** | **16/25** | **17/32** | **10** | 0,56 | **0,80** | 0,65 / 0,67 / 1,00 |
+
+- **Estado `not_resolved`.** La regla queda congelada; no se cambian sus umbrales con estos clips.
+- **Primera señal que mide desplazamiento y no escena.** La AUC por clip es la más alta de todos los enfoques (0,80, frente a un máximo previo de 0,74). La AUC intra-vídeo supera el azar en los tres vídeos con ambas clases; los modelos aprendidos quedaban en azar o por debajo.
+- **Sin techo suficiente aun eligiendo el umbral a posteriori.** Si se elige mirando estos clips el mejor umbral para el diámetro máximo, la peor de sensibilidad y especificidad solo llega a 0,70. Esa elección sería selección sobre la evaluación y no cuenta como resultado, pero muestra que ningún umbral pasa: las distribuciones se solapan entre 0,2 y 1,3 tamaños. 7 de 23 locomociones medidas quedan por debajo de 0,5, y 11 de 32 reposos alcanzan 0,5 o más.
+
+**Errores por clase:**
+
+| Tipo | Clips | Lectura |
+|---|---|---|
+| Sin medida o seguimiento insuficiente | IMG_5191 12, 16 y 20 (locomoción); WhatsApp 18.44.37 y 18.44.35 | SAM2 no tiene máscara de Cinna en esos tramos (cobertura del 46 % en IMG_5191) o hay menos del 60 % de fotogramas válidos. |
+| Locomoción lenta o corta | AE22 v24_0010 y v24_0011 (0,20 y 0,23), IMG_5190 4 (0,08) y 8 (0,34), WhatsApp 18.44.41 0 (0,43) | Las notas de AE22 dicen «avanza despacio examinando el suelo»: es un desplazamiento exploratorio por debajo de medio cuerpo en 2 s. Las etiquetas lo cuentan como locomoción y la regla física, no. |
+| Reposo con desplazamiento medido de 0,6–1,3 | IMG_5190 12–24 s, IMG_5191 8, WhatsApp 18.44.36 4, 18.44.38 (1), `resting` v24_0005 | Pendiente de revisar en los vídeos de diagnóstico: puede ser una recolocación real de Cinna dentro de un clip de reposo o un error del seguimiento. |
+| Cámara dominante | IMG_5190 60 (diámetro 4,65 con desplazamiento de cámara de 2 tamaños), `resting` v24_0002 (cámara 4,3) | La homografía no compensa un movimiento de cámara tan grande. Estos clips quedan en desconocido o con alarma. |
+
+**Conclusión.** CoTracker3 aporta la mejor señal de desplazamiento hasta ahora, pero con estos clips no basta. Dos tercios de los errores dependen de cómo se defina la locomoción: avanzar despacio olfateando y recolocarse dentro de un reposo. El resto viene de máscaras ausentes o de movimientos de cámara grandes.
+
 ## Línea experimental nueva: adaptación del modelo temporal a Cinna (pre-registrada el 2026-10-27)
 
 Esta línea no modifica los veredictos `not_resolved` anteriores ni sus modelos congelados. Es una evaluación exploratoria con validación cruzada agrupada, no un test independiente.
@@ -116,6 +139,7 @@ La batería posterior de contraste temporal, MIL y fusión física, con 112 conf
 | 9 vídeos (validación cruzada) | Suelo + silueta SAM2 | Desarrollo | Sensibilidad validada 0,59 |
 | **Vídeos nuevos de WhatsApp** | **Suelo + silueta SAM2** | **Veredicto, test independiente** | **No pasa: 4/8 locomoción, 6/10 reposo, 1 episodio falso** |
 | 17 vídeos (validación cruzada) | Marcha, DeepLabCut SuperAnimal | Desarrollo | Señal ≈ azar (AUC 0,60); reposo 3/32 |
+| Los 17 vídeos de Cinna | Desplazamiento respecto al suelo con CoTracker3, regla física fija | Sin entrenamiento; vídeos ya vistos | **No pasa: 16/25 locomoción, 17/32 reposo, 10 reposos con alarma; AUC clip 0,80** |
 | **Los 17 vídeos de Cinna** | **Clasificador entrenado con YouTube** | **Veredicto, test independiente** | **No pasa: 14/25 locomoción, 22/32 reposo, 10 episodios falsos** |
 | **Los 17 vídeos de Cinna** | **Clasificador YouTube v2 (2,6× más datos)** | **Veredicto, segunda mirada al test** | **No pasa: 11/25 locomoción, 24/32 reposo, 8 episodios falsos** |
 
