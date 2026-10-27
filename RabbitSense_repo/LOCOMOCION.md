@@ -66,6 +66,20 @@ El usuario revisó los vídeos de diagnóstico de CoTracker y considera correcta
 
 **Limitación.** El usuario vio algunos clips con la predicción superpuesta. El reetiquetado es ciego al orden y a las etiquetas anteriores, pero no a ese recuerdo. Un aprobado aquí sería más débil que uno con vídeos nuevos, y así se documentaría. Los veredictos `not_resolved` anteriores no cambian.
 
+### Resultado del reetiquetado a ciegas (2026-10-27)
+
+Las etiquetas están en [etiquetas_ciegas.csv](../RabbitSense_ARCHIVO/etiquetas_ciegas.csv); su hash coincide con el de [concordancia.json](cierre/ciego/concordancia.json). La evaluación usó la regla congelada (`885b7006…`, sin volver a seguir puntos) y está en [cierre/pointtrack_ciego](cierre/pointtrack_ciego/verdict.json).
+
+| | Locomoción | Reposo | Reposos con alarma | Cobertura | AUC clip |
+|---|---:|---:|---:|---:|---:|
+| Etiquetas anteriores | 16/25 | 17/32 | 10 | 0,56 | 0,80 |
+| **Etiquetas ciegas** | **14/22** | **18/35** | **12** | 0,56 | **0,82** |
+
+- **Estado `not_resolved`.**
+- **Concordancia entre etiquetados: 0,81, kappa 0,60** (acuerdo moderado). Cambian 11 de 57 clips: 7 locomociones pasan a reposo y 4 reposos a locomoción. **La referencia humana por clip de 4 s no es estable:** dos revisiones del mismo vídeo discrepan en uno de cada cinco clips. Con ese ruido en la verdad, el criterio de 0,8 en sensibilidad y especificidad es prácticamente inalcanzable para cualquier método, por bueno que sea.
+- **El reetiquetado no siguió a CoTracker.** Solo 5 de los 11 cambios van en la dirección de la medida; otros 6 van en contra. Por ejemplo, IMG_5190 52 s pasa a locomoción con un diámetro medido de 0,08, y WhatsApp 18.44.38 0 s pasa a reposo con 1,49. Eso descarta la circularidad que se temía, pero confirma que la etiqueta humana y la medida discrepan también en clips que la medida ve con claridad.
+- **Posible desfase temporal en IMG_5190**, pendiente de comprobar. Su frecuencia nominal es de 32,2 fps, lo que sugiere frecuencia variable. Si es así, convertir fotograma en segundos con la frecuencia media desplazaría la medida respecto al instante que se ve en el navegador. Sería una causa común a todos los enfoques, que usan fotograma ÷ fps.
+
 ## Línea experimental nueva: adaptación del modelo temporal a Cinna (pre-registrada el 2026-10-27)
 
 Esta línea no modifica los veredictos `not_resolved` anteriores ni sus modelos congelados. Es una evaluación exploratoria con validación cruzada agrupada, no un test independiente.
