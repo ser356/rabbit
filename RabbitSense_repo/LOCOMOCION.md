@@ -68,6 +68,16 @@ Con vídeo sintético, si la cámara se desplaza y el conejo está quieto, la ve
 3. **Límite de la conclusión.** Es la segunda mirada al mismo conjunto de test tras un fallo. Solo cambian los datos de YouTube, que no se eligen mirando a Cinna, pero un aprobado sería más débil que uno a la primera y se documentaría así.
 4. Si falla, no hay tercer reentrenamiento con YouTube.
 
+**Etiquetas del segundo lote (2026-10-27).** Se descargaron 154 vídeos nuevos, sin repetir ninguno, y se etiquetaron sus 1.166 clips con los mismos criterios mirando solo las hojas de contacto. Se añaden a [etiquetas_youtube.csv](../RabbitSense_ARCHIVO/etiquetas_youtube.csv).
+
+| | Locomoción | Reposo | Desconocido | Vídeos útiles |
+|---|---:|---:|---:|---:|
+| Primer lote (74 vídeos) | 82 | 127 | 327 | 58 |
+| Segundo lote (154 vídeos) | 136 | 192 | 838 | 94 |
+| **Total** | **218** | **319** | **1.165** | **152** |
+
+En el segundo lote, el 72 % de los clips es `unknown`. Hay muchas animaciones, imágenes generadas por IA, videoclips sin conejo, varios conejos a la vez y planos demasiado cercanos. Las búsquedas en japonés (部屋んぽ) aportaron sobre todo vídeos con texto superpuesto.
+
 ## Resultado del clasificador entrenado con YouTube (2026-10-27)
 
 Ejecutado en el Mac (MPS). Modelo congelado en [webclips_modelo.json](benchmarks/webclips_modelo.json) (commit `dc09ec9`) antes de procesar a Cinna; su `labels_sha256` coincide con [etiquetas_youtube.csv](../RabbitSense_ARCHIVO/etiquetas_youtube.csv).
