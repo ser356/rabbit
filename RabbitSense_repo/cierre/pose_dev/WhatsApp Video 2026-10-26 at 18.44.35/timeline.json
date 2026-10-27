@@ -1,0 +1,20 @@
+[
+  {
+    "start_seconds": 0.0,
+    "end_seconds": 2.5,
+    "movement": "unknown",
+    "evidence_quality": 0.23076923076923075
+  },
+  {
+    "start_seconds": 2.5,
+    "end_seconds": 3.0,
+    "movement": "locomotion_candidate",
+    "evidence_quality": 0.5384615384615384
+  },
+  {
+    "start_seconds": 3.0,
+    "end_seconds": 6.42,
+    "movement": "unknown",
+    "evidence_quality": 0.06747638326585695
+  }
+]

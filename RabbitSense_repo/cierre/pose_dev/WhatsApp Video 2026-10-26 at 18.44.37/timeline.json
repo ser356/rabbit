@@ -1,0 +1,26 @@
+[
+  {
+    "start_seconds": 0.0,
+    "end_seconds": 0.57,
+    "movement": "locomotion_candidate",
+    "evidence_quality": 0.5
+  },
+  {
+    "start_seconds": 0.57,
+    "end_seconds": 2.27,
+    "movement": "unknown",
+    "evidence_quality": 0.20163398692810458
+  },
+  {
+    "start_seconds": 2.27,
+    "end_seconds": 3.97,
+    "movement": "locomotion_candidate",
+    "evidence_quality": 0.7950980392156864
+  },
+  {
+    "start_seconds": 3.97,
+    "end_seconds": 6.14,
+    "movement": "unknown",
+    "evidence_quality": 0.08602150537634405
+  }
+]

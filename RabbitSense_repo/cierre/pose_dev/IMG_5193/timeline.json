@@ -1,0 +1,32 @@
+[
+  {
+    "start_seconds": 0.0,
+    "end_seconds": 1.67,
+    "movement": "unknown",
+    "evidence_quality": 0.17411331183786274
+  },
+  {
+    "start_seconds": 1.67,
+    "end_seconds": 3.33,
+    "movement": "locomotion_candidate",
+    "evidence_quality": 1.0
+  },
+  {
+    "start_seconds": 3.33,
+    "end_seconds": 4.59,
+    "movement": "unknown",
+    "evidence_quality": 1.0
+  },
+  {
+    "start_seconds": 4.59,
+    "end_seconds": 8.34,
+    "movement": "locomotion_candidate",
+    "evidence_quality": 0.8756923076923077
+  },
+  {
+    "start_seconds": 8.34,
+    "end_seconds": 9.09,
+    "movement": "unknown",
+    "evidence_quality": 0.0
+  }
+]

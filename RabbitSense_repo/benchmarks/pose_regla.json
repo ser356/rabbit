@@ -1,0 +1,921 @@
+{
+  "rule": {
+    "kind": "pose_or_floor",
+    "limbs": "hind",
+    "high": 0.5,
+    "low": 0.05
+  },
+  "criteria": {
+    "minimum_locomotion_clips": 5,
+    "minimum_resting_clips": 10,
+    "sensitivity": 0.8,
+    "specificity": 0.8,
+    "hit_per_locomotion_video": 1
+  },
+  "cross_validated": {
+    "locomotion_hits": 13,
+    "locomotion_clips": 25,
+    "resting_correct": 3,
+    "resting_clips": 32,
+    "resting_false_events": 7,
+    "per_video": {
+      "5177": {
+        "locomotion_hits": 2,
+        "locomotion_clips": 3,
+        "resting_correct": 0,
+        "resting_clips": 0,
+        "resting_false_events": 0
+      },
+      "locomotion": {
+        "locomotion_hits": 0,
+        "locomotion_clips": 2,
+        "resting_correct": 0,
+        "resting_clips": 0,
+        "resting_false_events": 0
+      },
+      "resting": {
+        "locomotion_hits": 0,
+        "locomotion_clips": 0,
+        "resting_correct": 1,
+        "resting_clips": 4,
+        "resting_false_events": 1
+      },
+      "resting_972F": {
+        "locomotion_hits": 0,
+        "locomotion_clips": 0,
+        "resting_correct": 2,
+        "resting_clips": 3,
+        "resting_false_events": 1
+      },
+      "resting_4944": {
+        "locomotion_hits": 0,
+        "locomotion_clips": 0,
+        "resting_correct": 0,
+        "resting_clips": 3,
+        "resting_false_events": 1
+      },
+      "IMG_5190": {
+        "locomotion_hits": 3,
+        "locomotion_clips": 7,
+        "resting_correct": 0,
+        "resting_clips": 9,
+        "resting_false_events": 3
+      },
+      "IMG_5191": {
+        "locomotion_hits": 0,
+        "locomotion_clips": 3,
+        "resting_correct": 0,
+        "resting_clips": 3,
+        "resting_false_events": 0
+      },
+      "IMG_5192": {
+        "locomotion_hits": 2,
+        "locomotion_clips": 2,
+        "resting_correct": 0,
+        "resting_clips": 0,
+        "resting_false_events": 0
+      },
+      "IMG_5193": {
+        "locomotion_hits": 0,
+        "locomotion_clips": 0,
+        "resting_correct": 0,
+        "resting_clips": 0,
+        "resting_false_events": 0
+      },
+      "WhatsApp Video 2026-10-26 at 18.44.34": {
+        "locomotion_hits": 0,
+        "locomotion_clips": 1,
+        "resting_correct": 0,
+        "resting_clips": 1,
+        "resting_false_events": 1
+      },
+      "WhatsApp Video 2026-10-26 at 18.44.35": {
+        "locomotion_hits": 0,
+        "locomotion_clips": 0,
+        "resting_correct": 0,
+        "resting_clips": 1,
+        "resting_false_events": 0
+      },
+      "WhatsApp Video 2026-10-26 at 18.44.36": {
+        "locomotion_hits": 0,
+        "locomotion_clips": 0,
+        "resting_correct": 0,
+        "resting_clips": 2,
+        "resting_false_events": 0
+      },
+      "WhatsApp Video 2026-10-26 at 18.44.37": {
+        "locomotion_hits": 1,
+        "locomotion_clips": 1,
+        "resting_correct": 0,
+        "resting_clips": 0,
+        "resting_false_events": 0
+      },
+      "WhatsApp Video 2026-10-26 at 18.44.38": {
+        "locomotion_hits": 3,
+        "locomotion_clips": 3,
+        "resting_correct": 0,
+        "resting_clips": 0,
+        "resting_false_events": 0
+      },
+      "WhatsApp Video 2026-10-26 at 18.44.38 (1)": {
+        "locomotion_hits": 0,
+        "locomotion_clips": 0,
+        "resting_correct": 0,
+        "resting_clips": 2,
+        "resting_false_events": 0
+      },
+      "WhatsApp Video 2026-10-26 at 18.44.40": {
+        "locomotion_hits": 0,
+        "locomotion_clips": 0,
+        "resting_correct": 0,
+        "resting_clips": 4,
+        "resting_false_events": 0
+      },
+      "WhatsApp Video 2026-10-26 at 18.44.41": {
+        "locomotion_hits": 2,
+        "locomotion_clips": 3,
+        "resting_correct": 0,
+        "resting_clips": 0,
+        "resting_false_events": 0
+      }
+    }
+  },
+  "held_out": {
+    "5177": {
+      "rule": {
+        "kind": "pose_or_floor",
+        "limbs": "hind",
+        "high": 0.5,
+        "low": 0.05
+      },
+      "detection": {
+        "locomotion_hits": 2,
+        "locomotion_clips": 3,
+        "resting_correct": 0,
+        "resting_clips": 0,
+        "resting_false_events": 0
+      }
+    },
+    "locomotion": {
+      "rule": {
+        "kind": "pose_or_floor",
+        "limbs": "hind",
+        "high": 0.5,
+        "low": 0.05
+      },
+      "detection": {
+        "locomotion_hits": 0,
+        "locomotion_clips": 2,
+        "resting_correct": 0,
+        "resting_clips": 0,
+        "resting_false_events": 0
+      }
+    },
+    "resting": {
+      "rule": {
+        "kind": "pose_or_floor",
+        "limbs": "hind",
+        "high": 0.5,
+        "low": 0.05
+      },
+      "detection": {
+        "locomotion_hits": 0,
+        "locomotion_clips": 0,
+        "resting_correct": 1,
+        "resting_clips": 4,
+        "resting_false_events": 1
+      }
+    },
+    "resting_972F": {
+      "rule": {
+        "kind": "pose_or_floor",
+        "limbs": "hind",
+        "high": 0.5,
+        "low": 0.05
+      },
+      "detection": {
+        "locomotion_hits": 0,
+        "locomotion_clips": 0,
+        "resting_correct": 2,
+        "resting_clips": 3,
+        "resting_false_events": 1
+      }
+    },
+    "resting_4944": {
+      "rule": {
+        "kind": "pose_or_floor",
+        "limbs": "hind",
+        "high": 0.5,
+        "low": 0.05
+      },
+      "detection": {
+        "locomotion_hits": 0,
+        "locomotion_clips": 0,
+        "resting_correct": 0,
+        "resting_clips": 3,
+        "resting_false_events": 1
+      }
+    },
+    "IMG_5190": {
+      "rule": {
+        "kind": "pose_or_floor",
+        "limbs": "all",
+        "high": 0.4,
+        "low": 0.05
+      },
+      "detection": {
+        "locomotion_hits": 3,
+        "locomotion_clips": 7,
+        "resting_correct": 0,
+        "resting_clips": 9,
+        "resting_false_events": 3
+      }
+    },
+    "IMG_5191": {
+      "rule": {
+        "kind": "pose_or_floor",
+        "limbs": "hind",
+        "high": 0.5,
+        "low": 0.05
+      },
+      "detection": {
+        "locomotion_hits": 0,
+        "locomotion_clips": 3,
+        "resting_correct": 0,
+        "resting_clips": 3,
+        "resting_false_events": 0
+      }
+    },
+    "IMG_5192": {
+      "rule": {
+        "kind": "pose_or_floor",
+        "limbs": "hind",
+        "high": 0.5,
+        "low": 0.05
+      },
+      "detection": {
+        "locomotion_hits": 2,
+        "locomotion_clips": 2,
+        "resting_correct": 0,
+        "resting_clips": 0,
+        "resting_false_events": 0
+      }
+    },
+    "IMG_5193": {
+      "rule": {
+        "kind": "pose_or_floor",
+        "limbs": "hind",
+        "high": 0.5,
+        "low": 0.05
+      },
+      "detection": {
+        "locomotion_hits": 0,
+        "locomotion_clips": 0,
+        "resting_correct": 0,
+        "resting_clips": 0,
+        "resting_false_events": 0
+      }
+    },
+    "WhatsApp Video 2026-10-26 at 18.44.34": {
+      "rule": {
+        "kind": "pose_or_floor",
+        "limbs": "hind",
+        "high": 0.5,
+        "low": 0.05
+      },
+      "detection": {
+        "locomotion_hits": 0,
+        "locomotion_clips": 1,
+        "resting_correct": 0,
+        "resting_clips": 1,
+        "resting_false_events": 1
+      }
+    },
+    "WhatsApp Video 2026-10-26 at 18.44.35": {
+      "rule": {
+        "kind": "pose_or_floor",
+        "limbs": "hind",
+        "high": 0.5,
+        "low": 0.05
+      },
+      "detection": {
+        "locomotion_hits": 0,
+        "locomotion_clips": 0,
+        "resting_correct": 0,
+        "resting_clips": 1,
+        "resting_false_events": 0
+      }
+    },
+    "WhatsApp Video 2026-10-26 at 18.44.36": {
+      "rule": {
+        "kind": "pose_or_floor",
+        "limbs": "hind",
+        "high": 0.5,
+        "low": 0.05
+      },
+      "detection": {
+        "locomotion_hits": 0,
+        "locomotion_clips": 0,
+        "resting_correct": 0,
+        "resting_clips": 2,
+        "resting_false_events": 0
+      }
+    },
+    "WhatsApp Video 2026-10-26 at 18.44.37": {
+      "rule": {
+        "kind": "pose_or_floor",
+        "limbs": "hind",
+        "high": 0.5,
+        "low": 0.05
+      },
+      "detection": {
+        "locomotion_hits": 1,
+        "locomotion_clips": 1,
+        "resting_correct": 0,
+        "resting_clips": 0,
+        "resting_false_events": 0
+      }
+    },
+    "WhatsApp Video 2026-10-26 at 18.44.38": {
+      "rule": {
+        "kind": "pose_or_floor",
+        "limbs": "hind",
+        "high": 0.5,
+        "low": 0.05
+      },
+      "detection": {
+        "locomotion_hits": 3,
+        "locomotion_clips": 3,
+        "resting_correct": 0,
+        "resting_clips": 0,
+        "resting_false_events": 0
+      }
+    },
+    "WhatsApp Video 2026-10-26 at 18.44.38 (1)": {
+      "rule": {
+        "kind": "pose_or_floor",
+        "limbs": "hind",
+        "high": 0.5,
+        "low": 0.05
+      },
+      "detection": {
+        "locomotion_hits": 0,
+        "locomotion_clips": 0,
+        "resting_correct": 0,
+        "resting_clips": 2,
+        "resting_false_events": 0
+      }
+    },
+    "WhatsApp Video 2026-10-26 at 18.44.40": {
+      "rule": {
+        "kind": "pose_or_floor",
+        "limbs": "hind",
+        "high": 0.5,
+        "low": 0.05
+      },
+      "detection": {
+        "locomotion_hits": 0,
+        "locomotion_clips": 0,
+        "resting_correct": 0,
+        "resting_clips": 4,
+        "resting_false_events": 0
+      }
+    },
+    "WhatsApp Video 2026-10-26 at 18.44.41": {
+      "rule": {
+        "kind": "pose_or_floor",
+        "limbs": "hind",
+        "high": 0.5,
+        "low": 0.05
+      },
+      "detection": {
+        "locomotion_hits": 2,
+        "locomotion_clips": 3,
+        "resting_correct": 0,
+        "resting_clips": 0,
+        "resting_false_events": 0
+      }
+    }
+  },
+  "training_scores": [
+    {
+      "rule": {
+        "kind": "pose",
+        "limbs": "all",
+        "high": 0.15,
+        "low": 0.05
+      },
+      "objective": [
+        0.0,
+        -18
+      ]
+    },
+    {
+      "rule": {
+        "kind": "pose",
+        "limbs": "all",
+        "high": 0.15,
+        "low": 0.1
+      },
+      "objective": [
+        0.0,
+        -18
+      ]
+    },
+    {
+      "rule": {
+        "kind": "pose",
+        "limbs": "all",
+        "high": 0.2,
+        "low": 0.05
+      },
+      "objective": [
+        0.0,
+        -14
+      ]
+    },
+    {
+      "rule": {
+        "kind": "pose",
+        "limbs": "all",
+        "high": 0.2,
+        "low": 0.1
+      },
+      "objective": [
+        0.0,
+        -14
+      ]
+    },
+    {
+      "rule": {
+        "kind": "pose",
+        "limbs": "all",
+        "high": 0.3,
+        "low": 0.05
+      },
+      "objective": [
+        0.0,
+        -10
+      ]
+    },
+    {
+      "rule": {
+        "kind": "pose",
+        "limbs": "all",
+        "high": 0.3,
+        "low": 0.1
+      },
+      "objective": [
+        0.0,
+        -10
+      ]
+    },
+    {
+      "rule": {
+        "kind": "pose",
+        "limbs": "all",
+        "high": 0.4,
+        "low": 0.05
+      },
+      "objective": [
+        0.0,
+        -4
+      ]
+    },
+    {
+      "rule": {
+        "kind": "pose",
+        "limbs": "all",
+        "high": 0.4,
+        "low": 0.1
+      },
+      "objective": [
+        0.0,
+        -4
+      ]
+    },
+    {
+      "rule": {
+        "kind": "pose",
+        "limbs": "all",
+        "high": 0.5,
+        "low": 0.05
+      },
+      "objective": [
+        0.0,
+        -4
+      ]
+    },
+    {
+      "rule": {
+        "kind": "pose",
+        "limbs": "all",
+        "high": 0.5,
+        "low": 0.1
+      },
+      "objective": [
+        0.0,
+        -4
+      ]
+    },
+    {
+      "rule": {
+        "kind": "pose",
+        "limbs": "hind",
+        "high": 0.15,
+        "low": 0.05
+      },
+      "objective": [
+        0.0,
+        -16
+      ]
+    },
+    {
+      "rule": {
+        "kind": "pose",
+        "limbs": "hind",
+        "high": 0.15,
+        "low": 0.1
+      },
+      "objective": [
+        0.0,
+        -16
+      ]
+    },
+    {
+      "rule": {
+        "kind": "pose",
+        "limbs": "hind",
+        "high": 0.2,
+        "low": 0.05
+      },
+      "objective": [
+        0.0,
+        -14
+      ]
+    },
+    {
+      "rule": {
+        "kind": "pose",
+        "limbs": "hind",
+        "high": 0.2,
+        "low": 0.1
+      },
+      "objective": [
+        0.0,
+        -14
+      ]
+    },
+    {
+      "rule": {
+        "kind": "pose",
+        "limbs": "hind",
+        "high": 0.3,
+        "low": 0.05
+      },
+      "objective": [
+        0.0,
+        -8
+      ]
+    },
+    {
+      "rule": {
+        "kind": "pose",
+        "limbs": "hind",
+        "high": 0.3,
+        "low": 0.1
+      },
+      "objective": [
+        0.0,
+        -8
+      ]
+    },
+    {
+      "rule": {
+        "kind": "pose",
+        "limbs": "hind",
+        "high": 0.4,
+        "low": 0.05
+      },
+      "objective": [
+        0.0,
+        -4
+      ]
+    },
+    {
+      "rule": {
+        "kind": "pose",
+        "limbs": "hind",
+        "high": 0.4,
+        "low": 0.1
+      },
+      "objective": [
+        0.0,
+        -4
+      ]
+    },
+    {
+      "rule": {
+        "kind": "pose",
+        "limbs": "hind",
+        "high": 0.5,
+        "low": 0.05
+      },
+      "objective": [
+        0.0,
+        -3
+      ]
+    },
+    {
+      "rule": {
+        "kind": "pose",
+        "limbs": "hind",
+        "high": 0.5,
+        "low": 0.1
+      },
+      "objective": [
+        0.0,
+        -3
+      ]
+    },
+    {
+      "rule": {
+        "kind": "pose_or_floor",
+        "limbs": "all",
+        "high": 0.15,
+        "low": 0.05
+      },
+      "objective": [
+        0.0625,
+        -20
+      ]
+    },
+    {
+      "rule": {
+        "kind": "pose_or_floor",
+        "limbs": "all",
+        "high": 0.15,
+        "low": 0.1
+      },
+      "objective": [
+        0.0625,
+        -20
+      ]
+    },
+    {
+      "rule": {
+        "kind": "pose_or_floor",
+        "limbs": "all",
+        "high": 0.2,
+        "low": 0.05
+      },
+      "objective": [
+        0.0625,
+        -16
+      ]
+    },
+    {
+      "rule": {
+        "kind": "pose_or_floor",
+        "limbs": "all",
+        "high": 0.2,
+        "low": 0.1
+      },
+      "objective": [
+        0.0625,
+        -16
+      ]
+    },
+    {
+      "rule": {
+        "kind": "pose_or_floor",
+        "limbs": "all",
+        "high": 0.3,
+        "low": 0.05
+      },
+      "objective": [
+        0.0625,
+        -12
+      ]
+    },
+    {
+      "rule": {
+        "kind": "pose_or_floor",
+        "limbs": "all",
+        "high": 0.3,
+        "low": 0.1
+      },
+      "objective": [
+        0.0625,
+        -12
+      ]
+    },
+    {
+      "rule": {
+        "kind": "pose_or_floor",
+        "limbs": "all",
+        "high": 0.4,
+        "low": 0.05
+      },
+      "objective": [
+        0.09375,
+        -7
+      ]
+    },
+    {
+      "rule": {
+        "kind": "pose_or_floor",
+        "limbs": "all",
+        "high": 0.4,
+        "low": 0.1
+      },
+      "objective": [
+        0.09375,
+        -7
+      ]
+    },
+    {
+      "rule": {
+        "kind": "pose_or_floor",
+        "limbs": "all",
+        "high": 0.5,
+        "low": 0.05
+      },
+      "objective": [
+        0.09375,
+        -7
+      ]
+    },
+    {
+      "rule": {
+        "kind": "pose_or_floor",
+        "limbs": "all",
+        "high": 0.5,
+        "low": 0.1
+      },
+      "objective": [
+        0.09375,
+        -7
+      ]
+    },
+    {
+      "rule": {
+        "kind": "pose_or_floor",
+        "limbs": "hind",
+        "high": 0.15,
+        "low": 0.05
+      },
+      "objective": [
+        0.0625,
+        -18
+      ]
+    },
+    {
+      "rule": {
+        "kind": "pose_or_floor",
+        "limbs": "hind",
+        "high": 0.15,
+        "low": 0.1
+      },
+      "objective": [
+        0.0625,
+        -18
+      ]
+    },
+    {
+      "rule": {
+        "kind": "pose_or_floor",
+        "limbs": "hind",
+        "high": 0.2,
+        "low": 0.05
+      },
+      "objective": [
+        0.0625,
+        -17
+      ]
+    },
+    {
+      "rule": {
+        "kind": "pose_or_floor",
+        "limbs": "hind",
+        "high": 0.2,
+        "low": 0.1
+      },
+      "objective": [
+        0.0625,
+        -17
+      ]
+    },
+    {
+      "rule": {
+        "kind": "pose_or_floor",
+        "limbs": "hind",
+        "high": 0.3,
+        "low": 0.05
+      },
+      "objective": [
+        0.0625,
+        -11
+      ]
+    },
+    {
+      "rule": {
+        "kind": "pose_or_floor",
+        "limbs": "hind",
+        "high": 0.3,
+        "low": 0.1
+      },
+      "objective": [
+        0.0625,
+        -11
+      ]
+    },
+    {
+      "rule": {
+        "kind": "pose_or_floor",
+        "limbs": "hind",
+        "high": 0.4,
+        "low": 0.05
+      },
+      "objective": [
+        0.09375,
+        -7
+      ]
+    },
+    {
+      "rule": {
+        "kind": "pose_or_floor",
+        "limbs": "hind",
+        "high": 0.4,
+        "low": 0.1
+      },
+      "objective": [
+        0.09375,
+        -7
+      ]
+    },
+    {
+      "rule": {
+        "kind": "pose_or_floor",
+        "limbs": "hind",
+        "high": 0.5,
+        "low": 0.05
+      },
+      "objective": [
+        0.09375,
+        -6
+      ]
+    },
+    {
+      "rule": {
+        "kind": "pose_or_floor",
+        "limbs": "hind",
+        "high": 0.5,
+        "low": 0.1
+      },
+      "objective": [
+        0.09375,
+        -6
+      ]
+    }
+  ],
+  "protocol": "Leave-one-video-out over development videos; selection maximizes min(sensitivity, specificity) of clip detection, then fewer false episodes, then candidate order.",
+  "motion_sha256": {
+    "5177": "b0cd6324de64f534e27ca4b043e6ee28b059b9b0f1ade981510de178d7da432f",
+    "locomotion": "6004c346f32ff2e24d0f7c312594fe555443445a592d9c3fdc4e9acc00f5ceb5",
+    "resting": "00843ba9ca8c0930cf4cdd9853292a314f32ac4985d790291389be34127d7523",
+    "resting_972F": "c86c7026cceb66266d113615fcac192def62b3fe63a4cfb5c0fd2133e7a54ad4",
+    "resting_4944": "e71d56a41f01e8a932812cd84f743e1d9897bd4981b60fc5d79d124464a210aa",
+    "IMG_5190": "c6b603cf861f51c6e630657561efc7725232b3d68adb6443744d93a9de763a2d",
+    "IMG_5191": "f87051632203f1dfe7eaa1ad7afb465ea0ad27abd36d1c42ce7e572d41ae1b0c",
+    "IMG_5192": "4e7c23b1cd691bfda98da9ae5b4e2fd7d355edd5a5eea74b7c6ec19f4e8bd3c1",
+    "IMG_5193": "cd7e70f2a64e3169e59b7c3373a01e99c679a2a5fdeb99b9c138cfc2e316d8af",
+    "WhatsApp Video 2026-10-26 at 18.44.34": "d3ac01af2b198d4fd2e5ed110836b4f8a1d25ada4d6885aefb145d0e4a0e74bf",
+    "WhatsApp Video 2026-10-26 at 18.44.35": "277cc218273d70f3f4a38a7f44c9c1aaa719266a7cdfa3d61cebeed158c9c733",
+    "WhatsApp Video 2026-10-26 at 18.44.36": "50e7df14b9376a18e4ff9456e662d5eb5f906b5dd829240425f95379103e94c3",
+    "WhatsApp Video 2026-10-26 at 18.44.37": "c25588f4b7d76dca95e24ee78d001d3b9e82b5a62248581a99ccf200f86d030a",
+    "WhatsApp Video 2026-10-26 at 18.44.38": "f0aa8ecd38565ec4a135298ed9c8865b7e00e190aaba838e892b1dea5bc5a279",
+    "WhatsApp Video 2026-10-26 at 18.44.38 (1)": "54ebddb7366d7a6477e6dafe3161a34be9f877199040ebb9781878b1dea224e5",
+    "WhatsApp Video 2026-10-26 at 18.44.40": "d4fd333a09700e25d123cc677f7452f8344fd989a3f4491f9fcf4436661d147a",
+    "WhatsApp Video 2026-10-26 at 18.44.41": "98543061a9cc0f8256439220908c9c3b3a3606c1f62286fcd31e0557f974c21c"
+  },
+  "manifest_sha256": "63aa160e5da4ca3354e9c0c6822b8cb447a3b8fbff663b7d57e0c1f56dd4efcc",
+  "source_sha256": {
+    "body.py": "cbf86261d9c0555874b772e8abfeed6fdc4c102afc0666eae12ebeb1918a1973",
+    "v37.py": "a5d146ad05f940c2b7137b29de0db3910a80b5470bf1424ad828439929711df4",
+    "__init__.py": "b2988ffa8646ca94649ef7296a741e22d7acd1a077c0bc13cbfab00675bd0fe9",
+    "detector_audit.py": "4259348dc03246b1589c356aa5561dd0622a1fc6e18b1224131ddbeb35d5921e",
+    "closure.py": "416fe3983b082ca68e03db8edae7933410ad3fdb4dcf1fb287f75c0615bdedf0",
+    "silhouette.py": "20f21fc0bae3f6c60e2ebaa1a34c4f0e3fd8f0d7461fd8653553d56b27455f02",
+    "evaluate.py": "d461822e0f9c71fc2c35b8a858007869f0fd9c47337906379f003a03f644afa5",
+    "bridge.py": "19e0f80e3fb6a1665a40670eb51fa139f100af07b605404cbd20013fe8a1c6ff",
+    "v36.py": "476c24d8a5ed256f1a788fd3d134e0be766244227d739d9a8bf7ea8a250c7e91",
+    "handheld.py": "6b66233a1c75874ac9969233527797e90476d876991ac347f096778cf8f1ece7",
+    "motion.py": "948f9e8daf9c352930c1e1f66dc253990a9cc367167933a8b2b96a686db32c87",
+    "__main__.py": "b6a3089000284632d8404c674d60d8f43b1a840a3505c64c7cce94cdd448d89b",
+    "tracking.py": "6ec03ee6e39a746e69ba6db99aac850fc1c621d0cca7e98758004a00e02f9cdf",
+    "zeroshot.py": "18af487523e6eccc1ad338763e5fa57f6329788023c1eaa4cf444faf3c7c7f5f",
+    "pose.py": "89d0ce7067f1bd1485e6277c2f47a77d96d784d79eae4558dd8616dd80225660",
+    "segment.py": "125da7808c8c109ff70dcacedcad1aa9abfb7cf82846b88cf34c98465c9aa8de"
+  }
+}

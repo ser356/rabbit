@@ -1,0 +1,110 @@
+[
+  {
+    "start_seconds": 0.0,
+    "end_seconds": 10.77,
+    "movement": "locomotion_candidate",
+    "evidence_quality": 0.9503249767873723
+  },
+  {
+    "start_seconds": 10.77,
+    "end_seconds": 11.9,
+    "movement": "unknown",
+    "evidence_quality": 1.0
+  },
+  {
+    "start_seconds": 11.9,
+    "end_seconds": 14.73,
+    "movement": "locomotion_candidate",
+    "evidence_quality": 1.0
+  },
+  {
+    "start_seconds": 14.73,
+    "end_seconds": 15.87,
+    "movement": "unknown",
+    "evidence_quality": 1.0
+  },
+  {
+    "start_seconds": 15.87,
+    "end_seconds": 17.57,
+    "movement": "locomotion_candidate",
+    "evidence_quality": 0.888235294117647
+  },
+  {
+    "start_seconds": 17.57,
+    "end_seconds": 23.8,
+    "movement": "unknown",
+    "evidence_quality": 0.1860174781523095
+  },
+  {
+    "start_seconds": 23.8,
+    "end_seconds": 26.07,
+    "movement": "locomotion_candidate",
+    "evidence_quality": 0.6255506607929516
+  },
+  {
+    "start_seconds": 26.07,
+    "end_seconds": 27.77,
+    "movement": "unknown",
+    "evidence_quality": 0.03725490196078435
+  },
+  {
+    "start_seconds": 27.77,
+    "end_seconds": 30.03,
+    "movement": "locomotion_candidate",
+    "evidence_quality": 0.765732546705998
+  },
+  {
+    "start_seconds": 30.03,
+    "end_seconds": 30.6,
+    "movement": "unknown",
+    "evidence_quality": 0.1111111111111111
+  },
+  {
+    "start_seconds": 30.6,
+    "end_seconds": 31.73,
+    "movement": "locomotion_candidate",
+    "evidence_quality": 0.8323500491642082
+  },
+  {
+    "start_seconds": 31.73,
+    "end_seconds": 32.3,
+    "movement": "unknown",
+    "evidence_quality": 0.3888888888888889
+  },
+  {
+    "start_seconds": 32.3,
+    "end_seconds": 34.0,
+    "movement": "locomotion_candidate",
+    "evidence_quality": 0.9254901960784315
+  },
+  {
+    "start_seconds": 34.0,
+    "end_seconds": 34.57,
+    "movement": "unknown",
+    "evidence_quality": 0.3888888888888889
+  },
+  {
+    "start_seconds": 34.57,
+    "end_seconds": 35.7,
+    "movement": "locomotion_candidate",
+    "evidence_quality": 1.0
+  },
+  {
+    "start_seconds": 35.7,
+    "end_seconds": 38.53,
+    "movement": "unknown",
+    "evidence_quality": 1.0
+  },
+  {
+    "start_seconds": 38.53,
+    "end_seconds": 40.8,
+    "movement": "locomotion_candidate",
+    "evidence_quality": 0.9162995594713655
+  },
+  {
+    "start_seconds": 40.8,
+    "end_seconds": 41.67,
+    "movement": "unknown",
+    "evidence_quality": 0.0
+  }
+]

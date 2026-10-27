@@ -1,0 +1,8 @@
+{
+  "super_animal": "superanimal_quadruped",
+  "model": "hrnet_w32",
+  "snapshot_sha256": "a42e58d56bb32f8b4f4fe17ea9ed9511cebc7b7949ac56b97fa6f3a49587c31e",
+  "device": "mps",
+  "deeplabcut": "3.0.2",
+  "torch": "2.14.1"
+}

@@ -78,7 +78,7 @@
       "video": "/Users/sergiogarciaseco/Downloads/WhatsApp Video 2026-10-26 at 18.44.34.mp4",
       "anchors": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_repo/runs/handheld/anchors/WhatsApp Video 2026-10-26 at 18.44.34.json",
       "masks": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_repo/runs/handheld/segmentation/WhatsApp Video 2026-10-26 at 18.44.34",
-      "labels": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_ARCHIVO/etiquetas_nuevos.csv",
+      "labels": "../../RabbitSense_ARCHIVO/etiquetas_nuevos.csv",
       "floor": "../runs/silueta_test/WhatsApp Video 2026-10-26 at 18.44.34/motion.csv"
     },
     {
@@ -86,7 +86,7 @@
       "video": "/Users/sergiogarciaseco/Downloads/WhatsApp Video 2026-10-26 at 18.44.35.mp4",
       "anchors": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_repo/runs/handheld/anchors/WhatsApp Video 2026-10-26 at 18.44.35.json",
       "masks": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_repo/runs/handheld/segmentation/WhatsApp Video 2026-10-26 at 18.44.35",
-      "labels": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_ARCHIVO/etiquetas_nuevos.csv",
+      "labels": "../../RabbitSense_ARCHIVO/etiquetas_nuevos.csv",
       "floor": "../runs/silueta_test/WhatsApp Video 2026-10-26 at 18.44.35/motion.csv"
     },
     {
@@ -94,7 +94,7 @@
       "video": "/Users/sergiogarciaseco/Downloads/WhatsApp Video 2026-10-26 at 18.44.36.mp4",
       "anchors": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_repo/runs/handheld/anchors/WhatsApp Video 2026-10-26 at 18.44.36.json",
       "masks": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_repo/runs/handheld/segmentation/WhatsApp Video 2026-10-26 at 18.44.36",
-      "labels": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_ARCHIVO/etiquetas_nuevos.csv",
+      "labels": "../../RabbitSense_ARCHIVO/etiquetas_nuevos.csv",
       "floor": "../runs/silueta_test/WhatsApp Video 2026-10-26 at 18.44.36/motion.csv"
     },
     {
@@ -102,7 +102,7 @@
       "video": "/Users/sergiogarciaseco/Downloads/WhatsApp Video 2026-10-26 at 18.44.37.mp4",
       "anchors": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_repo/runs/handheld/anchors/WhatsApp Video 2026-10-26 at 18.44.37.json",
       "masks": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_repo/runs/handheld/segmentation/WhatsApp Video 2026-10-26 at 18.44.37",
-      "labels": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_ARCHIVO/etiquetas_nuevos.csv",
+      "labels": "../../RabbitSense_ARCHIVO/etiquetas_nuevos.csv",
       "floor": "../runs/silueta_test/WhatsApp Video 2026-10-26 at 18.44.37/motion.csv"
     },
     {
@@ -110,7 +110,7 @@
       "video": "/Users/sergiogarciaseco/Downloads/WhatsApp Video 2026-10-26 at 18.44.38.mp4",
       "anchors": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_repo/runs/handheld/anchors/WhatsApp Video 2026-10-26 at 18.44.38.json",
       "masks": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_repo/runs/handheld/segmentation/WhatsApp Video 2026-10-26 at 18.44.38",
-      "labels": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_ARCHIVO/etiquetas_nuevos.csv",
+      "labels": "../../RabbitSense_ARCHIVO/etiquetas_nuevos.csv",
       "floor": "../runs/silueta_test/WhatsApp Video 2026-10-26 at 18.44.38/motion.csv"
     },
     {
@@ -118,7 +118,7 @@
       "video": "/Users/sergiogarciaseco/Downloads/WhatsApp Video 2026-10-26 at 18.44.38 (1).mp4",
       "anchors": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_repo/runs/handheld/anchors/WhatsApp Video 2026-10-26 at 18.44.38 (1).json",
       "masks": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_repo/runs/handheld/segmentation/WhatsApp Video 2026-10-26 at 18.44.38 (1)",
-      "labels": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_ARCHIVO/etiquetas_nuevos.csv",
+      "labels": "../../RabbitSense_ARCHIVO/etiquetas_nuevos.csv",
       "floor": "../runs/silueta_test/WhatsApp Video 2026-10-26 at 18.44.38 (1)/motion.csv"
     },
     {
@@ -126,7 +126,7 @@
       "video": "/Users/sergiogarciaseco/Downloads/WhatsApp Video 2026-10-26 at 18.44.40.mp4",
       "anchors": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_repo/runs/handheld/anchors/WhatsApp Video 2026-10-26 at 18.44.40.json",
       "masks": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_repo/runs/handheld/segmentation/WhatsApp Video 2026-10-26 at 18.44.40",
-      "labels": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_ARCHIVO/etiquetas_nuevos.csv",
+      "labels": "../../RabbitSense_ARCHIVO/etiquetas_nuevos.csv",
       "floor": "../runs/silueta_test/WhatsApp Video 2026-10-26 at 18.44.40/motion.csv"
     },
     {
@@ -134,7 +134,7 @@
       "video": "/Users/sergiogarciaseco/Downloads/WhatsApp Video 2026-10-26 at 18.44.41.mp4",
       "anchors": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_repo/runs/handheld/anchors/WhatsApp Video 2026-10-26 at 18.44.41.json",
       "masks": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_repo/runs/handheld/segmentation/WhatsApp Video 2026-10-26 at 18.44.41",
-      "labels": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_ARCHIVO/etiquetas_nuevos.csv",
+      "labels": "../../RabbitSense_ARCHIVO/etiquetas_nuevos.csv",
       "floor": "../runs/silueta_test/WhatsApp Video 2026-10-26 at 18.44.41/motion.csv"
     }
   ]

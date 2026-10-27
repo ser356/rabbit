@@ -9,8 +9,9 @@
 | **IMG_5190–5193, cámara en mano** | **X-CLIP zero-shot (preentrenado)** | **Veredicto, test independiente** | **No pasa** |
 | 9 vídeos (validación cruzada) | Suelo + silueta SAM2 | Desarrollo | Sensibilidad validada 0,59 |
 | **Vídeos nuevos de WhatsApp** | **Suelo + silueta SAM2** | **Veredicto, test independiente** | **No pasa: 4/8 locomoción, 6/10 reposo, 1 episodio falso** |
+| 17 vídeos (validación cruzada) | Marcha, DeepLabCut SuperAnimal | Desarrollo | Señal ≈ azar (AUC 0,60); reposo 3/32 |
 
-Tres enfoques distintos fallan: el flujo óptico por la compensación de cámara y la pérdida de seguimiento; X-CLIP porque no discrimina; suelo + silueta porque SAM2 pierde a Cinna, los desplazamientos lentos quedan bajo cualquier umbral y la máscara salta en reposo. En los vídeos nuevos de WhatsApp, suelo + silueta es el más equilibrado (1 episodio falso), pero detecta solo la mitad de los desplazamientos. **La locomoción queda cerrada como no resuelta.** Reabrirla exige vídeos con locomoción etiquetada en cantidad suficiente, al menos decenas de clips, para desarrollar y validar con datos que no se hayan usado.
+Cuatro enfoques distintos fallan: el flujo óptico por la compensación de cámara y la pérdida de seguimiento; X-CLIP porque no discrimina; la marcha con DeepLabCut porque los puntos de las patas son demasiado inestables en estos planos; suelo + silueta porque SAM2 pierde a Cinna, los desplazamientos lentos quedan bajo cualquier umbral y la máscara salta en reposo. En los vídeos nuevos de WhatsApp, suelo + silueta es el más equilibrado (1 episodio falso), pero detecta solo la mitad de los desplazamientos. **La locomoción queda cerrada como no resuelta.** Reabrirla exige vídeos con locomoción etiquetada en cantidad suficiente, al menos decenas de clips, para desarrollar y validar con datos que no se hayan usado.
 
 ## Reapertura: suelo + silueta con vídeos nuevos (pre-registrado el 2026-10-26)
 
@@ -40,6 +41,19 @@ Con vídeo sintético, si la cámara se desplaza y el conejo está quieto, la ve
   - `not_resolved`;
   - `descriptive_only_insufficient_sample`: menos de 10 clips de reposo nuevos.
 - **Una ejecución:** si el test falla, no se ajusta la regla sobre esos vídeos.
+
+## Resultado del desarrollo de la marcha (DeepLabCut, 2026-10-27)
+
+Ejecutado en el Mac (MPS) con el código commiteado (hashes verificados) y el modelo `superanimal_quadruped_hrnet_w32` (SHA-256 `a42e58d5…`). Salidas y mosaicos en [cierre/pose_dev](cierre/pose_dev/) y [cierre/pose_keypoints](cierre/pose_keypoints/). Regla congelada en [benchmarks/pose_regla.json](benchmarks/pose_regla.json).
+
+| | Locomoción | Reposo | Episodios falsos |
+|---|---:|---:|---:|
+| **Validación cruzada por vídeo (17 vídeos)** | 13/25 (0,52) | **3/32 (0,09)** | 7 |
+
+- **Regla elegida:** `pose_or_floor`, extremidades traseras, umbrales 0,5 / 0,05. La mejor de las 40 candidatas solo alcanza 0,09 en min(sensibilidad, especificidad), incluso sobre sus propios datos.
+- **La señal de marcha casi no separa las clases:** AUC por intervalo de 0,59 (todas las extremidades) y 0,60 (traseras); 0,5 es azar. En reposo, la excursión mediana de las patas es 0,18 longitudes corporales (percentil 90: 0,43–0,50), similar a la de locomoción (mediana 0,25). El ruido de los puntos domina.
+- **Causa visible en los mosaicos:** el modelo encuentra patas en vistas laterales nítidas (AE22), pero en planos cenitales, lejanos o con las patas ocultas bajo el pelo del belier las coloca de forma inestable. En IMG_5191, 972F y dos vídeos de WhatsApp apenas detecta cuerpo (cobertura 0–0,17).
+- **Consecuencia:** la regla congelada casi nunca puede declarar reposo, así que la especificidad en vídeos nuevos no alcanzaría 0,8. **No se piden vídeos de test para este método:** el resultado sería `not_resolved`.
 
 ## Cuarto enfoque: marcha con DeepLabCut SuperAnimal-Quadruped (pre-registrado el 2026-10-27)
 
