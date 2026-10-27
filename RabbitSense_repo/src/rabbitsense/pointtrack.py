@@ -16,6 +16,7 @@ menos no lo es. Los 57 clips verificados se evalúan con la regla fija (no hay s
 usaron en enfoques anteriores: no es un test con vídeos nuevos.
 """
 import argparse
+import gc
 import json
 import platform
 import time
@@ -61,7 +62,24 @@ class CoTracker:
                 tracks, visible = self.model(video, queries=q)
         visible = visible[0]
         visible = visible if visible.dtype == torch.bool else visible > .5
-        return tracks[0].float().cpu().numpy(), visible.cpu().numpy().astype(bool)
+        result = tracks[0].float().cpu().numpy(), visible.cpu().numpy().astype(bool)
+        del video, q, tracks, visible
+        self.release()
+        return result
+
+    def release(self):
+        """Devuelve al sistema la caché de MPS: cada tramo tiene otra forma y, si no, la caché crece sin límite."""
+        gc.collect()
+        if self.device == 'mps':
+            self.torch.mps.synchronize()
+            self.torch.mps.empty_cache()
+        elif str(self.device).startswith('cuda'):
+            self.torch.cuda.empty_cache()
+
+    def memory(self):
+        if self.device == 'mps':
+            return f', MPS {self.torch.mps.driver_allocated_memory() / 2 ** 30:.1f} GB'
+        return ''
 
 
 def chunk_starts(duration):
@@ -151,6 +169,7 @@ def track_case(video, masks, folder, tracker, clips=None):
     if not plan:
         return 0
     frames = read_frames(video, sorted({f for v in plan.values() for f in v}))
+    print(f'  {len(frames)} fotogramas en memoria ({sum(f.nbytes for f in frames.values()) / 2 ** 30:.2f} GB)', flush=True)
     done = 0
     for k, indices in plan.items():
         indices = [f for f in indices if f in frames]
@@ -174,7 +193,8 @@ def track_case(video, masks, folder, tracker, clips=None):
                  tracks=tracks, visible=visible, kinds=kinds, unit=unit)
         done += 1
         print(f'  [{done}/{len(plan)}] tramo {k} ({starts[k]:.0f}–{starts[k] + CHUNK:.0f} s): {int((kinds == 0).sum())} puntos conejo, '
-              f'{int((kinds > 0).sum())} fondo, {len(indices)} fotogramas en {elapsed:.1f} s', flush=True)
+              f'{int((kinds > 0).sum())} fondo, {len(indices)} fotogramas en {elapsed:.1f} s'
+              f'{getattr(tracker, "memory", lambda: "")()}', flush=True)
     return len(plan)
 
 
