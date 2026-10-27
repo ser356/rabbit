@@ -1,0 +1,6026 @@
+{
+  "results": {
+    "lr_full__video": {
+      "verdict": {
+        "passed": false,
+        "checks": {
+          "enough_locomotion_clips": true,
+          "enough_resting_clips": true,
+          "sensitivity": true,
+          "specificity": false,
+          "hit_in_every_locomotion_video": false
+        },
+        "sensitivity": 0.8,
+        "specificity": 0.375,
+        "locomotion_hits": 20,
+        "locomotion_clips": 25,
+        "resting_correct": 12,
+        "resting_clips": 32,
+        "resting_false_events": 18
+      },
+      "window_auc": 0.6732142857142858,
+      "clip_auc": 0.6725,
+      "within_video_clip_auc": {
+        "IMG_5190": 0.5555555555555556,
+        "IMG_5191": 0.1111111111111111,
+        "WhatsApp Video 2026-10-26 at 18.44.34": 0.0
+      },
+      "clip_coverage": 0.8596491228070176,
+      "seconds_coverage": 0.8669108975125904,
+      "sensitivity_ci": [
+        0.6086866446346177,
+        0.9113954589934752
+      ],
+      "specificity_ci": [
+        0.2293366846595921,
+        0.5474589941047487
+      ],
+      "per_video": {
+        "5177": {
+          "locomotion_hits": 3,
+          "locomotion_clips": 3,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "v24_5177_00",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "v24_5177_01",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "v24_5177_02",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            }
+          ]
+        },
+        "locomotion": {
+          "locomotion_hits": 1,
+          "locomotion_clips": 2,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "v24_0010",
+              "label": "locomotion",
+              "prediction": "unknown",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "v24_0011",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            }
+          ]
+        },
+        "resting": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 3,
+          "resting_clips": 4,
+          "resting_false_events": 1,
+          "clips": [
+            {
+              "clip_id": "v24_0002",
+              "label": "resting",
+              "prediction": "unknown",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "v24_0003",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "v24_0004",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "v24_0005",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "resting_972F": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 3,
+          "resting_clips": 3,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "v24_0007",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "v24_0008",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "v24_0009",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "resting_4944": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 2,
+          "resting_clips": 3,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "v24_0017",
+              "label": "resting",
+              "prediction": "unknown",
+              "correct": false,
+              "events": 0
+            },
+            {
+              "clip_id": "v24_0018",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "v24_0019",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "IMG_5190": {
+          "locomotion_hits": 7,
+          "locomotion_clips": 7,
+          "resting_correct": 0,
+          "resting_clips": 9,
+          "resting_false_events": 9,
+          "clips": [
+            {
+              "clip_id": "mano_IMG_5190_0",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_4",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_8",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_12",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_16",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_20",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_24",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_28",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_32",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_36",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_40",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_44",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_48",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_52",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_56",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_60",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            }
+          ]
+        },
+        "IMG_5191": {
+          "locomotion_hits": 2,
+          "locomotion_clips": 3,
+          "resting_correct": 0,
+          "resting_clips": 3,
+          "resting_false_events": 3,
+          "clips": [
+            {
+              "clip_id": "mano_IMG_5191_0",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5191_4",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5191_8",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5191_12",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5191_16",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_IMG_5191_20",
+              "label": "locomotion",
+              "prediction": "unknown",
+              "correct": true,
+              "events": 1
+            }
+          ]
+        },
+        "IMG_5192": {
+          "locomotion_hits": 1,
+          "locomotion_clips": 2,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_IMG_5192_0",
+              "label": "locomotion",
+              "prediction": "unknown",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5192_4",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            }
+          ]
+        },
+        "IMG_5193": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": []
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.34": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 1,
+          "resting_correct": 0,
+          "resting_clips": 1,
+          "resting_false_events": 1,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.34_0",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.34_4",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.35": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 0,
+          "resting_clips": 1,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.35_0",
+              "label": "resting",
+              "prediction": "unknown",
+              "correct": false,
+              "events": 0
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.36": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 2,
+          "resting_clips": 2,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.36_0",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.36_4",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.37": {
+          "locomotion_hits": 1,
+          "locomotion_clips": 1,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.37_0",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.38": {
+          "locomotion_hits": 2,
+          "locomotion_clips": 3,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.38_0",
+              "label": "locomotion",
+              "prediction": "unknown",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.38_4",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.38_8",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.38 (1)": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 2,
+          "resting_clips": 2,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.38 (1)_0",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.38 (1)_4",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.40": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 0,
+          "resting_clips": 4,
+          "resting_false_events": 4,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.40_0",
+              "label": "resting",
+              "prediction": "unknown",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.40_4",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.40_8",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 2
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.40_12",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 2
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.41": {
+          "locomotion_hits": 3,
+          "locomotion_clips": 3,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.41_0",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.41_4",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.41_8",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            }
+          ]
+        }
+      }
+    },
+    "lr_crop__video": {
+      "verdict": {
+        "passed": false,
+        "checks": {
+          "enough_locomotion_clips": true,
+          "enough_resting_clips": true,
+          "sensitivity": false,
+          "specificity": false,
+          "hit_in_every_locomotion_video": false
+        },
+        "sensitivity": 0.68,
+        "specificity": 0.28125,
+        "locomotion_hits": 17,
+        "locomotion_clips": 25,
+        "resting_correct": 9,
+        "resting_clips": 32,
+        "resting_false_events": 22
+      },
+      "window_auc": 0.5351648351648352,
+      "clip_auc": 0.56375,
+      "within_video_clip_auc": {
+        "IMG_5190": 0.5873015873015873,
+        "IMG_5191": 0.8888888888888888,
+        "WhatsApp Video 2026-10-26 at 18.44.34": 0.0
+      },
+      "clip_coverage": 0.8245614035087719,
+      "seconds_coverage": 0.8087556409501316,
+      "sensitivity_ci": [
+        0.48409913734576715,
+        0.8279501248310887
+      ],
+      "specificity_ci": [
+        0.15564406845647866,
+        0.4537483693811179
+      ],
+      "per_video": {
+        "5177": {
+          "locomotion_hits": 3,
+          "locomotion_clips": 3,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "v24_5177_00",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "v24_5177_01",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "v24_5177_02",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            }
+          ]
+        },
+        "locomotion": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 2,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "v24_0010",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            },
+            {
+              "clip_id": "v24_0011",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            }
+          ]
+        },
+        "resting": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 0,
+          "resting_clips": 4,
+          "resting_false_events": 4,
+          "clips": [
+            {
+              "clip_id": "v24_0002",
+              "label": "resting",
+              "prediction": "unknown",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "v24_0003",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "v24_0004",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 2
+            },
+            {
+              "clip_id": "v24_0005",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 1
+            }
+          ]
+        },
+        "resting_972F": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 1,
+          "resting_clips": 3,
+          "resting_false_events": 2,
+          "clips": [
+            {
+              "clip_id": "v24_0007",
+              "label": "resting",
+              "prediction": "unknown",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "v24_0008",
+              "label": "resting",
+              "prediction": "unknown",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "v24_0009",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "resting_4944": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 3,
+          "resting_clips": 3,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "v24_0017",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "v24_0018",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "v24_0019",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "IMG_5190": {
+          "locomotion_hits": 7,
+          "locomotion_clips": 7,
+          "resting_correct": 0,
+          "resting_clips": 9,
+          "resting_false_events": 9,
+          "clips": [
+            {
+              "clip_id": "mano_IMG_5190_0",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_4",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_8",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_12",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_16",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_20",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_24",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_28",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_32",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_36",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_40",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_44",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_48",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_52",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_56",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_60",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            }
+          ]
+        },
+        "IMG_5191": {
+          "locomotion_hits": 3,
+          "locomotion_clips": 3,
+          "resting_correct": 0,
+          "resting_clips": 3,
+          "resting_false_events": 3,
+          "clips": [
+            {
+              "clip_id": "mano_IMG_5191_0",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 2
+            },
+            {
+              "clip_id": "mano_IMG_5191_4",
+              "label": "resting",
+              "prediction": "unknown",
+              "correct": false,
+              "events": 2
+            },
+            {
+              "clip_id": "mano_IMG_5191_8",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5191_12",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5191_16",
+              "label": "locomotion",
+              "prediction": "unknown",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5191_20",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            }
+          ]
+        },
+        "IMG_5192": {
+          "locomotion_hits": 1,
+          "locomotion_clips": 2,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_IMG_5192_0",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_IMG_5192_4",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            }
+          ]
+        },
+        "IMG_5193": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": []
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.34": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 1,
+          "resting_correct": 1,
+          "resting_clips": 1,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.34_0",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.34_4",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.35": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 1,
+          "resting_clips": 1,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.35_0",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.36": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 1,
+          "resting_clips": 2,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.36_0",
+              "label": "resting",
+              "prediction": "unknown",
+              "correct": false,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.36_4",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.37": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 1,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.37_0",
+              "label": "locomotion",
+              "prediction": "unknown",
+              "correct": false,
+              "events": 0
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.38": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 3,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.38_0",
+              "label": "locomotion",
+              "prediction": "unknown",
+              "correct": false,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.38_4",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.38_8",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.38 (1)": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 2,
+          "resting_clips": 2,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.38 (1)_0",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.38 (1)_4",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.40": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 0,
+          "resting_clips": 4,
+          "resting_false_events": 4,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.40_0",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.40_4",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.40_8",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.40_12",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.41": {
+          "locomotion_hits": 3,
+          "locomotion_clips": 3,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.41_0",
+              "label": "locomotion",
+              "prediction": "unknown",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.41_4",
+              "label": "locomotion",
+              "prediction": "unknown",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.41_8",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            }
+          ]
+        }
+      }
+    },
+    "lr_full_crop__video": {
+      "verdict": {
+        "passed": false,
+        "checks": {
+          "enough_locomotion_clips": true,
+          "enough_resting_clips": true,
+          "sensitivity": true,
+          "specificity": false,
+          "hit_in_every_locomotion_video": false
+        },
+        "sensitivity": 0.8,
+        "specificity": 0.34375,
+        "locomotion_hits": 20,
+        "locomotion_clips": 25,
+        "resting_correct": 11,
+        "resting_clips": 32,
+        "resting_false_events": 21
+      },
+      "window_auc": 0.6221153846153846,
+      "clip_auc": 0.64125,
+      "within_video_clip_auc": {
+        "IMG_5190": 0.6349206349206349,
+        "IMG_5191": 0.6666666666666666,
+        "WhatsApp Video 2026-10-26 at 18.44.34": 0.0
+      },
+      "clip_coverage": 0.8771929824561403,
+      "seconds_coverage": 0.8444699266644174,
+      "sensitivity_ci": [
+        0.6086866446346177,
+        0.9113954589934752
+      ],
+      "specificity_ci": [
+        0.20410233354328552,
+        0.5168922649121406
+      ],
+      "per_video": {
+        "5177": {
+          "locomotion_hits": 3,
+          "locomotion_clips": 3,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "v24_5177_00",
+              "label": "locomotion",
+              "prediction": "unknown",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "v24_5177_01",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "v24_5177_02",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            }
+          ]
+        },
+        "locomotion": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 2,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "v24_0010",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            },
+            {
+              "clip_id": "v24_0011",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            }
+          ]
+        },
+        "resting": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 1,
+          "resting_clips": 4,
+          "resting_false_events": 3,
+          "clips": [
+            {
+              "clip_id": "v24_0002",
+              "label": "resting",
+              "prediction": "unknown",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "v24_0003",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "v24_0004",
+              "label": "resting",
+              "prediction": "unknown",
+              "correct": false,
+              "events": 2
+            },
+            {
+              "clip_id": "v24_0005",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "resting_972F": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 2,
+          "resting_clips": 3,
+          "resting_false_events": 1,
+          "clips": [
+            {
+              "clip_id": "v24_0007",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "v24_0008",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "v24_0009",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "resting_4944": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 3,
+          "resting_clips": 3,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "v24_0017",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "v24_0018",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "v24_0019",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "IMG_5190": {
+          "locomotion_hits": 7,
+          "locomotion_clips": 7,
+          "resting_correct": 0,
+          "resting_clips": 9,
+          "resting_false_events": 9,
+          "clips": [
+            {
+              "clip_id": "mano_IMG_5190_0",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_4",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_8",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_12",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_16",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_20",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_24",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_28",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_32",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_36",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_40",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_44",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_48",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_52",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_56",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_60",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            }
+          ]
+        },
+        "IMG_5191": {
+          "locomotion_hits": 3,
+          "locomotion_clips": 3,
+          "resting_correct": 0,
+          "resting_clips": 3,
+          "resting_false_events": 3,
+          "clips": [
+            {
+              "clip_id": "mano_IMG_5191_0",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 2
+            },
+            {
+              "clip_id": "mano_IMG_5191_4",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 2
+            },
+            {
+              "clip_id": "mano_IMG_5191_8",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5191_12",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5191_16",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5191_20",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            }
+          ]
+        },
+        "IMG_5192": {
+          "locomotion_hits": 1,
+          "locomotion_clips": 2,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_IMG_5192_0",
+              "label": "locomotion",
+              "prediction": "unknown",
+              "correct": false,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_IMG_5192_4",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 2
+            }
+          ]
+        },
+        "IMG_5193": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": []
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.34": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 1,
+          "resting_correct": 0,
+          "resting_clips": 1,
+          "resting_false_events": 1,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.34_0",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.34_4",
+              "label": "resting",
+              "prediction": "unknown",
+              "correct": false,
+              "events": 1
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.35": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 1,
+          "resting_clips": 1,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.35_0",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.36": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 2,
+          "resting_clips": 2,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.36_0",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.36_4",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.37": {
+          "locomotion_hits": 1,
+          "locomotion_clips": 1,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.37_0",
+              "label": "locomotion",
+              "prediction": "unknown",
+              "correct": true,
+              "events": 1
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.38": {
+          "locomotion_hits": 2,
+          "locomotion_clips": 3,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.38_0",
+              "label": "locomotion",
+              "prediction": "unknown",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.38_4",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.38_8",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.38 (1)": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 2,
+          "resting_clips": 2,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.38 (1)_0",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.38 (1)_4",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.40": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 0,
+          "resting_clips": 4,
+          "resting_false_events": 4,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.40_0",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.40_4",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 2
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.40_8",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 2
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.40_12",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 2
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.41": {
+          "locomotion_hits": 3,
+          "locomotion_clips": 3,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.41_0",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.41_4",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.41_8",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            }
+          ]
+        }
+      }
+    },
+    "lr_full_youtube__video": {
+      "verdict": {
+        "passed": false,
+        "checks": {
+          "enough_locomotion_clips": true,
+          "enough_resting_clips": true,
+          "sensitivity": false,
+          "specificity": false,
+          "hit_in_every_locomotion_video": false
+        },
+        "sensitivity": 0.76,
+        "specificity": 0.40625,
+        "locomotion_hits": 19,
+        "locomotion_clips": 25,
+        "resting_correct": 13,
+        "resting_clips": 32,
+        "resting_false_events": 18
+      },
+      "window_auc": 0.7315247252747252,
+      "clip_auc": 0.73125,
+      "within_video_clip_auc": {
+        "IMG_5190": 0.47619047619047616,
+        "IMG_5191": 0.4444444444444444,
+        "WhatsApp Video 2026-10-26 at 18.44.34": 1.0
+      },
+      "clip_coverage": 0.9473684210526315,
+      "seconds_coverage": 0.8710989993461217,
+      "sensitivity_ci": [
+        0.5656994004476144,
+        0.8850384226967327
+      ],
+      "specificity_ci": [
+        0.255194024803138,
+        0.5774027342701177
+      ],
+      "per_video": {
+        "5177": {
+          "locomotion_hits": 3,
+          "locomotion_clips": 3,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "v24_5177_00",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "v24_5177_01",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "v24_5177_02",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            }
+          ]
+        },
+        "locomotion": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 2,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "v24_0010",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            },
+            {
+              "clip_id": "v24_0011",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            }
+          ]
+        },
+        "resting": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 1,
+          "resting_clips": 4,
+          "resting_false_events": 3,
+          "clips": [
+            {
+              "clip_id": "v24_0002",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "v24_0003",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 2
+            },
+            {
+              "clip_id": "v24_0004",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "v24_0005",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "resting_972F": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 2,
+          "resting_clips": 3,
+          "resting_false_events": 1,
+          "clips": [
+            {
+              "clip_id": "v24_0007",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "v24_0008",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "v24_0009",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "resting_4944": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 1,
+          "resting_clips": 3,
+          "resting_false_events": 2,
+          "clips": [
+            {
+              "clip_id": "v24_0017",
+              "label": "resting",
+              "prediction": "unknown",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "v24_0018",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "v24_0019",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "IMG_5190": {
+          "locomotion_hits": 7,
+          "locomotion_clips": 7,
+          "resting_correct": 0,
+          "resting_clips": 9,
+          "resting_false_events": 9,
+          "clips": [
+            {
+              "clip_id": "mano_IMG_5190_0",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_4",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_8",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_12",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_16",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_20",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_24",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_28",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_32",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_36",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_40",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_44",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_48",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_52",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_56",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_60",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            }
+          ]
+        },
+        "IMG_5191": {
+          "locomotion_hits": 2,
+          "locomotion_clips": 3,
+          "resting_correct": 0,
+          "resting_clips": 3,
+          "resting_false_events": 2,
+          "clips": [
+            {
+              "clip_id": "mano_IMG_5191_0",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5191_4",
+              "label": "resting",
+              "prediction": "unknown",
+              "correct": false,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_IMG_5191_8",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5191_12",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_IMG_5191_16",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 2
+            },
+            {
+              "clip_id": "mano_IMG_5191_20",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            }
+          ]
+        },
+        "IMG_5192": {
+          "locomotion_hits": 2,
+          "locomotion_clips": 2,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_IMG_5192_0",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5192_4",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 2
+            }
+          ]
+        },
+        "IMG_5193": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": []
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.34": {
+          "locomotion_hits": 1,
+          "locomotion_clips": 1,
+          "resting_correct": 1,
+          "resting_clips": 1,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.34_0",
+              "label": "locomotion",
+              "prediction": "unknown",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.34_4",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.35": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 1,
+          "resting_clips": 1,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.35_0",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.36": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 2,
+          "resting_clips": 2,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.36_0",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.36_4",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.37": {
+          "locomotion_hits": 1,
+          "locomotion_clips": 1,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.37_0",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.38": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 3,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.38_0",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.38_4",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.38_8",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.38 (1)": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 2,
+          "resting_clips": 2,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.38 (1)_0",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.38 (1)_4",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.40": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 3,
+          "resting_clips": 4,
+          "resting_false_events": 1,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.40_0",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.40_4",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.40_8",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.40_12",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.41": {
+          "locomotion_hits": 3,
+          "locomotion_clips": 3,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.41_0",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.41_4",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.41_8",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            }
+          ]
+        }
+      }
+    },
+    "lr_full__session": {
+      "verdict": {
+        "passed": false,
+        "checks": {
+          "enough_locomotion_clips": true,
+          "enough_resting_clips": true,
+          "sensitivity": true,
+          "specificity": false,
+          "hit_in_every_locomotion_video": false
+        },
+        "sensitivity": 0.88,
+        "specificity": 0.40625,
+        "locomotion_hits": 22,
+        "locomotion_clips": 25,
+        "resting_correct": 13,
+        "resting_clips": 32,
+        "resting_false_events": 17
+      },
+      "window_auc": 0.7168269230769231,
+      "clip_auc": 0.72125,
+      "within_video_clip_auc": {
+        "IMG_5190": 0.7619047619047619,
+        "IMG_5191": 0.6666666666666666,
+        "WhatsApp Video 2026-10-26 at 18.44.34": 0.0
+      },
+      "clip_coverage": 0.8771929824561403,
+      "seconds_coverage": 0.8687604063848453,
+      "sensitivity_ci": [
+        0.7004380781662651,
+        0.9583325864293191
+      ],
+      "specificity_ci": [
+        0.255194024803138,
+        0.5774027342701177
+      ],
+      "per_video": {
+        "5177": {
+          "locomotion_hits": 3,
+          "locomotion_clips": 3,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "v24_5177_00",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "v24_5177_01",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "v24_5177_02",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            }
+          ]
+        },
+        "locomotion": {
+          "locomotion_hits": 1,
+          "locomotion_clips": 2,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "v24_0010",
+              "label": "locomotion",
+              "prediction": "unknown",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "v24_0011",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            }
+          ]
+        },
+        "resting": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 3,
+          "resting_clips": 4,
+          "resting_false_events": 1,
+          "clips": [
+            {
+              "clip_id": "v24_0002",
+              "label": "resting",
+              "prediction": "unknown",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "v24_0003",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "v24_0004",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "v24_0005",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "resting_972F": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 3,
+          "resting_clips": 3,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "v24_0007",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "v24_0008",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "v24_0009",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "resting_4944": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 2,
+          "resting_clips": 3,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "v24_0017",
+              "label": "resting",
+              "prediction": "unknown",
+              "correct": false,
+              "events": 0
+            },
+            {
+              "clip_id": "v24_0018",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "v24_0019",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "IMG_5190": {
+          "locomotion_hits": 7,
+          "locomotion_clips": 7,
+          "resting_correct": 0,
+          "resting_clips": 9,
+          "resting_false_events": 9,
+          "clips": [
+            {
+              "clip_id": "mano_IMG_5190_0",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_4",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_8",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_12",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_16",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_20",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_24",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_28",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_32",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_36",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_40",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_44",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_48",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_52",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_56",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_60",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            }
+          ]
+        },
+        "IMG_5191": {
+          "locomotion_hits": 3,
+          "locomotion_clips": 3,
+          "resting_correct": 0,
+          "resting_clips": 3,
+          "resting_false_events": 3,
+          "clips": [
+            {
+              "clip_id": "mano_IMG_5191_0",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5191_4",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5191_8",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5191_12",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5191_16",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5191_20",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            }
+          ]
+        },
+        "IMG_5192": {
+          "locomotion_hits": 2,
+          "locomotion_clips": 2,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_IMG_5192_0",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5192_4",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            }
+          ]
+        },
+        "IMG_5193": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": []
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.34": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 1,
+          "resting_correct": 0,
+          "resting_clips": 1,
+          "resting_false_events": 1,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.34_0",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.34_4",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.35": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 1,
+          "resting_clips": 1,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.35_0",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.36": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 2,
+          "resting_clips": 2,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.36_0",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.36_4",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.37": {
+          "locomotion_hits": 1,
+          "locomotion_clips": 1,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.37_0",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.38": {
+          "locomotion_hits": 3,
+          "locomotion_clips": 3,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.38_0",
+              "label": "locomotion",
+              "prediction": "unknown",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.38_4",
+              "label": "locomotion",
+              "prediction": "unknown",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.38_8",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.38 (1)": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 2,
+          "resting_clips": 2,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.38 (1)_0",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.38 (1)_4",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.40": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 0,
+          "resting_clips": 4,
+          "resting_false_events": 3,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.40_0",
+              "label": "resting",
+              "prediction": "unknown",
+              "correct": false,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.40_4",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.40_8",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 2
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.40_12",
+              "label": "resting",
+              "prediction": "unknown",
+              "correct": false,
+              "events": 1
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.41": {
+          "locomotion_hits": 2,
+          "locomotion_clips": 3,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.41_0",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.41_4",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 2
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.41_8",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            }
+          ]
+        }
+      }
+    },
+    "lr_crop__session": {
+      "verdict": {
+        "passed": false,
+        "checks": {
+          "enough_locomotion_clips": true,
+          "enough_resting_clips": true,
+          "sensitivity": false,
+          "specificity": false,
+          "hit_in_every_locomotion_video": false
+        },
+        "sensitivity": 0.72,
+        "specificity": 0.28125,
+        "locomotion_hits": 18,
+        "locomotion_clips": 25,
+        "resting_correct": 9,
+        "resting_clips": 32,
+        "resting_false_events": 22
+      },
+      "window_auc": 0.5101648351648351,
+      "clip_auc": 0.52,
+      "within_video_clip_auc": {
+        "IMG_5190": 0.47619047619047616,
+        "IMG_5191": 0.0,
+        "WhatsApp Video 2026-10-26 at 18.44.34": 0.0
+      },
+      "clip_coverage": 0.8771929824561403,
+      "seconds_coverage": 0.8526152900729388,
+      "sensitivity_ci": [
+        0.5242302810344169,
+        0.8571632616261843
+      ],
+      "specificity_ci": [
+        0.15564406845647866,
+        0.4537483693811179
+      ],
+      "per_video": {
+        "5177": {
+          "locomotion_hits": 3,
+          "locomotion_clips": 3,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "v24_5177_00",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "v24_5177_01",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "v24_5177_02",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            }
+          ]
+        },
+        "locomotion": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 2,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "v24_0010",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            },
+            {
+              "clip_id": "v24_0011",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            }
+          ]
+        },
+        "resting": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 0,
+          "resting_clips": 4,
+          "resting_false_events": 4,
+          "clips": [
+            {
+              "clip_id": "v24_0002",
+              "label": "resting",
+              "prediction": "unknown",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "v24_0003",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "v24_0004",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 2
+            },
+            {
+              "clip_id": "v24_0005",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 1
+            }
+          ]
+        },
+        "resting_972F": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 1,
+          "resting_clips": 3,
+          "resting_false_events": 2,
+          "clips": [
+            {
+              "clip_id": "v24_0007",
+              "label": "resting",
+              "prediction": "unknown",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "v24_0008",
+              "label": "resting",
+              "prediction": "unknown",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "v24_0009",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "resting_4944": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 3,
+          "resting_clips": 3,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "v24_0017",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "v24_0018",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "v24_0019",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "IMG_5190": {
+          "locomotion_hits": 7,
+          "locomotion_clips": 7,
+          "resting_correct": 0,
+          "resting_clips": 9,
+          "resting_false_events": 9,
+          "clips": [
+            {
+              "clip_id": "mano_IMG_5190_0",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_4",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_8",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_12",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_16",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_20",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_24",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_28",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_32",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_36",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_40",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_44",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_48",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_52",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_56",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_60",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            }
+          ]
+        },
+        "IMG_5191": {
+          "locomotion_hits": 3,
+          "locomotion_clips": 3,
+          "resting_correct": 0,
+          "resting_clips": 3,
+          "resting_false_events": 3,
+          "clips": [
+            {
+              "clip_id": "mano_IMG_5191_0",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5191_4",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5191_8",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5191_12",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5191_16",
+              "label": "locomotion",
+              "prediction": "unknown",
+              "correct": true,
+              "events": 2
+            },
+            {
+              "clip_id": "mano_IMG_5191_20",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            }
+          ]
+        },
+        "IMG_5192": {
+          "locomotion_hits": 2,
+          "locomotion_clips": 2,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_IMG_5192_0",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5192_4",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            }
+          ]
+        },
+        "IMG_5193": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": []
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.34": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 1,
+          "resting_correct": 1,
+          "resting_clips": 1,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.34_0",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.34_4",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.35": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 1,
+          "resting_clips": 1,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.35_0",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.36": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 1,
+          "resting_clips": 2,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.36_0",
+              "label": "resting",
+              "prediction": "unknown",
+              "correct": false,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.36_4",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.37": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 1,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.37_0",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.38": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 3,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.38_0",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.38_4",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.38_8",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.38 (1)": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 2,
+          "resting_clips": 2,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.38 (1)_0",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.38 (1)_4",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.40": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 0,
+          "resting_clips": 4,
+          "resting_false_events": 4,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.40_0",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.40_4",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.40_8",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.40_12",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.41": {
+          "locomotion_hits": 3,
+          "locomotion_clips": 3,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.41_0",
+              "label": "locomotion",
+              "prediction": "unknown",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.41_4",
+              "label": "locomotion",
+              "prediction": "unknown",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.41_8",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            }
+          ]
+        }
+      }
+    },
+    "lr_full_crop__session": {
+      "verdict": {
+        "passed": false,
+        "checks": {
+          "enough_locomotion_clips": true,
+          "enough_resting_clips": true,
+          "sensitivity": false,
+          "specificity": false,
+          "hit_in_every_locomotion_video": false
+        },
+        "sensitivity": 0.68,
+        "specificity": 0.375,
+        "locomotion_hits": 17,
+        "locomotion_clips": 25,
+        "resting_correct": 12,
+        "resting_clips": 32,
+        "resting_false_events": 20
+      },
+      "window_auc": 0.6114697802197803,
+      "clip_auc": 0.60875,
+      "within_video_clip_auc": {
+        "IMG_5190": 0.5873015873015873,
+        "IMG_5191": 0.0,
+        "WhatsApp Video 2026-10-26 at 18.44.34": 0.0
+      },
+      "clip_coverage": 0.9298245614035088,
+      "seconds_coverage": 0.8663997512258209,
+      "sensitivity_ci": [
+        0.48409913734576715,
+        0.8279501248310887
+      ],
+      "specificity_ci": [
+        0.2293366846595921,
+        0.5474589941047487
+      ],
+      "per_video": {
+        "5177": {
+          "locomotion_hits": 3,
+          "locomotion_clips": 3,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "v24_5177_00",
+              "label": "locomotion",
+              "prediction": "unknown",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "v24_5177_01",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "v24_5177_02",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            }
+          ]
+        },
+        "locomotion": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 2,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "v24_0010",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            },
+            {
+              "clip_id": "v24_0011",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            }
+          ]
+        },
+        "resting": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 1,
+          "resting_clips": 4,
+          "resting_false_events": 3,
+          "clips": [
+            {
+              "clip_id": "v24_0002",
+              "label": "resting",
+              "prediction": "unknown",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "v24_0003",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "v24_0004",
+              "label": "resting",
+              "prediction": "unknown",
+              "correct": false,
+              "events": 2
+            },
+            {
+              "clip_id": "v24_0005",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "resting_972F": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 2,
+          "resting_clips": 3,
+          "resting_false_events": 1,
+          "clips": [
+            {
+              "clip_id": "v24_0007",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "v24_0008",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "v24_0009",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "resting_4944": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 3,
+          "resting_clips": 3,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "v24_0017",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "v24_0018",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "v24_0019",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "IMG_5190": {
+          "locomotion_hits": 7,
+          "locomotion_clips": 7,
+          "resting_correct": 0,
+          "resting_clips": 9,
+          "resting_false_events": 9,
+          "clips": [
+            {
+              "clip_id": "mano_IMG_5190_0",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_4",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_8",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_12",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_16",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_20",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_24",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_28",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_32",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_36",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_40",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_44",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_48",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_52",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_56",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_60",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            }
+          ]
+        },
+        "IMG_5191": {
+          "locomotion_hits": 3,
+          "locomotion_clips": 3,
+          "resting_correct": 0,
+          "resting_clips": 3,
+          "resting_false_events": 3,
+          "clips": [
+            {
+              "clip_id": "mano_IMG_5191_0",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5191_4",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5191_8",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5191_12",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5191_16",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5191_20",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            }
+          ]
+        },
+        "IMG_5192": {
+          "locomotion_hits": 2,
+          "locomotion_clips": 2,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_IMG_5192_0",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5192_4",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            }
+          ]
+        },
+        "IMG_5193": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": []
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.34": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 1,
+          "resting_correct": 1,
+          "resting_clips": 1,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.34_0",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.34_4",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.35": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 1,
+          "resting_clips": 1,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.35_0",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.36": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 2,
+          "resting_clips": 2,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.36_0",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.36_4",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.37": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 1,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.37_0",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.38": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 3,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.38_0",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.38_4",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.38_8",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.38 (1)": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 2,
+          "resting_clips": 2,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.38 (1)_0",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.38 (1)_4",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.40": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 0,
+          "resting_clips": 4,
+          "resting_false_events": 4,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.40_0",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.40_4",
+              "label": "resting",
+              "prediction": "unknown",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.40_8",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 2
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.40_12",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 2
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.41": {
+          "locomotion_hits": 2,
+          "locomotion_clips": 3,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.41_0",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.41_4",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.41_8",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            }
+          ]
+        }
+      }
+    },
+    "lr_full_youtube__session": {
+      "verdict": {
+        "passed": false,
+        "checks": {
+          "enough_locomotion_clips": true,
+          "enough_resting_clips": true,
+          "sensitivity": false,
+          "specificity": false,
+          "hit_in_every_locomotion_video": false
+        },
+        "sensitivity": 0.76,
+        "specificity": 0.4375,
+        "locomotion_hits": 19,
+        "locomotion_clips": 25,
+        "resting_correct": 14,
+        "resting_clips": 32,
+        "resting_false_events": 18
+      },
+      "window_auc": 0.7214285714285714,
+      "clip_auc": 0.7375,
+      "within_video_clip_auc": {
+        "IMG_5190": 0.6349206349206349,
+        "IMG_5191": 0.3333333333333333,
+        "WhatsApp Video 2026-10-26 at 18.44.34": 1.0
+      },
+      "clip_coverage": 0.8771929824561403,
+      "seconds_coverage": 0.8369511296719362,
+      "sensitivity_ci": [
+        0.5656994004476144,
+        0.8850384226967327
+      ],
+      "specificity_ci": [
+        0.2816508596944317,
+        0.6067469796877387
+      ],
+      "per_video": {
+        "5177": {
+          "locomotion_hits": 3,
+          "locomotion_clips": 3,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "v24_5177_00",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "v24_5177_01",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "v24_5177_02",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            }
+          ]
+        },
+        "locomotion": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 2,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "v24_0010",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            },
+            {
+              "clip_id": "v24_0011",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            }
+          ]
+        },
+        "resting": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 1,
+          "resting_clips": 4,
+          "resting_false_events": 3,
+          "clips": [
+            {
+              "clip_id": "v24_0002",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "v24_0003",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 2
+            },
+            {
+              "clip_id": "v24_0004",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "v24_0005",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "resting_972F": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 2,
+          "resting_clips": 3,
+          "resting_false_events": 1,
+          "clips": [
+            {
+              "clip_id": "v24_0007",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "v24_0008",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "v24_0009",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "resting_4944": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 1,
+          "resting_clips": 3,
+          "resting_false_events": 2,
+          "clips": [
+            {
+              "clip_id": "v24_0017",
+              "label": "resting",
+              "prediction": "unknown",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "v24_0018",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "v24_0019",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "IMG_5190": {
+          "locomotion_hits": 7,
+          "locomotion_clips": 7,
+          "resting_correct": 0,
+          "resting_clips": 9,
+          "resting_false_events": 9,
+          "clips": [
+            {
+              "clip_id": "mano_IMG_5190_0",
+              "label": "locomotion",
+              "prediction": "unknown",
+              "correct": true,
+              "events": 2
+            },
+            {
+              "clip_id": "mano_IMG_5190_4",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_8",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_12",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_16",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_20",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 2
+            },
+            {
+              "clip_id": "mano_IMG_5190_24",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_28",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_32",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_36",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_40",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_44",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_48",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_52",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_56",
+              "label": "locomotion",
+              "prediction": "unknown",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_60",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            }
+          ]
+        },
+        "IMG_5191": {
+          "locomotion_hits": 2,
+          "locomotion_clips": 3,
+          "resting_correct": 0,
+          "resting_clips": 3,
+          "resting_false_events": 3,
+          "clips": [
+            {
+              "clip_id": "mano_IMG_5191_0",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5191_4",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5191_8",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5191_12",
+              "label": "locomotion",
+              "prediction": "unknown",
+              "correct": false,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_IMG_5191_16",
+              "label": "locomotion",
+              "prediction": "unknown",
+              "correct": true,
+              "events": 2
+            },
+            {
+              "clip_id": "mano_IMG_5191_20",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            }
+          ]
+        },
+        "IMG_5192": {
+          "locomotion_hits": 2,
+          "locomotion_clips": 2,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_IMG_5192_0",
+              "label": "locomotion",
+              "prediction": "unknown",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5192_4",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            }
+          ]
+        },
+        "IMG_5193": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": []
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.34": {
+          "locomotion_hits": 1,
+          "locomotion_clips": 1,
+          "resting_correct": 1,
+          "resting_clips": 1,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.34_0",
+              "label": "locomotion",
+              "prediction": "unknown",
+              "correct": true,
+              "events": 2
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.34_4",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.35": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 1,
+          "resting_clips": 1,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.35_0",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.36": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 2,
+          "resting_clips": 2,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.36_0",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.36_4",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.37": {
+          "locomotion_hits": 1,
+          "locomotion_clips": 1,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.37_0",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 2
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.38": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 3,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.38_0",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.38_4",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.38_8",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.38 (1)": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 2,
+          "resting_clips": 2,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.38 (1)_0",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.38 (1)_4",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.40": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 4,
+          "resting_clips": 4,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.40_0",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.40_4",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.40_8",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.40_12",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.41": {
+          "locomotion_hits": 3,
+          "locomotion_clips": 3,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.41_0",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 2
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.41_4",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.41_8",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            }
+          ]
+        }
+      }
+    },
+    "youtube_frozen_webclips_modelo": {
+      "verdict": {
+        "passed": false,
+        "checks": {
+          "enough_locomotion_clips": true,
+          "enough_resting_clips": true,
+          "sensitivity": false,
+          "specificity": false,
+          "hit_in_every_locomotion_video": false
+        },
+        "sensitivity": 0.6,
+        "specificity": 0.71875,
+        "locomotion_hits": 15,
+        "locomotion_clips": 25,
+        "resting_correct": 23,
+        "resting_clips": 32,
+        "resting_false_events": 9
+      },
+      "window_auc": 0.6099587912087913,
+      "clip_auc": 0.6375,
+      "within_video_clip_auc": {
+        "IMG_5190": 0.5079365079365079,
+        "IMG_5191": 0.3333333333333333,
+        "WhatsApp Video 2026-10-26 at 18.44.34": 1.0
+      },
+      "clip_coverage": 0.8947368421052632,
+      "seconds_coverage": 0.8458907321993816,
+      "sensitivity_ci": [
+        0.40739127785127344,
+        0.7659694233580909
+      ],
+      "specificity_ci": [
+        0.546251630618882,
+        0.8443559315435214
+      ],
+      "per_video": {
+        "5177": {
+          "locomotion_hits": 2,
+          "locomotion_clips": 3,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "v24_5177_00",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "v24_5177_01",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "v24_5177_02",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            }
+          ]
+        },
+        "locomotion": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 2,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "v24_0010",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            },
+            {
+              "clip_id": "v24_0011",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            }
+          ]
+        },
+        "resting": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 0,
+          "resting_clips": 4,
+          "resting_false_events": 4,
+          "clips": [
+            {
+              "clip_id": "v24_0002",
+              "label": "resting",
+              "prediction": "unknown",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "v24_0003",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "v24_0004",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "v24_0005",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            }
+          ]
+        },
+        "resting_972F": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 3,
+          "resting_clips": 3,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "v24_0007",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "v24_0008",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "v24_0009",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "resting_4944": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 3,
+          "resting_clips": 3,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "v24_0017",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "v24_0018",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "v24_0019",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "IMG_5190": {
+          "locomotion_hits": 3,
+          "locomotion_clips": 7,
+          "resting_correct": 7,
+          "resting_clips": 9,
+          "resting_false_events": 2,
+          "clips": [
+            {
+              "clip_id": "mano_IMG_5190_0",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_IMG_5190_4",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 2
+            },
+            {
+              "clip_id": "mano_IMG_5190_8",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_12",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_IMG_5190_16",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_IMG_5190_20",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_IMG_5190_24",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_IMG_5190_28",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_IMG_5190_32",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_IMG_5190_36",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_IMG_5190_40",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_IMG_5190_44",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_48",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_52",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_IMG_5190_56",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_IMG_5190_60",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            }
+          ]
+        },
+        "IMG_5191": {
+          "locomotion_hits": 1,
+          "locomotion_clips": 3,
+          "resting_correct": 2,
+          "resting_clips": 3,
+          "resting_false_events": 1,
+          "clips": [
+            {
+              "clip_id": "mano_IMG_5191_0",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5191_4",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_IMG_5191_8",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_IMG_5191_12",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_IMG_5191_16",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_IMG_5191_20",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            }
+          ]
+        },
+        "IMG_5192": {
+          "locomotion_hits": 1,
+          "locomotion_clips": 2,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_IMG_5192_0",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_IMG_5192_4",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 1
+            }
+          ]
+        },
+        "IMG_5193": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": []
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.34": {
+          "locomotion_hits": 1,
+          "locomotion_clips": 1,
+          "resting_correct": 1,
+          "resting_clips": 1,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.34_0",
+              "label": "locomotion",
+              "prediction": "unknown",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.34_4",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.35": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 0,
+          "resting_clips": 1,
+          "resting_false_events": 1,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.35_0",
+              "label": "resting",
+              "prediction": "unknown",
+              "correct": false,
+              "events": 1
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.36": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 1,
+          "resting_clips": 2,
+          "resting_false_events": 1,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.36_0",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.36_4",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.37": {
+          "locomotion_hits": 1,
+          "locomotion_clips": 1,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.37_0",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.38": {
+          "locomotion_hits": 3,
+          "locomotion_clips": 3,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.38_0",
+              "label": "locomotion",
+              "prediction": "unknown",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.38_4",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.38_8",
+              "label": "locomotion",
+              "prediction": "unknown",
+              "correct": true,
+              "events": 1
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.38 (1)": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 2,
+          "resting_clips": 2,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.38 (1)_0",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.38 (1)_4",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.40": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 4,
+          "resting_clips": 4,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.40_0",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.40_4",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.40_8",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.40_12",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.41": {
+          "locomotion_hits": 3,
+          "locomotion_clips": 3,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.41_0",
+              "label": "locomotion",
+              "prediction": "unknown",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.41_4",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.41_8",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            }
+          ]
+        }
+      }
+    },
+    "youtube_frozen_webclips_modelo_v2": {
+      "verdict": {
+        "passed": false,
+        "checks": {
+          "enough_locomotion_clips": true,
+          "enough_resting_clips": true,
+          "sensitivity": false,
+          "specificity": false,
+          "hit_in_every_locomotion_video": false
+        },
+        "sensitivity": 0.44,
+        "specificity": 0.78125,
+        "locomotion_hits": 11,
+        "locomotion_clips": 25,
+        "resting_correct": 25,
+        "resting_clips": 32,
+        "resting_false_events": 7
+      },
+      "window_auc": 0.7177197802197802,
+      "clip_auc": 0.7175,
+      "within_video_clip_auc": {
+        "IMG_5190": 0.49206349206349204,
+        "IMG_5191": 0.7777777777777778,
+        "WhatsApp Video 2026-10-26 at 18.44.34": 1.0
+      },
+      "clip_coverage": 0.8947368421052632,
+      "seconds_coverage": 0.8692193000980014,
+      "sensitivity_ci": [
+        0.2666537494700256,
+        0.6293298298043557
+      ],
+      "specificity_ci": [
+        0.6124466920955516,
+        0.8897630306846815
+      ],
+      "per_video": {
+        "5177": {
+          "locomotion_hits": 3,
+          "locomotion_clips": 3,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "v24_5177_00",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "v24_5177_01",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "v24_5177_02",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            }
+          ]
+        },
+        "locomotion": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 2,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "v24_0010",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            },
+            {
+              "clip_id": "v24_0011",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            }
+          ]
+        },
+        "resting": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 2,
+          "resting_clips": 4,
+          "resting_false_events": 2,
+          "clips": [
+            {
+              "clip_id": "v24_0002",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "v24_0003",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 2
+            },
+            {
+              "clip_id": "v24_0004",
+              "label": "resting",
+              "prediction": "unknown",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "v24_0005",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "resting_972F": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 3,
+          "resting_clips": 3,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "v24_0007",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "v24_0008",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "v24_0009",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "resting_4944": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 1,
+          "resting_clips": 3,
+          "resting_false_events": 2,
+          "clips": [
+            {
+              "clip_id": "v24_0017",
+              "label": "resting",
+              "prediction": "unknown",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "v24_0018",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "v24_0019",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "IMG_5190": {
+          "locomotion_hits": 1,
+          "locomotion_clips": 7,
+          "resting_correct": 7,
+          "resting_clips": 9,
+          "resting_false_events": 2,
+          "clips": [
+            {
+              "clip_id": "mano_IMG_5190_0",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_IMG_5190_4",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_IMG_5190_8",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_IMG_5190_12",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_IMG_5190_16",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_IMG_5190_20",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_IMG_5190_24",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_IMG_5190_28",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_IMG_5190_32",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_IMG_5190_36",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_IMG_5190_40",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_IMG_5190_44",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_48",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5190_52",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_IMG_5190_56",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_IMG_5190_60",
+              "label": "resting",
+              "prediction": "locomotion_candidate",
+              "correct": false,
+              "events": 1
+            }
+          ]
+        },
+        "IMG_5191": {
+          "locomotion_hits": 1,
+          "locomotion_clips": 3,
+          "resting_correct": 2,
+          "resting_clips": 3,
+          "resting_false_events": 1,
+          "clips": [
+            {
+              "clip_id": "mano_IMG_5191_0",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_IMG_5191_4",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_IMG_5191_8",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_IMG_5191_12",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_IMG_5191_16",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_IMG_5191_20",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            }
+          ]
+        },
+        "IMG_5192": {
+          "locomotion_hits": 2,
+          "locomotion_clips": 2,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_IMG_5192_0",
+              "label": "locomotion",
+              "prediction": "unknown",
+              "correct": true,
+              "events": 2
+            },
+            {
+              "clip_id": "mano_IMG_5192_4",
+              "label": "locomotion",
+              "prediction": "unknown",
+              "correct": true,
+              "events": 1
+            }
+          ]
+        },
+        "IMG_5193": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": []
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.34": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 1,
+          "resting_correct": 1,
+          "resting_clips": 1,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.34_0",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.34_4",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.35": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 1,
+          "resting_clips": 1,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.35_0",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.36": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 2,
+          "resting_clips": 2,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.36_0",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.36_4",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.37": {
+          "locomotion_hits": 1,
+          "locomotion_clips": 1,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.37_0",
+              "label": "locomotion",
+              "prediction": "unknown",
+              "correct": true,
+              "events": 2
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.38": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 3,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.38_0",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.38_4",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.38_8",
+              "label": "locomotion",
+              "prediction": "low_motion_candidate",
+              "correct": false,
+              "events": 0
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.38 (1)": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 2,
+          "resting_clips": 2,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.38 (1)_0",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.38 (1)_4",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.40": {
+          "locomotion_hits": 0,
+          "locomotion_clips": 0,
+          "resting_correct": 4,
+          "resting_clips": 4,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.40_0",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.40_4",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.40_8",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.40_12",
+              "label": "resting",
+              "prediction": "low_motion_candidate",
+              "correct": true,
+              "events": 0
+            }
+          ]
+        },
+        "WhatsApp Video 2026-10-26 at 18.44.41": {
+          "locomotion_hits": 3,
+          "locomotion_clips": 3,
+          "resting_correct": 0,
+          "resting_clips": 0,
+          "resting_false_events": 0,
+          "clips": [
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.41_0",
+              "label": "locomotion",
+              "prediction": "unknown",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.41_4",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            },
+            {
+              "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.41_8",
+              "label": "locomotion",
+              "prediction": "locomotion_candidate",
+              "correct": true,
+              "events": 1
+            }
+          ]
+        }
+      }
+    }
+  },
+  "l2_by_fold": {
+    "lr_full__video": {
+      "5177": 1.0,
+      "IMG_5190": 100.0,
+      "IMG_5191": 1.0,
+      "IMG_5192": 1.0,
+      "IMG_5193": 1.0,
+      "WhatsApp Video 2026-10-26 at 18.44.34": 1.0,
+      "WhatsApp Video 2026-10-26 at 18.44.35": 1.0,
+      "WhatsApp Video 2026-10-26 at 18.44.36": 1.0,
+      "WhatsApp Video 2026-10-26 at 18.44.37": 1.0,
+      "WhatsApp Video 2026-10-26 at 18.44.38": 1.0,
+      "WhatsApp Video 2026-10-26 at 18.44.38 (1)": 1.0,
+      "WhatsApp Video 2026-10-26 at 18.44.40": 1.0,
+      "WhatsApp Video 2026-10-26 at 18.44.41": 1.0,
+      "locomotion": 1.0,
+      "resting": 1.0,
+      "resting_4944": 1.0,
+      "resting_972F": 1.0
+    },
+    "lr_crop__video": {
+      "5177": 100.0,
+      "IMG_5190": 100.0,
+      "IMG_5191": 100.0,
+      "IMG_5192": 100.0,
+      "IMG_5193": 100.0,
+      "WhatsApp Video 2026-10-26 at 18.44.34": 100.0,
+      "WhatsApp Video 2026-10-26 at 18.44.35": 100.0,
+      "WhatsApp Video 2026-10-26 at 18.44.36": 100.0,
+      "WhatsApp Video 2026-10-26 at 18.44.37": 100.0,
+      "WhatsApp Video 2026-10-26 at 18.44.38": 100.0,
+      "WhatsApp Video 2026-10-26 at 18.44.38 (1)": 100.0,
+      "WhatsApp Video 2026-10-26 at 18.44.40": 100.0,
+      "WhatsApp Video 2026-10-26 at 18.44.41": 100.0,
+      "locomotion": 1.0,
+      "resting": 10.0,
+      "resting_4944": 100.0,
+      "resting_972F": 100.0
+    },
+    "lr_full_crop__video": {
+      "5177": 1.0,
+      "IMG_5190": 100.0,
+      "IMG_5191": 1.0,
+      "IMG_5192": 1.0,
+      "IMG_5193": 1.0,
+      "WhatsApp Video 2026-10-26 at 18.44.34": 1.0,
+      "WhatsApp Video 2026-10-26 at 18.44.35": 1.0,
+      "WhatsApp Video 2026-10-26 at 18.44.36": 1.0,
+      "WhatsApp Video 2026-10-26 at 18.44.37": 100.0,
+      "WhatsApp Video 2026-10-26 at 18.44.38": 1.0,
+      "WhatsApp Video 2026-10-26 at 18.44.38 (1)": 1.0,
+      "WhatsApp Video 2026-10-26 at 18.44.40": 1.0,
+      "WhatsApp Video 2026-10-26 at 18.44.41": 1.0,
+      "locomotion": 1.0,
+      "resting": 1.0,
+      "resting_4944": 1.0,
+      "resting_972F": 1.0
+    },
+    "lr_full_youtube__video": {
+      "5177": 1.0,
+      "IMG_5190": 100.0,
+      "IMG_5191": 1.0,
+      "IMG_5192": 1.0,
+      "IMG_5193": 1.0,
+      "WhatsApp Video 2026-10-26 at 18.44.34": 1.0,
+      "WhatsApp Video 2026-10-26 at 18.44.35": 1.0,
+      "WhatsApp Video 2026-10-26 at 18.44.36": 1.0,
+      "WhatsApp Video 2026-10-26 at 18.44.37": 1.0,
+      "WhatsApp Video 2026-10-26 at 18.44.38": 1.0,
+      "WhatsApp Video 2026-10-26 at 18.44.38 (1)": 1.0,
+      "WhatsApp Video 2026-10-26 at 18.44.40": 1.0,
+      "WhatsApp Video 2026-10-26 at 18.44.41": 1.0,
+      "locomotion": 1.0,
+      "resting": 1.0,
+      "resting_4944": 1.0,
+      "resting_972F": 1.0
+    },
+    "lr_full__session": {
+      "5177": 1.0,
+      "locomotion": 1.0,
+      "mano_IMG_5190-5193": 100.0,
+      "resting": 1.0,
+      "resting_4944": 1.0,
+      "resting_972F": 1.0,
+      "whatsapp_2026-10-26": 1.0
+    },
+    "lr_crop__session": {
+      "5177": 100.0,
+      "locomotion": 1.0,
+      "mano_IMG_5190-5193": 100.0,
+      "resting": 10.0,
+      "resting_4944": 100.0,
+      "resting_972F": 100.0,
+      "whatsapp_2026-10-26": 100.0
+    },
+    "lr_full_crop__session": {
+      "5177": 1.0,
+      "locomotion": 1.0,
+      "mano_IMG_5190-5193": 100.0,
+      "resting": 1.0,
+      "resting_4944": 1.0,
+      "resting_972F": 1.0,
+      "whatsapp_2026-10-26": 100.0
+    },
+    "lr_full_youtube__session": {
+      "5177": 1.0,
+      "locomotion": 1.0,
+      "mano_IMG_5190-5193": 100.0,
+      "resting": 1.0,
+      "resting_4944": 1.0,
+      "resting_972F": 1.0,
+      "whatsapp_2026-10-26": 1.0
+    }
+  },
+  "criteria": {
+    "minimum_locomotion_clips": 5,
+    "minimum_resting_clips": 10,
+    "sensitivity": 0.8,
+    "specificity": 0.8,
+    "hit_per_locomotion_video": 1
+  },
+  "band": [
+    0.4,
+    0.6
+  ],
+  "protocol": "Línea experimental nueva; no modifica veredictos anteriores. Validación cruzada agrupada por vídeo y por sesión (session_of). Estandarización, L2 (validación interna agrupada) y pesos se ajustan solo con el entrenamiento de cada pliegue. Ventanas de entrenamiento: contenidas entera dentro de clips verificados. Los modelos YouTube congelados son referencia, sin reentrenar.",
+  "inputs": {
+    "manifest_sha256": "63aa160e5da4ca3354e9c0c6822b8cb447a3b8fbff663b7d57e0c1f56dd4efcc",
+    "source_sha256": "bdc61090351a5e4b0e873bcdff4b9032dfbc1a2b79de3733e38e9d491259c2c5",
+    "youtube_labels_sha256": "f319319465196f08d1ac1cfe1e1f71f92f487e4be8b6216de6435eb7ca0503d4",
+    "python": "3.12.15"
+  }
+}

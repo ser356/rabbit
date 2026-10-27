@@ -12,6 +12,8 @@ La corrección temporal posterior, episodios candidatos y regresión de cobertur
 
 **Locomoción: cerrada, no resuelta (2026-10-27).** Fallan cinco enfoques con cámara en mano: flujo óptico, X-CLIP, marcha con DeepLabCut SuperAnimal (señal ≈ azar), suelo + silueta SAM2 (4/8 desplazamientos y 6/10 reposos en vídeos nuevos) y un clasificador entrenado con vídeos de YouTube. Este último es el mejor en test amplio: 14/25 desplazamientos y 22/32 reposos en los 17 vídeos de Cinna, con 10 episodios falsos. Con 2,6 veces más datos (v2) mejora en YouTube (AUC 0,78), pero en Cinna queda en 11/25 y 24/32 (mínimo exigido: 0,8). Detalle en [LOCOMOCION.md](LOCOMOCION.md).
 
+**Iteración sin vídeos nuevos:** contraste temporal, aprendizaje por clips (MIL), fusión física y RBF; 112 configuraciones, ninguna cumple. Selección anidada por sesión: contraste 11/25 desplazamientos y 21/32 reposos; fusión lineal 13/25 y 22/32; ampliación no lineal 14/25 y 19/32. Experimentos de desarrollo, no test independiente ni prueba de imposibilidad. Código, controles, informes y reproducción en [ADAPTACION_MOVIMIENTO.md](ADAPTACION_MOVIMIENTO.md).
+
 El seguimiento corporal persistente y YOLO-World local ya se ejecutaron: **ninguno resuelve la locomoción en estos vídeos**. Métodos, resultados negativos y reproducción en [EVIDENCIA_CORPORAL.md](EVIDENCIA_CORPORAL.md). Permanecen aislados del análisis habitual.
 
 - **v36** permanece como referencia predeterminada, no como verdad-terreno.

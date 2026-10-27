@@ -1,0 +1,58 @@
+case,clip_id,label,start,end,prediction,events,correct,error,cause,tracked_fraction,area_median,centroid_span_body,tracking_loss,abstention,transition,camera_motion,small_rabbit,short_displacement
+5177,v24_5177_00,locomotion,30.0,33.5,locomotion_candidate,1,True,,,1.0,0.04806619162087912,1.891458116569294,False,False,False,True,False,False
+5177,v24_5177_01,locomotion,34.0,37.5,locomotion_candidate,1,True,,,1.0,0.040667925824175825,1.6260019038272828,False,False,False,False,False,False
+5177,v24_5177_02,locomotion,38.0,41.3,locomotion_candidate,1,True,,,1.0,0.04284855769230769,1.0008397414088808,False,False,False,False,False,False
+locomotion,v24_0010,locomotion,0.0,4.0,low_motion_candidate,0,False,missed_locomotion,short_displacement,1.0,0.11092980295566503,0.37635680854820036,False,False,False,False,False,True
+locomotion,v24_0011,locomotion,4.0,8.0,low_motion_candidate,0,False,missed_locomotion,short_displacement,1.0,0.19769088669950738,0.23527475193866845,False,False,False,False,False,True
+resting,v24_0002,resting,0.0,4.0,low_motion_candidate,1,False,false_episode,tracking_loss,0.29411764705882354,0.001539408866995074,1.406957390796395,True,False,False,False,True,False
+resting,v24_0003,resting,4.0,8.0,locomotion_candidate,2,False,false_episode,other,1.0,0.17926929392446633,0.10978849156110758,False,False,False,False,False,False
+resting,v24_0004,resting,8.0,12.0,low_motion_candidate,1,False,false_episode,other,1.0,0.1862171592775041,0.21824427085993214,False,False,False,False,False,False
+resting,v24_0005,resting,12.0,16.0,low_motion_candidate,0,True,,,1.0,0.6956417624521073,0.24239251826384833,False,False,False,False,False,False
+resting_972F,v24_0007,resting,0.0,4.0,low_motion_candidate,1,False,false_episode,other,1.0,0.157396004378763,0.3587206140936873,False,False,False,False,False,False
+resting_972F,v24_0008,resting,4.0,8.0,low_motion_candidate,0,True,,,1.0,0.19251847290640395,0.1423125858151654,False,False,False,False,False,False
+resting_972F,v24_0009,resting,8.0,11.78,low_motion_candidate,0,True,,,1.0,0.0922208538587849,0.1500970924982131,False,False,False,False,False,False
+resting_4944,v24_0017,resting,0.0,4.0,unknown,1,False,false_episode,abstention,1.0,0.1328715106732348,0.4464221528125199,False,True,False,False,False,False
+resting_4944,v24_0018,resting,4.0,8.0,low_motion_candidate,1,False,false_episode,other,1.0,0.4408866995073892,0.3521600144404444,False,False,False,False,False,False
+resting_4944,v24_0019,resting,8.0,10.47,low_motion_candidate,0,True,,,1.0,0.4558223864258347,0.05924635731015849,False,False,False,False,False,False
+IMG_5190,mano_IMG_5190_0,locomotion,0.0,4.0,locomotion_candidate,1,True,,,1.0,0.08150016878858024,0.5906146766565271,False,False,False,False,False,True
+IMG_5190,mano_IMG_5190_4,locomotion,4.0,8.0,locomotion_candidate,1,True,,,1.0,0.08990427276234568,0.2333931247779311,False,False,False,False,False,True
+IMG_5190,mano_IMG_5190_8,locomotion,8.0,12.0,locomotion_candidate,1,True,,,1.0,0.0240673225308642,0.2415727354299587,False,False,True,False,False,True
+IMG_5190,mano_IMG_5190_12,resting,12.0,16.0,locomotion_candidate,1,False,false_episode,transition,1.0,0.024657841435185186,0.7815051272124003,False,False,True,False,False,False
+IMG_5190,mano_IMG_5190_16,resting,16.0,20.0,locomotion_candidate,1,False,false_episode,other,1.0,0.032447675540123455,0.4275001040334032,False,False,False,False,False,False
+IMG_5190,mano_IMG_5190_20,resting,20.0,24.0,locomotion_candidate,1,False,false_episode,other,1.0,0.03134162808641975,0.5109129572713873,False,False,False,False,False,False
+IMG_5190,mano_IMG_5190_24,resting,24.0,28.0,locomotion_candidate,1,False,false_episode,other,1.0,0.021810619212962963,0.27833588192452524,False,False,False,False,False,False
+IMG_5190,mano_IMG_5190_28,resting,28.0,32.0,locomotion_candidate,1,False,false_episode,other,1.0,0.02144555362654321,0.09487645126083326,False,False,False,False,False,False
+IMG_5190,mano_IMG_5190_32,resting,32.0,36.0,locomotion_candidate,1,False,false_episode,transition,1.0,0.021786024305555554,0.689250437279105,False,False,True,False,False,False
+IMG_5190,mano_IMG_5190_36,locomotion,36.0,40.0,locomotion_candidate,1,True,,,1.0,0.022816840277777778,0.856478795440092,False,False,True,False,False,True
+IMG_5190,mano_IMG_5190_40,locomotion,40.0,44.0,locomotion_candidate,1,True,,,1.0,0.017716411072530865,0.5936094199521267,False,False,False,False,False,True
+IMG_5190,mano_IMG_5190_44,locomotion,44.0,48.0,locomotion_candidate,1,True,,,1.0,0.01292064525462963,1.439913822211563,False,False,True,False,False,False
+IMG_5190,mano_IMG_5190_48,resting,48.0,52.0,locomotion_candidate,1,False,false_episode,transition,1.0,0.008051818094135802,2.1444534800731394,False,False,True,True,True,False
+IMG_5190,mano_IMG_5190_52,resting,52.0,56.0,locomotion_candidate,1,False,false_episode,transition,1.0,0.00802782600308642,0.11904681305387788,False,False,True,False,True,False
+IMG_5190,mano_IMG_5190_56,locomotion,56.0,60.0,locomotion_candidate,1,True,,,1.0,0.011056013695987655,2.7860900865375315,False,False,True,False,False,False
+IMG_5190,mano_IMG_5190_60,resting,60.0,64.0,locomotion_candidate,1,False,false_episode,transition,1.0,0.006700303819444444,3.3425899653936493,False,False,True,False,True,False
+IMG_5191,mano_IMG_5191_0,resting,0.0,4.0,low_motion_candidate,1,False,false_episode,other,1.0,0.014966603973765431,2.8865920494428896,False,False,False,False,False,False
+IMG_5191,mano_IMG_5191_4,resting,4.0,8.0,unknown,0,False,resting_not_confirmed,abstention,1.0,0.013793402777777778,0.1099698013970214,False,True,False,False,False,False
+IMG_5191,mano_IMG_5191_8,resting,8.0,12.0,locomotion_candidate,1,False,false_episode,transition,0.7058823529411765,0.019131160783179012,1.7463233900638504,False,False,True,False,False,False
+IMG_5191,mano_IMG_5191_12,locomotion,12.0,16.0,low_motion_candidate,0,False,missed_locomotion,tracking_loss,0.0,0.0,0.0,True,False,True,True,True,True
+IMG_5191,mano_IMG_5191_16,locomotion,16.0,20.0,low_motion_candidate,2,True,,,0.0,0.0,0.0,True,False,False,True,True,True
+IMG_5191,mano_IMG_5191_20,locomotion,20.0,23.9,locomotion_candidate,1,True,,,0.0,0.0,0.0,True,False,False,False,True,True
+IMG_5192,mano_IMG_5192_0,locomotion,0.0,4.0,locomotion_candidate,1,True,,,1.0,0.028130304783950618,0.9465991811604453,False,False,False,False,False,True
+IMG_5192,mano_IMG_5192_4,locomotion,4.0,8.0,locomotion_candidate,2,True,,,1.0,0.03525933159722222,1.9225441231046871,False,False,False,False,False,False
+WhatsApp Video 2026-10-26 at 18.44.34,mano_WhatsApp Video 2026-10-26 at 18.44.34_0,locomotion,0.0,4.0,unknown,1,True,,,1.0,0.5883670383029513,0.21513580811474003,False,True,True,False,False,True
+WhatsApp Video 2026-10-26 at 18.44.34,mano_WhatsApp Video 2026-10-26 at 18.44.34_4,resting,4.0,8.0,low_motion_candidate,0,True,,,1.0,0.4003940158420139,0.12495856361812388,False,False,True,False,False,False
+WhatsApp Video 2026-10-26 at 18.44.35,mano_WhatsApp Video 2026-10-26 at 18.44.35_0,resting,0.0,4.0,low_motion_candidate,0,True,,,1.0,0.4290076361762153,0.37152019727029617,False,False,False,False,False,False
+WhatsApp Video 2026-10-26 at 18.44.36,mano_WhatsApp Video 2026-10-26 at 18.44.36_0,resting,0.0,4.0,low_motion_candidate,0,True,,,1.0,0.3818783230251736,0.41297781553158264,False,False,False,False,False,False
+WhatsApp Video 2026-10-26 at 18.44.36,mano_WhatsApp Video 2026-10-26 at 18.44.36_4,resting,4.0,7.96,low_motion_candidate,0,True,,,1.0,0.4295832316080729,0.6113185425864783,False,False,False,False,False,False
+WhatsApp Video 2026-10-26 at 18.44.37,mano_WhatsApp Video 2026-10-26 at 18.44.37_0,locomotion,0.0,4.0,locomotion_candidate,1,True,,,1.0,0.206756591796875,0.797483718056903,False,False,False,False,False,True
+WhatsApp Video 2026-10-26 at 18.44.38,mano_WhatsApp Video 2026-10-26 at 18.44.38_0,locomotion,0.0,4.0,low_motion_candidate,0,False,missed_locomotion,camera_motion,1.0,0.19230143229166666,0.4017647770449685,False,False,False,True,False,True
+WhatsApp Video 2026-10-26 at 18.44.38,mano_WhatsApp Video 2026-10-26 at 18.44.38_4,locomotion,4.0,8.0,low_motion_candidate,0,False,missed_locomotion,short_displacement,1.0,0.16903516981336805,0.3739636012273219,False,False,False,False,False,True
+WhatsApp Video 2026-10-26 at 18.44.38,mano_WhatsApp Video 2026-10-26 at 18.44.38_8,locomotion,8.0,11.0,low_motion_candidate,0,False,missed_locomotion,short_displacement,1.0,0.2215949164496528,0.4563730176158064,False,False,False,False,False,True
+WhatsApp Video 2026-10-26 at 18.44.38 (1),mano_WhatsApp Video 2026-10-26 at 18.44.38 (1)_0,resting,0.0,4.0,low_motion_candidate,0,True,,,1.0,0.3764360215928819,0.14543332467382925,False,False,False,False,False,False
+WhatsApp Video 2026-10-26 at 18.44.38 (1),mano_WhatsApp Video 2026-10-26 at 18.44.38 (1)_4,resting,4.0,8.0,low_motion_candidate,0,True,,,1.0,0.3841671413845486,0.24544822845860118,False,False,False,False,False,False
+WhatsApp Video 2026-10-26 at 18.44.40,mano_WhatsApp Video 2026-10-26 at 18.44.40_0,resting,0.0,4.0,low_motion_candidate,1,False,false_episode,other,1.0,0.23959520128038195,0.1941265131707129,False,False,False,False,False,False
+WhatsApp Video 2026-10-26 at 18.44.40,mano_WhatsApp Video 2026-10-26 at 18.44.40_4,resting,4.0,8.0,low_motion_candidate,0,True,,,1.0,0.3856557210286458,0.24329026952679722,False,False,False,False,False,False
+WhatsApp Video 2026-10-26 at 18.44.40,mano_WhatsApp Video 2026-10-26 at 18.44.40_8,resting,8.0,12.0,low_motion_candidate,0,True,,,1.0,0.4265611436631944,0.21783303486848293,False,False,False,True,False,False
+WhatsApp Video 2026-10-26 at 18.44.40,mano_WhatsApp Video 2026-10-26 at 18.44.40_12,resting,12.0,16.0,low_motion_candidate,0,True,,,1.0,0.4290584988064236,0.19149009349717658,False,False,False,False,False,False
+WhatsApp Video 2026-10-26 at 18.44.41,mano_WhatsApp Video 2026-10-26 at 18.44.41_0,locomotion,0.0,4.0,locomotion_candidate,1,True,,,1.0,0.024519178602430556,0.22740569291005625,False,False,False,False,False,True
+WhatsApp Video 2026-10-26 at 18.44.41,mano_WhatsApp Video 2026-10-26 at 18.44.41_4,locomotion,4.0,8.0,locomotion_candidate,1,True,,,1.0,0.025360107421875,0.44558616026489967,False,False,False,False,False,True
+WhatsApp Video 2026-10-26 at 18.44.41,mano_WhatsApp Video 2026-10-26 at 18.44.41_8,locomotion,8.0,11.917,locomotion_candidate,1,True,,,1.0,0.026460435655381944,1.404216975746628,False,False,False,False,False,False

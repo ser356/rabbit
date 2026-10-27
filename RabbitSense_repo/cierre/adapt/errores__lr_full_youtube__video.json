@@ -1,0 +1,76 @@
+{
+  "method": "lr_full_youtube__video",
+  "clips": 57,
+  "errors": 25,
+  "by_error": {
+    "false_episode": 18,
+    "missed_locomotion": 6,
+    "resting_not_confirmed": 1
+  },
+  "by_cause": {
+    "other": 10,
+    "transition": 6,
+    "short_displacement": 4,
+    "tracking_loss": 2,
+    "abstention": 2,
+    "camera_motion": 1
+  },
+  "by_error_and_cause": [
+    {
+      "error": "false_episode",
+      "cause": "abstention",
+      "n": 1
+    },
+    {
+      "error": "false_episode",
+      "cause": "other",
+      "n": 10
+    },
+    {
+      "error": "false_episode",
+      "cause": "tracking_loss",
+      "n": 1
+    },
+    {
+      "error": "false_episode",
+      "cause": "transition",
+      "n": 6
+    },
+    {
+      "error": "missed_locomotion",
+      "cause": "camera_motion",
+      "n": 1
+    },
+    {
+      "error": "missed_locomotion",
+      "cause": "short_displacement",
+      "n": 4
+    },
+    {
+      "error": "missed_locomotion",
+      "cause": "tracking_loss",
+      "n": 1
+    },
+    {
+      "error": "resting_not_confirmed",
+      "cause": "abstention",
+      "n": 1
+    }
+  ],
+  "rules": {
+    "tracking": 0.5,
+    "camera": 0.02,
+    "small": 0.01,
+    "short": 1.0
+  },
+  "order": [
+    "tracking_loss",
+    "abstention",
+    "transition",
+    "camera_motion",
+    "small_rabbit",
+    "short_displacement",
+    "other"
+  ],
+  "videos": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_repo/runs/adapt/diagnostico/lr_full_youtube__video"
+}

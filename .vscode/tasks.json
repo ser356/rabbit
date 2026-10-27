@@ -428,6 +428,91 @@
 			],
 			"isBackground": false,
 			"problemMatcher": []
+		},
+		{
+			"label": "RabbitSense: pruebas adaptación temporal",
+			"type": "shell",
+			"command": "/usr/bin/env",
+			"args": [
+				"PYTHONPATH=RabbitSense_repo/src",
+				"RabbitSense_Training/.venv/bin/python",
+				"-m",
+				"pytest",
+				"RabbitSense_repo/tests",
+				"-q"
+			],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "test"
+		},
+		{
+			"label": "RabbitSense: completar evaluación temporal",
+			"type": "shell",
+			"command": "/usr/bin/env",
+			"args": [
+				"PYTHONPATH=RabbitSense_repo/src",
+				"RabbitSense_Training/.venv/bin/python",
+				"-u",
+				"-m",
+				"rabbitsense.adapt_motion",
+				"probe",
+				"--manifest",
+				"RabbitSense_repo/benchmarks/pose_desarrollo.json",
+				"--labels",
+				"RabbitSense_ARCHIVO/etiquetas_youtube.csv",
+				"--features",
+				"RabbitSense_repo/runs/adapt_motion/features",
+				"--out",
+				"RabbitSense_repo/cierre/adapt_motion"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "RabbitSense: fusión física y YouTube",
+			"type": "shell",
+			"command": "/usr/bin/env",
+			"args": [
+				"PYTHONPATH=RabbitSense_repo/src",
+				"RabbitSense_Training/.venv/bin/python",
+				"-u",
+				"-m",
+				"rabbitsense.adapt_motion",
+				"fuse",
+				"--manifest",
+				"RabbitSense_repo/benchmarks/pose_desarrollo.json",
+				"--labels",
+				"RabbitSense_ARCHIVO/etiquetas_youtube.csv",
+				"--features",
+				"RabbitSense_repo/runs/adapt_motion/features",
+				"--out",
+				"RabbitSense_repo/cierre/adapt_fusion"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "RabbitSense: fusión no lineal validada por sesión",
+			"type": "shell",
+			"command": "/usr/bin/env",
+			"args": [
+				"PYTHONPATH=RabbitSense_repo/src",
+				"RabbitSense_Training/.venv/bin/python",
+				"-u",
+				"-m",
+				"rabbitsense.adapt_motion",
+				"extended",
+				"--manifest",
+				"RabbitSense_repo/benchmarks/pose_desarrollo.json",
+				"--labels",
+				"RabbitSense_ARCHIVO/etiquetas_youtube.csv",
+				"--features",
+				"RabbitSense_repo/runs/adapt_motion/features",
+				"--out",
+				"RabbitSense_repo/cierre/adapt_nonlinear_extended"
+			],
+			"isBackground": false,
+			"problemMatcher": []
 		}
 	]
 }
