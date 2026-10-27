@@ -1,0 +1,58 @@
+clip_id,video_id,start_seconds,duration_seconds,label,reviewed,review_status,notes
+v24_0002,6BE6BE37-E828-4D23-A242-7DD4598128BF.mp4,0.0,4.0,resting,si,ciego_definicion_fisica_2026-10-27,Reetiquetado ciego; definición física fijada antes; etiqueta anterior: resting
+v24_0003,6BE6BE37-E828-4D23-A242-7DD4598128BF.mp4,4.0,4.0,resting,si,ciego_definicion_fisica_2026-10-27,Reetiquetado ciego; definición física fijada antes; etiqueta anterior: resting
+v24_0004,6BE6BE37-E828-4D23-A242-7DD4598128BF.mp4,8.0,4.0,resting,si,ciego_definicion_fisica_2026-10-27,Reetiquetado ciego; definición física fijada antes; etiqueta anterior: resting
+v24_0005,6BE6BE37-E828-4D23-A242-7DD4598128BF.mp4,12.0,4.0,resting,si,ciego_definicion_fisica_2026-10-27,Reetiquetado ciego; definición física fijada antes; etiqueta anterior: resting
+v24_0007,972F531F-A923-44DC-B69F-0B536A239FC3.mp4,0.0,4.0,resting,si,ciego_definicion_fisica_2026-10-27,Reetiquetado ciego; definición física fijada antes; etiqueta anterior: resting
+v24_0008,972F531F-A923-44DC-B69F-0B536A239FC3.mp4,4.0,4.0,resting,si,ciego_definicion_fisica_2026-10-27,Reetiquetado ciego; definición física fijada antes; etiqueta anterior: resting
+v24_0009,972F531F-A923-44DC-B69F-0B536A239FC3.mp4,8.0,3.78,resting,si,ciego_definicion_fisica_2026-10-27,Reetiquetado ciego; definición física fijada antes; etiqueta anterior: resting
+v24_0010,AE22D736-2B56-419D-886E-7926A182891E.mp4,0.0,4.0,resting,si,ciego_definicion_fisica_2026-10-27,Reetiquetado ciego; definición física fijada antes; etiqueta anterior: locomotion
+v24_0011,AE22D736-2B56-419D-886E-7926A182891E.mp4,4.0,4.0,resting,si,ciego_definicion_fisica_2026-10-27,Reetiquetado ciego; definición física fijada antes; etiqueta anterior: locomotion
+v24_0017,IMG_4944.MOV,0.0,4.0,resting,si,ciego_definicion_fisica_2026-10-27,Reetiquetado ciego; definición física fijada antes; etiqueta anterior: resting
+v24_0018,IMG_4944.MOV,4.0,4.0,resting,si,ciego_definicion_fisica_2026-10-27,Reetiquetado ciego; definición física fijada antes; etiqueta anterior: resting
+v24_0019,IMG_4944.MOV,8.0,2.47,resting,si,ciego_definicion_fisica_2026-10-27,Reetiquetado ciego; definición física fijada antes; etiqueta anterior: resting
+v24_5177_00,IMG_5177.mp4,30.0,3.5,locomotion,si,ciego_definicion_fisica_2026-10-27,Reetiquetado ciego; definición física fijada antes; etiqueta anterior: locomotion
+v24_5177_01,IMG_5177.mp4,34.0,3.5,locomotion,si,ciego_definicion_fisica_2026-10-27,Reetiquetado ciego; definición física fijada antes; etiqueta anterior: locomotion
+v24_5177_02,IMG_5177.mp4,38.0,3.3,locomotion,si,ciego_definicion_fisica_2026-10-27,Reetiquetado ciego; definición física fijada antes; etiqueta anterior: locomotion
+mano_IMG_5190_0,IMG_5190.MOV,0.0,4.0,locomotion,si,ciego_definicion_fisica_2026-10-27,Reetiquetado ciego; definición física fijada antes; etiqueta anterior: locomotion
+mano_IMG_5190_4,IMG_5190.MOV,4.0,4.0,resting,si,ciego_definicion_fisica_2026-10-27,Reetiquetado ciego; definición física fijada antes; etiqueta anterior: locomotion
+mano_IMG_5190_8,IMG_5190.MOV,8.0,4.0,locomotion,si,ciego_definicion_fisica_2026-10-27,Reetiquetado ciego; definición física fijada antes; etiqueta anterior: locomotion
+mano_IMG_5190_12,IMG_5190.MOV,12.0,4.0,locomotion,si,ciego_definicion_fisica_2026-10-27,Reetiquetado ciego; definición física fijada antes; etiqueta anterior: resting
+mano_IMG_5190_16,IMG_5190.MOV,16.0,4.0,resting,si,ciego_definicion_fisica_2026-10-27,Reetiquetado ciego; definición física fijada antes; etiqueta anterior: resting
+mano_IMG_5190_20,IMG_5190.MOV,20.0,4.0,resting,si,ciego_definicion_fisica_2026-10-27,Reetiquetado ciego; definición física fijada antes; etiqueta anterior: resting
+mano_IMG_5190_24,IMG_5190.MOV,24.0,4.0,resting,si,ciego_definicion_fisica_2026-10-27,Reetiquetado ciego; definición física fijada antes; etiqueta anterior: resting
+mano_IMG_5190_28,IMG_5190.MOV,28.0,4.0,resting,si,ciego_definicion_fisica_2026-10-27,Reetiquetado ciego; definición física fijada antes; etiqueta anterior: resting
+mano_IMG_5190_32,IMG_5190.MOV,32.0,4.0,locomotion,si,ciego_definicion_fisica_2026-10-27,Reetiquetado ciego; definición física fijada antes; etiqueta anterior: resting
+mano_IMG_5190_36,IMG_5190.MOV,36.0,4.0,locomotion,si,ciego_definicion_fisica_2026-10-27,Reetiquetado ciego; definición física fijada antes; etiqueta anterior: locomotion
+mano_IMG_5190_40,IMG_5190.MOV,40.0,4.0,resting,si,ciego_definicion_fisica_2026-10-27,Reetiquetado ciego; definición física fijada antes; etiqueta anterior: locomotion
+mano_IMG_5190_44,IMG_5190.MOV,44.0,4.0,locomotion,si,ciego_definicion_fisica_2026-10-27,Reetiquetado ciego; definición física fijada antes; etiqueta anterior: locomotion
+mano_IMG_5190_48,IMG_5190.MOV,48.0,4.0,resting,si,ciego_definicion_fisica_2026-10-27,Reetiquetado ciego; definición física fijada antes; etiqueta anterior: resting
+mano_IMG_5190_52,IMG_5190.MOV,52.0,4.0,locomotion,si,ciego_definicion_fisica_2026-10-27,Reetiquetado ciego; definición física fijada antes; etiqueta anterior: resting
+mano_IMG_5190_56,IMG_5190.MOV,56.0,4.0,locomotion,si,ciego_definicion_fisica_2026-10-27,Reetiquetado ciego; definición física fijada antes; etiqueta anterior: locomotion
+mano_IMG_5190_60,IMG_5190.MOV,60.0,4.0,locomotion,si,ciego_definicion_fisica_2026-10-27,Reetiquetado ciego; definición física fijada antes; etiqueta anterior: resting
+mano_IMG_5191_0,IMG_5191.MOV,0.0,4.0,resting,si,ciego_definicion_fisica_2026-10-27,Reetiquetado ciego; definición física fijada antes; etiqueta anterior: resting
+mano_IMG_5191_4,IMG_5191.MOV,4.0,4.0,resting,si,ciego_definicion_fisica_2026-10-27,Reetiquetado ciego; definición física fijada antes; etiqueta anterior: resting
+mano_IMG_5191_8,IMG_5191.MOV,8.0,4.0,resting,si,ciego_definicion_fisica_2026-10-27,Reetiquetado ciego; definición física fijada antes; etiqueta anterior: resting
+mano_IMG_5191_12,IMG_5191.MOV,12.0,4.0,locomotion,si,ciego_definicion_fisica_2026-10-27,Reetiquetado ciego; definición física fijada antes; etiqueta anterior: locomotion
+mano_IMG_5191_16,IMG_5191.MOV,16.0,4.0,locomotion,si,ciego_definicion_fisica_2026-10-27,Reetiquetado ciego; definición física fijada antes; etiqueta anterior: locomotion
+mano_IMG_5191_20,IMG_5191.MOV,20.0,3.9,locomotion,si,ciego_definicion_fisica_2026-10-27,Reetiquetado ciego; definición física fijada antes; etiqueta anterior: locomotion
+mano_IMG_5192_0,IMG_5192.MOV,0.0,4.0,locomotion,si,ciego_definicion_fisica_2026-10-27,Reetiquetado ciego; definición física fijada antes; etiqueta anterior: locomotion
+mano_IMG_5192_4,IMG_5192.MOV,4.0,4.0,locomotion,si,ciego_definicion_fisica_2026-10-27,Reetiquetado ciego; definición física fijada antes; etiqueta anterior: locomotion
+mano_WhatsApp Video 2026-10-26 at 18.44.34_0,WhatsApp Video 2026-10-26 at 18.44.34.mp4,0.0,4.0,resting,si,ciego_definicion_fisica_2026-10-27,Reetiquetado ciego; definición física fijada antes; etiqueta anterior: locomotion
+mano_WhatsApp Video 2026-10-26 at 18.44.34_4,WhatsApp Video 2026-10-26 at 18.44.34.mp4,4.0,4.0,resting,si,ciego_definicion_fisica_2026-10-27,Reetiquetado ciego; definición física fijada antes; etiqueta anterior: resting
+mano_WhatsApp Video 2026-10-26 at 18.44.35_0,WhatsApp Video 2026-10-26 at 18.44.35.mp4,0.0,4.0,resting,si,ciego_definicion_fisica_2026-10-27,Reetiquetado ciego; definición física fijada antes; etiqueta anterior: resting
+mano_WhatsApp Video 2026-10-26 at 18.44.36_0,WhatsApp Video 2026-10-26 at 18.44.36.mp4,0.0,4.0,resting,si,ciego_definicion_fisica_2026-10-27,Reetiquetado ciego; definición física fijada antes; etiqueta anterior: resting
+mano_WhatsApp Video 2026-10-26 at 18.44.36_4,WhatsApp Video 2026-10-26 at 18.44.36.mp4,4.0,3.96,resting,si,ciego_definicion_fisica_2026-10-27,Reetiquetado ciego; definición física fijada antes; etiqueta anterior: resting
+mano_WhatsApp Video 2026-10-26 at 18.44.37_0,WhatsApp Video 2026-10-26 at 18.44.37.mp4,0.0,4.0,locomotion,si,ciego_definicion_fisica_2026-10-27,Reetiquetado ciego; definición física fijada antes; etiqueta anterior: locomotion
+mano_WhatsApp Video 2026-10-26 at 18.44.38 (1)_0,WhatsApp Video 2026-10-26 at 18.44.38 (1).mp4,0.0,4.0,resting,si,ciego_definicion_fisica_2026-10-27,Reetiquetado ciego; definición física fijada antes; etiqueta anterior: resting
+mano_WhatsApp Video 2026-10-26 at 18.44.38 (1)_4,WhatsApp Video 2026-10-26 at 18.44.38 (1).mp4,4.0,4.0,resting,si,ciego_definicion_fisica_2026-10-27,Reetiquetado ciego; definición física fijada antes; etiqueta anterior: resting
+mano_WhatsApp Video 2026-10-26 at 18.44.38_0,WhatsApp Video 2026-10-26 at 18.44.38.mp4,0.0,4.0,resting,si,ciego_definicion_fisica_2026-10-27,Reetiquetado ciego; definición física fijada antes; etiqueta anterior: locomotion
+mano_WhatsApp Video 2026-10-26 at 18.44.38_4,WhatsApp Video 2026-10-26 at 18.44.38.mp4,4.0,4.0,resting,si,ciego_definicion_fisica_2026-10-27,Reetiquetado ciego; definición física fijada antes; etiqueta anterior: locomotion
+mano_WhatsApp Video 2026-10-26 at 18.44.38_8,WhatsApp Video 2026-10-26 at 18.44.38.mp4,8.0,3.0,locomotion,si,ciego_definicion_fisica_2026-10-27,Reetiquetado ciego; definición física fijada antes; etiqueta anterior: locomotion
+mano_WhatsApp Video 2026-10-26 at 18.44.40_0,WhatsApp Video 2026-10-26 at 18.44.40.mp4,0.0,4.0,resting,si,ciego_definicion_fisica_2026-10-27,Reetiquetado ciego; definición física fijada antes; etiqueta anterior: resting
+mano_WhatsApp Video 2026-10-26 at 18.44.40_4,WhatsApp Video 2026-10-26 at 18.44.40.mp4,4.0,4.0,resting,si,ciego_definicion_fisica_2026-10-27,Reetiquetado ciego; definición física fijada antes; etiqueta anterior: resting
+mano_WhatsApp Video 2026-10-26 at 18.44.40_8,WhatsApp Video 2026-10-26 at 18.44.40.mp4,8.0,4.0,resting,si,ciego_definicion_fisica_2026-10-27,Reetiquetado ciego; definición física fijada antes; etiqueta anterior: resting
+mano_WhatsApp Video 2026-10-26 at 18.44.40_12,WhatsApp Video 2026-10-26 at 18.44.40.mp4,12.0,4.0,resting,si,ciego_definicion_fisica_2026-10-27,Reetiquetado ciego; definición física fijada antes; etiqueta anterior: resting
+mano_WhatsApp Video 2026-10-26 at 18.44.41_0,WhatsApp Video 2026-10-26 at 18.44.41.mp4,0.0,4.0,locomotion,si,ciego_definicion_fisica_2026-10-27,Reetiquetado ciego; definición física fijada antes; etiqueta anterior: locomotion
+mano_WhatsApp Video 2026-10-26 at 18.44.41_4,WhatsApp Video 2026-10-26 at 18.44.41.mp4,4.0,4.0,locomotion,si,ciego_definicion_fisica_2026-10-27,Reetiquetado ciego; definición física fijada antes; etiqueta anterior: locomotion
+mano_WhatsApp Video 2026-10-26 at 18.44.41_8,WhatsApp Video 2026-10-26 at 18.44.41.mp4,8.0,3.917,locomotion,si,ciego_definicion_fisica_2026-10-27,Reetiquetado ciego; definición física fijada antes; etiqueta anterior: locomotion

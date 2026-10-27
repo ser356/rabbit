@@ -1,0 +1,95 @@
+{
+  "definition": {
+    "locomotion": "Cinna cambia de sitio sobre el suelo con el cuerpo entero, aunque sea despacio.",
+    "resting": "El cuerpo se queda en el mismo sitio. Girar la cabeza, acicalarse o estirarse sin cambiar de sitio es reposo.",
+    "unknown": "No se ve bien, o se recoloca menos de medio cuerpo."
+  },
+  "clips": 57,
+  "new_counts": {
+    "resting": 35,
+    "locomotion": 22
+  },
+  "agreement": 0.8070175438596491,
+  "kappa_old_vs_new": 0.6029132362254591,
+  "confusion_old_rows_new_columns": {
+    "locomotion": {
+      "locomotion": 18,
+      "resting": 7
+    },
+    "resting": {
+      "locomotion": 4,
+      "resting": 28
+    }
+  },
+  "changed": [
+    {
+      "case": "locomotion",
+      "clip_id": "v24_0011",
+      "old_label": "locomotion",
+      "label": "resting"
+    },
+    {
+      "case": "IMG_5190",
+      "clip_id": "mano_IMG_5190_60",
+      "old_label": "resting",
+      "label": "locomotion"
+    },
+    {
+      "case": "IMG_5190",
+      "clip_id": "mano_IMG_5190_12",
+      "old_label": "resting",
+      "label": "locomotion"
+    },
+    {
+      "case": "IMG_5190",
+      "clip_id": "mano_IMG_5190_52",
+      "old_label": "resting",
+      "label": "locomotion"
+    },
+    {
+      "case": "IMG_5190",
+      "clip_id": "mano_IMG_5190_32",
+      "old_label": "resting",
+      "label": "locomotion"
+    },
+    {
+      "case": "locomotion",
+      "clip_id": "v24_0010",
+      "old_label": "locomotion",
+      "label": "resting"
+    },
+    {
+      "case": "IMG_5190",
+      "clip_id": "mano_IMG_5190_4",
+      "old_label": "locomotion",
+      "label": "resting"
+    },
+    {
+      "case": "IMG_5190",
+      "clip_id": "mano_IMG_5190_40",
+      "old_label": "locomotion",
+      "label": "resting"
+    },
+    {
+      "case": "WhatsApp Video 2026-10-26 at 18.44.38",
+      "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.38_4",
+      "old_label": "locomotion",
+      "label": "resting"
+    },
+    {
+      "case": "WhatsApp Video 2026-10-26 at 18.44.38",
+      "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.38_0",
+      "old_label": "locomotion",
+      "label": "resting"
+    },
+    {
+      "case": "WhatsApp Video 2026-10-26 at 18.44.34",
+      "clip_id": "mano_WhatsApp Video 2026-10-26 at 18.44.34_0",
+      "old_label": "locomotion",
+      "label": "resting"
+    }
+  ],
+  "labels_sha256": "4768202fb9c55bdf773eb51027c1f598f7abf43f824ab406f73c800f10a6f6aa",
+  "answers_sha256": "3d3aa84610c73c6ffdc5ddbe55c79419730c32076e5d1b2ace6232b30947e29a",
+  "limitation": "Algunos clips se vieron antes con la predicción de CoTracker superpuesta; el reetiquetado es ciego al orden y a las etiquetas anteriores, pero no a ese recuerdo."
+}

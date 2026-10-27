@@ -1,0 +1,38 @@
+[
+  {
+    "start_seconds": 0.0,
+    "end_seconds": 32.0,
+    "movement": "unknown",
+    "evidence_quality": 0.0
+  },
+  {
+    "start_seconds": 32.0,
+    "end_seconds": 32.5,
+    "movement": "locomotion_candidate",
+    "evidence_quality": 0.6666666666666666
+  },
+  {
+    "start_seconds": 32.5,
+    "end_seconds": 33.0,
+    "movement": "unknown",
+    "evidence_quality": 0.0
+  },
+  {
+    "start_seconds": 33.0,
+    "end_seconds": 35.5,
+    "movement": "locomotion_candidate",
+    "evidence_quality": 0.8800000000000001
+  },
+  {
+    "start_seconds": 35.5,
+    "end_seconds": 38.0,
+    "movement": "low_motion_candidate",
+    "evidence_quality": 1.0
+  },
+  {
+    "start_seconds": 38.0,
+    "end_seconds": 41.666666666666664,
+    "movement": "locomotion_candidate",
+    "evidence_quality": 0.9320597732575955
+  }
+]
