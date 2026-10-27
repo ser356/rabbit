@@ -7,9 +7,10 @@
 | 5 vídeos de desarrollo | Flujo óptico (V3.6/V3.7/flow/body/SAM2) | Veredicto | Ningún método pasa |
 | **IMG_5190–5193, cámara en mano** | **Flujo óptico** | **Veredicto, test independiente** | **Ningún método pasa** |
 | **IMG_5190–5193, cámara en mano** | **X-CLIP zero-shot (preentrenado)** | **Veredicto, test independiente** | **No pasa** |
-| **9 vídeos (validación cruzada)** | **Suelo + silueta SAM2** | **Sensibilidad validada 0,59** | **No alcanza 0,8: `not_resolved` por protocolo** |
+| 9 vídeos (validación cruzada) | Suelo + silueta SAM2 | Desarrollo | Sensibilidad validada 0,59 |
+| **Vídeos nuevos de WhatsApp** | **Suelo + silueta SAM2** | **Veredicto, test independiente** | **No pasa: 4/8 locomoción, 6/10 reposo, 1 episodio falso** |
 
-Tres enfoques distintos fallan: el flujo óptico por la compensación de cámara y la pérdida de seguimiento; X-CLIP porque no discrimina; suelo + silueta porque SAM2 pierde a Cinna, los desplazamientos lentos quedan bajo cualquier umbral y la máscara salta en reposo. Con los vídeos nuevos, casi todos de reposo, el protocolo ya fija `not_resolved`. **La locomoción queda cerrada como no resuelta.** Reabrirla exige vídeos con locomoción etiquetada en cantidad suficiente, al menos decenas de clips, para desarrollar y validar con datos que no se hayan usado.
+Tres enfoques distintos fallan: el flujo óptico por la compensación de cámara y la pérdida de seguimiento; X-CLIP porque no discrimina; suelo + silueta porque SAM2 pierde a Cinna, los desplazamientos lentos quedan bajo cualquier umbral y la máscara salta en reposo. En los vídeos nuevos de WhatsApp, suelo + silueta es el más equilibrado (1 episodio falso), pero detecta solo la mitad de los desplazamientos. **La locomoción queda cerrada como no resuelta.** Reabrirla exige vídeos con locomoción etiquetada en cantidad suficiente, al menos decenas de clips, para desarrollar y validar con datos que no se hayan usado.
 
 ## Reapertura: suelo + silueta con vídeos nuevos (pre-registrado el 2026-10-26)
 
@@ -39,6 +40,20 @@ Con vídeo sintético, si la cámara se desplaza y el conejo está quieto, la ve
   - `not_resolved`;
   - `descriptive_only_insufficient_sample`: menos de 10 clips de reposo nuevos.
 - **Una ejecución:** si el test falla, no se ajusta la regla sobre esos vídeos.
+
+## Test con vídeos nuevos de WhatsApp: suelo + silueta (2026-10-27)
+
+Vídeos nuevos no usados en ningún desarrollo. Etiquetas desde cero, verificadas y commiteadas antes de ejecutar (`56feb7b`). Regla congelada antes (`5658aa1`): solo suelo, umbral 0,3. Hubo 8 clips de locomoción (≥ 5), así que la sensibilidad se midió en los vídeos nuevos: **test independiente completo**.
+
+| Método (test independiente) | Locomoción | Reposo | Episodios falsos en reposo |
+|---|---:|---:|---:|
+| **Suelo + silueta, WhatsApp** | **4/8 (0,50; IC95 % 0,22–0,78)** | **6/10 (0,60; 0,31–0,83)** | **1** |
+| Flujo óptico, IMG_5190–5193 | 7/12 (0,58; 0,32–0,81) | 3/12 (0,25; 0,09–0,53) | 6 |
+| X-CLIP, IMG_5190–5193 | 9/12 (0,75; 0,47–0,91) | 1/12 (0,08; 0,01–0,35) | 11 |
+
+Estado: `not_resolved`. No alcanza 0,8 en ninguna de las dos clases. Intervalos de Wilson al 95 %; los conjuntos de test difieren entre filas.
+
+**Lectura.** Es el método más equilibrado y el único que casi no inventa desplazamientos: 1 episodio falso en 10 clips de reposo, frente a 6 y 11. Pierde la mitad de los desplazamientos y no decide en 3 de 10 reposos. Con 8 y 10 clips la incertidumbre es grande. No se ajusta nada sobre estos vídeos.
 
 ## Resultado del desarrollo de suelo + silueta (2026-10-26)
 
