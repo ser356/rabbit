@@ -328,6 +328,7 @@ def main():
     command = sub.add_parser('test')
     for name in ('manifest', 'features', 'out'):
         command.add_argument(f'--{name}', required=True)
+    command.add_argument('--model', default=str(MODEL_FILE))
     args = parser.parse_args()
     if args.command == 'sheets':
         print('Clips:', sheets(args.videos, args.out))
@@ -340,7 +341,7 @@ def main():
         print(json.dumps({k: report[k] for k in ('windows', 'locomotion_windows', 'videos', 'grouped_cross_validation')},
                          indent=2))
     else:
-        test(args.manifest, args.features, args.out)
+        test(args.manifest, args.features, args.out, args.model)
 
 
 if __name__ == '__main__':

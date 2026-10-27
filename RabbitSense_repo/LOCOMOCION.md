@@ -49,6 +49,25 @@ Con vídeo sintético, si la cámara se desplaza y el conejo está quieto, la ve
   - `descriptive_only_insufficient_sample`: menos de 10 clips de reposo nuevos.
 - **Una ejecución:** si el test falla, no se ajusta la regla sobre esos vídeos.
 
+## Segundo intento con YouTube: mismo método, más datos (pre-registrado el 2026-10-27)
+
+**Por qué.** En YouTube la validación cruzada solo llega a AUC 0,70 con 82 clips de locomoción. La hipótesis es que el límite son los datos, no el método, así que solo cambian los datos.
+
+**Qué cambia:**
+
+- Se descargan más vídeos con [youtube_busquedas_2.txt](benchmarks/youtube_busquedas_2.txt): 20 búsquedas orientadas a grabaciones caseras continuas con desplazamiento. Incluye búsquedas en japonés (部屋んぽ, «paseo por la habitación»), francés, alemán, coreano y español.
+- Se reutiliza el archivo de descargas de yt-dlp para no repetir vídeos.
+- Las etiquetas nuevas se añaden a [etiquetas_youtube.csv](../RabbitSense_ARCHIVO/etiquetas_youtube.csv) con los mismos criterios, mirando solo las hojas de contacto.
+
+**Qué no cambia:** características X-CLIP, regresión logística (L2 = 1, clases equilibradas), banda 0,4/0,6, `CRITERIA` y los 17 vídeos de Cinna con sus etiquetas.
+
+**Protocolo:**
+
+1. El modelo se entrena con todas las etiquetas de YouTube (las de antes y las nuevas). Se congela en `benchmarks/webclips_modelo_v2.json` y se commitea antes del test. El modelo anterior queda intacto.
+2. Hay una sola ejecución del test sobre las mismas características de Cinna (`runs/webclips/cinna`), con `--model` apuntando al v2.
+3. **Límite de la conclusión.** Es la segunda mirada al mismo conjunto de test tras un fallo. Solo cambian los datos de YouTube, que no se eligen mirando a Cinna, pero un aprobado sería más débil que uno a la primera y se documentaría así.
+4. Si falla, no hay tercer reentrenamiento con YouTube.
+
 ## Resultado del clasificador entrenado con YouTube (2026-10-27)
 
 Ejecutado en el Mac (MPS). Modelo congelado en [webclips_modelo.json](benchmarks/webclips_modelo.json) (commit `dc09ec9`) antes de procesar a Cinna; su `labels_sha256` coincide con [etiquetas_youtube.csv](../RabbitSense_ARCHIVO/etiquetas_youtube.csv).
