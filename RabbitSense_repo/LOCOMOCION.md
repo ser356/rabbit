@@ -57,6 +57,29 @@ Los datos son los 17 vídeos de [pose_desarrollo.json](benchmarks/pose_desarroll
      6. desplazamiento corto (menos de un cuerpo dentro del clip);
      7. otra.
 
+### Resultado (ejecutado en el Mac M4, 2026-10-27)
+
+El código y el manifest de [finetune.json](cierre/adapt/finetune.json) coinciden por hash con los subidos (`bdc61090…` y `63aa160e…`). Las predicciones están en [cierre/adapt](cierre/adapt/). En la tabla, «intra-vídeo» es la AUC por clip dentro de los tres vídeos con ambas clases: IMG_5190, IMG_5191 y WhatsApp 18.44.34.
+
+| Método (validación cruzada) | Locomoción | Reposo | Reposos con alarma | AUC clip | Intra-vídeo |
+|---|---:|---:|---:|---:|---|
+| `lr_full`, por vídeo | 20/25 | 12/32 | 18 | 0,67 | 0,56 / 0,11 / 0,00 |
+| `lr_full`, por sesión | 22/25 | 13/32 | 17 | 0,72 | 0,76 / 0,67 / 0,00 |
+| `lr_full_crop`, por vídeo | 20/25 | 11/32 | 21 | 0,64 | 0,63 / 0,67 / 0,00 |
+| `lr_full_youtube`, por vídeo | 19/25 | 13/32 | 18 | 0,73 | 0,48 / 0,44 / 1,00 |
+| `finetune_two_view`, por vídeo | 21/25 | 13/32 | 19 | 0,61 | 0,56 / 1,00 / 0,00 |
+| Referencia: YouTube v1 congelado | 15/25 | 23/32 | 9 | 0,64 | 0,51 / 0,33 / 1,00 |
+| Referencia: YouTube v2 congelado | 11/25 | 25/32 | 7 | 0,72 | 0,49 / 0,78 / 1,00 |
+
+- **Ningún método pasa.** Los entrenados con Cinna suben la sensibilidad a costa de la especificidad. La AUC por clip (0,61–0,73) no mejora la de los modelos YouTube congelados (0,64–0,72): es el mismo poder de separación con otro umbral.
+- **Recorte del conejo.** Solo, empeora (AUC 0,52–0,56). Combinado con la imagen completa, no aporta.
+- **Ajuste parcial de X-CLIP.** No supera a la sonda lineal.
+- **Confusión escena–etiqueta confirmada.** Dentro de los vídeos con ambas clases, el orden es casi aleatorio o invertido: el modelo distingue escenas, no desplazamiento.
+- **Errores.** Con `lr_full_youtube`, 18 reposos tienen alarmas sin causa geométrica clara (10 «otra», 6 en transiciones). De las locomociones perdidas, 4 son desplazamientos cortos, de menos de un cuerpo.
+- **Cobertura de máscara.** IMG_5191 tiene máscara solo en el 46 % de los fotogramas etiquetados; el resto de vídeos, el 82–100 %.
+
+La batería posterior de contraste temporal, MIL y fusión física, con 112 configuraciones, tampoco pasa; está en [ADAPTACION_MOVIMIENTO.md](ADAPTACION_MOVIMIENTO.md). **Esta línea queda como no resuelta.**
+
 ## Estado final (2026-10-27): cerrada, no resuelta
 
 | Conjunto | Enfoque | Naturaleza | Resultado |
