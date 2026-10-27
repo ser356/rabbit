@@ -1,5 +1,62 @@
 # Locomoción: diagnóstico, corrección temporal y cierre
 
+## Línea experimental nueva: adaptación del modelo temporal a Cinna (pre-registrada el 2026-10-27)
+
+Esta línea no modifica los veredictos `not_resolved` anteriores ni sus modelos congelados. Es una evaluación exploratoria con validación cruzada agrupada, no un test independiente.
+
+### Auditoría de datos
+
+Los datos son los 17 vídeos de [pose_desarrollo.json](benchmarks/pose_desarrollo.json) con sus etiquetas verificadas ([adapt.py](src/rabbitsense/adapt.py) `audit`). La auditoría con vídeo y máscaras se genera en el Mac, en `cierre/adapt/auditoria.json`.
+
+| | Locomoción | Reposo |
+|---|---:|---:|
+| Clips verificados de 4 s | 25 (97 s) | 32 (126 s) |
+| Vídeos con la clase | 9 | 10 |
+| Sesiones con la clase (agrupación conservadora) | **4** | **5** |
+| Ventanas cada 0,5 s (solapadas, abarcan 1,75 s) | 140 | 137 |
+| Ventanas sin fotogramas compartidos | 56 | 53 |
+
+- **Unidad independiente.** Las 277 ventanas solapadas no son 277 ejemplos. El máximo sin solapamiento es 109, y tampoco son independientes, porque las de un mismo vídeo comparten escena, luz y cámara.
+- **Sesiones.** Se agrupan los 8 vídeos de WhatsApp en una sesión y IMG_5190–5193 en otra, porque pueden compartir sala y momento. Con esa agrupación, la locomoción procede de solo 4 sesiones y el reposo de 5.
+- **Vídeos con etiquetas.** Hay 16; IMG_5193 no tiene clips verificados. IMG_5190 aporta el 28 % de los clips.
+- **Confusión escena–etiqueta.** 13 de los 16 vídeos, y 5 de las 7 sesiones, tienen una sola clase. Solo IMG_5190, IMG_5191 y WhatsApp 18.44.34 tienen las dos. Un modelo entrenado con Cinna puede acertar reconociendo la escena en lugar del desplazamiento. Por eso se informa también de la AUC intra-vídeo en esos tres vídeos.
+- **Precisión alcanzable.** Con 25 clips, una sensibilidad observada de 0,8 tiene un intervalo de Wilson del 95 % de 0,61 a 0,91. Para que el límite inferior supere 0,8 hacen falta 54 clips si se acierta el 90 %, o 25 clips si se acierta el 95 %.
+
+**Conclusión de la auditoría.** Hay información suficiente para un experimento exploratorio con pocos parámetros por pliegue: sondas lineales sobre X-CLIP congelado y un ajuste parcial con hiperparámetros fijados de antemano. No la hay para declarar resuelta la locomoción, salvo con resultados casi perfectos: unos 24/25 desplazamientos y 31/32 reposos. Ajustar el modelo completo no es viable: son millones de parámetros frente a unas 109 ventanas disjuntas de 4–5 sesiones.
+
+### Protocolo (fijado antes de ejecutar)
+
+1. **Caché.** Fotogramas cada 0,25 s, con el lado largo a 448 px, y la caja de la máscara SAM2 de cada fotograma.
+2. **Dos vistas por ventana de 8 fotogramas.** La imagen completa con bandas y un recorte del conejo con entorno: la unión de las cajas de la ventana, ampliada medio tamaño por lado y cuadrada. Así se conservan el suelo y el fondo cercanos, que delatan el desplazamiento aunque la cámara siga al conejo.
+3. **Sondas sobre X-CLIP congelado.**
+   - Métodos: `lr_full` (la regresión logística actual, reentrenada con Cinna), `lr_crop`, `lr_full_crop` y, opcionalmente, `lr_full_youtube` (YouTube más Cinna con igual peso total).
+   - La L2 se elige entre {1, 10, 100} con validación interna agrupada, dentro de cada pliegue.
+   - Los modelos YouTube v1 y v2 congelados se incluyen solo como referencia.
+4. **Ajuste parcial** (`finetune_two_view`).
+   - Se entrenan la última capa del codificador visual de X-CLIP, su normalización final, la proyección y el MIT, más una capa lineal sobre las dos vistas.
+   - Hiperparámetros: 4 épocas, lote 8, AdamW con lr 2e-5 para el codificador y 1e-3 para la cabeza, weight decay 0,05 y semilla 0.
+   - Muestreo equilibrado por clase. Aumentos: volteo, brillo y contraste, y desplazamiento del recorte.
+   - Un modelo nuevo por pliegue; no se guardan pesos.
+5. **Validación cruzada.**
+   - Por vídeo (deja uno fuera) y, más estricta, por sesión.
+   - Estandarización, L2 y pesos salen solo del entrenamiento del pliegue.
+   - Solo se entrena con ventanas contenidas enteras en clips verificados.
+   - El vídeo evaluado se clasifica completo con la misma rejilla y la misma banda 0,4/0,6 que el cierre.
+6. **Métricas.**
+   - Detección por clip con `CRITERIA`: sensibilidad, especificidad y episodios falsos, con intervalos de Wilson.
+   - AUC por ventana, por clip e intra-vídeo.
+   - Cobertura: fracción de clips y de segundos con decisión.
+7. **Diagnóstico.**
+   - Vídeos con la caja del recorte, p(locomoción) y franjas de verdad y predicción, para el mejor método por vídeo.
+   - Cada error se clasifica por la primera causa que se cumple:
+     1. pérdida de seguimiento (menos del 50 % de fotogramas con máscara);
+     2. abstención;
+     3. transición entre clases;
+     4. cámara en movimiento (más de 0,02 del ancho por cada 0,25 s);
+     5. conejo pequeño (menos del 1 % del área);
+     6. desplazamiento corto (menos de un cuerpo dentro del clip);
+     7. otra.
+
 ## Estado final (2026-10-27): cerrada, no resuelta
 
 | Conjunto | Enfoque | Naturaleza | Resultado |
