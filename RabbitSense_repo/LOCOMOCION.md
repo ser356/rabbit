@@ -42,6 +42,19 @@ Con vídeo sintético, si la cámara se desplaza y el conejo está quieto, la ve
   - `descriptive_only_insufficient_sample`: menos de 10 clips de reposo nuevos.
 - **Una ejecución:** si el test falla, no se ajusta la regla sobre esos vídeos.
 
+## Quinto enfoque: clasificador entrenado con vídeos de YouTube (pre-registrado el 2026-10-27)
+
+**Idea.** Los vídeos caseros de conejos en YouTube se parecen a los de Cinna: móvil en mano, interiores y razas variadas. Un clasificador aprendido con ellos puede separar desplazamiento de movimiento de cámara sin reglas hechas a mano. **Ninguno de los 17 vídeos de Cinna se usa para entrenar ni ajustar nada**, así que todos son test independiente: 25 clips de locomoción y 32 de reposo, verificados por una persona.
+
+**Método** ([webclips.py](src/rabbitsense/webclips.py)):
+
+1. **Datos:** descarga en el Mac con `yt-dlp` usando las búsquedas fijas de [youtube_busquedas.txt](benchmarks/youtube_busquedas.txt): 6 vídeos por búsqueda, de 15 a 180 s, hasta 480p.
+2. **Etiquetas de entrenamiento:** hasta 8 clips de 4 s repartidos por vídeo. Las etiqueta Claude mirando hojas de contacto de 8 fotogramas (cada 0,5 s): `locomotion` si cambia de sitio sobre el suelo, `resting` si no se desplaza, `unknown` si hay dudas u oclusión. Son **etiquetas ruidosas solo para entrenar**; las de test son las verificadas de Cinna.
+3. **Características:** X-CLIP `microsoft/xclip-base-patch32` congelado (`get_video_features`), ventanas de 8 fotogramas cada 0,25 s (de t−1,25 a t+0,5 s), imagen completa con bandas para no recortar.
+4. **Clasificador:** regresión logística L2 (λ = 1) sobre características estandarizadas, con clases equilibradas. Validación cruzada de 5 bloques agrupando por vídeo de YouTube, solo informativa. Pesos congelados en `benchmarks/webclips_modelo.json` antes de procesar a Cinna.
+5. **Decisión:** p ≥ 0,6 locomoción; p ≤ 0,4 bajo movimiento; entre ambas, desconocido.
+6. **Test:** una ejecución sobre los 17 vídeos de Cinna ([pose_desarrollo.json](benchmarks/pose_desarrollo.json)) con `CRITERIA`: al menos 5 clips de locomoción y 10 de reposo, sensibilidad y especificidad ≥ 0,8, y al menos un acierto por vídeo con locomoción. Estado `resolved_independent_test` o `not_resolved`. Si falla, no se reentrena mirando a Cinna.
+
 ## Resultado del desarrollo de la marcha (DeepLabCut, 2026-10-27)
 
 Ejecutado en el Mac (MPS) con el código commiteado (hashes verificados) y el modelo `superanimal_quadruped_hrnet_w32` (SHA-256 `a42e58d5…`). Salidas y mosaicos en [cierre/pose_dev](cierre/pose_dev/) y [cierre/pose_keypoints](cierre/pose_keypoints/). Regla congelada en [benchmarks/pose_regla.json](benchmarks/pose_regla.json).
