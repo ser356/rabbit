@@ -158,7 +158,10 @@ def test_run_applies_closure_criteria_and_renders(tmp_path, fake_frames, monkeyp
     def track(video, masks, folder, tracker, clips=None):
         return original(video, masks, folder, trackers[video.stem], clips)
     monkeypatch.setattr(pointtrack, 'track_case', track)
+    smoked = []
+    monkeypatch.setattr(pointtrack, 'smoke', lambda model: smoked.append(model) or (0., 0.))
     result = pointtrack.run(manifest, tmp_path / 'out', tmp_path / 'tracks', tracker=lambda: current)
+    assert smoked == [current]  # una sola comprobación antes del primer vídeo
     r = result['methods']['pointtrack']
     assert (r['locomotion_hits'], r['resting_correct'], r['resting_false_events']) == (2, 2, 0)
     assert result['status'] == 'not_resolved'  # menos clips que el mínimo de CRITERIA
@@ -174,13 +177,34 @@ def test_run_applies_closure_criteria_and_renders(tmp_path, fake_frames, monkeyp
 
 
 def test_smoke_check_accepts_exact_tracker_and_rejects_frozen_points():
+    centre = 100 + 45 + pointtrack.SMOKE_SIZE / 2
+
     def exact(frames, queries):
         tracks = np.repeat(queries[None, :, 1:], len(frames), axis=0).astype(float)
-        tracks[:, 0, 0] = 124 + 3 * np.arange(len(frames))
+        tracks[:, 0, 0] = centre + 3 * (np.arange(len(frames)) - 15)
         return tracks, np.ones(tracks.shape[:2], bool)
-    assert pointtrack.smoke(exact)[0] == 0.
+    assert pointtrack.smoke(exact) == (0., 0.)
 
     def frozen(frames, queries):
         return np.repeat(queries[None, :, 1:], len(frames), axis=0).astype(float), np.ones((len(frames), len(queries)), bool)
     with pytest.raises(SystemExit):
         pointtrack.smoke(frozen)
+
+
+def test_run_refuses_to_track_when_smoke_fails(tmp_path, fake_frames):
+    video, masks = make_case(tmp_path, 'a', 'follow')
+    manifest = write_manifest(tmp_path, [('a', video, masks)])
+
+    def frozen(frames, queries):
+        return np.repeat(queries[None, :, 1:], len(frames), axis=0).astype(float), np.ones((len(frames), len(queries)), bool)
+    with pytest.raises(SystemExit):
+        pointtrack.run(manifest, tmp_path / 'out', tmp_path / 'tracks', tracker=lambda: frozen)
+    assert not (tmp_path / 'tracks' / 'a').exists()
+
+
+def test_queries_are_fast_for_a_large_rabbit():
+    mask = np.zeros((288, 512), np.uint8)
+    mask[40:260, 80:420] = 1  # √área ≈ 270 px: el anillo llega a más de 600 px
+    start = __import__('time').perf_counter()
+    points, kinds, unit = pointtrack.sample_queries(mask)
+    assert __import__('time').perf_counter() - start < 1. and (kinds == 0).sum() > 10

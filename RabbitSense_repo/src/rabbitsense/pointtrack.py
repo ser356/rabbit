@@ -18,6 +18,7 @@ usaron en enfoques anteriores: no es un test con vídeos nuevos.
 import argparse
 import json
 import platform
+import time
 from pathlib import Path
 
 import cv2
@@ -102,12 +103,14 @@ def sample_queries(mask):
     """Puntos del conejo (interior erosionado), de fondo (rejilla fuera de la máscara dilatada) y del anillo cercano."""
     mask = (mask > 0).astype(np.uint8)
     unit = np.sqrt(mask.sum())
-    kernel = lambda r: cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * max(1, int(r)) + 1,) * 2)
-    inner = cv2.erode(mask, kernel(ERODE * unit))
+    # Distancias euclídeas en lugar de dilatar con núcleos de cientos de píxeles (mismas regiones, mucho más rápido).
+    inside = cv2.distanceTransform(mask, cv2.DIST_L2, 5)
+    outside = cv2.distanceTransform(1 - mask, cv2.DIST_L2, 5)
+    inner = (inside > ERODE * unit).astype(np.uint8)
     if inner.sum() < MIN_RABBIT:
         inner = mask
-    outer = cv2.dilate(mask, kernel(DILATE * unit))
-    ring = cv2.dilate(mask, kernel(RING * unit)) & (1 - outer)
+    outer = (outside <= DILATE * unit).astype(np.uint8)
+    ring = ((outside > DILATE * unit) & (outside <= RING * unit)).astype(np.uint8)
     h, w = mask.shape
     gx, gy = np.meshgrid(np.linspace(.5, w - .5, BACKGROUND_GRID[0]), np.linspace(.5, h - .5, BACKGROUND_GRID[1]))
     background = np.c_[gx.ravel(), gy.ravel()]
@@ -148,6 +151,7 @@ def track_case(video, masks, folder, tracker, clips=None):
     if not plan:
         return 0
     frames = read_frames(video, sorted({f for v in plan.values() for f in v}))
+    done = 0
     for k, indices in plan.items():
         indices = [f for f in indices if f in frames]
         centre = int(np.argmin([abs(f / fps - (starts[k] + CHUNK / 2)) for f in indices]))
@@ -163,11 +167,14 @@ def track_case(video, masks, folder, tracker, clips=None):
             continue
         points, kinds, unit = sample_queries(mask)
         queries = np.c_[np.full(len(points), query), points]
+        started = time.perf_counter()
         tracks, visible = tracker(np.stack([frames[f] for f in indices]), queries)
+        elapsed = time.perf_counter() - started
         np.savez(folder / f'chunk_{k:04d}.npz', start=starts[k], frames=np.array(indices), query=query, fps=fps,
                  tracks=tracks, visible=visible, kinds=kinds, unit=unit)
-        print(f'  tramo {k} ({starts[k]:.0f}–{starts[k] + CHUNK:.0f} s): {int((kinds == 0).sum())} puntos conejo, '
-              f'{int((kinds > 0).sum())} fondo', flush=True)
+        done += 1
+        print(f'  [{done}/{len(plan)}] tramo {k} ({starts[k]:.0f}–{starts[k] + CHUNK:.0f} s): {int((kinds == 0).sum())} puntos conejo, '
+              f'{int((kinds > 0).sum())} fondo, {len(indices)} fotogramas en {elapsed:.1f} s', flush=True)
     return len(plan)
 
 
@@ -284,6 +291,7 @@ def clip_table(result, motion_dir):
 def run(manifest, out=OUT, tracks=TRACKS, tracker=None, everything=False):
     manifest = Path(manifest).resolve()
     tracks = Path(tracks)
+    checked = []
 
     def analyse(paths):
         folder = tracks / paths['video'].stem
@@ -293,7 +301,10 @@ def run(manifest, out=OUT, tracks=TRACKS, tracker=None, everything=False):
                                                           labels.duration_seconds))
         if tracker is not None:
             print(paths['video'].name, flush=True)
-            track_case(paths['video'], paths['masks'], folder, tracker(), clips)
+            model = tracker()
+            if not checked:
+                checked.append(smoke(model))  # sin comprobación superada no se sigue ningún vídeo
+            track_case(paths['video'], paths['masks'], folder, model, clips)
         return analyze(paths['video'], folder)
 
     info = dict(model=MODEL, chunk_seconds=CHUNK, stride_seconds=STRIDE, half_window_seconds=HALF, target_fps=TARGET_FPS,
@@ -370,26 +381,39 @@ def render(manifest, out=OUT, tracks=TRACKS, videos=None, width=640):
         print('diagnóstico', folder / f"{case['name']}.mp4", flush=True)
 
 
+SMOKE_SIZE, SMOKE_TOLERANCE = 64, .1  # error máximo admitido: 0,1 tamaños (el umbral de reposo es 0,25)
+
+
+def texture(rng, shape, sigma=3.):
+    """Textura suave tipo imagen natural; el ruido blanco puro se pierde al reescalar dentro del modelo."""
+    noise = cv2.GaussianBlur(rng.normal(0, 1, shape).astype(np.float32), (0, 0), sigma)
+    return np.clip(128 + 60 * noise / noise.std(), 0, 255).astype(np.uint8)
+
+
 def smoke(tracker):
-    """Comprueba el modelo real: un cuadrado texturizado se desplaza 3 px por fotograma sobre fondo con textura."""
+    """Modelo real sobre una escena sintética: un parche de 64 px se desplaza 3 px por fotograma sobre fondo fijo.
+
+    El error se expresa en tamaños del parche, la misma unidad que la regla (√área)."""
     rng = np.random.default_rng(0)
-    background = rng.integers(0, 255, (288, 512, 3), np.uint8)
-    patch = rng.integers(0, 255, (48, 48, 3), np.uint8)
+    background, patch = texture(rng, (288, 512, 3)), texture(rng, (SMOKE_SIZE, SMOKE_SIZE, 3), 2.)
     frames = []
     for f in range(30):
         image = background.copy()
-        image[120:168, 100 + 3 * f:148 + 3 * f] = patch
+        image[112:112 + SMOKE_SIZE, 100 + 3 * f:100 + SMOKE_SIZE + 3 * f] = patch
         frames.append(image)
-    queries = np.array([[15, 124 + 45, 144.], [15, 50., 50.], [15, 400., 250.]])
+    centre = 100 + 3 * 15 + SMOKE_SIZE / 2
+    queries = np.array([[15, centre, 144.], [15, 40., 40.], [15, 460., 250.], [15, 300., 60.]])
     tracks, visible = tracker(np.stack(frames), queries)
-    expected = np.array([[124 + 3 * f, 144.] for f in range(30)])
-    error = float(np.abs(tracks[:, 0] - expected).max())
-    still = float(np.abs(tracks[:, 1:] - queries[None, 1:, 1:]).max())
-    print(f'CoTracker: error máximo en el cuadrado {error:.1f} px, deriva del fondo {still:.1f} px, '
-          f'visibles {visible.mean():.2f}')
-    if error > 6 or still > 6:
-        raise SystemExit('El modelo no sigue bien los puntos sintéticos: no ejecutes run.')
-    return error, still
+    expected = np.c_[centre + 3 * (np.arange(30) - 15), np.full(30, 144.)]
+    errors = np.linalg.norm(tracks[:, 0] - expected, axis=1)
+    still = float(np.linalg.norm(tracks[:, 1:] - queries[None, 1:, 1:], axis=2).max())
+    worst = float(max(errors.max(), still) / SMOKE_SIZE)
+    print(f'CoTracker: error del parche máx. {errors.max():.1f} px / mediana {np.median(errors):.1f} px '
+          f'(fotogramas 0, 15, 29: {errors[0]:.1f}, {errors[15]:.1f}, {errors[29]:.1f}); deriva del fondo {still:.1f} px; '
+          f'peor error {worst:.3f} tamaños (máximo {SMOKE_TOLERANCE}); visibles {visible.mean():.2f}', flush=True)
+    if worst > SMOKE_TOLERANCE:
+        raise SystemExit('El modelo no sigue bien la escena sintética: no se ejecuta run.')
+    return float(errors.max()), still
 
 
 def main():

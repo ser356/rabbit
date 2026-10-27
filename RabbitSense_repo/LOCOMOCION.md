@@ -19,7 +19,10 @@
 7. **Evaluación.** Mismos `CRITERIA` y métrica por clip que el cierre. Se informa además, sin umbral, del diámetro máximo por clip: AUC global e intra-vídeo.
    - Estado `resolved_fixed_rule_on_seen_videos` o `not_resolved`.
    - Aunque no hay entrenamiento ni selección, los vídeos ya se usaron en enfoques anteriores: no es un test con vídeos nuevos.
-8. **Comprobación previa (`smoke`).** El modelo real debe seguir un cuadrado texturizado sintético con un error ≤ 6 px; si no, no se ejecuta.
+8. **Comprobación previa (`smoke`).** `run` la ejecuta antes del primer vídeo y no sigue ninguno si falla.
+   - **Escena actual:** un parche de 64 px que se desplaza 3 px por fotograma sobre un fondo fijo con textura suave. Error máximo admitido: 0,1 tamaños (6,4 px), por debajo del umbral de reposo de 0,25.
+   - **Cambio de la comprobación (2026-10-27).** La primera versión usaba ruido blanco puro y un umbral de 6 px; el modelo real dio 9,1 px y la comprobación falló. Ese ruido no se parece a una imagen natural y se degrada al reescalarlo dentro del modelo. Por eso se cambió la escena y el error pasó a medirse en la unidad de la regla. No cambia ni la regla ni sus umbrales.
+   - **Primeros tramos, descartados.** Se siguieron antes de corregir un problema de rendimiento al elegir los puntos (dilataciones con núcleos enormes, sustituidas por transformadas de distancia). Se vuelven a calcular todos con la versión final.
 
 **Tests.** Usan un rastreador sintético con trayectorias exactas: cámara que sigue al conejo (locomoción), cámara que barre con el conejo quieto y acicalándose (reposo) y vídeo sin máscara (desconocido). Al desactivar la compensación de cámara, fallan.
 
