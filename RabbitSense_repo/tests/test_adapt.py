@@ -141,7 +141,9 @@ def test_finetune_and_diagnose_with_tiny_random_xclip(tmp_path):
         adapt.cache_case(case, tmp_path / 'cache')
     model = tiny_model(tmp_path)
     encoder = adapt.Encoder('cpu', model)
-    adapt.embed(manifest, tmp_path / 'cache', tmp_path / 'f', encoder)
+    (tmp_path / 'ref').mkdir()
+    np.savez(tmp_path / 'ref' / 'a.npz', seconds=np.array([1.5, 2.]), features=np.ones((2, 32)))
+    adapt.embed(manifest, tmp_path / 'cache', tmp_path / 'f', encoder, reference=tmp_path / 'ref')
     data = np.load(tmp_path / 'f' / 'a.npz')
     assert data['full'].shape == data['crop'].shape == (len(data['seconds']), 32) and data['crop_valid'].min() == 1.
     settings = dict(adapt.FINETUNE, epochs=1, batch=4)

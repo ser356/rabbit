@@ -37,7 +37,7 @@ CACHE_SIDE, JPEG_QUALITY, MIN_MASK = 448, 90, .001
 CROP_PAD, CROP_MIN = .5, 48  # el recorte añade medio tamaño de caja por lado: conejo y suelo alrededor
 L2_GRID = (1., 10., 100.)  # elegido dentro de cada pliegue con validación interna agrupada
 CINNA_WEIGHT = 1.  # con YouTube: el peso total de Cinna iguala al de YouTube
-CLIP_MEAN, CLIP_STD = np.array([.48145466, .4578275, .40821073]), np.array([.26862954, .26130258, .27577711])
+IMAGENET_MEAN, IMAGENET_STD = [.485, .456, .406], [.229, .224, .225]  # si el modelo no trae procesador
 # Fijado antes de ejecutar; no se ajusta mirando resultados de los pliegues.
 FINETUNE = dict(epochs=4, batch=8, lr_encoder=2e-5, lr_head=1e-3, weight_decay=.05, seed=0,
                 trainable='vision_model.encoder.layers[-1], vision_model.post_layernorm, visual_projection, mit')
@@ -291,7 +291,10 @@ def grid(cache):
 # --- codificador ----------------------------------------------------------------------------------------------
 
 class Encoder:
-    """X-CLIP con normalización explícita (la del procesador) para poder entrenar parte de él."""
+    """X-CLIP con la normalización de su procesador aplicada a mano, para poder entrenar parte de él.
+
+    Las ventanas ya son de 224×224, así que el redimensionado y el recorte central del procesador no cambian nada.
+    """
 
     def __init__(self, device='cpu', model_id=MODEL_ID, trainable=False):
         import torch
@@ -306,10 +309,16 @@ class Encoder:
                 for p in module.parameters():
                     p.requires_grad_(True)
         self.model.train(trainable)
-        self.mean = torch.tensor(CLIP_MEAN, dtype=torch.float32, device=device).view(1, 1, 3, 1, 1)
-        self.std = torch.tensor(CLIP_STD, dtype=torch.float32, device=device).view(1, 1, 3, 1, 1)
+        try:
+            processor = transformers.XCLIPProcessor.from_pretrained(model_id).image_processor
+            mean, std = list(processor.image_mean), list(processor.image_std)
+        except (OSError, ValueError, TypeError):
+            mean, std = IMAGENET_MEAN, IMAGENET_STD
+        self.mean = torch.tensor(mean, dtype=torch.float32, device=device).view(1, 1, 3, 1, 1)
+        self.std = torch.tensor(std, dtype=torch.float32, device=device).view(1, 1, 3, 1, 1)
         self.info = dict(model_id=model_id, revision=getattr(self.model.config, '_commit_hash', None),
-                         torch=torch.__version__, transformers=transformers.__version__, device=device)
+                         torch=torch.__version__, transformers=transformers.__version__, device=device,
+                         image_mean=mean, image_std=std)
 
     def parameters(self):
         return [p for p in self.model.parameters() if p.requires_grad]
@@ -321,7 +330,8 @@ class Encoder:
         return output if isinstance(output, self.torch.Tensor) else output.pooler_output
 
 
-def embed(manifest, cache_dir, out, encoder, batch=16):
+def embed(manifest, cache_dir, out, encoder, batch=16, reference=None):
+    """`reference`: características de webclips para comprobar que la vista completa coincide (coseno)."""
     out = Path(out)
     out.mkdir(parents=True, exist_ok=True)
     for case in load_cases(manifest):
@@ -336,7 +346,17 @@ def embed(manifest, cache_dir, out, encoder, batch=16):
             valid += [w[2] for w in windows]
         np.savez(out / f"{case['name']}.npz", seconds=ends, full=np.concatenate(full), crop=np.concatenate(crop),
                  crop_valid=np.array(valid))
-        print('CARACTERÍSTICAS', case['name'], len(ends), f'recorte válido {np.mean(valid):.2f}', flush=True)
+        check = ''
+        if reference and (Path(reference) / f"{case['video'].stem}.npz").is_file():
+            old = np.load(Path(reference) / f"{case['video'].stem}.npz")
+            index = {round(float(s), 3): i for i, s in enumerate(old['seconds'])}
+            pairs = [(i, index[round(float(s), 3)]) for i, s in enumerate(ends) if round(float(s), 3) in index]
+            if pairs:
+                a = np.concatenate(full)[[i for i, _ in pairs]]
+                b = old['features'][[j for _, j in pairs]]
+                cosine = (a * b).sum(1) / np.linalg.norm(a, axis=1) / np.linalg.norm(b, axis=1)
+                check = f'  coseno con webclips {np.median(cosine):.3f}'
+        print('CARACTERÍSTICAS', case['name'], len(ends), f'recorte válido {np.mean(valid):.2f}{check}', flush=True)
     (out / 'embedder.json').write_text(json.dumps(encoder.info, indent=2))
 
 
@@ -777,6 +797,7 @@ def main():
         sub.choices[name].add_argument('--device', choices=['cpu', 'mps'], default='mps')
         sub.choices[name].add_argument('--model-id', default=MODEL_ID)
     sub.choices['embed'].add_argument('--features', default=str(REPO / 'runs' / 'adapt' / 'features'))
+    sub.choices['embed'].add_argument('--reference', help='Características de webclips para comprobar la vista completa')
     sub.choices['probe'].add_argument('--features', default=str(REPO / 'runs' / 'adapt' / 'features'))
     sub.choices['probe'].add_argument('--youtube-labels')
     sub.choices['probe'].add_argument('--youtube-features')
@@ -791,7 +812,7 @@ def main():
         for case in load_cases(args.manifest):
             print('CACHÉ', case['name'], cache_case(case, args.cache), flush=True)
     elif args.command == 'embed':
-        embed(args.manifest, args.cache, args.features, Encoder(args.device, args.model_id))
+        embed(args.manifest, args.cache, args.features, Encoder(args.device, args.model_id), reference=args.reference)
     elif args.command == 'probe':
         probe(args.manifest, args.cache, args.features, args.out, args.youtube_labels, args.youtube_features, args.frozen)
     elif args.command == 'finetune':
