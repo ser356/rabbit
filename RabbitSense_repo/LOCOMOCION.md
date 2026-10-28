@@ -1,5 +1,33 @@
 # Locomoción: diagnóstico, corrección temporal y cierre
 
+## Actos de Cinna: etograma y modelo propio (fijado el 2026-10-28, antes de etiquetar)
+
+**Objetivo:** detectar qué hace Cinna, más allá de si se desplaza, para construir más adelante un diario de comportamiento comparado con su propia normalidad, cuando haya cámara fija. **No se estimará estado de ánimo ni salud:** como mucho habrá avisos de cambios para revisión humana.
+
+**Etograma** ([acts.py](src/rabbitsense/acts.py)). Un acto a la vez; si coinciden varios, manda el primero de la lista:
+
+1. Binky
+2. De pie
+3. Desplazarse (misma definición física que en el reetiquetado ciego)
+4. Comer
+5. Acicalarse
+6. Explorar u olfatear
+7. Tumbada o flop
+8. Agazapada
+9. No visible u otro
+
+**Etiquetado continuo, no por clips.** Mientras se reproduce el vídeo, una tecla marca el acto que empieza en ese instante. Así se evitan los clips de 4 s que mezclan actos (en el reetiquetado de locomoción, la kappa entre revisiones fue 0,60).
+
+**Criterio para evaluar un acto.** Un acto solo se evalúa si tiene al menos 20 ventanas disjuntas de 2 s, 3 sesiones distintas y 5 episodios. Los que no lleguen se documentan como «datos insuficientes».
+
+**Modelo previsto (local, sin modelos de lenguaje):**
+- **Características**, todas congeladas:
+  - codificador de vídeo autosupervisado (V-JEPA 2 o VideoMAE) sobre el recorte de Cinna;
+  - cinemática de CoTracker: desplazamiento respecto al suelo y movimiento de unos puntos de Cinna respecto a otros;
+  - forma de la máscara de SAM2.
+- **Modelo:** una cabeza pequeña entrenada con sus actos y validación cruzada dejando fuera una sesión entera.
+- **Con cámara fija:** el modelo propone etiquetas y la persona corrige las dudosas antes de reentrenar.
+
 ## Desplazamiento respecto al suelo con CoTracker3 (pre-registrado el 2026-10-27, antes de ejecutar)
 
 **Por qué.** Los modelos aprendidos distinguen escenas, no desplazamiento: la AUC intra-vídeo queda cerca del azar. Se mide directamente lo que define la locomoción, sin entrenar nada y con una regla física fija, de modo que no hay selección sobre los 57 clips. El modelo es CoTracker3 offline de Meta (`facebookresearch/co-tracker`, `cotracker3_offline`, vía `torch.hub`).
