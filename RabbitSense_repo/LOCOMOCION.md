@@ -99,6 +99,23 @@ En el Mac, con `CAP_PROP_POS_MSEC` fotograma a fotograma, se midió el desfase e
   - Es una corrección de la medida: no cambian la regla, sus umbrales ni sus parámetros.
 - **Evaluación pre-registrada antes de ver resultados corregidos.** La regla congelada se ejecuta con tiempo real contra las etiquetas anteriores y contra las ciegas. Se publican ambas, en `cierre/pointtrack_tiempo_real` y `cierre/pointtrack_ciego_tiempo_real`. Solo se declarará resuelto si pasa con los dos conjuntos de etiquetas, para no elegir el que más convenga. Las ejecuciones con fotograma ÷ fps se conservan.
 
+### Resultado con tiempo real (2026-10-28)
+
+El código ejecutado coincide por hash con [pointtrack.py](src/rabbitsense/pointtrack.py) (`86672266…`). Solo IMG_5190 tiene un desfase relevante (4,26 s); los vídeos de WhatsApp tienen como máximo 0,04 s y el resto, 0.
+
+| Regla congelada, tiempo real | Locomoción | Reposo | Reposos con alarma | Cobertura | AUC clip | Intra-vídeo |
+|---|---:|---:|---:|---:|---:|---|
+| [Etiquetas anteriores](cierre/pointtrack_tiempo_real/verdict.json) | 17/25 | 16/32 | 11 | 0,53 | 0,81 | IMG_5190 0,68 · IMG_5191 0,67 · WA 34 1,00 |
+| [Etiquetas ciegas](cierre/pointtrack_ciego_tiempo_real/verdict.json) | 17/22 | 18/35 | 11 | 0,53 | **0,91** | IMG_5190 **1,00** · IMG_5191 0,67 · WA 38 0,50 |
+
+- **Estado `not_resolved` con los dos conjuntos de etiquetas,** tal como se pre-registró.
+- **Con la definición física y el tiempo corregido, la medida ordena bien los clips.** La AUC por clip es 0,91, y en IMG_5190 todos los clips de locomoción quedan por encima de todos los de reposo. CoTracker mide lo que la definición describe.
+- **La regla binaria falla sobre todo en el reposo.** Varios reposos alcanzan 0,6–1,5 tamaños en ±1 s, sobre todo en WhatsApp y en IMG_5190 16–40 s. Quedan en la banda de abstención o con algún intervalo de alarma. Las causas posibles son recolocaciones breves o cambios de postura que desplazan la mediana de los puntos.
+- **Además, IMG_5191 12–20 s sigue sin medida,** porque SAM2 no tiene máscara de Cinna en esos tramos.
+- **Análisis exploratorio, no es veredicto.** Si se elige un único umbral por clip con validación cruzada por sesión, dejando cada sesión fuera para fijarlo, y sin abstención, se obtiene 0,77 de sensibilidad (17/22) y 0,71 de especificidad (25/35) con las etiquetas ciegas. Con las anteriores, 0,68 y 0,62. **Ni siquiera ajustando el umbral se alcanza 0,8 con estos clips.**
+
+**Conclusión.** CoTracker3 con tiempo real es la mejor medida de desplazamiento del proyecto y concuerda con la definición física (AUC 0,91). La clasificación binaria por clips de 4 s no alcanza los criterios ni con umbral ajustado. Los límites están en las propias etiquetas por clip (kappa 0,60 entre revisiones) y en los cambios de postura dentro del reposo, no en el seguimiento.
+
 ## Línea experimental nueva: adaptación del modelo temporal a Cinna (pre-registrada el 2026-10-27)
 
 Esta línea no modifica los veredictos `not_resolved` anteriores ni sus modelos congelados. Es una evaluación exploratoria con validación cruzada agrupada, no un test independiente.
@@ -190,6 +207,7 @@ La batería posterior de contraste temporal, MIL y fusión física, con 112 conf
 | **Vídeos nuevos de WhatsApp** | **Suelo + silueta SAM2** | **Veredicto, test independiente** | **No pasa: 4/8 locomoción, 6/10 reposo, 1 episodio falso** |
 | 17 vídeos (validación cruzada) | Marcha, DeepLabCut SuperAnimal | Desarrollo | Señal ≈ azar (AUC 0,60); reposo 3/32 |
 | Los 17 vídeos de Cinna | Desplazamiento respecto al suelo con CoTracker3, regla física fija | Sin entrenamiento; vídeos ya vistos | **No pasa: 16/25 locomoción, 17/32 reposo, 10 reposos con alarma; AUC clip 0,80** |
+| Los 17 vídeos de Cinna, tiempo real | CoTracker3, regla fija; etiquetas anteriores / ciegas | Sin entrenamiento; vídeos ya vistos | **No pasa: 17/25 y 16/32 / 17/22 y 18/35; AUC clip 0,81 / 0,91** |
 | **Los 17 vídeos de Cinna** | **Clasificador entrenado con YouTube** | **Veredicto, test independiente** | **No pasa: 14/25 locomoción, 22/32 reposo, 10 episodios falsos** |
 | **Los 17 vídeos de Cinna** | **Clasificador YouTube v2 (2,6× más datos)** | **Veredicto, segunda mirada al test** | **No pasa: 11/25 locomoción, 24/32 reposo, 8 episodios falsos** |
 
