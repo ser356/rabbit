@@ -109,6 +109,37 @@ La locomoción binaria por clips queda `not_resolved`. RabbitSense entrega en su
 
 Ver el README para el uso.
 
+#### Actividad continua en los 17 vídeos (Mac M4, 2026-10-28)
+
+Los resultados están en [runs/actividad](runs/actividad/) y se generaron con el `activity.py` de la rama (`2b054c98…`). La tasa es el desplazamiento por minuto medido, en tamaños corporales.
+
+| Vídeo | Duración | Medido | Total (mínimo) | Tasa /min | En clips de locomoción | En clips de reposo |
+|---|---:|---:|---:|---:|---:|---:|
+| 5177 | 41,7 s | 97 % | 22,2 (19,7) | 32,8 | 103,5 | — |
+| IMG_5190 | 66,1 s | 95 % | 17,3 (14,4) | 16,5 | 22,7 | 8,1 |
+| IMG_5191 | 23,9 s | 44 % | 1,5 (0,9) | 8,3 | 17,4 | 7,8 |
+| IMG_5192 | 22,0 s | 100 % | 14,1 (12,6) | 38,6 | 52,2 | — |
+| IMG_5193 | 9,1 s | 88 % | 9,5 (9,1) | 71,3 | — | — |
+| WhatsApp 18.44.34 | 10,8 s | 70 % | 1,5 (1,4) | 12,1 | — | 13,5 |
+| WhatsApp 18.44.35 | 6,5 s | 61 % | 0,6 (0,5) | 9,4 | — | 13,3 |
+| WhatsApp 18.44.36 | 8,0 s | 69 % | 1,7 (1,5) | 18,5 | — | 18,5 |
+| WhatsApp 18.44.37 | 6,2 s | 49 % | 0,3 (0,2) | 5,8 | 11,2 | — |
+| WhatsApp 18.44.38 | 11,0 s | 73 % | 4,3 (3,9) | 32,3 | 36,3 | 30,0 |
+| WhatsApp 18.44.38 (1) | 8,8 s | 100 % | 2,9 (2,7) | 20,2 | — | 21,2 |
+| WhatsApp 18.44.40 | 18,3 s | 100 % | 0,6 (0,4) | 1,8 | — | 2,1 |
+| WhatsApp 18.44.41 | 11,9 s | 100 % | 6,9 (6,2) | 34,8 | 34,8 | — |
+| locomotion (AE22) | 13,8 s | 100 % | 2,4 (2,0) | 10,7 | — | 5,2 |
+| resting (6BE6) | 17,6 s | 94 % | 2,9 (1,5) | 10,5 | — | 11,3 |
+| resting_4944 | 10,5 s | 90 % | 0,1 (0,0) | 0,6 | — | 0,6 |
+| resting_972F | 11,6 s | 100 % | 0,2 (0,0) | 1,1 | — | 1,1 |
+
+Las dos últimas columnas usan las etiquetas ciegas.
+
+- **Diferencia entre clases.** La tasa agrupada es de 40,0/min en los clips de locomoción (mínimo 36,4) y de 8,8/min en los de reposo (mínimo 6,7). Como puntuación por clip, la tasa da AUC 0,83, frente a 0,91 del diámetro en ±1 s.
+- **Suelo de ruido.** Con la cámara casi fija y Cinna quieta (972F, 4944), la tasa es de 0,6–1,1/min. En los reposos grabados con la cámara en mano sube a 8–30/min.
+- **Por qué sube.** Al sumar pasos de 0,5 s, el temblor del seguimiento y los pequeños cambios de postura se acumulan.
+- **Consecuencia.** La tasa compara bien tramos de un mismo vídeo. Entre vídeos grabados con cámaras distintas, no es comparable sin tener en cuenta ese suelo.
+
 ### Resultado con tiempo real (2026-10-28)
 
 El código ejecutado coincide por hash con [pointtrack.py](src/rabbitsense/pointtrack.py) (`86672266…`). Solo IMG_5190 tiene un desfase relevante (4,26 s); los vídeos de WhatsApp tienen como máximo 0,04 s y el resto, 0.
