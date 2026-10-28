@@ -140,6 +140,17 @@ Las dos últimas columnas usan las etiquetas ciegas.
 - **Por qué sube.** Al sumar pasos de 0,5 s, el temblor del seguimiento y los pequeños cambios de postura se acumulan.
 - **Consecuencia.** La tasa compara bien tramos de un mismo vídeo. Entre vídeos grabados con cámaras distintas, no es comparable sin tener en cuenta ese suelo.
 
+#### Bloques netos de 2 s (pre-registrado el 2026-10-28, antes de calcularlos con los vídeos)
+
+Sumar pasos de 0,5 s acumula el temblor del seguimiento. [activity.py](src/rabbitsense/activity.py) calcula además el desplazamiento neto por bloques de 2 s (`actividad_2s.csv` y `net_2s` en el resumen). La comparación usa las etiquetas ciegas (`benchmarks/pose_ciego.json`) y la tasa de cada clip.
+
+**Criterio fijado antes de ver resultados (`ADOPT`).** Los bloques de 2 s pasan a ser la medida principal si se cumplen las dos condiciones:
+
+1. La mediana de la tasa en los clips de reposo grabados con la cámara en mano (IMG_519x y WhatsApp) baja al menos un 30 %.
+2. La AUC por clip baja como mucho 0,02 respecto a los pasos de 0,5 s.
+
+Si no se cumplen, se mantiene 0,5 s. En ambos casos se publican las dos medidas.
+
 ### Resultado con tiempo real (2026-10-28)
 
 El código ejecutado coincide por hash con [pointtrack.py](src/rabbitsense/pointtrack.py) (`86672266…`). Solo IMG_5190 tiene un desfase relevante (4,26 s); los vídeos de WhatsApp tienen como máximo 0,04 s y el resto, 0.
