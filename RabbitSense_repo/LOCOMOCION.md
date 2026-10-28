@@ -28,6 +28,29 @@
 - **Modelo:** una cabeza pequeña entrenada con sus actos y validación cruzada dejando fuera una sesión entera.
 - **Con cámara fija:** el modelo propone etiquetas y la persona corrige las dudosas antes de reentrenar.
 
+### Etiquetado de actos por Claude (2026-10-28)
+
+Claude ha etiquetado 602 fotogramas (uno cada 0,5 s en tiempo real, recortados alrededor de Cinna) mirando las hojas de [acts.py](src/rabbitsense/acts.py) `sheets`.
+
+- **Ficheros.** Por fotograma: [actos_fotogramas_claude.csv](../RabbitSense_ARCHIVO/actos_fotogramas_claude.csv). En segmentos: [actos_cinna_claude.csv](../RabbitSense_ARCHIVO/actos_cinna_claude.csv). Índice: [fotogramas_indice.csv](cierre/actos/fotogramas_indice.csv).
+- **Anotador único.** Son etiquetas de un solo anotador; masticar y lamerse se infieren de la postura en fotogramas sueltos. Se verifican con 30 fragmentos de 2 s que la persona etiqueta a ciegas (`verify-page` y `agreement`).
+
+[Recuento](cierre/actos/censo_claude.json):
+
+| Acto | Segundos | Episodios | Vídeos | Sesiones | Ventanas de 2 s | ¿Evaluable? |
+|---|---:|---:|---:|---:|---:|---|
+| Agazapada | 65,5 | 15 | 9 | 4 | 28 | **sí** |
+| Explorar u olfatear | 62,5 | 19 | 8 | 4 | 25 | **sí** |
+| Desplazarse | 54,0 | 25 | 8 | 3 | 18 | no (18 < 20) |
+| Comer | 33,0 | 5 | 2 | 2 | 15 | no |
+| Tumbada o flop | 28,5 | 3 | 2 | 2 | 13 | no |
+| Acicalarse | 11,5 | 4 | 3 | 2 | 5 | no |
+| De pie | 2,5 | 1 | 1 | 1 | 1 | no |
+| Binky | 0 | 0 | 0 | 0 | 0 | no |
+| No visible u otro | 43,5 | 15 | 10 | 5 | 17 | — |
+
+Con estos 17 vídeos, solo agazapada y explorar cumplen el mínimo fijado antes de etiquetar (20 ventanas, 3 sesiones, 5 episodios). Desplazarse se queda a dos ventanas del mínimo. Comer, tumbada, acicalarse, de pie y binky necesitan más grabación; la cámara fija es la vía prevista.
+
 ## Desplazamiento respecto al suelo con CoTracker3 (pre-registrado el 2026-10-27, antes de ejecutar)
 
 **Por qué.** Los modelos aprendidos distinguen escenas, no desplazamiento: la AUC intra-vídeo queda cerca del azar. Se mide directamente lo que define la locomoción, sin entrenar nada y con una regla física fija, de modo que no hay selección sobre los 57 clips. El modelo es CoTracker3 offline de Meta (`facebookresearch/co-tracker`, `cotracker3_offline`, vía `torch.hub`).

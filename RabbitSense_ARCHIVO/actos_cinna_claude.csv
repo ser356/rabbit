@@ -1,0 +1,88 @@
+video,start_seconds,end_seconds,act,finished
+5177,0.0,0.5,locomotion,1
+5177,0.5,22.0,eating,1
+5177,22.0,24.0,not_visible,1
+5177,24.0,26.0,eating,1
+5177,26.0,28.0,locomotion,1
+5177,28.0,31.5,eating,1
+5177,31.5,32.0,not_visible,1
+5177,32.0,35.5,locomotion,1
+5177,35.5,39.0,exploring,1
+5177,39.0,42.0,locomotion,1
+IMG_5190,0.0,1.5,locomotion,1
+IMG_5190,1.5,8.0,exploring,1
+IMG_5190,8.0,10.0,locomotion,1
+IMG_5190,10.0,12.0,exploring,1
+IMG_5190,12.0,13.0,locomotion,1
+IMG_5190,13.0,20.0,exploring,1
+IMG_5190,20.0,22.0,loaf,1
+IMG_5190,22.0,24.5,rearing,1
+IMG_5190,24.5,25.5,locomotion,1
+IMG_5190,25.5,33.0,loaf,1
+IMG_5190,33.0,37.0,not_visible,1
+IMG_5190,37.0,41.0,loaf,1
+IMG_5190,41.0,42.5,locomotion,1
+IMG_5190,42.5,44.0,exploring,1
+IMG_5190,44.0,47.0,locomotion,1
+IMG_5190,47.0,49.0,exploring,1
+IMG_5190,49.0,56.0,loaf,1
+IMG_5190,56.0,58.0,locomotion,1
+IMG_5190,58.0,59.0,exploring,1
+IMG_5190,59.0,61.5,locomotion,1
+IMG_5190,61.5,64.0,loaf,1
+IMG_5190,64.0,65.0,locomotion,1
+IMG_5190,65.0,66.5,exploring,1
+IMG_5191,0.0,13.5,not_visible,1
+IMG_5191,13.5,21.5,locomotion,1
+IMG_5191,21.5,24.0,not_visible,1
+IMG_5192,0.0,1.0,locomotion,1
+IMG_5192,1.0,5.0,exploring,1
+IMG_5192,5.0,10.0,locomotion,1
+IMG_5192,10.0,12.0,exploring,1
+IMG_5192,12.0,15.0,locomotion,1
+IMG_5192,15.0,20.0,loaf,1
+IMG_5192,20.0,22.0,locomotion,1
+IMG_5193,0.0,1.5,loaf,1
+IMG_5193,1.5,2.5,locomotion,1
+IMG_5193,2.5,5.5,exploring,1
+IMG_5193,5.5,8.5,locomotion,1
+IMG_5193,8.5,9.5,not_visible,1
+WhatsApp Video 2026-10-26 at 18.44.34,0.0,2.5,not_visible,1
+WhatsApp Video 2026-10-26 at 18.44.34,2.5,9.0,loaf,1
+WhatsApp Video 2026-10-26 at 18.44.34,9.0,11.0,not_visible,1
+WhatsApp Video 2026-10-26 at 18.44.35,0.0,6.5,not_visible,1
+WhatsApp Video 2026-10-26 at 18.44.36,0.0,4.0,eating,1
+WhatsApp Video 2026-10-26 at 18.44.36,4.0,4.5,not_visible,1
+WhatsApp Video 2026-10-26 at 18.44.36,4.5,6.5,eating,1
+WhatsApp Video 2026-10-26 at 18.44.36,6.5,8.0,not_visible,1
+WhatsApp Video 2026-10-26 at 18.44.37,0.0,2.0,exploring,1
+WhatsApp Video 2026-10-26 at 18.44.37,2.0,2.5,locomotion,1
+WhatsApp Video 2026-10-26 at 18.44.37,2.5,6.5,loaf,1
+WhatsApp Video 2026-10-26 at 18.44.38,0.0,1.0,exploring,1
+WhatsApp Video 2026-10-26 at 18.44.38,1.0,2.0,not_visible,1
+WhatsApp Video 2026-10-26 at 18.44.38,2.0,2.5,exploring,1
+WhatsApp Video 2026-10-26 at 18.44.38,2.5,4.5,grooming,1
+WhatsApp Video 2026-10-26 at 18.44.38,4.5,9.0,exploring,1
+WhatsApp Video 2026-10-26 at 18.44.38,9.0,11.0,locomotion,1
+WhatsApp Video 2026-10-26 at 18.44.38 (1),0.0,4.0,grooming,1
+WhatsApp Video 2026-10-26 at 18.44.38 (1),4.0,6.0,loaf,1
+WhatsApp Video 2026-10-26 at 18.44.38 (1),6.0,9.0,grooming,1
+WhatsApp Video 2026-10-26 at 18.44.40,0.0,18.5,lying,1
+WhatsApp Video 2026-10-26 at 18.44.41,0.0,1.5,exploring,1
+WhatsApp Video 2026-10-26 at 18.44.41,1.5,2.0,locomotion,1
+WhatsApp Video 2026-10-26 at 18.44.41,2.0,5.0,exploring,1
+WhatsApp Video 2026-10-26 at 18.44.41,5.0,7.0,locomotion,1
+WhatsApp Video 2026-10-26 at 18.44.41,7.0,9.0,exploring,1
+WhatsApp Video 2026-10-26 at 18.44.41,9.0,10.5,locomotion,1
+WhatsApp Video 2026-10-26 at 18.44.41,10.5,12.0,loaf,1
+locomotion,0.0,14.0,exploring,1
+resting,0.0,1.0,not_visible,1
+resting,1.0,11.5,loaf,1
+resting,11.5,16.0,not_visible,1
+resting,16.0,18.0,loaf,1
+resting_4944,0.0,5.0,lying,1
+resting_4944,5.0,5.5,not_visible,1
+resting_4944,5.5,10.5,lying,1
+resting_972F,0.0,6.5,loaf,1
+resting_972F,6.5,9.0,grooming,1
+resting_972F,9.0,12.0,loaf,1

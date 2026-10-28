@@ -1,0 +1,94 @@
+{
+  "acts": [
+    {
+      "act": "binky",
+      "seconds": 0.0,
+      "bouts": 0,
+      "videos": 0,
+      "sessions": 0,
+      "disjoint_windows": 0,
+      "evaluable": false
+    },
+    {
+      "act": "rearing",
+      "seconds": 2.5,
+      "bouts": 1,
+      "videos": 1,
+      "sessions": 1,
+      "disjoint_windows": 1,
+      "evaluable": false
+    },
+    {
+      "act": "locomotion",
+      "seconds": 54.0,
+      "bouts": 25,
+      "videos": 8,
+      "sessions": 3,
+      "disjoint_windows": 18,
+      "evaluable": false
+    },
+    {
+      "act": "eating",
+      "seconds": 33.0,
+      "bouts": 5,
+      "videos": 2,
+      "sessions": 2,
+      "disjoint_windows": 15,
+      "evaluable": false
+    },
+    {
+      "act": "grooming",
+      "seconds": 11.5,
+      "bouts": 4,
+      "videos": 3,
+      "sessions": 2,
+      "disjoint_windows": 5,
+      "evaluable": false
+    },
+    {
+      "act": "exploring",
+      "seconds": 62.5,
+      "bouts": 19,
+      "videos": 8,
+      "sessions": 4,
+      "disjoint_windows": 25,
+      "evaluable": true
+    },
+    {
+      "act": "lying",
+      "seconds": 28.5,
+      "bouts": 3,
+      "videos": 2,
+      "sessions": 2,
+      "disjoint_windows": 13,
+      "evaluable": false
+    },
+    {
+      "act": "loaf",
+      "seconds": 65.5,
+      "bouts": 15,
+      "videos": 9,
+      "sessions": 4,
+      "disjoint_windows": 28,
+      "evaluable": true
+    },
+    {
+      "act": "not_visible",
+      "seconds": 43.5,
+      "bouts": 15,
+      "videos": 10,
+      "sessions": 5,
+      "disjoint_windows": 17,
+      "evaluable": false
+    }
+  ],
+  "criteria": {
+    "min_disjoint_windows": 20,
+    "min_sessions": 3,
+    "min_bouts": 5
+  },
+  "labelled_seconds": 301.0,
+  "finished_videos": 17,
+  "labels_sha256": "c05b38d22d47789aecf78b3af3be63a3534f8f2e2335a002db50c4eb5c0ca852",
+  "note": "Una ventana de 2 s por cada 2 s completos de un mismo episodio; ventanas de un mismo vídeo no son independientes: la unidad de evaluación es la sesión."
+}

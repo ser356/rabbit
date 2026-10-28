@@ -262,6 +262,95 @@ def load(path):
     return table
 
 
+VERIFY = dict(fragments=30, seconds=2., seed=0)
+VERIFY_PAGE = """<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><title>Verificación de actos</title>
+<style>body{font-family:-apple-system,system-ui,sans-serif;margin:0;background:#111;color:#eee}
+header{padding:10px 16px;background:#1d1d1d;font-size:13px;line-height:1.45}main{text-align:center;padding:12px}
+video{max-width:96vw;max-height:66vh;background:#000}button{font-size:15px;margin:3px;padding:6px 10px}
+#status{color:#aaa;margin:6px}</style></head><body>
+<header><b>Verificación ciega.</b> Cada fragmento de 2 s se repite en bucle. Pulsa la tecla del acto que domina el
+fragmento (si coinciden varios, el primero de la lista). ← → para moverte. Las respuestas se guardan en el navegador.<br>
+__LEGEND__</header><main><div id="status"></div><video id="v" muted playsinline></video><div id="keys"></div>
+<button id="save">Descargar CSV</button></main><script>
+const items = __ITEMS__, acts = __ACTS__, key = 'rabbitsense_verificacion_actos';
+let answers = {}; try { answers = JSON.parse(localStorage.getItem(key) || '{}'); } catch (e) {}
+let i = Math.max(0, items.findIndex(x => !answers[x.code])); const v = document.getElementById('v');
+acts.forEach(a => { const b = document.createElement('button'); b.textContent = a.key + ' · ' + a.name;
+  b.onclick = () => answer(a.code); document.getElementById('keys').appendChild(b); });
+function show() { const x = items[i]; if (v.dataset.src !== x.src) { v.src = x.src; v.dataset.src = x.src; }
+  v.currentTime = x.start; v.play();
+  document.getElementById('status').textContent = `Fragmento ${i + 1} de ${items.length} · respondidos ` +
+    `${items.filter(y => answers[y.code]).length}` + (answers[x.code] ? ` · tu respuesta: ${answers[x.code]}` : ''); }
+v.onloadedmetadata = () => { v.currentTime = items[i].start; v.play(); };
+v.ontimeupdate = () => { if (v.currentTime >= items[i].end) v.currentTime = items[i].start; };
+function answer(code) { answers[items[i].code] = code; try { localStorage.setItem(key, JSON.stringify(answers)); } catch (e) {}
+  if (i < items.length - 1) i++; show(); }
+document.getElementById('save').onclick = () => {
+  const rows = ['code,act'].concat(items.filter(x => answers[x.code]).map(x => `${x.code},${answers[x.code]}`));
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([rows.join('\\n') + '\\n'], {type: 'text/csv'}));
+  a.download = 'verificacion_actos.csv'; a.click(); };
+document.addEventListener('keydown', e => { const a = acts.find(x => x.key === e.key); if (a) return answer(a.code);
+  if (e.key === 'ArrowLeft') { i = Math.max(0, i - 1); show(); } if (e.key === 'ArrowRight') { i = Math.min(items.length - 1, i + 1); show(); } });
+show();
+</script></body></html>
+"""
+
+
+def verify_page(manifest, labels, out, settings=VERIFY):
+    """Fragmentos de 2 s dentro de un único segmento, repartidos por acto (estratificado) y al azar; sin la etiqueta."""
+    table = load(labels)
+    table = table[(table.end_seconds - table.start_seconds) >= settings['seconds'] - 1e-6]
+    rng = np.random.default_rng(settings['seed'])
+    per_act = {act: group for act, group in table.groupby('act')}
+    quota = {act: 0 for act in per_act}
+    for k in range(settings['fragments']):  # reparto por turnos: actos raros también aparecen
+        act = sorted(per_act)[k % len(per_act)]
+        quota[act] += 1
+    chosen = []
+    for act, group in per_act.items():
+        weights = (group.end_seconds - group.start_seconds - settings['seconds']).clip(lower=.01).to_numpy()
+        for j in rng.choice(len(group), size=quota[act], p=weights / weights.sum()):
+            seg = group.iloc[j]
+            start = float(rng.uniform(seg.start_seconds, seg.end_seconds - settings['seconds']))
+            chosen.append(dict(video=seg.video, start=round(start, 2), end=round(start + settings['seconds'], 2), act=act))
+    chosen = [chosen[k] for k in rng.permutation(len(chosen))]
+    videos = {v['name']: v['video'] for v in videos_of(manifest)}
+    out = Path(out)
+    out.mkdir(parents=True, exist_ok=True)
+    for k, item in enumerate(chosen):
+        item['code'] = f'V{k:03d}'
+    shown = [dict(code=x['code'], src=videos[x['video']].as_uri(), start=x['start'], end=x['end']) for x in chosen]
+    legend = ' · '.join(f"<b>{a['key']}</b> {a['name']}: {a['definition']}" for a in ETHOGRAM)
+    html = (VERIFY_PAGE.replace('__ITEMS__', json.dumps(shown)).replace('__LEGEND__', legend)
+            .replace('__ACTS__', json.dumps([dict(key=a['key'], code=a['code'], name=a['name']) for a in ETHOGRAM])))
+    (out / 'verificacion.html').write_text(html, encoding='utf8')
+    pd.DataFrame(chosen)[['code', 'video', 'start', 'end', 'act']].to_csv(out / 'verificacion_mapa.csv', index=False)
+    print(f'{len(chosen)} fragmentos → {out / "verificacion.html"}')
+    return out / 'verificacion.html'
+
+
+def agreement(answers, mapping, out=None):
+    """Acuerdo entre las etiquetas de Claude (mapa) y las de la persona: global, kappa, por acto y matriz."""
+    merged = pd.read_csv(mapping).merge(pd.read_csv(answers).rename(columns={'act': 'human'}), on='code', validate='one_to_one')
+    per_act = {act: dict(n=int(len(g)), agree=float((g.act == g.human).mean())) for act, g in merged.groupby('act')}
+    report = dict(fragments=len(merged), agreement=float((merged.act == merged.human).mean()),
+                  kappa=blind_kappa(merged.act, merged.human), per_claude_act=per_act,
+                  confusion_claude_rows_human_columns=pd.crosstab(merged.act, merged.human).to_dict('index'),
+                  answers_sha256=sha256(answers))
+    if out:
+        Path(out).parent.mkdir(parents=True, exist_ok=True)
+        Path(out).write_text(json.dumps(report, indent=2, ensure_ascii=False))
+    print(pd.crosstab(merged.act, merged.human).to_string())
+    print(f"acuerdo {report['agreement']:.2f}, kappa {report['kappa']:.2f} sobre {len(merged)} fragmentos")
+    return report
+
+
+def blind_kappa(a, b):
+    from .blind import kappa
+    return kappa(list(a), list(b))
+
+
 def census(path, out=None):
     """Por acto: segundos, episodios, vídeos, sesiones y ventanas disjuntas de 2 s; evaluable o no (EVALUABLE)."""
     table = load(path)
@@ -302,6 +391,14 @@ def main():
     command.add_argument('--labels', required=True, help='CSV case,seconds,act (una fila por fotograma)')
     command.add_argument('--frames', required=True, help='fotogramas.csv de sheets')
     command.add_argument('--out', required=True)
+    command = sub.add_parser('verify-page')
+    command.add_argument('--manifest', required=True)
+    command.add_argument('--labels', required=True)
+    command.add_argument('--out', default=str(REPO / 'runs' / 'actos_verificacion'))
+    command = sub.add_parser('agreement')
+    command.add_argument('--answers', required=True)
+    command.add_argument('--mapping', default=str(REPO / 'runs' / 'actos_verificacion' / 'verificacion_mapa.csv'))
+    command.add_argument('--out', default=str(REPO / 'cierre' / 'actos' / 'acuerdo.json'))
     command = sub.add_parser('census')
     command.add_argument('--labels', required=True)
     command.add_argument('--out', default=str(REPO / 'cierre' / 'actos' / 'censo.json'))
@@ -310,6 +407,10 @@ def main():
         page(args.manifest, args.out)
     elif args.command == 'sheets':
         print('fotogramas:', sheets(args.manifest, args.out))
+    elif args.command == 'verify-page':
+        verify_page(args.manifest, args.labels, args.out)
+    elif args.command == 'agreement':
+        agreement(args.answers, args.mapping, args.out)
     elif args.command == 'segments':
         segments(args.labels, args.frames, args.out)
     else:
