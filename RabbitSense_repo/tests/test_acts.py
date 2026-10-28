@@ -154,3 +154,39 @@ def test_verification_page_is_blind_stratified_and_agreement_is_computed(tmp_pat
     answers.to_csv(tmp_path / 'r.csv', index=False)
     report = acts.agreement(tmp_path / 'r.csv', tmp_path / 'out' / 'verificacion_mapa.csv', tmp_path / 'a.json')
     assert report['fragments'] == 6 and report['agreement'] == pytest.approx(5 / 6) and report['kappa'] < 1
+
+
+def test_motion_sheets_light_up_chewing_but_not_a_still_body(tmp_path):
+    """Cuerpo quieto con 'boca' que oscila a 4 Hz (vídeo 1280 px, máscaras a resolución original)."""
+    fps, size = 30., (1280, 720)
+    video = tmp_path / 'chew.mp4'
+    writer = cv2.VideoWriter(str(video), cv2.VideoWriter_fourcc(*'mp4v'), fps, size)
+    (tmp_path / 'm' / 'masks').mkdir(parents=True)
+    rng = np.random.default_rng(0)
+    floor = rng.integers(60, 120, (720, 1280, 3)).astype(np.uint8)
+    for f in range(120):
+        image = floor.copy()
+        image[300:420, 500:700] = 200  # cuerpo
+        if f < 60:  # primera ventana: mastica
+            dy = int(6 * np.sin(2 * np.pi * 4 * f / fps))
+            image[400 + dy:420 + dy, 700:740] = 40  # boca
+        else:
+            image[400:420, 700:740] = 40
+        writer.write(image)
+        mask = np.zeros((720, 1280), np.uint8)
+        mask[300:430, 500:740] = 255
+        cv2.imwrite(str(tmp_path / 'm' / 'masks' / f'{f:06d}.png'), mask)
+    writer.release()
+    (tmp_path / 'man.json').write_text(json.dumps(dict(cases=[dict(name='chew', video='chew.mp4', masks='m', labels='x')])))
+    assert acts.motion_sheets(tmp_path / 'man.json', tmp_path / 'out') == 2
+    windows = pd.read_csv(tmp_path / 'out' / 'ventanas.csv')
+    assert windows.masked.all() and windows.frames.tolist() == [60, 60]
+    assert windows.motion_p999[0] > 5 * max(windows.motion_p999[1], .5)
+    sheet = cv2.imread(str(tmp_path / 'out' / 'chew_00.jpg'))
+    assert sheet.shape == (2 * 200, 70 + 5 * 200, 3)
+    heat = sheet[:200, 70 + 4 * 200:]
+    assert heat.max() > 150 and sheet[200:, 70 + 4 * 200:].mean() < heat.mean()
+    labels = pd.DataFrame(dict(case=['chew', 'chew'], start=[0., 2.], act=['eating', 'loaf']))
+    labels.to_csv(tmp_path / 'w.csv', index=False)
+    table = acts.window_segments(tmp_path / 'w.csv', tmp_path / 'seg.csv')
+    assert table.act.tolist() == ['eating', 'loaf'] and table.end_seconds.tolist() == [2., 4.]

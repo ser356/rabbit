@@ -225,6 +225,122 @@ def sheets(manifest, out, settings=SHEET):
     return len(rows)
 
 
+MOTION = dict(window=2., stills=4, size=200, gain=15., quality=80, rows=8)  # ganancia fija: no se normaliza por ventana
+
+
+def motion_map(crops):
+    """Media de |diferencia| entre recortes consecutivos (gris), normalizada: brillo = movimiento dentro de la ventana."""
+    if len(crops) < 2:
+        return np.zeros(crops[0].shape[:2] if crops else (MOTION['size'],) * 2, np.float32)
+    gray = [cv2.GaussianBlur(cv2.cvtColor(c, cv2.COLOR_BGR2GRAY).astype(np.float32), (3, 3), 0) for c in crops]
+    return np.mean([np.abs(b - a) for a, b in zip(gray, gray[1:])], axis=0)
+
+
+def window_box(masks, frames, shape):
+    """Caja cuadrada fija para toda la ventana: unión de las máscaras ampliada `pad`; None si no hay máscara."""
+    boxes = []
+    for f in frames:
+        mask = cv2.imread(str(masks / 'masks' / f'{f:06d}.png'), cv2.IMREAD_GRAYSCALE) if masks else None
+        if mask is not None and np.count_nonzero(mask) >= .001 * mask.size:
+            boxes.append(cv2.boundingRect((mask > 0).astype(np.uint8)))
+    if not boxes:
+        return None
+    x0 = min(b[0] for b in boxes); y0 = min(b[1] for b in boxes)
+    x1 = max(b[0] + b[2] for b in boxes); y1 = max(b[1] + b[3] for b in boxes)
+    side = min(int(max(x1 - x0, y1 - y0) * (1 + 2 * SHEET['pad'] / 2)), max(shape[:2]))
+    cx, cy = (x0 + x1) / 2, (y0 + y1) / 2
+    left = int(np.clip(cx - side / 2, 0, max(0, shape[1] - side)))
+    top = int(np.clip(cy - side / 2, 0, max(0, shape[0] - side)))
+    return left, top, side
+
+
+def square(image, box, size):
+    if box is None:
+        crop = image
+    else:
+        left, top, side = box
+        crop = image[top:top + side, left:left + side]
+    scale = size / max(crop.shape[:2])
+    crop = cv2.resize(crop, (max(1, round(crop.shape[1] * scale)), max(1, round(crop.shape[0] * scale))),
+                      interpolation=cv2.INTER_AREA)
+    tile = np.zeros((size, size, 3), np.uint8)
+    y, x = (size - crop.shape[0]) // 2, (size - crop.shape[1]) // 2
+    tile[y:y + crop.shape[0], x:x + crop.shape[1]] = crop
+    return tile
+
+
+def motion_sheets(manifest, out, settings=MOTION):
+    """Hojas de movimiento: por cada ventana de 2 s (tiempo real), 4 fotogramas y un mapa de movimiento calculado con
+    todos los fotogramas, sobre una caja fija (sin seguir al conejo, para que su desplazamiento también se vea)."""
+    from .pointtrack import frame_times
+    manifest, out = Path(manifest).resolve(), Path(out)
+    out.mkdir(parents=True, exist_ok=True)
+    rows = []
+    for case in json.loads(manifest.read_text())['cases']:
+        video = (manifest.parent / Path(case['video']).expanduser()).resolve()
+        masks = (manifest.parent / Path(case['masks']).expanduser()).resolve() if 'masks' in case else None
+        times = frame_times(video)
+        starts = np.arange(0., times[-1] - 1e-9, settings['window'])
+        members = {k: np.flatnonzero((times >= s) & (times < s + settings['window'])) for k, s in enumerate(starts)}
+        capture = cv2.VideoCapture(str(video))
+        images = []
+        try:
+            while True:
+                ok, image = capture.read()
+                if not ok:
+                    break
+                scale = 640 / max(image.shape[:2])
+                images.append(cv2.resize(image, (round(image.shape[1] * scale), round(image.shape[0] * scale)),
+                                         interpolation=cv2.INTER_AREA) if scale < 1 else image)
+        finally:
+            capture.release()
+        lines = []
+        for k, start in enumerate(starts):
+            frames = [int(f) for f in members[k] if f < len(images)]
+            if len(frames) < 2:
+                continue
+            shape = images[frames[0]].shape
+            scale_mask = None
+            if masks:
+                probe = cv2.imread(str(masks / 'masks' / f'{frames[0]:06d}.png'), cv2.IMREAD_GRAYSCALE)
+                scale_mask = None if probe is None else shape[1] / probe.shape[1]
+            box = window_box(masks, frames, (int(shape[0] / (scale_mask or 1)), int(shape[1] / (scale_mask or 1)), 3))
+            if box is not None and scale_mask:
+                box = tuple(int(round(v * scale_mask)) for v in box)
+            crops = [square(images[f], box, settings['size']) for f in frames]
+            energy = motion_map(crops)
+            heat = cv2.applyColorMap(np.clip(energy * settings['gain'], 0, 255).astype(np.uint8), cv2.COLORMAP_INFERNO)
+            picks = [crops[int(round(j))] for j in np.linspace(0, len(crops) - 1, settings['stills'])]
+            label = np.full((settings['size'], 70, 3), 20, np.uint8)
+            cv2.putText(label, f'{start:.0f}s', (6, settings['size'] // 2), cv2.FONT_HERSHEY_SIMPLEX, .6, (255, 255, 255), 1)
+            if box is None:
+                cv2.putText(label, 'sin', (6, settings['size'] // 2 + 22), cv2.FONT_HERSHEY_SIMPLEX, .5, (0, 0, 255), 1)
+            lines.append(np.hstack([label] + picks + [heat]))
+            rows.append(dict(case=case['name'], start=float(start), end=float(start + settings['window']),
+                             frames=len(frames), masked=box is not None,
+                             motion_mean=float(energy.mean()), motion_p999=float(np.percentile(energy, 99.9))))
+        for s in range(0, len(lines), settings['rows']):
+            name = f"{case['name']}_{s // settings['rows']:02d}.jpg"
+            cv2.imwrite(str(out / name), np.vstack(lines[s:s + settings['rows']]), [cv2.IMWRITE_JPEG_QUALITY, settings['quality']])
+        print(f"{case['name']}: {len(lines)} ventanas", flush=True)
+    pd.DataFrame(rows).to_csv(out / 'ventanas.csv', index=False)
+    return len(rows)
+
+
+def window_segments(window_labels, out):
+    """Etiquetas por ventana (case, start, act) → segmentos fusionados con el formato de la página."""
+    table = pd.read_csv(window_labels).sort_values(['case', 'start'])
+    rows = []
+    for r in table.itertuples():
+        end = float(r.start) + MOTION['window'] if not hasattr(r, 'end') else float(r.end)
+        if rows and rows[-1]['video'] == r.case and rows[-1]['act'] == r.act and abs(rows[-1]['end_seconds'] - r.start) < 1e-6:
+            rows[-1]['end_seconds'] = end
+        else:
+            rows.append(dict(video=r.case, start_seconds=float(r.start), end_seconds=end, act=r.act, finished=1))
+    pd.DataFrame(rows).to_csv(out, index=False)
+    return load(out)
+
+
 def segments(frame_labels, frames, out, step=SHEET['step']):
     """Etiquetas por fotograma (case, seconds, act) → segmentos [t, t + step) fusionados, formato de la página."""
     labels = pd.read_csv(frame_labels)
@@ -387,6 +503,9 @@ def main():
     command = sub.add_parser('sheets')
     command.add_argument('--manifest', required=True)
     command.add_argument('--out', default=str(REPO / 'runs' / 'actos_hojas'))
+    command = sub.add_parser('motion-sheets')
+    command.add_argument('--manifest', required=True)
+    command.add_argument('--out', default=str(REPO / 'runs' / 'actos_movimiento'))
     command = sub.add_parser('segments')
     command.add_argument('--labels', required=True, help='CSV case,seconds,act (una fila por fotograma)')
     command.add_argument('--frames', required=True, help='fotogramas.csv de sheets')
@@ -405,6 +524,8 @@ def main():
     args = parser.parse_args()
     if args.command == 'page':
         page(args.manifest, args.out)
+    elif args.command == 'motion-sheets':
+        print('ventanas:', motion_sheets(args.manifest, args.out))
     elif args.command == 'sheets':
         print('fotogramas:', sheets(args.manifest, args.out))
     elif args.command == 'verify-page':
