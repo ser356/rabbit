@@ -1,0 +1,106 @@
+{
+  "fragments": 30,
+  "agreement": 0.6333333333333333,
+  "kappa": 0.578544061302682,
+  "per_claude_act": {
+    "eating": {
+      "n": 4,
+      "agree": 1.0
+    },
+    "exploring": {
+      "n": 4,
+      "agree": 0.75
+    },
+    "grooming": {
+      "n": 4,
+      "agree": 0.75
+    },
+    "loaf": {
+      "n": 4,
+      "agree": 0.0
+    },
+    "locomotion": {
+      "n": 4,
+      "agree": 0.5
+    },
+    "lying": {
+      "n": 4,
+      "agree": 1.0
+    },
+    "not_visible": {
+      "n": 3,
+      "agree": 0.0
+    },
+    "rearing": {
+      "n": 3,
+      "agree": 1.0
+    }
+  },
+  "confusion_claude_rows_human_columns": {
+    "eating": {
+      "eating": 4,
+      "exploring": 0,
+      "grooming": 0,
+      "locomotion": 0,
+      "lying": 0,
+      "rearing": 0
+    },
+    "exploring": {
+      "eating": 1,
+      "exploring": 3,
+      "grooming": 0,
+      "locomotion": 0,
+      "lying": 0,
+      "rearing": 0
+    },
+    "grooming": {
+      "eating": 1,
+      "exploring": 0,
+      "grooming": 3,
+      "locomotion": 0,
+      "lying": 0,
+      "rearing": 0
+    },
+    "loaf": {
+      "eating": 3,
+      "exploring": 1,
+      "grooming": 0,
+      "locomotion": 0,
+      "lying": 0,
+      "rearing": 0
+    },
+    "locomotion": {
+      "eating": 0,
+      "exploring": 2,
+      "grooming": 0,
+      "locomotion": 2,
+      "lying": 0,
+      "rearing": 0
+    },
+    "lying": {
+      "eating": 0,
+      "exploring": 0,
+      "grooming": 0,
+      "locomotion": 0,
+      "lying": 4,
+      "rearing": 0
+    },
+    "not_visible": {
+      "eating": 0,
+      "exploring": 0,
+      "grooming": 0,
+      "locomotion": 1,
+      "lying": 2,
+      "rearing": 0
+    },
+    "rearing": {
+      "eating": 0,
+      "exploring": 0,
+      "grooming": 0,
+      "locomotion": 0,
+      "lying": 0,
+      "rearing": 3
+    }
+  },
+  "answers_sha256": "0b7aaac0e436e3676dd8771e70d422918883648045145ae03739ad76985db701"
+}
