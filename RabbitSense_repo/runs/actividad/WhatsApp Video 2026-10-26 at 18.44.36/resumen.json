@@ -1,0 +1,36 @@
+{
+  "video": "/Users/sergiogarciaseco/Downloads/WhatsApp Video 2026-10-26 at 18.44.36.mp4",
+  "video_sha256": "76c61ec2c50efd4790bd67ed0080cb45b28ac004cfd930f134970fda22f4e560",
+  "duration_seconds": 7.960000000000001,
+  "measured_seconds": 5.5,
+  "unmeasured_seconds": 2.420000000000001,
+  "measured_fraction": 0.6944444444444444,
+  "displacement_body_units": {
+    "estimate": 1.6951028248430546,
+    "lower": 1.5144930717823786,
+    "upper": 1.8757125779037307
+  },
+  "displacement_per_measured_minute": {
+    "estimate": 18.49203081646969,
+    "lower": 16.521742601262314
+  },
+  "rule_seconds": {
+    "clear_displacement": 2.0,
+    "low_motion": 0.0,
+    "undetermined": 5.920000000000001
+  },
+  "units": "Tamaños corporales = √(área de la máscara SAM2) en el fotograma de consulta de cada tramo; no son centímetros ni longitudes corporales calibradas.",
+  "caveats": [
+    "La clasificación locomoción/reposo por clips no está validada (not_resolved); se da como referencia.",
+    "La suma de pasos incluye ruido de seguimiento: el límite inferior descuenta el error del fondo.",
+    "El tiempo sin medida no es reposo.",
+    "Validación: AUC 0,91 por clip frente a etiquetas ciegas con definición física (tiempo real).",
+    "No es un indicador de bienestar."
+  ],
+  "source_sha256": {
+    "activity": "2b054c9834a584fe9a2b6d04e8f444b1b35ca18e62d57a1b1b3f2fd57181653e",
+    "pointtrack": "866722666221e7546990f90cb5c6116ef73445cc51dca63dc48a04bd658264af"
+  },
+  "python": "3.12.15",
+  "tracks": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_repo/runs/pointtrack/WhatsApp Video 2026-10-26 at 18.44.36"
+}
