@@ -51,6 +51,18 @@ Claude ha etiquetado 602 fotogramas (uno cada 0,5 s en tiempo real, recortados a
 
 Con estos 17 vídeos, solo agazapada y explorar cumplen el mínimo fijado antes de etiquetar (20 ventanas, 3 sesiones, 5 episodios). Desplazarse se queda a dos ventanas del mínimo. Comer, tumbada, acicalarse, de pie y binky necesitan más grabación; la cámara fija es la vía prevista.
 
+### Verificación ciega de las etiquetas de actos (2026-10-28)
+
+La persona etiquetó a ciegas 30 fragmentos de 2 s en vídeo ([mapa](cierre/actos/verificacion_mapa.csv), [respuestas](cierre/actos/verificacion_respuestas.csv), [acuerdo](cierre/actos/acuerdo.json)).
+
+- **Resultado.** Acuerdo 0,63 y kappa 0,58, por debajo del 0,7 exigido para entrenar. **Las etiquetas de Claude no se usan como verdad.**
+- **Comer, el error principal.** 4 fragmentos que Claude marcó como agazapada o acicalarse eran comer. En fotogramas sueltos cada 0,5 s no se ve masticar: el animal parece agazapado.
+- **Desplazarse y explorar.** 2 fragmentos que Claude marcó como desplazarse eran explorar.
+- **Criterio «no visible».** En 3 fragmentos que Claude marcó como «no visible» (la tocan o la están grabando muy de cerca), la persona etiquetó el acto que se ve: tumbada o desplazarse.
+- **Coincidencia total** en tumbada (4/4), comer cuando Claude lo marcó (4/4) y de pie (3/3).
+
+**Consecuencia.** Los actos que dependen de movimientos finos (comer, acicalarse) no se pueden etiquetar bien con hojas de fotogramas. La referencia de actos debe salir del etiquetado continuo en vídeo con la página `acts page`, hecho por la persona.
+
 ## Desplazamiento respecto al suelo con CoTracker3 (pre-registrado el 2026-10-27, antes de ejecutar)
 
 **Por qué.** Los modelos aprendidos distinguen escenas, no desplazamiento: la AUC intra-vídeo queda cerca del azar. Se mide directamente lo que define la locomoción, sin entrenar nada y con una regla física fija, de modo que no hay selección sobre los 57 clips. El modelo es CoTracker3 offline de Meta (`facebookresearch/co-tracker`, `cotracker3_offline`, vía `torch.hub`).
