@@ -99,6 +99,16 @@ En el Mac, con `CAP_PROP_POS_MSEC` fotograma a fotograma, se midió el desfase e
   - Es una corrección de la medida: no cambian la regla, sus umbrales ni sus parámetros.
 - **Evaluación pre-registrada antes de ver resultados corregidos.** La regla congelada se ejecuta con tiempo real contra las etiquetas anteriores y contra las ciegas. Se publican ambas, en `cierre/pointtrack_tiempo_real` y `cierre/pointtrack_ciego_tiempo_real`. Solo se declarará resuelto si pasa con los dos conjuntos de etiquetas, para no elegir el que más convenga. Las ejecuciones con fotograma ÷ fps se conservan.
 
+### Salida adoptada: actividad continua (2026-10-28)
+
+La locomoción binaria por clips queda `not_resolved`. RabbitSense entrega en su lugar una medida continua con [activity.py](src/rabbitsense/activity.py), sobre los mismos tramos de CoTracker3 y el tiempo real de cada fotograma:
+
+- Desplazamiento por intervalo de 0,5 s respecto al suelo, en tamaños corporales, con límites según el error del fondo. La posición se interpola en los límites exactos del intervalo.
+- Total estimado y mínimo, desplazamiento por minuto medido y tiempo sin medida, que no se cuenta como reposo.
+- El estado de la regla congelada, solo como referencia.
+
+Ver el README para el uso.
+
 ### Resultado con tiempo real (2026-10-28)
 
 El código ejecutado coincide por hash con [pointtrack.py](src/rabbitsense/pointtrack.py) (`86672266…`). Solo IMG_5190 tiene un desfase relevante (4,26 s); los vídeos de WhatsApp tienen como máximo 0,04 s y el resto, 0.

@@ -21,6 +21,33 @@ El seguimiento corporal persistente y YOLO-World local ya se ejecutaron: **ningu
 - **v37** se conserva para comparación; sus predicciones nunca se utilizan como etiquetas.
 - Detección sin anclas, interfaz macOS y bienestar no se declaran resueltos. La locomoción fiable está cerrada como no resoluble con estos datos.
 
+## Actividad continua (CoTracker3)
+
+La clasificación locomoción/reposo por clips no está validada. RabbitSense da en su lugar una **medida continua** del desplazamiento de Cinna respecto al suelo ([activity.py](src/rabbitsense/activity.py)), que descuenta el movimiento de la cámara aunque esta la siga. Requiere las máscaras SAM2 del vídeo y el entorno con PyTorch, porque CoTracker3 se descarga con `torch.hub`:
+
+```bash
+PYTHONPATH=RabbitSense_repo/src PYTORCH_ENABLE_MPS_FALLBACK=1 RabbitSense_Training/.venv/bin/python -m rabbitsense.activity \
+  --video VIDEO.MOV --masks CARPETA_MASCARAS_SAM2 --out RabbitSense_repo/runs/actividad/VIDEO
+```
+
+**Salidas:**
+
+- `actividad.csv`: por intervalo de 0,5 s, el desplazamiento en tamaños corporales (√área de la máscara) con límites inferior y superior, si hubo medida, y el estado de la regla física congelada como referencia.
+- `resumen.json`:
+  - desplazamiento total estimado y mínimo;
+  - desplazamiento por minuto medido;
+  - tiempo sin medida;
+  - segundos con desplazamiento claro, con bajo movimiento e indeterminados.
+- `actividad.png`: gráfica de la actividad a lo largo del vídeo.
+
+**Límites:**
+
+- Las unidades no son centímetros.
+- El tiempo sin medida no cuenta como reposo.
+- La suma de pasos incluye ruido de seguimiento; por eso se da también el mínimo.
+- Validación: la medida ordena los clips etiquetados a ciegas con definición física con AUC 0,91.
+- No es un indicador de bienestar.
+
 ## Instalación
 
 Desde este directorio, con Python >=3.11:
