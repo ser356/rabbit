@@ -81,3 +81,35 @@ def test_page_marks_acts_with_keys_and_exports_segments(tmp_path):
     assert list(table.act) == ['loaf', 'eating']
     assert table.start_seconds.tolist() == pytest.approx([0., 2.5]) and table.end_seconds.iloc[-1] == pytest.approx(6., abs=.2)
     assert table.finished.tolist() == [1, 1]
+
+
+def test_sheets_crop_around_the_mask_in_real_time_and_segments_merge(tmp_path):
+    video = tmp_path / 'v.mp4'
+    writer = cv2.VideoWriter(str(video), cv2.VideoWriter_fourcc(*'mp4v'), 10., (320, 180))
+    (tmp_path / 'm' / 'masks').mkdir(parents=True)
+    for f in range(100):
+        image = np.full((180, 320, 3), 50, np.uint8)
+        image[80:100, 20 + 2 * f:50 + 2 * f] = 255
+        writer.write(image)
+        mask = np.zeros((180, 320), np.uint8)
+        if f < 90:
+            mask[80:100, 20 + 2 * f:50 + 2 * f] = 255
+        cv2.imwrite(str(tmp_path / 'm' / 'masks' / f'{f:06d}.png'), mask)
+    writer.release()
+    (tmp_path / 'man.json').write_text(json.dumps(dict(cases=[dict(name='v', video='v.mp4', masks='m', labels='x')])))
+    count = acts.sheets(tmp_path / 'man.json', tmp_path / 'sheets')
+    frames = pd.read_csv(tmp_path / 'sheets' / 'fotogramas.csv')
+    assert count == len(frames) == 20 and frames.seconds.iloc[1] == .5 and frames.frame.iloc[1] == 5
+    assert frames.masked.tolist() == [True] * 18 + [False] * 2
+    sheet = cv2.imread(str(tmp_path / 'sheets' / 'v_00.jpg'))
+    assert sheet.shape == (3 * 200, 70 + 8 * 200, 3)
+    first = sheet[:200, 70:270]
+    assert first[90:110, 80:120].mean() > 150  # el objeto claro queda centrado en el recorte
+    labels = frames[['case', 'seconds']].assign(act=['loaf'] * 6 + ['eating'] * 10 + ['not_visible'] * 4)
+    labels.to_csv(tmp_path / 'l.csv', index=False)
+    table = acts.segments(tmp_path / 'l.csv', tmp_path / 'sheets' / 'fotogramas.csv', tmp_path / 's.csv')
+    assert table.act.tolist() == ['loaf', 'eating', 'not_visible']
+    assert table.start_seconds.tolist() == [0., 3., 8.] and table.end_seconds.tolist() == [3., 8., 10.]
+    labels.iloc[:-1].to_csv(tmp_path / 'short.csv', index=False)
+    with pytest.raises(ValueError, match='Faltan 1'):
+        acts.segments(tmp_path / 'short.csv', tmp_path / 'sheets' / 'fotogramas.csv', tmp_path / 's2.csv')
