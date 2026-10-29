@@ -1,8 +1,8 @@
 {
-  "videos": 107,
-  "videos_with_windows": 83,
-  "candidate_windows": 1220,
-  "kept_windows": 349,
+  "videos": 146,
+  "videos_with_windows": 114,
+  "candidate_windows": 1671,
+  "kept_windows": 485,
   "detector": {
     "model_id": "google/owlv2-base-patch16-ensemble",
     "text": "a photo of a rabbit",
