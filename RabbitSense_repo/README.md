@@ -48,6 +48,15 @@ PYTHONPATH=RabbitSense_repo/src PYTORCH_ENABLE_MPS_FALLBACK=1 RabbitSense_Traini
 - Validación: la medida ordena los clips etiquetados a ciegas con definición física con AUC 0,91.
 - No es un indicador de bienestar.
 
+## Datos locales (no versionados)
+
+Los vídeos de Cinna grabados con el móvil y los de YouTube viven dentro del proyecto, no en Descargas:
+
+- `RabbitSense_Training/data/cinna_mano/`: `IMG_5190–5193.MOV` y los 8 `WhatsApp Video 2026-10-26 …mp4`.
+- `RabbitSense_Training/data/youtube/youtube_conejos` y `youtube_conejos_2`.
+
+Los manifests de `benchmarks/` los referencian con rutas relativas. `RabbitSense_Training/data/` está en `.gitignore`: los vídeos no se suben al repositorio. Los veredictos anteriores conservan las rutas con las que se ejecutaron.
+
 ## Instalación
 
 Desde este directorio, con Python >=3.11:

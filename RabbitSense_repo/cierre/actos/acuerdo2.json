@@ -1,0 +1,122 @@
+{
+  "fragments": 28,
+  "agreement": 0.6785714285714286,
+  "kappa": 0.6266666666666667,
+  "per_claude_act": {
+    "eating": {
+      "n": 4,
+      "agree": 0.75
+    },
+    "exploring": {
+      "n": 4,
+      "agree": 0.5
+    },
+    "grooming": {
+      "n": 2,
+      "agree": 0.5
+    },
+    "loaf": {
+      "n": 5,
+      "agree": 0.4
+    },
+    "locomotion": {
+      "n": 4,
+      "agree": 1.0
+    },
+    "lying": {
+      "n": 4,
+      "agree": 1.0
+    },
+    "not_visible": {
+      "n": 4,
+      "agree": 0.5
+    },
+    "rearing": {
+      "n": 1,
+      "agree": 1.0
+    }
+  },
+  "confusion_claude_rows_human_columns": {
+    "eating": {
+      "eating": 3,
+      "exploring": 0,
+      "grooming": 1,
+      "loaf": 0,
+      "locomotion": 0,
+      "lying": 0,
+      "not_visible": 0,
+      "rearing": 0
+    },
+    "exploring": {
+      "eating": 0,
+      "exploring": 2,
+      "grooming": 0,
+      "loaf": 1,
+      "locomotion": 1,
+      "lying": 0,
+      "not_visible": 0,
+      "rearing": 0
+    },
+    "grooming": {
+      "eating": 0,
+      "exploring": 0,
+      "grooming": 1,
+      "loaf": 1,
+      "locomotion": 0,
+      "lying": 0,
+      "not_visible": 0,
+      "rearing": 0
+    },
+    "loaf": {
+      "eating": 0,
+      "exploring": 2,
+      "grooming": 0,
+      "loaf": 2,
+      "locomotion": 0,
+      "lying": 0,
+      "not_visible": 1,
+      "rearing": 0
+    },
+    "locomotion": {
+      "eating": 0,
+      "exploring": 0,
+      "grooming": 0,
+      "loaf": 0,
+      "locomotion": 4,
+      "lying": 0,
+      "not_visible": 0,
+      "rearing": 0
+    },
+    "lying": {
+      "eating": 0,
+      "exploring": 0,
+      "grooming": 0,
+      "loaf": 0,
+      "locomotion": 0,
+      "lying": 4,
+      "not_visible": 0,
+      "rearing": 0
+    },
+    "not_visible": {
+      "eating": 2,
+      "exploring": 0,
+      "grooming": 0,
+      "loaf": 0,
+      "locomotion": 0,
+      "lying": 0,
+      "not_visible": 2,
+      "rearing": 0
+    },
+    "rearing": {
+      "eating": 0,
+      "exploring": 0,
+      "grooming": 0,
+      "loaf": 0,
+      "locomotion": 0,
+      "lying": 0,
+      "not_visible": 0,
+      "rearing": 1
+    }
+  },
+  "answers_sha256": "92e11985a064aff7b5f4082081809bb054e89c6718e15428433e5b5bc4b4571c"
+}

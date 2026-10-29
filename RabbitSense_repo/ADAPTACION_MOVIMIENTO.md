@@ -91,8 +91,8 @@ RabbitSense_Training/.venv/bin/python -u -m rabbitsense.adapt_motion embed \
 	--labels RabbitSense_ARCHIVO/etiquetas_youtube.csv \
 	--features RabbitSense_repo/runs/adapt_motion/features \
 	--youtube-features RabbitSense_repo/runs/webclips/youtube \
-	--youtube-dir "$HOME/Downloads/youtube_conejos" \
-	--youtube-dir "$HOME/Downloads/youtube_conejos_2" --device mps
+	--youtube-dir RabbitSense_Training/data/youtube/youtube_conejos \
+	--youtube-dir RabbitSense_Training/data/youtube/youtube_conejos_2 --device mps
 ```
 
 La extracción utiliza vídeos completos de Cinna y exactamente los instantes existentes de YouTube. Inferencia offline, no causal. No usa nombres de vídeo, etiquetas ni límites de clip para construir características visuales.

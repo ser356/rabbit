@@ -83,6 +83,28 @@ La persona etiquetó a ciegas 30 fragmentos de 2 s en vídeo ([mapa](cierre/acto
 | De pie | 4 | 1 | 1 | 2 | no |
 | No visible u otro | 34 | 8 | 4 | 17 | — |
 
+### Segunda verificación ciega de actos (2026-10-29)
+
+28 fragmentos nuevos, sin solaparse con los anteriores ([mapa](cierre/actos/verificacion2_mapa.csv), [respuestas](cierre/actos/verificacion2_respuestas.csv), [acuerdo](cierre/actos/acuerdo2.json)).
+
+- **Resultado global.** Acuerdo 0,68 y kappa 0,63: mejor que el primer etiquetado (0,63 y 0,58), pero **todavía por debajo de 0,7**.
+- **Acuerdo por acto:**
+
+| Acto | Acierto | Lectura |
+|---|---:|---|
+| Desplazarse | 4/4 | fiable |
+| Tumbada | 4/4 | fiable |
+| De pie | 1/1 | fiable |
+| Comer | 3/4 | fiable; el fallo se confunde con acicalarse |
+| Agazapada | 2/5 | se confunde con explorar |
+| Explorar | 2/4 | se confunde con agazapada |
+| Acicalarse | 1/2 | — |
+| No visible | 2/4 | en 5177 entre 22 y 28 s, con la cámara muy movida, la persona sí ve comer |
+
+- **Fiables:** desplazarse, tumbada y, en menor medida, comer.
+- **No fiables:** la frontera entre agazapada y explorar.
+- **Advertencia.** Con 28 fragmentos, estas proporciones son muy imprecisas.
+
 ## Desplazamiento respecto al suelo con CoTracker3 (pre-registrado el 2026-10-27, antes de ejecutar)
 
 **Por qué.** Los modelos aprendidos distinguen escenas, no desplazamiento: la AUC intra-vídeo queda cerca del azar. Se mide directamente lo que define la locomoción, sin entrenar nada y con una regla física fija, de modo que no hay selección sobre los 57 clips. El modelo es CoTracker3 offline de Meta (`facebookresearch/co-tracker`, `cotracker3_offline`, vía `torch.hub`).

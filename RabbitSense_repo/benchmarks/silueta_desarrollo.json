@@ -38,28 +38,28 @@
     },
     {
       "name": "IMG_5190",
-      "video": "~/Downloads/IMG_5190.MOV",
+      "video": "../../RabbitSense_Training/data/cinna_mano/IMG_5190.MOV",
       "anchors": "../runs/handheld/anchors/IMG_5190.json",
       "labels": "../../RabbitSense_ARCHIVO/etiquetas_mano.csv",
       "masks": "../runs/handheld/segmentation/IMG_5190"
     },
     {
       "name": "IMG_5191",
-      "video": "~/Downloads/IMG_5191.MOV",
+      "video": "../../RabbitSense_Training/data/cinna_mano/IMG_5191.MOV",
       "anchors": "../runs/handheld/anchors/IMG_5191.json",
       "labels": "../../RabbitSense_ARCHIVO/etiquetas_mano.csv",
       "masks": "../runs/handheld/segmentation/IMG_5191"
     },
     {
       "name": "IMG_5192",
-      "video": "~/Downloads/IMG_5192.MOV",
+      "video": "../../RabbitSense_Training/data/cinna_mano/IMG_5192.MOV",
       "anchors": "../runs/handheld/anchors/IMG_5192.json",
       "labels": "../../RabbitSense_ARCHIVO/etiquetas_mano.csv",
       "masks": "../runs/handheld/segmentation/IMG_5192"
     },
     {
       "name": "IMG_5193",
-      "video": "~/Downloads/IMG_5193.MOV",
+      "video": "../../RabbitSense_Training/data/cinna_mano/IMG_5193.MOV",
       "anchors": "../runs/handheld/anchors/IMG_5193.json",
       "labels": "../../RabbitSense_ARCHIVO/etiquetas_mano.csv",
       "masks": "../runs/handheld/segmentation/IMG_5193"
