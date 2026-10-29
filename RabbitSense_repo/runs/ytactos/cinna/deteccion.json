@@ -1,0 +1,30 @@
+{
+  "windows": 156,
+  "windows_with_sam2": 149,
+  "coverage": 0.785234899328859,
+  "median_iou": 0.8880132533243703,
+  "criterion": {
+    "coverage": 0.8,
+    "median_iou": 0.5,
+    "found": 3
+  },
+  "passes": false,
+  "windows_without_detection": 12,
+  "detector": {
+    "model_id": "google/owlv2-base-patch16-ensemble",
+    "text": "a photo of a rabbit",
+    "threshold": 0.2,
+    "torch": "2.14.1",
+    "transformers": "5.20.2",
+    "device": "mps"
+  },
+  "encoder": {
+    "model_id": "facebook/vjepa2-vitl-fpc64-256",
+    "torch": "2.14.1",
+    "transformers": "5.20.2",
+    "device": "mps",
+    "size": 256,
+    "frames": 16
+  },
+  "note": "Sin detección se usa la imagen completa con bandas. La puerta no mira etiquetas de actos."
+}
