@@ -218,6 +218,27 @@ Criterio: exactitud equilibrada ≥ 0,6 y ≥ 0,5 en cada clase.
 - **Desglose en el test:** se informa también solo con las ventanas bien detectadas (≥ 3 de 4 fotogramas).
 - **Riesgo conocido:** en YouTube solo se conservan ventanas con el conejo detectado en los 4 fotogramas. El desplazamiento de entrenamiento será el más nítido, mientras que el de Cinna suele ser borroso.
 
+**Ventanas de YouTube (2026-10-29).** [resumen.json](runs/ytactos/youtube/resumen.json):
+- **Vídeos:** 107 descargados, 83 con alguna ventana válida.
+- **Ventanas:** 1220 candidatas y 349 conservadas, con un solo conejo detectado en los 4 fotogramas.
+
+**Etiquetas de YouTube.** [actos_youtube_claude.csv](../RabbitSense_ARCHIVO/actos_youtube_claude.csv): las puso Claude con las hojas de movimiento, sin conocer la búsqueda de cada vídeo. La columna `notes` explica cada decisión.
+- **«No visible» (77 ventanas):** cortes de plano, cartelas, animación, conejo acariciado o en la mano, dos conejos, o primerísimo plano sin postura visible.
+- **Beber:** no cuenta como comer según la definición, así que va a «otra».
+
+| Clase | Ventanas | Vídeos | Mínimo (30 de 8 vídeos) |
+|---|---:|---:|---|
+| desplazarse | 21 | 14 | **no llega** |
+| comer | 53 | 15 | sí |
+| tumbado | 42 | 14 | sí |
+| otra | 156 | 47 | sí |
+
+Desglose de «otra»: agazapado 63, acicalarse 46, explorar 43, binky 3 y de pie 1.
+
+**Entrenamiento parado, tal como estaba fijado** (`ytacts train`: «Datos insuficientes para locomotion»). Es el mismo problema que en Cinna: el detector pierde al conejo cuando se mueve deprisa, y esas ventanas se descartan.
+
+**Siguiente paso, sin tocar Cinna:** 10 búsquedas más, solo de desplazamiento ([youtube_actos_busquedas_2.tsv](benchmarks/youtube_actos_busquedas_2.tsv)). Se añaden datos de entrenamiento hasta llegar al mínimo, que se fijó antes; nada de esto mira las etiquetas de Cinna. Si aun así no llega, la línea se cierra para desplazarse, que sigue midiéndose con CoTracker.
+
 ## Desplazamiento respecto al suelo con CoTracker3 (pre-registrado el 2026-10-27, antes de ejecutar)
 
 **Por qué.** Los modelos aprendidos distinguen escenas, no desplazamiento: la AUC intra-vídeo queda cerca del azar. Se mide directamente lo que define la locomoción, sin entrenar nada y con una regla física fija, de modo que no hay selección sobre los 57 clips. El modelo es CoTracker3 offline de Meta (`facebookresearch/co-tracker`, `cotracker3_offline`, vía `torch.hub`).
