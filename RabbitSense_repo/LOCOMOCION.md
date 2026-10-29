@@ -105,6 +105,45 @@ La persona etiquetó a ciegas 30 fragmentos de 2 s en vídeo ([mapa](cierre/acto
 - **No fiables:** la frontera entre agazapada y explorar.
 - **Advertencia.** Con 28 fragmentos, estas proporciones son muy imprecisas.
 
+### Modelo propio de actos (fijado el 2026-10-29, antes de ejecutar)
+
+**Qué es.** Un clasificador local, sin LLM, que asigna un acto a cada ventana de 2 s ([actmodel.py](src/rabbitsense/actmodel.py)). Es **exploratorio**:
+- las etiquetas son mías, con kappa 0,63 frente a la persona;
+- la agrupación de clases se decidió después de ver la verificación;
+- los vídeos son los mismos del desarrollo.
+
+**Clases.** Se agrupan según lo que la verificación mostró fiable:
+
+| Clase | Actos que incluye |
+|---|---|
+| desplazarse | desplazarse |
+| comer | comer |
+| tumbada | tumbada |
+| otra | agazapada, explorar, acicalarse, de pie, binky |
+
+Las ventanas «no visible» quedan fuera. El azar en exactitud equilibrada es 0,25.
+
+**Características.** Todas salen de modelos sin entrenar, sobre la misma caja fija de las hojas de movimiento:
+- **Desplazamiento neto:** respecto al suelo en el bloque de 2 s, desde los tramos de CoTracker. No se usan las tablas `actividad_2s.csv`.
+- **Movimiento interno:** de los puntos del conejo respecto a su mediana; capta masticar, acicalarse y cambios de postura.
+- **Forma de la máscara SAM2:** área, elongación y proporción alto/ancho, con su media y su rango.
+- **Energía de movimiento:** dentro y fuera de la máscara; la de fuera aproxima el movimiento de la cámara.
+- **V-JEPA 2 congelado** (`facebook/vjepa2-vitl-fpc64-256`): 16 fotogramas del recorte; se usa la media de sus tokens.
+
+Si falta la máscara o el seguimiento, el valor se marca como ausente. Ausente nunca cuenta como quieto.
+
+**Modelo y validación.**
+- Clasificador: regresión logística multinomial con clases equilibradas, estandarización y C = 0,1. Todo fijo; no hay búsqueda de hiperparámetros.
+- Validación: se deja fuera una sesión entera cada vez, con las mismas sesiones que el censo. Ninguna etiqueta de la sesión evaluada entra en su modelo; un test lo comprueba invirtiendo esas etiquetas.
+- Variantes: solo características medidas, solo V-JEPA 2, y ambas. Las tres se informan siempre.
+
+**Criterio fijado.** Una variante cumple si la exactitud equilibrada es ≥ 0,6 y la sensibilidad es ≥ 0,5 en cada una de las cuatro clases.
+
+**Límites conocidos.**
+- «Tumbada» solo aparece en 2 sesiones: al dejar fuera una de ellas, el modelo aprende tumbada de una sola sesión.
+- Probar tres variantes da más de una oportunidad de cumplir el criterio.
+- Aunque una variante cumpla, el resultado no valida nada. Solo indica si merece la pena una prueba independiente con la cámara fija.
+
 ## Desplazamiento respecto al suelo con CoTracker3 (pre-registrado el 2026-10-27, antes de ejecutar)
 
 **Por qué.** Los modelos aprendidos distinguen escenas, no desplazamiento: la AUC intra-vídeo queda cerca del azar. Se mide directamente lo que define la locomoción, sin entrenar nada y con una regla física fija, de modo que no hay selección sobre los 57 clips. El modelo es CoTracker3 offline de Meta (`facebookresearch/co-tracker`, `cotracker3_offline`, vía `torch.hub`).

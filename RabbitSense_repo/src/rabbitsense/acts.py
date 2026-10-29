@@ -254,6 +254,37 @@ def window_box(masks, frames, shape):
     return left, top, side
 
 
+def image_box(masks, frames, shape):
+    """`window_box` en coordenadas de la imagen reducida (las máscaras pueden tener otra resolución)."""
+    scale_mask = None
+    if masks:
+        probe = cv2.imread(str(masks / 'masks' / f'{frames[0]:06d}.png'), cv2.IMREAD_GRAYSCALE)
+        scale_mask = None if probe is None else shape[1] / probe.shape[1]
+    box = window_box(masks, frames, (int(shape[0] / (scale_mask or 1)), int(shape[1] / (scale_mask or 1)), 3))
+    if box is not None and scale_mask:
+        box = tuple(int(round(v * scale_mask)) for v in box)
+    return box
+
+
+def read_small(video, wanted=None, side=640):
+    """Fotogramas BGR reducidos a lado largo `side`; solo los de `wanted` si se da (los demás, None)."""
+    capture, images = cv2.VideoCapture(str(video)), []
+    try:
+        while True:
+            ok, image = capture.read()
+            if not ok:
+                break
+            if wanted is not None and len(images) not in wanted:
+                images.append(None)
+                continue
+            scale = side / max(image.shape[:2])
+            images.append(cv2.resize(image, (round(image.shape[1] * scale), round(image.shape[0] * scale)),
+                                     interpolation=cv2.INTER_AREA) if scale < 1 else image)
+    finally:
+        capture.release()
+    return images
+
+
 def square(image, box, size):
     if box is None:
         crop = image
@@ -282,31 +313,13 @@ def motion_sheets(manifest, out, settings=MOTION):
         times = frame_times(video)
         starts = np.arange(0., times[-1] - 1e-9, settings['window'])
         members = {k: np.flatnonzero((times >= s) & (times < s + settings['window'])) for k, s in enumerate(starts)}
-        capture = cv2.VideoCapture(str(video))
-        images = []
-        try:
-            while True:
-                ok, image = capture.read()
-                if not ok:
-                    break
-                scale = 640 / max(image.shape[:2])
-                images.append(cv2.resize(image, (round(image.shape[1] * scale), round(image.shape[0] * scale)),
-                                         interpolation=cv2.INTER_AREA) if scale < 1 else image)
-        finally:
-            capture.release()
+        images = read_small(video)
         lines = []
         for k, start in enumerate(starts):
             frames = [int(f) for f in members[k] if f < len(images)]
             if len(frames) < 2:
                 continue
-            shape = images[frames[0]].shape
-            scale_mask = None
-            if masks:
-                probe = cv2.imread(str(masks / 'masks' / f'{frames[0]:06d}.png'), cv2.IMREAD_GRAYSCALE)
-                scale_mask = None if probe is None else shape[1] / probe.shape[1]
-            box = window_box(masks, frames, (int(shape[0] / (scale_mask or 1)), int(shape[1] / (scale_mask or 1)), 3))
-            if box is not None and scale_mask:
-                box = tuple(int(round(v * scale_mask)) for v in box)
+            box = image_box(masks, frames, images[frames[0]].shape)
             crops = [square(images[f], box, settings['size']) for f in frames]
             energy = motion_map(crops)
             heat = cv2.applyColorMap(np.clip(energy * settings['gain'], 0, 255).astype(np.uint8), cv2.COLORMAP_INFERNO)
