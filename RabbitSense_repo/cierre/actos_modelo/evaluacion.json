@@ -1,0 +1,207 @@
+{
+  "results": {
+    "handcrafted": {
+      "windows": 139,
+      "balanced_accuracy": 0.4891849078341014,
+      "recall": {
+        "locomotion": 0.5625,
+        "eating": 0.3870967741935484,
+        "lying": 0.9,
+        "other": 0.10714285714285714
+      },
+      "precision": {
+        "locomotion": 0.72,
+        "eating": 0.21818181818181817,
+        "lying": 0.5454545454545454,
+        "other": 0.23076923076923078
+      },
+      "accuracy": 0.38848920863309355,
+      "confusion": {
+        "eating": {
+          "eating": 12,
+          "locomotion": 1,
+          "lying": 2,
+          "other": 16
+        },
+        "locomotion": {
+          "eating": 10,
+          "locomotion": 18,
+          "lying": 1,
+          "other": 3
+        },
+        "lying": {
+          "eating": 0,
+          "locomotion": 1,
+          "lying": 18,
+          "other": 1
+        },
+        "other": {
+          "eating": 33,
+          "locomotion": 5,
+          "lying": 12,
+          "other": 6
+        }
+      },
+      "within_video_accuracy": {
+        "5177": 0.2222222222222222,
+        "IMG_5190": 0.21875,
+        "IMG_5192": 0.36363636363636365,
+        "IMG_5193": 0.6,
+        "WhatsApp Video 2026-10-26 at 18.44.37": 0.0,
+        "WhatsApp Video 2026-10-26 at 18.44.38": 0.5,
+        "WhatsApp Video 2026-10-26 at 18.44.41": 0.5,
+        "locomotion": 0.7142857142857143,
+        "resting": 0.5,
+        "resting_972F": 0.3333333333333333
+      },
+      "passes": false
+    },
+    "deep": {
+      "windows": 139,
+      "balanced_accuracy": 0.39308755760368663,
+      "recall": {
+        "locomotion": 0.75,
+        "eating": 0.25806451612903225,
+        "lying": 0.1,
+        "other": 0.4642857142857143
+      },
+      "precision": {
+        "locomotion": 0.5714285714285714,
+        "eating": 0.19047619047619047,
+        "lying": 1.0,
+        "other": 0.49056603773584906
+      },
+      "accuracy": 0.4316546762589928,
+      "confusion": {
+        "eating": {
+          "eating": 8,
+          "locomotion": 15,
+          "lying": 0,
+          "other": 8
+        },
+        "locomotion": {
+          "eating": 3,
+          "locomotion": 24,
+          "lying": 0,
+          "other": 5
+        },
+        "lying": {
+          "eating": 3,
+          "locomotion": 1,
+          "lying": 2,
+          "other": 14
+        },
+        "other": {
+          "eating": 28,
+          "locomotion": 2,
+          "lying": 0,
+          "other": 26
+        }
+      },
+      "within_video_accuracy": {
+        "5177": 0.2777777777777778,
+        "IMG_5190": 0.625,
+        "IMG_5192": 0.45454545454545453,
+        "IMG_5193": 0.6,
+        "WhatsApp Video 2026-10-26 at 18.44.37": 0.5,
+        "WhatsApp Video 2026-10-26 at 18.44.38": 0.6666666666666666,
+        "WhatsApp Video 2026-10-26 at 18.44.41": 0.16666666666666666,
+        "locomotion": 0.5714285714285714,
+        "resting": 0.3333333333333333,
+        "resting_972F": 0.3333333333333333
+      },
+      "passes": false
+    },
+    "all": {
+      "windows": 139,
+      "balanced_accuracy": 0.39244671658986174,
+      "recall": {
+        "locomotion": 0.71875,
+        "eating": 0.2903225806451613,
+        "lying": 0.15,
+        "other": 0.4107142857142857
+      },
+      "precision": {
+        "locomotion": 0.5476190476190477,
+        "eating": 0.20454545454545456,
+        "lying": 1.0,
+        "other": 0.46
+      },
+      "accuracy": 0.4172661870503597,
+      "confusion": {
+        "eating": {
+          "eating": 9,
+          "locomotion": 14,
+          "lying": 0,
+          "other": 8
+        },
+        "locomotion": {
+          "eating": 3,
+          "locomotion": 23,
+          "lying": 0,
+          "other": 6
+        },
+        "lying": {
+          "eating": 3,
+          "locomotion": 1,
+          "lying": 3,
+          "other": 13
+        },
+        "other": {
+          "eating": 29,
+          "locomotion": 4,
+          "lying": 0,
+          "other": 23
+        }
+      },
+      "within_video_accuracy": {
+        "5177": 0.3333333333333333,
+        "IMG_5190": 0.5625,
+        "IMG_5192": 0.45454545454545453,
+        "IMG_5193": 0.6,
+        "WhatsApp Video 2026-10-26 at 18.44.37": 0.25,
+        "WhatsApp Video 2026-10-26 at 18.44.38": 0.5,
+        "WhatsApp Video 2026-10-26 at 18.44.41": 0.16666666666666666,
+        "locomotion": 0.5714285714285714,
+        "resting": 0.3333333333333333,
+        "resting_972F": 0.3333333333333333
+      },
+      "passes": false
+    }
+  },
+  "classes": [
+    "locomotion",
+    "eating",
+    "lying",
+    "other"
+  ],
+  "groups": {
+    "locomotion": "locomotion",
+    "eating": "eating",
+    "lying": "lying",
+    "loaf": "other",
+    "exploring": "other",
+    "grooming": "other",
+    "rearing": "other",
+    "binky": "other"
+  },
+  "C": 0.1,
+  "criterion": {
+    "balanced_accuracy": 0.6,
+    "min_recall": 0.5
+  },
+  "validation": "una sesión fuera",
+  "sessions": [
+    "5177",
+    "locomotion",
+    "mano_IMG_519x",
+    "resting",
+    "resting_4944",
+    "resting_972F",
+    "whatsapp"
+  ],
+  "labels_sha256": "a9f6feacfe4302573c485ddbc9880967b44e9e901adce4e0b1ce24d8ffc40567",
+  "source_sha256": "1eef2bfca53a6dd87287a3bce9fd400242b410fdf44f1db9dbd346b94fdec624",
+  "python": "3.12.15",
+  "scope": "Exploratorio: etiquetas de Claude (kappa 0,63 frente a la persona), agrupación decidida tras la verificación, mismos vídeos que el desarrollo. No es una validación."
+}
