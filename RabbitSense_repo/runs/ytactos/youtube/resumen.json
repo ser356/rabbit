@@ -1,0 +1,29 @@
+{
+  "videos": 107,
+  "videos_with_windows": 83,
+  "candidate_windows": 1220,
+  "kept_windows": 349,
+  "detector": {
+    "model_id": "google/owlv2-base-patch16-ensemble",
+    "text": "a photo of a rabbit",
+    "threshold": 0.2,
+    "torch": "2.14.1",
+    "transformers": "5.20.2",
+    "device": "mps"
+  },
+  "encoder": {
+    "model_id": "facebook/vjepa2-vitl-fpc64-256",
+    "torch": "2.14.1",
+    "transformers": "5.20.2",
+    "device": "mps",
+    "size": 256,
+    "frames": 16
+  },
+  "select": {
+    "window": 2.0,
+    "candidates": 12,
+    "keep": 5,
+    "margin": 0.5,
+    "min_frames": 8
+  }
+}
