@@ -349,6 +349,14 @@ def train(features, labels, output=MODEL_FILE, folds=5):
     return frozen
 
 
+def probabilities(frozen, x):
+    """Probabilidad de cada clase (orden de frozen['classes']) con el modelo congelado."""
+    z = (np.atleast_2d(x) - np.array(frozen['mean'])) / np.array(frozen['scale'])
+    scores = z @ np.array(frozen['coef']).T + np.array(frozen['intercept'])
+    scores = np.exp(scores - scores.max(axis=1, keepdims=True))
+    return scores / scores.sum(axis=1, keepdims=True)
+
+
 def predict(frozen, x):
     z = (x - np.array(frozen['mean'])) / np.array(frozen['scale'])
     scores = z @ np.array(frozen['coef']).T + np.array(frozen['intercept'])

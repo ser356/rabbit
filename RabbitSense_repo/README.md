@@ -21,6 +21,32 @@ El seguimiento corporal persistente y YOLO-World local ya se ejecutaron: **ningu
 - **v37** se conserva para comparación; sus predicciones nunca se utilizan como etiquetas.
 - Detección sin anclas, interfaz macOS y bienestar no se declaran resueltos. La locomoción fiable está cerrada como no resoluble con estos datos.
 
+## Análisis automático de un vídeo
+
+Un solo comando, sin clics: segmenta a Cinna (OWLv2 + SAM2), mide su desplazamiento respecto al suelo (CoTracker3) y asigna un acto a cada ventana de 2 s ([auto.py](src/rabbitsense/auto.py)):
+
+```bash
+PYTHONPATH=RabbitSense_repo/src PYTORCH_ENABLE_MPS_FALLBACK=1 RabbitSense_Training/.venv/bin/python -m rabbitsense.auto \
+  analyze VIDEO.MOV [OTRO.MOV …] --out RabbitSense_repo/runs/analisis
+```
+
+**Salidas:** por vídeo, en `runs/analisis/<vídeo>/`:
+- `informe.html`: línea de tiempo de actos y desplazamiento, y tiempo por acto;
+- `ventanas.csv`: acto, confianza y desplazamiento por ventana de 2 s;
+- `resumen.json`.
+
+**Qué está validado en Cinna** (una prueba, con etiquetas de Claude):
+
+| Medida | Resultado |
+|---|---|
+| Desplazamiento | AUC 0,91–0,97 |
+| Tumbado | 0,85 de aciertos |
+| Otra (agazapado, explorar, acicalarse) | 0,77 de aciertos |
+| Desplazarse | 0,72 de aciertos |
+| **Comer** | **sin validar** (0,10) |
+
+No estima estado de ánimo ni salud. La segmentación automática se da por buena solo si pasa `auto validate` (criterio en [LOCOMOCION.md](LOCOMOCION.md)).
+
 ## Actividad continua (CoTracker3)
 
 La clasificación locomoción/reposo por clips no está validada. RabbitSense da en su lugar una **medida continua** del desplazamiento de Cinna respecto al suelo ([activity.py](src/rabbitsense/activity.py)), que descuenta el movimiento de la cámara aunque esta la siga. Requiere las máscaras SAM2 del vídeo y el entorno con PyTorch, porque CoTracker3 se descarga con `torch.hub`:

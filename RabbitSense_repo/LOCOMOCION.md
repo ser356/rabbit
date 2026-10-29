@@ -1,5 +1,45 @@
 # Locomoción: diagnóstico, corrección temporal y cierre
 
+## Análisis automático, sin intervención (fijado el 2026-10-30, antes de ejecutar)
+
+**Qué hace** ([auto.py](src/rabbitsense/auto.py), `python -m rabbitsense.auto analyze vídeo…`). Encadena lo validado, sin ningún clic:
+
+1. **Segmentación sin semilla manual.**
+   - OWLv2 busca al conejo en un fotograma por segundo.
+   - La primera detección fiable sustituye al clic de SAM2: puntuación ≥ 0,3 y un solo conejo.
+   - Las siguientes detecciones guían a SAM2 (`segment`, modo `guided`). Las anclas impares interiores se reservan para comprobar la máscara.
+   - Si el conejo aparece más tarde, SAM2 empieza ahí; antes no hay máscara.
+2. **Desplazamiento respecto al suelo** con CoTracker3 (`activity`).
+3. **Acto de cada ventana de 2 s** con el modelo congelado entrenado solo con YouTube (`benchmarks/ytactos_modelo.json`).
+   - Comer se muestra **«sin validar»**.
+   - Si el detector no ve al conejo en la ventana, el acto es «no visible».
+4. **Informe:** `ventanas.csv`, `resumen.json` e `informe.html`. Incluyen la línea de tiempo, el tiempo por acto, el desplazamiento, el tramo tumbado más largo y los límites. No estima estado de ánimo ni salud.
+
+**Criterio para adoptar la segmentación automática** (`ADOPT_AUTO`; `auto validate`). Se compara con la semilla manual en los 17 vídeos y se adopta solo si se cumplen las cuatro condiciones:
+1. IoU mediana de las máscaras ≥ 0,7.
+2. La fracción de fotogramas con máscara no baja más de 0,05.
+3. El desplazamiento neto de 2 s difiere en mediana ≤ 0,15 tamaños.
+4. Su AUC (desplazarse frente al resto, etiquetas de actos de Claude) es ≥ 0,9.
+
+Si no se cumplen, el análisis automático no se da por bueno.
+
+### Prueba con la cámara fija (fijada el 2026-10-30, antes de que existan los vídeos)
+
+Será el primer test independiente de verdad: ni el modelo ni los umbrales habrán visto esos vídeos.
+
+1. **Congelado antes de grabar:**
+   - el código de esta rama (`auto`, `activity`, `pointtrack`, `ytacts`);
+   - `benchmarks/ytactos_modelo.json`;
+   - los umbrales de `AUTO` y `DETECTOR`.
+
+   No se cambia nada mirando esos vídeos.
+2. **Etiquetas antes de las predicciones.**
+   - Claude etiqueta cada ventana de 2 s con las hojas de movimiento (`acts motion-sheets`), con el mismo etograma, antes de ejecutar `analyze`.
+   - Si la persona quiere, verifica a ciegas 30 fragmentos (`acts verify-page`). No es obligatorio.
+3. **Datos mínimos por clase** (`acts.EVALUABLE`): 20 ventanas en al menos 3 días de grabación distintos. Las clases que no lleguen se informan sin veredicto.
+4. **Criterio** (el mismo que en las pruebas anteriores, ahora con comer incluido): exactitud equilibrada ≥ 0,6 y ≥ 0,5 en cada clase evaluable. Desplazamiento: AUC del desplazamiento neto de 2 s (desplazarse frente al resto) ≥ 0,9.
+5. **Una sola ejecución.** Si falla, se documenta y no se reajusta con esos vídeos.
+
 ## Actos de Cinna: etograma y modelo propio (fijado el 2026-10-28, antes de etiquetar)
 
 **Objetivo:** detectar qué hace Cinna, más allá de si se desplaza, para construir más adelante un diario de comportamiento comparado con su propia normalidad, cuando haya cámara fija. **No se estimará estado de ánimo ni salud:** como mucho habrá avisos de cambios para revisión humana.
