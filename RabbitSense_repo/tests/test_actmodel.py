@@ -66,6 +66,23 @@ def test_window_features_measure_displacement_motion_and_shape(tmp_path, fake_fr
     assert table.internal_p90.min() > 5 * max(still.internal_p90.max(), 1e-3)  # acicalarse mueve puntos del conejo
 
 
+def test_finished_cases_are_reused_and_missing_videos_fail_first(tmp_path, fake_frames):
+    first = features(tmp_path, 'cached', False, encoder=Stub())
+    encoder = Stub()
+    again = actmodel.window_features(tmp_path / 'm.json', tmp_path / 'w.csv', tmp_path / 'cached', encoder,
+                                     tmp_path / 'tracks').set_index('start')
+    assert not encoder.shapes and np.allclose(first.motion_in, again.motion_in)  # sin recalcular
+    assert np.load(tmp_path / 'cached' / 'vjepa.npy').shape == (5, 3)
+    manifest = json.loads((tmp_path / 'm.json').read_text())
+    manifest['cases'].append(dict(name='lost', video='lost.mp4', masks='nowhere'))
+    (tmp_path / 'm.json').write_text(json.dumps(manifest))
+    pd.concat([pd.read_csv(tmp_path / 'w.csv'), pd.DataFrame(dict(case=['lost'], start=[0.], end=[2.]))]).to_csv(
+        tmp_path / 'w.csv', index=False)
+    with pytest.raises(FileNotFoundError, match='lost.mp4'):
+        actmodel.window_features(tmp_path / 'm.json', tmp_path / 'w.csv', tmp_path / 'other', Stub(), tmp_path / 'tracks')
+    assert not (tmp_path / 'other' / 'casos' / 'cached.csv').exists()  # comprobado antes de procesar nada
+
+
 def test_window_without_mask_or_tracks_is_missing_not_still(tmp_path, fake_frames):
     table = features(tmp_path, 'blind', False, masked=False)
     assert not table.masked.any() and table.area_mean.isna().all()

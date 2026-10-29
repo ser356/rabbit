@@ -94,6 +94,9 @@ def internal_motion(chunks, starts, times, start, end):
         return np.nan, np.nan
     rel = np.array(rel)[:, rabbit]
     step = np.linalg.norm(np.diff(rel, axis=0), axis=2) / float(chunk['unit'])
+    step = step[:, np.isfinite(step).any(axis=0)]  # puntos nunca visibles en dos fotogramas seguidos
+    if not step.shape[1]:
+        return np.nan, np.nan
     per_point = np.nanmedian(step, axis=0)
     per_point = per_point[np.isfinite(per_point)]
     return (float(np.median(per_point)), float(np.percentile(per_point, 90))) if len(per_point) else (np.nan, np.nan)
@@ -120,60 +123,106 @@ def net_blocks(times, folder):
             if r['interval_seconds'] > 0 and r['measured']}
 
 
-def window_features(manifest, windows, out, encoder=None, tracks_dir=None):
-    from . import activity, pointtrack
-    manifest, windows = Path(manifest).resolve(), pd.read_csv(windows, dtype={'case': str})
-    tracks_dir = Path(tracks_dir or pointtrack.TRACKS)
-    rows, deep = [], []
+def cases_with_windows(manifest, windows):
+    """(caso, vídeo, máscaras, ventanas) de cada caso del manifest que tiene ventanas."""
+    manifest = Path(manifest).resolve()
     for case in json.loads(manifest.read_text())['cases']:
         mine = windows[windows.case == case['name']]
         if mine.empty:
             continue
         video = (manifest.parent / Path(case['video']).expanduser()).resolve()
         masks = (manifest.parent / Path(case['masks']).expanduser()).resolve() if 'masks' in case else None
-        times = pointtrack.frame_times(video, tracks_dir / 'tiempos')
-        folder = tracks_dir / video.stem
-        chunks = activity.load_chunks(folder, times) if folder.is_dir() else {}
-        starts = pointtrack.chunk_starts(pointtrack.duration(times))
-        net = net_blocks(times, folder)
-        members = {w.Index: [int(f) for f in np.flatnonzero((times >= w.start) & (times < w.end))] for w in mine.itertuples()}
-        images = read_small(video, {f for frames in members.values() for f in frames})
-        for w in mine.itertuples():
-            frames = [f for f in members[w.Index] if f < len(images) and images[f] is not None]
-            if len(frames) < 2:
-                continue
-            shape = images[frames[0]].shape
-            box = image_box(masks, frames, shape)
-            crops = [square(images[f], box, MOTION['size']) for f in frames]
-            energy = motion_map(crops)
-            inside = union_inside(masks, frames, box, shape) if box is not None else np.ones(energy.shape, bool)
-            stats = [s for s in (mask_stats(cv2.imread(str(masks / 'masks' / f'{f:06d}.png'), cv2.IMREAD_GRAYSCALE))
-                                 for f in frames) if s] if masks else []
-            row = dict(case=case['name'], start=float(w.start), end=float(w.end), masked=box is not None,
-                       motion_in=float(energy[inside].mean()) if inside.any() else np.nan,
-                       motion_in_p99=float(np.percentile(energy[inside], 99)) if inside.any() else np.nan,
-                       motion_out=float(energy[~inside].mean()) if (~inside).any() else np.nan)
-            row['motion_ratio'] = row['motion_in'] / (row['motion_out'] + 1e-3) if np.isfinite(row['motion_out']) else np.nan
-            for key in ('area', 'elongation', 'aspect'):
-                values = np.array([s[key] for s in stats])
-                row[f'{key}_mean'] = float(values.mean()) if stats else np.nan
-                row[f'{key}_range'] = float(values.max() - values.min()) if stats else np.nan
-            row['net_displacement'] = float(net.get(round(float(w.start), 3), np.nan))
-            row['internal_median'], row['internal_p90'] = internal_motion(chunks, starts, times, w.start, w.end)
-            rows.append(row)
-            if encoder is not None:
-                picks = [crops[int(round(j))] for j in np.linspace(0, len(crops) - 1, FRAMES)]
-                clip = np.stack([cv2.resize(c, (encoder.size, encoder.size), interpolation=cv2.INTER_AREA) for c in picks])
-                deep.append(encoder(clip))
-        print(f"{case['name']}: {len(mine)} ventanas", flush=True)
+        yield case['name'], video, masks, mine
+
+
+def check_videos(manifest, windows):
+    """Falla antes de cargar nada si algún vídeo con ventanas no existe o no se puede abrir."""
+    windows = pd.read_csv(windows, dtype={'case': str}) if not isinstance(windows, pd.DataFrame) else windows
+    missing = []
+    for name, video, _, _ in cases_with_windows(manifest, windows):
+        capture = cv2.VideoCapture(str(video))
+        if not video.is_file() or not capture.isOpened():
+            missing.append(str(video))
+        capture.release()
+    if missing:
+        raise FileNotFoundError('No se pueden abrir estos vídeos:\n  ' + '\n  '.join(missing))
+
+
+def window_features(manifest, windows, out, encoder=None, tracks_dir=None):
+    """Características por ventana. Cada caso terminado se guarda en out/casos y se reutiliza si el código no cambia."""
+    from . import pointtrack
+    windows = pd.read_csv(windows, dtype={'case': str})
+    check_videos(manifest, windows)
+    tracks_dir = Path(tracks_dir or pointtrack.TRACKS)
     out = Path(out)
-    out.mkdir(parents=True, exist_ok=True)
-    table = pd.DataFrame(rows)
+    cache = out / 'casos'
+    cache.mkdir(parents=True, exist_ok=True)
+    source = {name: sha256(Path(__file__).parent / f'{name}.py') for name in ('actmodel', 'acts', 'activity', 'pointtrack')}
+    tables, deep = [], []
+    for name, video, masks, mine in cases_with_windows(manifest, windows):
+        stem = cache / name
+        meta = dict(source=source, encoder=encoder.info if encoder is not None else None, windows=len(mine))
+        stored = json.loads(stem.with_suffix('.json').read_text()) if stem.with_suffix('.json').is_file() else None
+        if stored == meta:
+            table = pd.read_csv(stem.with_suffix('.csv'), dtype={'case': str})
+            vectors = np.load(stem.with_suffix('.npy')) if encoder is not None and len(table) else None
+            print(f'{name}: {len(table)} ventanas (guardadas)', flush=True)
+        else:
+            table, vectors = case_features(name, video, masks, mine, encoder, tracks_dir)
+            table.to_csv(stem.with_suffix('.csv'), index=False)
+            if vectors is not None:
+                np.save(stem.with_suffix('.npy'), vectors)
+            stem.with_suffix('.json').write_text(json.dumps(meta, indent=2))
+            print(f'{name}: {len(table)} ventanas', flush=True)
+        tables.append(table)
+        if vectors is not None:
+            deep.append(vectors)
+    table = pd.concat(tables, ignore_index=True)
     table.to_csv(out / 'caracteristicas.csv', index=False)
-    if deep:
-        np.save(out / 'vjepa.npy', np.stack(deep))
+    if encoder is not None:
+        np.save(out / 'vjepa.npy', np.concatenate(deep))
         (out / 'encoder.json').write_text(json.dumps(encoder.info, indent=2))
     return table
+
+
+def case_features(name, video, masks, mine, encoder, tracks_dir):
+    from . import activity, pointtrack
+    rows, deep = [], []
+    times = pointtrack.frame_times(video, tracks_dir / 'tiempos')
+    folder = tracks_dir / video.stem
+    chunks = activity.load_chunks(folder, times) if folder.is_dir() else {}
+    starts = pointtrack.chunk_starts(pointtrack.duration(times))
+    net = net_blocks(times, folder)
+    members = {w.Index: [int(f) for f in np.flatnonzero((times >= w.start) & (times < w.end))] for w in mine.itertuples()}
+    images = read_small(video, {f for frames in members.values() for f in frames})
+    for w in mine.itertuples():
+        frames = [f for f in members[w.Index] if f < len(images) and images[f] is not None]
+        if len(frames) < 2:
+            continue
+        shape = images[frames[0]].shape
+        box = image_box(masks, frames, shape)
+        crops = [square(images[f], box, MOTION['size']) for f in frames]
+        energy = motion_map(crops)
+        inside = union_inside(masks, frames, box, shape) if box is not None else np.ones(energy.shape, bool)
+        stats = [s for s in (mask_stats(cv2.imread(str(masks / 'masks' / f'{f:06d}.png'), cv2.IMREAD_GRAYSCALE))
+                             for f in frames) if s] if masks else []
+        row = dict(case=name, start=float(w.start), end=float(w.end), masked=box is not None,
+                   motion_in=float(energy[inside].mean()) if inside.any() else np.nan,
+                   motion_in_p99=float(np.percentile(energy[inside], 99)) if inside.any() else np.nan,
+                   motion_out=float(energy[~inside].mean()) if (~inside).any() else np.nan)
+        row['motion_ratio'] = row['motion_in'] / (row['motion_out'] + 1e-3) if np.isfinite(row['motion_out']) else np.nan
+        for key in ('area', 'elongation', 'aspect'):
+            values = np.array([s[key] for s in stats])
+            row[f'{key}_mean'] = float(values.mean()) if stats else np.nan
+            row[f'{key}_range'] = float(values.max() - values.min()) if stats else np.nan
+        row['net_displacement'] = float(net.get(round(float(w.start), 3), np.nan))
+        row['internal_median'], row['internal_p90'] = internal_motion(chunks, starts, times, w.start, w.end)
+        rows.append(row)
+        if encoder is not None:
+            picks = [crops[int(round(j))] for j in np.linspace(0, len(crops) - 1, FRAMES)]
+            clip = np.stack([cv2.resize(c, (encoder.size, encoder.size), interpolation=cv2.INTER_AREA) for c in picks])
+            deep.append(encoder(clip))
+    return pd.DataFrame(rows), (np.stack(deep) if deep else None)
 
 
 HANDCRAFTED = ['net_displacement', 'internal_median', 'internal_p90', 'motion_in', 'motion_in_p99', 'motion_out',
@@ -265,6 +314,7 @@ def main():
     command.add_argument('--out', default=str(REPO / 'cierre' / 'actos_modelo'))
     args = parser.parse_args()
     if args.command == 'features':
+        check_videos(args.manifest, args.windows)
         window_features(args.manifest, args.windows, args.out, None if args.no_deep else VJEPA(args.device))
     else:
         evaluate(args.features, args.labels, args.out)
