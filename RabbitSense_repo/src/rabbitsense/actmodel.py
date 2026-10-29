@@ -160,19 +160,20 @@ def window_features(manifest, windows, out, encoder=None, tracks_dir=None):
     source = {name: sha256(Path(__file__).parent / f'{name}.py') for name in ('actmodel', 'acts', 'activity', 'pointtrack')}
     tables, deep = [], []
     for name, video, masks, mine in cases_with_windows(manifest, windows):
-        stem = cache / name
-        meta = dict(source=source, encoder=encoder.info if encoder is not None else None, windows=len(mine))
-        stored = json.loads(stem.with_suffix('.json').read_text()) if stem.with_suffix('.json').is_file() else None
-        if stored == meta:
-            table = pd.read_csv(stem.with_suffix('.csv'), dtype={'case': str})
-            vectors = np.load(stem.with_suffix('.npy')) if encoder is not None and len(table) else None
+        files = {k: cache / f'{name}.{k}' for k in ('csv', 'npy', 'json')}  # sin with_suffix: «18.44.35» lleva puntos
+        meta = dict(case=name, video=str(video), video_bytes=video.stat().st_size, source=source,
+                    encoder=encoder.info if encoder is not None else None, windows=len(mine))
+        stored = json.loads(files['json'].read_text()) if files['json'].is_file() else None
+        table = pd.read_csv(files['csv'], dtype={'case': str}) if stored == meta and files['csv'].is_file() else None
+        if table is not None and set(table.case) <= {name}:
+            vectors = np.load(files['npy']) if encoder is not None and len(table) else None
             print(f'{name}: {len(table)} ventanas (guardadas)', flush=True)
         else:
             table, vectors = case_features(name, video, masks, mine, encoder, tracks_dir)
-            table.to_csv(stem.with_suffix('.csv'), index=False)
+            table.to_csv(files['csv'], index=False)
             if vectors is not None:
-                np.save(stem.with_suffix('.npy'), vectors)
-            stem.with_suffix('.json').write_text(json.dumps(meta, indent=2))
+                np.save(files['npy'], vectors)
+            files['json'].write_text(json.dumps(meta, indent=2))
             print(f'{name}: {len(table)} ventanas', flush=True)
         tables.append(table)
         if vectors is not None:

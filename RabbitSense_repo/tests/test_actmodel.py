@@ -83,6 +83,25 @@ def test_finished_cases_are_reused_and_missing_videos_fail_first(tmp_path, fake_
     assert not (tmp_path / 'other' / 'casos' / 'cached.csv').exists()  # comprobado antes de procesar nada
 
 
+def test_names_with_dots_keep_separate_saved_cases(tmp_path, fake_frames):
+    cases, windows = [], []
+    for name, kind in (('at 18.44.35', 'pan'), ('at 18.44.36', 'follow')):
+        video, masks = make_case(tmp_path, name, kind)
+        draw_video(video, kind)
+        times = pointtrack.frame_times(video, tmp_path / 'tracks' / 'tiempos')
+        pointtrack.track_case(video, masks, tmp_path / 'tracks' / video.stem, FakeTracker(kind), None, times)
+        cases.append(dict(name=name, video=video.name, masks=masks.name))
+        windows.append(pd.DataFrame(dict(case=name, start=np.arange(0., 10., 2.), end=np.arange(2., 12., 2.))))
+    (tmp_path / 'm.json').write_text(json.dumps(dict(cases=cases)))
+    pd.concat(windows).to_csv(tmp_path / 'w.csv', index=False)
+    run = [actmodel.window_features(tmp_path / 'm.json', tmp_path / 'w.csv', tmp_path / 'out', None, tmp_path / 'tracks')
+           for _ in range(2)]
+    for table in run:
+        assert not table.duplicated(['case', 'start']).any() and set(table.case) == {'at 18.44.35', 'at 18.44.36'}
+    pd.testing.assert_frame_equal(run[0], run[1])
+    assert len(list((tmp_path / 'out' / 'casos').glob('*.csv'))) == 2
+
+
 def test_window_without_mask_or_tracks_is_missing_not_still(tmp_path, fake_frames):
     table = features(tmp_path, 'blind', False, masked=False)
     assert not table.masked.any() and table.area_mean.isna().all()
