@@ -1,0 +1,157 @@
+seconds,interval_seconds,measured_sin,displacement_sin,source_sin,reason_sin,measured_con,displacement_con,source_con,reason_con,measured_mascara,displacement_mascara,source_mascara,reason_mascara,case,start,act,locomotion
+2.0,2.0,True,0.3800919328953596,puntos,,True,0.3800919328953596,puntos,,True,0.48968177987124895,mascara,,5177,0.0,eating,False
+4.0,2.0,True,0.10064650680856368,puntos,,True,0.10064650680856368,puntos,,True,0.1372167830622659,mascara,,5177,2.0,eating,False
+6.0,2.0,True,0.03557962763319135,puntos,,True,0.03557962763319135,puntos,,True,0.06889169266286486,mascara,,5177,4.0,eating,False
+8.0,2.0,True,0.017880638705353454,puntos,,True,0.017880638705353454,puntos,,True,0.01018058309548756,mascara,,5177,6.0,eating,False
+10.0,2.0,True,0.04421343415378586,puntos,,True,0.04421343415378586,puntos,,True,0.03441274117375648,mascara,,5177,8.0,eating,False
+12.0,2.0,True,0.0135731926039293,puntos,,True,0.0135731926039293,puntos,,True,0.021557841987535097,mascara,,5177,10.0,eating,False
+14.0,2.0,True,0.08986837712582296,puntos,,True,0.08986837712582296,puntos,,True,0.14120332708561006,mascara,,5177,12.0,eating,False
+16.0,2.0,True,0.011845170493996771,puntos,,True,0.011845170493996771,puntos,,True,0.017208798181707896,mascara,,5177,14.0,eating,False
+18.0,2.0,True,0.0716440546967323,puntos,,True,0.0716440546967323,puntos,,True,0.1254814848303614,mascara,,5177,16.0,eating,False
+20.0,2.0,True,0.2675232969651374,puntos,,True,0.2675232969651374,puntos,,True,0.13646991508453996,mascara,,5177,18.0,eating,False
+22.0,2.0,True,0.32580402852475804,puntos,,True,0.32580402852475804,puntos,,True,0.2531193208892548,mascara,,5177,20.0,eating,False
+24.0,2.0,True,0.13970170020483774,puntos,,True,0.13970170020483774,puntos,,True,0.14398891626134244,mascara,,5177,22.0,not_visible,False
+26.0,2.0,True,0.1200061154350767,puntos,,True,0.1200061154350767,puntos,,False,,,pocos_puntos_conejo,5177,24.0,not_visible,False
+28.0,2.0,True,0.1346057221568262,puntos,,True,0.1346057221568262,puntos,,True,0.1497156630576561,mascara,,5177,26.0,not_visible,False
+30.0,2.0,True,0.10404226672885042,puntos,,True,0.10404226672885042,puntos,,True,0.1373312255638391,mascara,,5177,28.0,eating,False
+32.0,2.0,False,,,pocos_puntos_conejo,False,,,pocos_puntos_conejo,False,,,pocos_puntos_conejo,5177,30.0,locomotion,True
+34.0,2.0,False,,,poco_fondo,False,,,poco_fondo,False,,,poco_fondo,5177,32.0,locomotion,True
+36.0,2.0,False,,,homografia,False,,,homografia,False,,,homografia,5177,34.0,locomotion,True
+38.0,2.0,True,0.01503205337706775,puntos,,True,0.01503205337706775,puntos,,True,0.01225652424891142,mascara,,5177,36.0,exploring,False
+40.0,2.0,True,2.670387772910073,puntos,,True,2.670387772910073,puntos,,True,2.5394191388610077,mascara,,5177,38.0,locomotion,True
+41.66666666666667,1.6666666666666714,False,,,homografia,False,,,homografia,False,,,homografia,5177,40.0,locomotion,True
+2.0,2.0,True,0.1839017818232614,puntos,,True,0.1839017818232614,puntos,,False,,,pocos_puntos_conejo,locomotion,0.0,eating,False
+4.0,2.0,True,0.06168659211387785,puntos,,True,0.06168659211387785,puntos,,True,0.05537521365242075,mascara,,locomotion,2.0,eating,False
+6.0,2.0,True,0.1189257812988951,puntos,,True,0.1189257812988951,puntos,,True,0.08883614071481054,mascara,,locomotion,4.0,exploring,False
+8.0,2.0,True,0.11718887013491325,puntos,,True,0.11718887013491325,puntos,,True,0.13705336981491967,mascara,,locomotion,6.0,eating,False
+10.0,2.0,True,0.4220000531835385,puntos,,True,0.4220000531835385,puntos,,True,0.3514273309121756,mascara,,locomotion,8.0,eating,False
+12.0,2.0,False,,,pocos_puntos_conejo,True,0.41147188013779235,mascara,,True,0.40473931684271613,mascara,,locomotion,10.0,locomotion,True
+13.75,1.75,True,0.3083391694687017,puntos,,True,0.3083391694687017,puntos,,True,0.11154610373803021,mascara,,locomotion,12.0,eating,False
+2.0,2.0,True,0.4138153858343588,puntos,,True,0.4138153858343588,puntos,,False,,,pocos_puntos_conejo,resting,0.0,loaf,False
+4.0,2.0,True,0.24281246879584825,puntos,,True,0.24281246879584825,puntos,,False,,,pocos_puntos_conejo,resting,2.0,eating,False
+6.0,2.0,True,0.12501118557330726,puntos,,True,0.12501118557330726,puntos,,True,0.03461896945261739,mascara,,resting,4.0,eating,False
+8.0,2.0,True,0.1288414175541677,puntos,,True,0.1288414175541677,puntos,,True,0.04901707090702889,mascara,,resting,6.0,eating,False
+10.0,2.0,True,0.049270105649549256,puntos,,True,0.049270105649549256,puntos,,True,0.01965547343104543,mascara,,resting,8.0,eating,False
+12.0,2.0,False,,,poco_fondo,False,,,poco_fondo,False,,,poco_fondo,resting,10.0,not_visible,False
+14.0,2.0,True,0.2706034926922104,puntos,,True,0.2706034926922104,puntos,,True,0.12113358512544374,mascara,,resting,12.0,not_visible,False
+16.0,2.0,False,,,poco_fondo,False,,,poco_fondo,False,,,poco_fondo,resting,14.0,not_visible,False
+17.5,1.5,True,0.040654955668271056,puntos,,True,0.040654955668271056,puntos,,True,0.02772191184772232,mascara,,resting,16.0,eating,False
+2.0,2.0,True,0.021138484674217115,puntos,,True,0.021138484674217115,puntos,,False,,,pocos_puntos_conejo,resting_972F,0.0,loaf,False
+4.0,2.0,True,0.005142243156370571,puntos,,True,0.005142243156370571,puntos,,True,0.1827629141528157,mascara,,resting_972F,2.0,loaf,False
+6.0,2.0,True,0.0013310035818540568,puntos,,True,0.0013310035818540568,puntos,,True,0.009459829844496889,mascara,,resting_972F,4.0,loaf,False
+8.0,2.0,True,0.014158633398528832,puntos,,True,0.014158633398528832,puntos,,True,0.1316398231346695,mascara,,resting_972F,6.0,grooming,False
+10.0,2.0,True,0.024747521005979965,puntos,,True,0.024747521005979965,puntos,,True,0.33613904227530594,mascara,,resting_972F,8.0,eating,False
+11.5,1.5,True,0.028680386029849445,puntos,,True,0.028680386029849445,puntos,,True,0.04356119887096316,mascara,,resting_972F,10.0,eating,False
+2.0,2.0,True,0.01871947468568647,puntos,,True,0.01871947468568647,puntos,,False,,,pocos_puntos_conejo,resting_4944,0.0,lying,False
+4.0,2.0,False,,,homografia,False,,,homografia,False,,,homografia,resting_4944,2.0,lying,False
+6.0,2.0,False,,,poco_fondo,False,,,poco_fondo,False,,,poco_fondo,resting_4944,4.0,lying,False
+8.0,2.0,True,0.006566461399536,puntos,,True,0.006566461399536,puntos,,True,0.03902706504738607,mascara,,resting_4944,6.0,lying,False
+10.0,2.0,True,0.0021140111372503936,puntos,,True,0.0021140111372503936,puntos,,True,0.010138375727892144,mascara,,resting_4944,8.0,lying,False
+10.416666666666666,0.4166666666666661,True,0.0016171877802127587,puntos,,True,0.0016171877802127587,puntos,,True,0.0026529406617672767,mascara,,resting_4944,10.0,lying,False
+2.0,2.0,True,1.2146015749722852,puntos,,True,1.2146015749722852,puntos,,True,1.079627774591171,mascara,,IMG_5190,0.0,locomotion,True
+4.0,2.0,True,0.10147176455898829,puntos,,True,0.10147176455898829,puntos,,True,0.04344144623841272,mascara,,IMG_5190,2.0,exploring,False
+6.0,2.0,True,0.12927038723806938,puntos,,True,0.12927038723806938,puntos,,False,,,pocos_puntos_conejo,IMG_5190,4.0,exploring,False
+8.0,2.0,True,0.1728452267047641,puntos,,True,0.1728452267047641,puntos,,True,0.25430157501230066,mascara,,IMG_5190,6.0,exploring,False
+10.0,2.0,True,1.1446581039904755,puntos,,True,1.1446581039904755,puntos,,True,0.7899042557357858,mascara,,IMG_5190,8.0,locomotion,True
+12.0,2.0,True,0.7596094974946901,puntos,,True,0.7596094974946901,puntos,,True,0.2873816780361407,mascara,,IMG_5190,10.0,locomotion,True
+14.0,2.0,True,0.559474688358991,puntos,,True,0.559474688358991,puntos,,True,0.7360344459381079,mascara,,IMG_5190,12.0,exploring,False
+16.0,2.0,True,0.16806262284748333,puntos,,True,0.16806262284748333,puntos,,True,0.08666294219378928,mascara,,IMG_5190,14.0,exploring,False
+18.0,2.0,True,0.011288920958554202,puntos,,True,0.011288920958554202,puntos,,True,0.012741839532476729,mascara,,IMG_5190,16.0,loaf,False
+20.0,2.0,True,0.04451382743462424,puntos,,True,0.04451382743462424,puntos,,True,0.07913215411196377,mascara,,IMG_5190,18.0,exploring,False
+22.0,2.0,True,0.27171692990193397,puntos,,True,0.27171692990193397,puntos,,True,0.2285280619006983,mascara,,IMG_5190,20.0,rearing,False
+24.0,2.0,True,0.022243968209062052,puntos,,True,0.022243968209062052,puntos,,True,0.01450485095409513,mascara,,IMG_5190,22.0,rearing,False
+26.0,2.0,True,0.04564488573391972,puntos,,True,0.04564488573391972,puntos,,True,0.09770678829910083,mascara,,IMG_5190,24.0,loaf,False
+28.0,2.0,True,0.037464212334883916,puntos,,True,0.037464212334883916,puntos,,True,0.02189752786839283,mascara,,IMG_5190,26.0,loaf,False
+30.0,2.0,True,0.01773328235420434,puntos,,True,0.01773328235420434,puntos,,True,0.012735275653778341,mascara,,IMG_5190,28.0,loaf,False
+32.0,2.0,True,0.14106267289531652,puntos,,True,0.14106267289531652,puntos,,True,0.16260769119328625,mascara,,IMG_5190,30.0,loaf,False
+34.0,2.0,True,0.08488022751062531,puntos,,True,0.08488022751062531,puntos,,True,0.12386083022547496,mascara,,IMG_5190,32.0,loaf,False
+36.0,2.0,True,1.4350105881906279,puntos,,True,1.4350105881906279,puntos,,True,1.1101919309623478,mascara,,IMG_5190,34.0,locomotion,True
+38.0,2.0,True,0.22825798263089486,puntos,,True,0.22825798263089486,puntos,,True,0.36829743384816976,mascara,,IMG_5190,36.0,not_visible,False
+40.0,2.0,True,0.015461197843706276,puntos,,True,0.015461197843706276,puntos,,True,0.21990716168070493,mascara,,IMG_5190,38.0,loaf,False
+42.0,2.0,True,0.8039564343901103,puntos,,True,0.8039564343901103,puntos,,True,0.42521970828054184,mascara,,IMG_5190,40.0,locomotion,True
+44.0,2.0,True,0.1887253532329716,puntos,,True,0.1887253532329716,puntos,,True,0.11143063269957591,mascara,,IMG_5190,42.0,exploring,False
+46.0,2.0,False,,,pocos_puntos_conejo,True,1.9776282493686188,mascara,,True,1.980020151622946,mascara,,IMG_5190,44.0,locomotion,True
+48.0,2.0,False,,,pocos_puntos_conejo,True,0.08472699962523866,mascara,,True,0.08359064189529772,mascara,,IMG_5190,46.0,not_visible,False
+50.0,2.0,True,0.27901252535917315,puntos,,True,0.27901252535917315,puntos,,True,0.452993632587183,mascara,,IMG_5190,48.0,loaf,False
+52.0,2.0,True,0.05296251220948942,puntos,,True,0.05296251220948942,puntos,,True,0.05751319669030607,mascara,,IMG_5190,50.0,grooming,False
+54.0,2.0,True,0.0197892093090239,puntos,,True,0.0197892093090239,puntos,,True,0.14386887442921384,mascara,,IMG_5190,52.0,grooming,False
+56.0,2.0,True,0.04112586181027853,puntos,,True,0.04112586181027853,puntos,,True,0.06342286864520837,mascara,,IMG_5190,54.0,loaf,False
+58.0,2.0,True,2.3262026715566164,puntos,,True,2.3262026715566164,puntos,,True,2.4850941946489753,mascara,,IMG_5190,56.0,locomotion,True
+60.0,2.0,True,4.960177320320061,puntos,,True,4.960177320320061,puntos,,True,4.454168265208752,mascara,,IMG_5190,58.0,locomotion,True
+62.0,2.0,True,0.09106951646467173,puntos,,True,0.1554419955779267,mascara,,True,0.9519789311235501,mascara,,IMG_5190,60.0,locomotion,True
+64.0,2.0,True,0.08890513844598899,puntos,,True,0.08890513844598899,puntos,,True,0.1752847984775919,mascara,,IMG_5190,62.0,exploring,False
+66.0,2.0,True,0.8760173884331162,puntos,,True,0.8760173884331162,puntos,,True,0.9366616689561477,mascara,,IMG_5190,64.0,exploring,False
+66.07000000000002,0.0700000000000216,True,0.003663109412912327,puntos,,True,0.003663109412912327,puntos,,True,0.005374242131188882,mascara,,IMG_5190,66.0,exploring,False
+2.0,2.0,False,,,homografia,False,,,homografia,False,,,homografia,IMG_5191,0.0,not_visible,False
+4.0,2.0,True,0.01957922134549655,puntos,,True,0.01957922134549655,puntos,,True,0.02105356646116007,mascara,,IMG_5191,2.0,not_visible,False
+6.0,2.0,True,0.004309487060591197,puntos,,True,0.004309487060591197,puntos,,True,0.004468574915448944,mascara,,IMG_5191,4.0,not_visible,False
+8.0,2.0,True,0.0013824358775670993,puntos,,True,0.0013824358775670993,puntos,,True,0.009073159509272108,mascara,,IMG_5191,6.0,not_visible,False
+10.0,2.0,True,0.44615110188702506,puntos,,True,0.44615110188702506,puntos,,False,,,pocos_puntos_conejo,IMG_5191,8.0,not_visible,False
+12.0,2.0,False,,,homografia,False,,,homografia,False,,,homografia,IMG_5191,10.0,not_visible,False
+14.0,2.0,False,,,pocos_puntos_conejo,False,,,pocos_puntos_conejo,False,,,pocos_puntos_conejo,IMG_5191,12.0,locomotion,True
+16.0,2.0,False,,,sin_mascara_en_consulta,False,,,sin_mascara_en_consulta,False,,,sin_mascara_en_consulta,IMG_5191,14.0,locomotion,True
+18.0,2.0,False,,,sin_mascara_en_consulta,False,,,sin_mascara_en_consulta,False,,,sin_mascara_en_consulta,IMG_5191,16.0,locomotion,True
+20.0,2.0,False,,,sin_mascara_en_consulta,False,,,sin_mascara_en_consulta,False,,,sin_mascara_en_consulta,IMG_5191,18.0,locomotion,True
+22.0,2.0,False,,,sin_mascara_en_consulta,False,,,sin_mascara_en_consulta,False,,,sin_mascara_en_consulta,IMG_5191,20.0,locomotion,True
+23.82,1.8200000000000003,False,,,sin_mascara_en_consulta,False,,,sin_mascara_en_consulta,False,,,sin_mascara_en_consulta,IMG_5191,22.0,not_visible,False
+2.0,2.0,True,0.9177784842961672,puntos,,True,0.9177784842961672,puntos,,True,1.078389631322494,mascara,,IMG_5192,0.0,exploring,False
+4.0,2.0,True,0.03334354452968664,puntos,,True,0.03334354452968664,puntos,,True,0.018539736012424805,mascara,,IMG_5192,2.0,exploring,False
+6.0,2.0,True,2.180557295665113,puntos,,True,2.180557295665113,puntos,,True,1.6278262349820494,mascara,,IMG_5192,4.0,locomotion,True
+8.0,2.0,True,2.6764339148974945,puntos,,True,2.6764339148974945,puntos,,True,2.646926835376491,mascara,,IMG_5192,6.0,locomotion,True
+10.0,2.0,False,,,homografia,False,,,homografia,False,,,homografia,IMG_5192,8.0,locomotion,True
+12.0,2.0,True,0.0886221402325934,puntos,,True,0.0886221402325934,puntos,,True,0.027206136627604308,mascara,,IMG_5192,10.0,exploring,False
+14.0,2.0,True,0.3857463674855661,puntos,,True,0.3857463674855661,puntos,,True,0.24121682032909983,mascara,,IMG_5192,12.0,loaf,False
+16.0,2.0,True,0.12176332988305137,puntos,,True,0.12176332988305137,puntos,,True,0.11453595999773794,mascara,,IMG_5192,14.0,loaf,False
+18.0,2.0,True,0.024835425453634267,puntos,,True,0.024835425453634267,puntos,,True,0.02401406839535823,mascara,,IMG_5192,16.0,loaf,False
+20.0,2.0,True,0.0056338152854447055,puntos,,True,0.0056338152854447055,puntos,,True,0.022399963611404373,mascara,,IMG_5192,18.0,loaf,False
+21.975,1.9750000000000014,True,3.820197699579466,puntos,,True,3.820197699579466,puntos,,True,4.137758120419383,mascara,,IMG_5192,20.0,locomotion,True
+2.0,2.0,True,1.0401112241550121,puntos,,True,1.0401112241550121,puntos,,True,0.4138329607242784,mascara,,IMG_5193,0.0,locomotion,True
+4.0,2.0,True,0.0689009231209836,puntos,,True,0.0689009231209836,puntos,,True,0.07428907155709323,mascara,,IMG_5193,2.0,exploring,False
+6.0,2.0,False,,,pocos_puntos_conejo,True,0.641878923678064,mascara,,True,0.6419437459642511,mascara,,IMG_5193,4.0,locomotion,True
+8.0,2.0,True,6.519802078387051,puntos,,True,6.519802078387051,puntos,,True,5.999727317491616,mascara,,IMG_5193,6.0,locomotion,True
+9.086666666666668,1.0866666666666678,False,,,pocos_puntos_conejo,False,,,pocos_puntos_conejo,False,,,pocos_puntos_conejo,IMG_5193,8.0,locomotion,True
+2.0,2.0,False,,,poco_fondo,False,,,poco_fondo,False,,,poco_fondo,WhatsApp Video 2026-10-26 at 18.44.34,0.0,not_visible,False
+4.0,2.0,True,0.5389900199982106,puntos,,True,0.5389900199982106,puntos,,True,0.11188921121269976,mascara,,WhatsApp Video 2026-10-26 at 18.44.34,2.0,loaf,False
+6.0,2.0,True,0.04176838749527108,puntos,,True,0.04176838749527108,puntos,,True,0.0112962184574954,mascara,,WhatsApp Video 2026-10-26 at 18.44.34,4.0,loaf,False
+8.0,2.0,True,0.1108959310558339,puntos,,True,0.1108959310558339,puntos,,True,0.013310080344346149,mascara,,WhatsApp Video 2026-10-26 at 18.44.34,6.0,loaf,False
+10.0,2.0,False,,,pocos_puntos_conejo,True,0.16590172633706207,mascara,,True,0.12587553423423417,mascara,,WhatsApp Video 2026-10-26 at 18.44.34,8.0,loaf,False
+10.72,0.7200000000000006,False,,,pocos_puntos_conejo,True,0.23794639093194045,mascara,,True,0.23794639093194045,mascara,,WhatsApp Video 2026-10-26 at 18.44.34,10.0,loaf,False
+2.0,2.0,False,,,homografia,False,,,homografia,False,,,homografia,WhatsApp Video 2026-10-26 at 18.44.35,0.0,lying,False
+4.0,2.0,False,,,poco_fondo,False,,,poco_fondo,False,,,poco_fondo,WhatsApp Video 2026-10-26 at 18.44.35,2.0,lying,False
+6.0,2.0,True,0.12690216485970918,puntos,,True,0.12690216485970918,puntos,,True,0.1581909885407901,mascara,,WhatsApp Video 2026-10-26 at 18.44.35,4.0,lying,False
+6.416666666666667,0.41666666666666696,True,0.1111798602847454,puntos,,True,0.1111798602847454,puntos,,True,0.09205800210077489,mascara,,WhatsApp Video 2026-10-26 at 18.44.35,6.0,lying,False
+2.0,2.0,True,0.19861804179824424,puntos,,True,0.19861804179824424,puntos,,True,0.10842679565845488,mascara,,WhatsApp Video 2026-10-26 at 18.44.36,0.0,eating,False
+4.0,2.0,True,0.46100068031399233,puntos,,True,0.46100068031399233,puntos,,True,0.09915467987912564,mascara,,WhatsApp Video 2026-10-26 at 18.44.36,2.0,eating,False
+6.0,2.0,False,,,pocos_puntos_conejo,True,0.06263479210705719,mascara,,True,0.050173580316348755,mascara,,WhatsApp Video 2026-10-26 at 18.44.36,4.0,eating,False
+7.920000000000001,1.9200000000000008,False,,,poco_fondo,False,,,poco_fondo,False,,,poco_fondo,WhatsApp Video 2026-10-26 at 18.44.36,6.0,not_visible,False
+2.0,2.0,False,,,pocos_puntos_conejo,True,0.6002176460649252,mascara,,True,0.5455486041566804,mascara,,WhatsApp Video 2026-10-26 at 18.44.37,0.0,exploring,False
+4.0,2.0,False,,,homografia,False,,,homografia,False,,,homografia,WhatsApp Video 2026-10-26 at 18.44.37,2.0,locomotion,True
+6.0,2.0,False,,,homografia,False,,,homografia,False,,,homografia,WhatsApp Video 2026-10-26 at 18.44.37,4.0,loaf,False
+6.1433333333333335,0.14333333333333353,False,,,homografia,False,,,homografia,False,,,homografia,WhatsApp Video 2026-10-26 at 18.44.37,6.0,loaf,False
+2.0,2.0,False,,,pocos_puntos_conejo,True,0.07192950057147282,mascara,,True,0.07192950057147282,mascara,,WhatsApp Video 2026-10-26 at 18.44.38,0.0,eating,False
+4.0,2.0,False,,,homografia,False,,,homografia,False,,,homografia,WhatsApp Video 2026-10-26 at 18.44.38,2.0,grooming,False
+6.0,2.0,True,0.009880528650698914,puntos,,True,0.009880528650698914,puntos,,True,0.10539994676636705,mascara,,WhatsApp Video 2026-10-26 at 18.44.38,4.0,eating,False
+8.0,2.0,True,0.03305946324801887,puntos,,True,0.03305946324801887,puntos,,True,0.07219960107188644,mascara,,WhatsApp Video 2026-10-26 at 18.44.38,6.0,eating,False
+10.0,2.0,True,0.4907689391795696,puntos,,True,0.4907689391795696,puntos,,True,0.4804502740331105,mascara,,WhatsApp Video 2026-10-26 at 18.44.38,8.0,eating,False
+10.96,0.9600000000000009,True,1.075257600226379,puntos,,True,1.075257600226379,puntos,,True,0.36754192596377383,mascara,,WhatsApp Video 2026-10-26 at 18.44.38,10.0,locomotion,True
+2.0,2.0,True,0.2081390249938462,puntos,,True,0.2081390249938462,puntos,,True,0.08647564751107009,mascara,,WhatsApp Video 2026-10-26 at 18.44.38 (1),0.0,grooming,False
+4.0,2.0,False,,,pocos_puntos_conejo,True,0.08386936195801889,mascara,,True,0.08198930439935437,mascara,,WhatsApp Video 2026-10-26 at 18.44.38 (1),2.0,grooming,False
+6.0,2.0,True,0.27437449866903735,puntos,,True,0.27437449866903735,puntos,,True,0.08987839973431111,mascara,,WhatsApp Video 2026-10-26 at 18.44.38 (1),4.0,loaf,False
+8.0,2.0,True,0.4195611839451084,puntos,,True,0.4195611839451084,puntos,,True,0.05428399011200702,mascara,,WhatsApp Video 2026-10-26 at 18.44.38 (1),6.0,grooming,False
+8.72,0.7200000000000006,True,0.10504749891188127,puntos,,True,0.10504749891188127,puntos,,True,0.04150789549116018,mascara,,WhatsApp Video 2026-10-26 at 18.44.38 (1),8.0,grooming,False
+2.0,2.0,True,0.0007249368226552876,puntos,,True,0.0007249368226552876,puntos,,True,0.0013888237101099654,mascara,,WhatsApp Video 2026-10-26 at 18.44.40,0.0,lying,False
+4.0,2.0,True,0.04102459474852288,puntos,,True,0.04102459474852288,puntos,,True,0.01222073631183338,mascara,,WhatsApp Video 2026-10-26 at 18.44.40,2.0,lying,False
+6.0,2.0,False,,,homografia,False,,,homografia,False,,,homografia,WhatsApp Video 2026-10-26 at 18.44.40,4.0,lying,False
+8.0,2.0,True,0.027303180876882896,puntos,,True,0.027303180876882896,puntos,,True,0.018784748582601877,mascara,,WhatsApp Video 2026-10-26 at 18.44.40,6.0,lying,False
+10.0,2.0,True,0.004212708024941799,puntos,,True,0.004212708024941799,puntos,,True,0.006744186066283072,mascara,,WhatsApp Video 2026-10-26 at 18.44.40,8.0,lying,False
+12.0,2.0,True,0.007954244860626574,puntos,,True,0.007954244860626574,puntos,,True,0.0026744635753223056,mascara,,WhatsApp Video 2026-10-26 at 18.44.40,10.0,lying,False
+14.0,2.0,True,0.025761230321941393,puntos,,True,0.025761230321941393,puntos,,True,0.017136388485495535,mascara,,WhatsApp Video 2026-10-26 at 18.44.40,12.0,lying,False
+16.0,2.0,True,0.17838909882284273,puntos,,True,0.17838909882284273,puntos,,True,0.08568112895147269,mascara,,WhatsApp Video 2026-10-26 at 18.44.40,14.0,lying,False
+18.0,2.0,True,0.0070388908471300795,puntos,,True,0.0070388908471300795,puntos,,True,0.013588795559337275,mascara,,WhatsApp Video 2026-10-26 at 18.44.40,16.0,lying,False
+18.28,0.28000000000000114,True,0.001237317293758905,puntos,,True,0.001237317293758905,puntos,,True,0.001019607086894522,mascara,,WhatsApp Video 2026-10-26 at 18.44.40,18.0,lying,False
+2.0,2.0,True,0.2774811209590821,puntos,,True,0.2774811209590821,puntos,,True,0.08174745775794127,mascara,,WhatsApp Video 2026-10-26 at 18.44.41,0.0,exploring,False
+4.0,2.0,True,0.21992473655350156,puntos,,True,0.21992473655350156,puntos,,True,0.06862856847637804,mascara,,WhatsApp Video 2026-10-26 at 18.44.41,2.0,exploring,False
+6.0,2.0,True,0.42980797039602037,puntos,,True,0.42980797039602037,puntos,,True,0.4485507953422173,mascara,,WhatsApp Video 2026-10-26 at 18.44.41,4.0,exploring,False
+8.0,2.0,True,1.7444209301931624,puntos,,True,1.7444209301931624,puntos,,True,1.1213142100450695,mascara,,WhatsApp Video 2026-10-26 at 18.44.41,6.0,locomotion,True
+10.0,2.0,True,2.468610403072004,puntos,,True,2.468610403072004,puntos,,True,2.8405121972794594,mascara,,WhatsApp Video 2026-10-26 at 18.44.41,8.0,locomotion,True
+11.875,1.875,True,0.19148873818608414,puntos,,True,0.19148873818608414,puntos,,True,0.06297898121775822,mascara,,WhatsApp Video 2026-10-26 at 18.44.41,10.0,exploring,False

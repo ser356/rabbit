@@ -1,0 +1,66 @@
+{
+  "criterion": {
+    "consistency_median": 0.15,
+    "locomotion_coverage_gain": 0.15,
+    "auc_min": 0.9
+  },
+  "coverage": {
+    "sin": {
+      "eating": 0.9354838709677419,
+      "exploring": 0.9523809523809523,
+      "grooming": 0.75,
+      "loaf": 0.84,
+      "locomotion": 0.53125,
+      "lying": 0.75,
+      "rearing": 1.0,
+      "todas": 0.7913669064748201
+    },
+    "con": {
+      "eating": 1.0,
+      "exploring": 1.0,
+      "grooming": 0.875,
+      "loaf": 0.92,
+      "locomotion": 0.625,
+      "lying": 0.75,
+      "rearing": 1.0,
+      "todas": 0.8561151079136691
+    }
+  },
+  "locomotion_coverage_gain": 0.09375,
+  "unmeasured_reasons": {
+    "sin": {
+      "(False, 'homografia')": 6,
+      "(False, 'pocos_puntos_conejo')": 6,
+      "(False, 'poco_fondo')": 2,
+      "(True, 'pocos_puntos_conejo')": 6,
+      "(True, 'homografia')": 4,
+      "(True, 'sin_mascara_en_consulta')": 4,
+      "(True, 'poco_fondo')": 1
+    },
+    "con": {
+      "(False, 'homografia')": 6,
+      "(False, 'poco_fondo')": 2,
+      "(True, 'homografia')": 4,
+      "(True, 'sin_mascara_en_consulta')": 4,
+      "(True, 'pocos_puntos_conejo')": 3,
+      "(True, 'poco_fondo')": 1
+    }
+  },
+  "consistency": {
+    "blocks": 111,
+    "median_abs_difference": 0.05206190256518111,
+    "p90_abs_difference": 0.36527719383310137
+  },
+  "auc": {
+    "sin": 0.9702719797596457,
+    "con": 0.9752525252525253
+  },
+  "mask_blocks_added": 10,
+  "adopt_mask": false,
+  "labels_sha256": "a9f6feacfe4302573c485ddbc9880967b44e9e901adce4e0b1ce24d8ffc40567",
+  "source_sha256": {
+    "activity": "0b6f067fb340a59e71251f8ae2052e4c9a6bcfe2e3d41d79069e89838ac9ca9e",
+    "pointtrack": "cde31bf90aed914929ff428b2476dfcd2a4ba91bf8d587a6b27b2302b010c8f6"
+  },
+  "note": "Etiquetas de actos de Claude (kappa 0,63); bloques de 2 s del índice de ventanas."
+}
