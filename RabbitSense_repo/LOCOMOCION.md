@@ -170,6 +170,30 @@ Criterio: exactitud equilibrada ≥ 0,6 y ≥ 0,5 en cada clase.
 
 **Conclusión.** Con estos 17 vídeos no se puede entrenar ni evaluar un clasificador de actos: cada acto está casi encerrado en su escena, y más modelo no arregla eso. Lo que sí funciona es medir el desplazamiento, sin aprender, y su punto débil es la cobertura del seguimiento. Para comer, tumbado y otra hacen falta sesiones en las que la misma escena contenga varios actos, que es lo que da la cámara fija.
 
+### Actos aprendidos con YouTube y probados en Cinna (fijado el 2026-10-29, antes de descargar)
+
+**Por qué.** En Cinna cada acto está casi encerrado en su escena, y un modelo entrenado con él aprende la escena. En YouTube cada acto aparece en muchas escenas distintas. Cinna queda entero como test: no entra en el entrenamiento ni en ningún ajuste.
+
+**Método** ([ytacts.py](src/rabbitsense/ytacts.py)):
+
+1. **Búsquedas fijas:** 30 búsquedas, 5 por acto ([youtube_actos_busquedas.tsv](benchmarks/youtube_actos_busquedas.tsv)). Se bajan hasta 4 vídeos por búsqueda, de 15 a 180 s y hasta 480p. El acto de la búsqueda no se usa como etiqueta.
+2. **Detector:** OWLv2 (`google/owlv2-base-patch16-ensemble`, texto «a photo of a rabbit», umbral 0,2), en 4 fotogramas por ventana de 2 s. Así YouTube y Cinna tienen el mismo tipo de recorte; las máscaras SAM2 no se usan para el modelo. Detectar al conejo es lo que faltaba en el intento de locomoción con YouTube, que usaba la imagen completa.
+3. **Puerta previa en Cinna** (sin mirar etiquetas de actos), en las ventanas con máscara SAM2:
+   - el detector debe encontrar a Cinna en ≥ 3 de los 4 fotogramas en el 80 % de las ventanas;
+   - el rectángulo detectado debe coincidir con el de SAM2: IoU mediana ≥ 0,5.
+
+   Si no pasa, se para antes de descargar nada.
+4. **Ventanas de YouTube:** por vídeo, hasta 12 ventanas candidatas de 2 s, sin solapar y repartidas por todo el vídeo. Se conservan hasta 5, repartidas, entre las que tienen un solo conejo en los 4 fotogramas.
+5. **Características:** V-JEPA 2 congelado, 16 fotogramas del recorte de la caja fija, calculado antes de etiquetar.
+6. **Etiquetado:** las etiquetas las pone Claude con hojas de movimiento, como en Cinna: 4 fotogramas y el mapa de movimiento. Fichero: `RabbitSense_ARCHIVO/actos_youtube_claude.csv`. «No visible» si hay varios conejos, si está en brazos, si hay cortes o si es animación.
+7. **Clasificador:** las mismas cuatro clases y el mismo ajuste que en Cinna (regresión logística, clases equilibradas, C = 0,1), solo con YouTube.
+   - Mínimo de datos: 30 ventanas de 8 vídeos por clase; si no se llega, se para.
+   - Validación por vídeo solo informativa.
+   - Modelo congelado en `benchmarks/ytactos_modelo.json`.
+8. **Test en Cinna, una sola vez:** sobre las ventanas etiquetadas (v2), con el mismo criterio: exactitud equilibrada ≥ 0,6 y ≥ 0,5 en cada clase. Las ventanas sin detección se evalúan igual, con la imagen completa. Si falla, no se reentrena mirando a Cinna.
+
+**Límites.** Las etiquetas de Cinna son de Claude (kappa 0,63) y la agrupación de clases se decidió tras verlas: el resultado es exploratorio. Referencia: dejando fuera una sesión de Cinna, la exactitud equilibrada fue de 0,39 a 0,49.
+
 ## Desplazamiento respecto al suelo con CoTracker3 (pre-registrado el 2026-10-27, antes de ejecutar)
 
 **Por qué.** Los modelos aprendidos distinguen escenas, no desplazamiento: la AUC intra-vídeo queda cerca del azar. Se mide directamente lo que define la locomoción, sin entrenar nada y con una regla física fija, de modo que no hay selección sobre los 57 clips. El modelo es CoTracker3 offline de Meta (`facebookresearch/co-tracker`, `cotracker3_offline`, vía `torch.hub`).

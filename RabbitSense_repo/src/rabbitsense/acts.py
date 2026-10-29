@@ -247,6 +247,11 @@ def window_box(masks, frames, shape):
         return None
     x0 = min(b[0] for b in boxes); y0 = min(b[1] for b in boxes)
     x1 = max(b[0] + b[2] for b in boxes); y1 = max(b[1] + b[3] for b in boxes)
+    return square_around(x0, y0, x1, y1, shape)
+
+
+def square_around(x0, y0, x1, y1, shape):
+    """Caja cuadrada (izquierda, arriba, lado) centrada en el rectángulo y ampliada `pad`, dentro de la imagen."""
     side = min(int(max(x1 - x0, y1 - y0) * (1 + 2 * SHEET['pad'] / 2)), max(shape[:2]))
     cx, cy = (x0 + x1) / 2, (y0 + y1) / 2
     left = int(np.clip(cx - side / 2, 0, max(0, shape[1] - side)))
@@ -300,6 +305,24 @@ def square(image, box, size):
     return tile
 
 
+def sheet_line(crops, text, boxed, settings=MOTION):
+    """Fila de hoja: rótulo, `stills` fotogramas y el mapa de movimiento de todos los recortes de la ventana."""
+    energy = motion_map(crops)
+    heat = cv2.applyColorMap(np.clip(energy * settings['gain'], 0, 255).astype(np.uint8), cv2.COLORMAP_INFERNO)
+    picks = [crops[int(round(j))] for j in np.linspace(0, len(crops) - 1, settings['stills'])]
+    label = np.full((settings['size'], 70, 3), 20, np.uint8)
+    cv2.putText(label, text, (6, settings['size'] // 2), cv2.FONT_HERSHEY_SIMPLEX, .6, (255, 255, 255), 1)
+    if not boxed:
+        cv2.putText(label, 'sin', (6, settings['size'] // 2 + 22), cv2.FONT_HERSHEY_SIMPLEX, .5, (0, 0, 255), 1)
+    return np.hstack([label] + picks + [heat]), energy
+
+
+def write_sheets(lines, out, name, settings=MOTION):
+    for s in range(0, len(lines), settings['rows']):
+        cv2.imwrite(str(Path(out) / f"{name}_{s // settings['rows']:02d}.jpg"), np.vstack(lines[s:s + settings['rows']]),
+                    [cv2.IMWRITE_JPEG_QUALITY, settings['quality']])
+
+
 def motion_sheets(manifest, out, settings=MOTION):
     """Hojas de movimiento: por cada ventana de 2 s (tiempo real), 4 fotogramas y un mapa de movimiento calculado con
     todos los fotogramas, sobre una caja fija (sin seguir al conejo, para que su desplazamiento también se vea)."""
@@ -321,20 +344,12 @@ def motion_sheets(manifest, out, settings=MOTION):
                 continue
             box = image_box(masks, frames, images[frames[0]].shape)
             crops = [square(images[f], box, settings['size']) for f in frames]
-            energy = motion_map(crops)
-            heat = cv2.applyColorMap(np.clip(energy * settings['gain'], 0, 255).astype(np.uint8), cv2.COLORMAP_INFERNO)
-            picks = [crops[int(round(j))] for j in np.linspace(0, len(crops) - 1, settings['stills'])]
-            label = np.full((settings['size'], 70, 3), 20, np.uint8)
-            cv2.putText(label, f'{start:.0f}s', (6, settings['size'] // 2), cv2.FONT_HERSHEY_SIMPLEX, .6, (255, 255, 255), 1)
-            if box is None:
-                cv2.putText(label, 'sin', (6, settings['size'] // 2 + 22), cv2.FONT_HERSHEY_SIMPLEX, .5, (0, 0, 255), 1)
-            lines.append(np.hstack([label] + picks + [heat]))
+            line, energy = sheet_line(crops, f'{start:.0f}s', box is not None, settings)
+            lines.append(line)
             rows.append(dict(case=case['name'], start=float(start), end=float(start + settings['window']),
                              frames=len(frames), masked=box is not None,
                              motion_mean=float(energy.mean()), motion_p999=float(np.percentile(energy, 99.9))))
-        for s in range(0, len(lines), settings['rows']):
-            name = f"{case['name']}_{s // settings['rows']:02d}.jpg"
-            cv2.imwrite(str(out / name), np.vstack(lines[s:s + settings['rows']]), [cv2.IMWRITE_JPEG_QUALITY, settings['quality']])
+        write_sheets(lines, out, case['name'], settings)
         print(f"{case['name']}: {len(lines)} ventanas", flush=True)
     pd.DataFrame(rows).to_csv(out / 'ventanas.csv', index=False)
     return len(rows)
