@@ -102,7 +102,7 @@ def features(folder, rows, rng, key):
             vector[actmodel.CLASSES.index(actmodel.GROUPS[act])] += 3
         block = k // len(acts)  # cada vídeo recibe bloques con todos los actos
         name, start = f'v{block % 12}', .5 + 2 * ((block // 12) * len(acts) + k % len(acts))
-        table.append({key: name, 'start': start, 'end': start + 2, 'boxed': k % 9 != 0})
+        table.append({key: name, 'start': start, 'end': start + 2, 'boxed': k % 9 != 0, 'found': 4 if k % 9 else 0})
         labels.append({key: name, 'start': start, 'act': act})
         x.append(vector)
     folder.mkdir(parents=True)
@@ -122,6 +122,7 @@ def test_train_on_youtube_freezes_and_tests_cinna_once(tmp_path):
     result = ytacts.test(cinna, cinna_labels, tmp_path / 'cierre', tmp_path / 'modelo.json')
     assert result['passes'] and result['status'] == 'resolved_exploratory' and result['windows'] == 100
     assert set(result['accuracy_by_original_act']) == {'locomotion', 'eating', 'lying', 'loaf', 'grooming'}
+    assert result['well_detected']['windows'] < result['windows'] and result['well_detected']['passes']
     with pytest.raises(RuntimeError, match='una sola vez'):
         ytacts.test(cinna, cinna_labels, tmp_path / 'cierre', tmp_path / 'modelo.json')
 
@@ -151,3 +152,22 @@ def test_owlv2_wrapper_runs_a_tiny_random_model():
     for boxes in found:
         for score, x0, y0, x1, y1 in boxes:
             assert score >= ytacts.DETECTOR['threshold'] and 0 <= x0 < x1 <= 80 and 0 <= y0 < y1 <= 48
+
+
+def test_amended_gate_excludes_not_visible_and_keeps_the_original_verdict(tmp_path):
+    folder = tmp_path / 'cinna'
+    folder.mkdir()
+    rows = [dict(case='a', start=2. * k, end=2. * k + 2, sam2=True, found=4 if k < 15 else 0,
+                 iou_sam2=.9 if k < 15 else np.nan) for k in range(20)]
+    pd.DataFrame(rows).to_csv(folder / 'ventanas.csv', index=False)
+    labels = pd.DataFrame(dict(case='a', start=[2. * k for k in range(20)],
+                               act=['eating'] * 15 + ['loaf'] + ['not_visible'] * 4))
+    labels.to_csv(tmp_path / 'labels.csv', index=False)
+    (folder / 'deteccion.json').write_text(json.dumps(dict(passes=False, coverage=.75)))
+    with pytest.raises(RuntimeError):
+        ytacts.require_gate(folder / 'deteccion.json')
+    gate = ytacts.amend_gate(folder, tmp_path / 'labels.csv')
+    assert gate['passes'] is False and gate['amendment']['windows'] == 16
+    assert gate['amendment']['coverage'] == pytest.approx(15 / 16) and gate['amendment']['passes']
+    assert gate['amendment']['by_act']['not_visible'] == dict(windows=4, detected=0)
+    ytacts.require_gate(folder / 'deteccion.json')

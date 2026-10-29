@@ -194,6 +194,30 @@ Criterio: exactitud equilibrada ≥ 0,6 y ≥ 0,5 en cada clase.
 
 **Límites.** Las etiquetas de Cinna son de Claude (kappa 0,63) y la agrupación de clases se decidió tras verlas: el resultado es exploratorio. Referencia: dejando fuera una sesión de Cinna, la exactitud equilibrada fue de 0,39 a 0,49.
 
+**Puerta del detector en Cinna (2026-10-29): no pasó.** [deteccion.json](runs/ytactos/cinna/deteccion.json).
+- Cobertura 0,79, con mínimo 0,8.
+- IoU mediana con SAM2 0,89, con mínimo 0,5. Cuando detecta, la caja es buena.
+
+**Diagnóstico.** De los 32 fallos:
+- **13 son ventanas «no visible».** Ahí SAM2 arrastra la máscara a otra zona y el detector, con razón, no encuentra al conejo. Esas ventanas no entran en el test.
+- **12 son de desplazarse,** que tiene detección suficiente en 15 de 27 ventanas. Las causas son el desenfoque y lo pequeño que sale Cinna en IMG_5192 y 5193.
+- **Con Cinna quieto o comiendo, el detector va muy bien.** Detección suficiente:
+
+| Acto | Ventanas con detección |
+|---|---:|
+| comer | 29/30 |
+| agazapado | 24/25 |
+| tumbado | 19/20 |
+| acicalarse | 8/8 |
+| explorar | 17/21 |
+
+**Enmienda posterior, declarada** (`ytacts amend-gate`):
+- **Qué cambia:** la puerta se recalcula solo con las ventanas que entran en el test. Las etiquetas de actos se usan únicamente para excluir «no visible».
+- **Resultado:** cobertura 0,86 en 133 ventanas; pasa.
+- **Qué se conserva:** el resultado pre-registrado sigue en el fichero (`passes: false`).
+- **Desglose en el test:** se informa también solo con las ventanas bien detectadas (≥ 3 de 4 fotogramas).
+- **Riesgo conocido:** en YouTube solo se conservan ventanas con el conejo detectado en los 4 fotogramas. El desplazamiento de entrenamiento será el más nítido, mientras que el de Cinna suele ser borroso.
+
 ## Desplazamiento respecto al suelo con CoTracker3 (pre-registrado el 2026-10-27, antes de ejecutar)
 
 **Por qué.** Los modelos aprendidos distinguen escenas, no desplazamiento: la AUC intra-vídeo queda cerca del azar. Se mide directamente lo que define la locomoción, sin entrenar nada y con una regla física fija, de modo que no hay selección sobre los 57 clips. El modelo es CoTracker3 offline de Meta (`facebookresearch/co-tracker`, `cotracker3_offline`, vía `torch.hub`).

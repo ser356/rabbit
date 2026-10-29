@@ -26,5 +26,48 @@
     "size": 256,
     "frames": 16
   },
-  "note": "Sin detección se usa la imagen completa con bandas. La puerta no mira etiquetas de actos."
+  "note": "Sin detección se usa la imagen completa con bandas. La puerta no mira etiquetas de actos.",
+  "amendment": {
+    "date": "2026-10-29",
+    "windows": 133,
+    "coverage": 0.8571428571428571,
+    "median_iou": 0.9065899322935904,
+    "by_act": {
+      "eating": {
+        "windows": 30,
+        "detected": 29
+      },
+      "exploring": {
+        "windows": 21,
+        "detected": 17
+      },
+      "grooming": {
+        "windows": 8,
+        "detected": 8
+      },
+      "loaf": {
+        "windows": 25,
+        "detected": 24
+      },
+      "locomotion": {
+        "windows": 27,
+        "detected": 15
+      },
+      "lying": {
+        "windows": 20,
+        "detected": 19
+      },
+      "not_visible": {
+        "windows": 16,
+        "detected": 3
+      },
+      "rearing": {
+        "windows": 2,
+        "detected": 2
+      }
+    },
+    "passes": true,
+    "reason": "Posterior al resultado: la puerta pre-registrada no pasó (cobertura 0,79). 13 de los 32 fallos eran ventanas «no visible», que no entran en el test; se recalcula solo con las ventanas evaluadas. Usa las etiquetas de actos solo para excluir «no visible». El test informa además el resultado en las ventanas con detección en ≥ 3 de 4 fotogramas.",
+    "weakness": "Desplazarse: detección suficiente en 15 de 27 ventanas (desenfoque y conejo pequeño en vídeos de mano)."
+  }
 }

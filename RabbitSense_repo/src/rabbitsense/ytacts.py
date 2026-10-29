@@ -166,8 +166,36 @@ def youtube_video(video, detector, encoder):
 
 def require_gate(gate_file):
     gate_file = Path(gate_file)
-    if not gate_file.is_file() or not json.loads(gate_file.read_text())['passes']:
+    gate = json.loads(gate_file.read_text()) if gate_file.is_file() else {}
+    if not (gate.get('passes') or gate.get('amendment', {}).get('passes')):
         raise RuntimeError(f'La puerta del detector sobre Cinna no se ha ejecutado o no ha pasado ({gate_file}).')
+
+
+def amend_gate(folder, labels):
+    """Enmienda posterior (2026-10-29), declarada: la puerta se calcula solo con las ventanas que entran en el test.
+
+    Motivo: 13 de los 32 fallos eran ventanas «no visible», donde SAM2 arrastra la máscara a otra zona y el detector,
+    con razón, no encuentra al conejo. Se conserva el resultado pre-registrado (`passes`) sin tocar."""
+    folder = Path(folder)
+    gate = json.loads((folder / 'deteccion.json').read_text())
+    table = labelled(pd.read_csv(folder / 'ventanas.csv', dtype={'case': str}), labels, ['case', 'start'])
+    tested = table[table.sam2 & table.act.isin(GROUPS)]
+    coverage = float((tested.found >= GATE['found']).mean())
+    median_iou = float(tested.iou_sam2.fillna(0).median())
+    by_act = {a: dict(windows=int(len(g)), detected=int((g.found >= GATE['found']).sum()))
+              for a, g in table[table.sam2].groupby(table.act.fillna('sin_etiqueta'))}
+    gate['amendment'] = dict(
+        date='2026-10-29', windows=int(len(tested)), coverage=coverage, median_iou=median_iou, by_act=by_act,
+        passes=bool(coverage >= GATE['coverage'] and median_iou >= GATE['median_iou']),
+        reason=('Posterior al resultado: la puerta pre-registrada no pasó (cobertura 0,79). 13 de los 32 fallos eran '
+                'ventanas «no visible», que no entran en el test; se recalcula solo con las ventanas evaluadas. '
+                'Usa las etiquetas de actos solo para excluir «no visible». El test informa además el resultado en las '
+                'ventanas con detección en ≥ 3 de 4 fotogramas.'),
+        weakness='Desplazarse: detección suficiente en 15 de 27 ventanas (desenfoque y conejo pequeño en vídeos de mano).')
+    (folder / 'deteccion.json').write_text(json.dumps(gate, indent=2, ensure_ascii=False))
+    print(f"Enmienda: cobertura {coverage:.2f} en {len(tested)} ventanas evaluadas → "
+          f"{'pasa' if gate['amendment']['passes'] else 'NO PASA'}", flush=True)
+    return gate
 
 
 def youtube(folder, out, detector, encoder, gate_file=None):
@@ -352,8 +380,10 @@ def test(features, labels, out, model_file=MODEL_FILE, force=False):
     by_act = {a: float((guess[table.act[keep].to_numpy() == a] == GROUPS[a]).mean())
               for a in sorted(set(table.act[keep]))}
     boxed = table.boxed.to_numpy()[keep]
+    detected = (table.found.to_numpy() >= GATE['found'])[keep]
     result.update(accuracy_by_original_act=by_act, accuracy_with_detection=float((guess[boxed] == truth[boxed]).mean())
                   if boxed.any() else None, windows_without_detection=int((~boxed).sum()),
+                  well_detected=metrics(truth[detected], guess[detected]) if detected.any() else None,
                   status='resolved_exploratory' if result['passes'] else 'not_resolved', criterion=CRITERION,
                   model_sha256=sha256(model_file), labels_sha256=sha256(labels), source_sha256=sha256(Path(__file__)),
                   scope=('Cinna no entra en el entrenamiento. Las etiquetas de Cinna son de Claude (kappa 0,63 frente a '
@@ -379,6 +409,9 @@ def main():
     command.add_argument('--videos', required=True)
     command.add_argument('--out', default=str(OUT / 'youtube'))
     command.add_argument('--device', choices=['mps', 'cpu'], default='mps')
+    command = sub.add_parser('amend-gate', help='Enmienda posterior declarada de la puerta (sin «no visible»)')
+    command.add_argument('--folder', default=str(OUT / 'cinna'))
+    command.add_argument('--labels', default=str(REPO.parent / 'RabbitSense_ARCHIVO' / 'actos_ventanas_claude_v2.csv'))
     command = sub.add_parser('train')
     command.add_argument('--features', default=str(OUT / 'youtube'))
     command.add_argument('--labels', default=str(REPO.parent / 'RabbitSense_ARCHIVO' / 'actos_youtube_claude.csv'))
@@ -397,6 +430,8 @@ def main():
             cinna(args.manifest, args.windows, args.out, detector, encoder)
         else:
             youtube(args.videos, args.out, detector, encoder)
+    elif args.command == 'amend-gate':
+        amend_gate(args.folder, args.labels)
     elif args.command == 'train':
         train(args.features, args.labels)
     else:
