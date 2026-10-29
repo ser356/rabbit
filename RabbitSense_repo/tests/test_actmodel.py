@@ -177,3 +177,16 @@ def test_vjepa_wrapper_runs_a_tiny_random_model(tmp_path):
     vector = encoder(clip)
     assert vector.shape == (32,) and np.isfinite(vector).all()
     assert not np.allclose(vector, encoder(clip[:, :, :, ::-1].copy()))  # el orden de canales importa
+
+
+def test_diagnosis_reports_sessions_missing_values_and_the_displacement_rule(tmp_path):
+    folder, labels = synthetic(tmp_path)
+    table = pd.read_csv(folder / 'caracteristicas.csv', dtype={'case': str})
+    table.loc[::7, 'net_displacement'] = np.nan
+    table.to_csv(folder / 'caracteristicas.csv', index=False)
+    result = actmodel.diagnose(folder, labels, tmp_path / 'out')
+    assert result['windows_by_session']['mano_IMG_519x'] == dict(eating=8, locomotion=8, lying=8, other=16)
+    rule = result['locomotion_rule']
+    assert rule['auc'] > .95 and rule['thresholds']['0.5']['specificity'] > .85  # ruido N(0; 0,3) en las demás clases
+    assert rule['measured_windows'] < 100 and 0 < result['missing_net_displacement_by_class']['locomotion'] < 1
+    assert (tmp_path / 'out' / 'diagnostico.json').is_file()

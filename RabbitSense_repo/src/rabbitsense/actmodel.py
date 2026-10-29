@@ -300,6 +300,32 @@ def evaluate(features_dir, labels, out, kinds=('handcrafted', 'deep', 'all')):
     return result
 
 
+def diagnose(features_dir, labels, out, thresholds=(.3, .5, .8)):
+    """Diagnóstico posterior (no es un modelo): clases por sesión, mediciones ausentes por clase y el desplazamiento
+    neto de CoTracker como regla fija de desplazarse frente al resto, con umbrales dados de antemano."""
+    from .pointtrack import auc
+    table = pd.read_csv(Path(features_dir) / 'caracteristicas.csv', dtype={'case': str})
+    acts = pd.read_csv(labels, dtype={'case': str})[['case', 'start', 'act']]
+    for frame in (table, acts):
+        frame['start'] = frame.start.round(3)
+    table = table.merge(acts, on=['case', 'start'], validate='one_to_one')
+    table = table[table.act.isin(GROUPS)].assign(cls=lambda t: t.act.map(GROUPS), session=lambda t: t.case.map(session_of))
+    measured = table.dropna(subset=['net_displacement'])
+    moving = (measured.cls == 'locomotion').to_numpy()
+    rule = {str(th): dict(sensitivity=float((measured.net_displacement[moving] >= th).mean()),
+                          specificity=float((measured.net_displacement[~moving] < th).mean())) for th in thresholds}
+    result = dict(
+        windows_by_session=pd.crosstab(table.session, table.cls).to_dict('index'),
+        missing_net_displacement_by_class=table.groupby('cls').net_displacement.apply(lambda v: float(v.isna().mean())).to_dict(),
+        locomotion_rule=dict(measured_windows=int(len(measured)), locomotion=int(moving.sum()), rest=int((~moving).sum()),
+                             auc=auc(measured.net_displacement.to_numpy(), moving.astype(int)), thresholds=rule),
+        medians_by_class=table.groupby('cls')[HANDCRAFTED].median().to_dict('index'),
+        note='Posterior a la evaluación; no cambia el veredicto. Etiquetas de Claude.')
+    Path(out).mkdir(parents=True, exist_ok=True)
+    (Path(out) / 'diagnostico.json').write_text(json.dumps(result, indent=2, ensure_ascii=False, default=float))
+    return result
+
+
 def main():
     parser = argparse.ArgumentParser(description='Modelo propio de actos de Cinna (exploratorio)')
     sub = parser.add_subparsers(dest='command', required=True)
@@ -313,10 +339,13 @@ def main():
     command.add_argument('--features', default=str(REPO / 'runs' / 'actos_modelo'))
     command.add_argument('--labels', default=str(REPO.parent / 'RabbitSense_ARCHIVO' / 'actos_ventanas_claude_v2.csv'))
     command.add_argument('--out', default=str(REPO / 'cierre' / 'actos_modelo'))
+    command.add_argument('--diagnose', action='store_true', help='Añade el diagnóstico posterior (diagnostico.json)')
     args = parser.parse_args()
     if args.command == 'features':
         check_videos(args.manifest, args.windows)
         window_features(args.manifest, args.windows, args.out, None if args.no_deep else VJEPA(args.device))
+    elif args.diagnose:
+        diagnose(args.features, args.labels, args.out)
     else:
         evaluate(args.features, args.labels, args.out)
 

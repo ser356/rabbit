@@ -1,0 +1,135 @@
+{
+  "windows_by_session": {
+    "5177": {
+      "eating": 12,
+      "locomotion": 5,
+      "lying": 0,
+      "other": 1
+    },
+    "locomotion": {
+      "eating": 5,
+      "locomotion": 1,
+      "lying": 0,
+      "other": 1
+    },
+    "mano_IMG_519x": {
+      "eating": 0,
+      "locomotion": 22,
+      "lying": 0,
+      "other": 31
+    },
+    "resting": {
+      "eating": 5,
+      "locomotion": 0,
+      "lying": 0,
+      "other": 1
+    },
+    "resting_4944": {
+      "eating": 0,
+      "locomotion": 0,
+      "lying": 6,
+      "other": 0
+    },
+    "resting_972F": {
+      "eating": 2,
+      "locomotion": 0,
+      "lying": 0,
+      "other": 4
+    },
+    "whatsapp": {
+      "eating": 7,
+      "locomotion": 4,
+      "lying": 14,
+      "other": 18
+    }
+  },
+  "missing_net_displacement_by_class": {
+    "eating": 0.06451612903225806,
+    "locomotion": 0.46875,
+    "lying": 0.25,
+    "other": 0.125
+  },
+  "locomotion_rule": {
+    "measured_windows": 110,
+    "locomotion": 17,
+    "rest": 93,
+    "auc": 0.9702719797596457,
+    "thresholds": {
+      "0.3": {
+        "sensitivity": 0.9411764705882353,
+        "specificity": 0.8494623655913979
+      },
+      "0.5": {
+        "sensitivity": 0.9411764705882353,
+        "specificity": 0.956989247311828
+      },
+      "0.8": {
+        "sensitivity": 0.8823529411764706,
+        "specificity": 0.978494623655914
+      }
+    }
+  },
+  "medians_by_class": {
+    "eating": {
+      "net_displacement": 0.1006465068085636,
+      "internal_median": 0.0079173976555466,
+      "internal_p90": 0.0155082177370786,
+      "motion_in": 4.668521881103516,
+      "motion_in_p99": 12.740869522094728,
+      "motion_out": 0.7136310338973999,
+      "motion_ratio": 3.6827847729274863,
+      "area_mean": 0.1156465944854953,
+      "area_range": 0.010523553613532,
+      "elongation_mean": 1.6034822336377663,
+      "elongation_range": 0.22543077201489736,
+      "aspect_mean": 1.1476961612821135,
+      "aspect_range": 0.2277345107147706
+    },
+    "locomotion": {
+      "net_displacement": 1.7444209301931624,
+      "internal_median": 0.0263281567022204,
+      "internal_p90": 0.0442118924111127,
+      "motion_in": 3.660705089569092,
+      "motion_in_p99": 8.809126377105713,
+      "motion_out": 1.6497658491134644,
+      "motion_ratio": 2.247964292928298,
+      "area_mean": 0.0314353660300925,
+      "area_range": 0.0155164930555555,
+      "elongation_mean": 2.0502135840550464,
+      "elongation_range": 1.1230919944297295,
+      "aspect_mean": 0.9836050502806192,
+      "aspect_range": 0.7490719546178344
+    },
+    "lying": {
+      "net_displacement": 0.0079542448606265,
+      "internal_median": 0.00244783563539385,
+      "internal_p90": 0.003803409053944,
+      "motion_in": 2.987505316734314,
+      "motion_in_p99": 7.015452146530151,
+      "motion_out": 0.769292950630188,
+      "motion_ratio": 4.505395489760593,
+      "area_mean": 0.42275448198671695,
+      "area_range": 0.0172067952273514,
+      "elongation_mean": 1.7419605414192612,
+      "elongation_range": 0.0647375048363012,
+      "aspect_mean": 1.079723597359736,
+      "aspect_range": 0.09092351680853836
+    },
+    "other": {
+      "net_displacement": 0.1014717645589882,
+      "internal_median": 0.0062580509111285,
+      "internal_p90": 0.0119852824136614,
+      "motion_in": 3.1002743244171143,
+      "motion_in_p99": 7.980550765991211,
+      "motion_out": 1.2006709575653076,
+      "motion_ratio": 2.4590191641372514,
+      "area_mean": 0.0314427178779256,
+      "area_range": 0.00659508975935565,
+      "elongation_mean": 1.7388967193398401,
+      "elongation_range": 0.2652257172001987,
+      "aspect_mean": 0.9000376207907836,
+      "aspect_range": 0.22888843087598235
+    }
+  },
+  "note": "Posterior a la evaluación; no cambia el veredicto. Etiquetas de Claude."
+}

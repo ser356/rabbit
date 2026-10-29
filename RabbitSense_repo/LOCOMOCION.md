@@ -144,6 +144,32 @@ Si falta la máscara o el seguimiento, el valor se marca como ausente. Ausente n
 - Probar tres variantes da más de una oportunidad de cumplir el criterio.
 - Aunque una variante cumpla, el resultado no valida nada. Solo indica si merece la pena una prueba independiente con la cámara fija.
 
+**Resultado (2026-10-29): ninguna variante cumple.** [Evaluación](cierre/actos_modelo/evaluacion.json), [predicciones](cierre/actos_modelo/predicciones.csv). 139 ventanas evaluables.
+
+| Variante | Exactitud equilibrada | Desplazarse | Comer | Tumbada | Otra |
+|---|---:|---:|---:|---:|---:|
+| Medidas | 0,49 | 0,56 | 0,39 | 0,90 | 0,11 |
+| V-JEPA 2 | 0,39 | 0,75 | 0,26 | 0,10 | 0,46 |
+| Ambas | 0,39 | 0,72 | 0,29 | 0,15 | 0,41 |
+
+Criterio: exactitud equilibrada ≥ 0,6 y ≥ 0,5 en cada clase.
+
+**Diagnóstico** (posterior; no cambia el veredicto; [diagnostico.json](cierre/actos_modelo/diagnostico.json), `actmodel evaluate --diagnose`):
+
+1. **Clases y sesiones casi no se cruzan.** Así, dejar fuera una sesión mide sobre todo el paso a otra escena:
+   - comer no aparece nunca en IMG_519x (53 ventanas: 22 desplazarse y 31 otra);
+   - tumbada solo aparece en WhatsApp y en resting_4944;
+   - 5177, locomotion y resting son casi solo comer.
+
+   El área de la máscara separa tumbada porque esos vídeos están grabados de cerca, no por la postura. V-JEPA 2 aprende la escena: tumbada 0,10.
+2. **Desplazarse se mide bien, cuando hay medida.** El desplazamiento neto de CoTracker en 2 s, sin entrenar, frente al resto:
+   - AUC 0,97 sobre 110 ventanas (17 de desplazarse y 93 del resto);
+   - con el umbral 0,5 (el mismo de la regla anterior): sensibilidad 0,94 y especificidad 0,96;
+   - pero falta la medida en el 47 % de las ventanas de desplazarse, frente al 6–25 % del resto: el seguimiento se pierde precisamente cuando se mueve.
+3. **Comer frente a otra.** Dentro de cada vídeo solo hay de 1 a 4 ventanas de la otra clase. No se puede saber si el movimiento interno distingue masticar.
+
+**Conclusión.** Con estos 17 vídeos no se puede entrenar ni evaluar un clasificador de actos: cada acto está casi encerrado en su escena, y más modelo no arregla eso. Lo que sí funciona es medir el desplazamiento, sin aprender, y su punto débil es la cobertura del seguimiento. Para comer, tumbada y otra hacen falta sesiones en las que la misma escena contenga varios actos, que es lo que da la cámara fija.
+
 ## Desplazamiento respecto al suelo con CoTracker3 (pre-registrado el 2026-10-27, antes de ejecutar)
 
 **Por qué.** Los modelos aprendidos distinguen escenas, no desplazamiento: la AUC intra-vídeo queda cerca del azar. Se mide directamente lo que define la locomoción, sin entrenar nada y con una regla física fija, de modo que no hay selección sobre los 57 clips. El modelo es CoTracker3 offline de Meta (`facebookresearch/co-tracker`, `cotracker3_offline`, vía `torch.hub`).
