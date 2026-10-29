@@ -389,7 +389,7 @@ video{max-width:96vw;max-height:66vh;background:#000}button{font-size:15px;margi
 fragmento (si coinciden varios, el primero de la lista). ← → para moverte. Las respuestas se guardan en el navegador.<br>
 __LEGEND__</header><main><div id="status"></div><video id="v" muted playsinline></video><div id="keys"></div>
 <button id="save">Descargar CSV</button></main><script>
-const items = __ITEMS__, acts = __ACTS__, key = 'rabbitsense_verificacion_actos';
+const items = __ITEMS__, acts = __ACTS__, key = 'rabbitsense_verificacion_actos___KEY__';
 let answers = {}; try { answers = JSON.parse(localStorage.getItem(key) || '{}'); } catch (e) {}
 let i = Math.max(0, items.findIndex(x => !answers[x.code])); const v = document.getElementById('v');
 acts.forEach(a => { const b = document.createElement('button'); b.textContent = a.key + ' · ' + a.name;
@@ -413,8 +413,15 @@ show();
 """
 
 
-def verify_page(manifest, labels, out, settings=VERIFY):
-    """Fragmentos de 2 s dentro de un único segmento, repartidos por acto (estratificado) y al azar; sin la etiqueta."""
+def verify_page(manifest, labels, out, settings=VERIFY, exclude=None):
+    """Fragmentos de 2 s dentro de un único segmento, repartidos por acto (estratificado) y al azar; sin la etiqueta.
+
+    `exclude`: mapas de verificaciones anteriores; ningún fragmento nuevo se solapa con ellos."""
+    previous = pd.concat([pd.read_csv(path) for path in exclude]) if exclude else pd.DataFrame(columns=['video', 'start', 'end'])
+
+    def overlaps(video, start, end):
+        same = previous[previous.video == video]
+        return bool(((same.start < end) & (same.end > start)).any())
     table = load(labels)
     table = table[(table.end_seconds - table.start_seconds) >= settings['seconds'] - 1e-6]
     rng = np.random.default_rng(settings['seed'])
@@ -428,17 +435,24 @@ def verify_page(manifest, labels, out, settings=VERIFY):
         weights = (group.end_seconds - group.start_seconds - settings['seconds']).clip(lower=.01).to_numpy()
         for j in rng.choice(len(group), size=quota[act], p=weights / weights.sum()):
             seg = group.iloc[j]
-            start = float(rng.uniform(seg.start_seconds, seg.end_seconds - settings['seconds']))
-            chosen.append(dict(video=seg.video, start=round(start, 2), end=round(start + settings['seconds'], 2), act=act))
+            for _ in range(200):
+                start = float(rng.uniform(seg.start_seconds, seg.end_seconds - settings['seconds']))
+                taken = any(c['video'] == seg.video and c['start'] < start + settings['seconds'] and c['end'] > start
+                            for c in chosen)
+                if not overlaps(seg.video, start, start + settings['seconds']) and not taken:
+                    chosen.append(dict(video=seg.video, start=round(start, 2), end=round(start + settings['seconds'], 2),
+                                       act=act))
+                    break
     chosen = [chosen[k] for k in rng.permutation(len(chosen))]
     videos = {v['name']: v['video'] for v in videos_of(manifest)}
     out = Path(out)
     out.mkdir(parents=True, exist_ok=True)
     for k, item in enumerate(chosen):
-        item['code'] = f'V{k:03d}'
+        item['code'] = f"V{settings['seed']}_{k:03d}" if settings['seed'] else f'V{k:03d}'
     shown = [dict(code=x['code'], src=videos[x['video']].as_uri(), start=x['start'], end=x['end']) for x in chosen]
     legend = ' · '.join(f"<b>{a['key']}</b> {a['name']}: {a['definition']}" for a in ETHOGRAM)
     html = (VERIFY_PAGE.replace('__ITEMS__', json.dumps(shown)).replace('__LEGEND__', legend)
+            .replace('__KEY__', f"{settings['seed']}_{sha256(labels)[:8]}")
             .replace('__ACTS__', json.dumps([dict(key=a['key'], code=a['code'], name=a['name']) for a in ETHOGRAM])))
     (out / 'verificacion.html').write_text(html, encoding='utf8')
     pd.DataFrame(chosen)[['code', 'video', 'start', 'end', 'act']].to_csv(out / 'verificacion_mapa.csv', index=False)
@@ -514,6 +528,9 @@ def main():
     command.add_argument('--manifest', required=True)
     command.add_argument('--labels', required=True)
     command.add_argument('--out', default=str(REPO / 'runs' / 'actos_verificacion'))
+    command.add_argument('--exclude', action='append', help='Mapa de una verificación anterior (no se repiten fragmentos)')
+    command.add_argument('--seed', type=int, default=VERIFY['seed'])
+    command.add_argument('--fragments', type=int, default=VERIFY['fragments'])
     command = sub.add_parser('agreement')
     command.add_argument('--answers', required=True)
     command.add_argument('--mapping', default=str(REPO / 'runs' / 'actos_verificacion' / 'verificacion_mapa.csv'))
@@ -529,7 +546,8 @@ def main():
     elif args.command == 'sheets':
         print('fotogramas:', sheets(args.manifest, args.out))
     elif args.command == 'verify-page':
-        verify_page(args.manifest, args.labels, args.out)
+        verify_page(args.manifest, args.labels, args.out, dict(VERIFY, seed=args.seed, fragments=args.fragments),
+                    args.exclude)
     elif args.command == 'agreement':
         agreement(args.answers, args.mapping, args.out)
     elif args.command == 'segments':

@@ -63,6 +63,26 @@ La persona etiquetó a ciegas 30 fragmentos de 2 s en vídeo ([mapa](cierre/acto
 
 **Consecuencia.** Los actos que dependen de movimientos finos (comer, acicalarse) no se pueden etiquetar bien con hojas de fotogramas. La referencia de actos debe salir del etiquetado continuo en vídeo con la página `acts page`, hecho por la persona.
 
+### Segundo etiquetado de actos por Claude, con mapas de movimiento (2026-10-29)
+
+**Método** ([acts.py](src/rabbitsense/acts.py) `motion-sheets`). Cada ventana de 2 s en tiempo real tiene 4 fotogramas sobre una caja fija y un mapa de movimiento calculado con todos los fotogramas. Ese mapa deja ver masticar con el cuerpo quieto, que era el error principal del primer etiquetado.
+
+- **Ficheros.** Etiquetas: [actos_ventanas_claude_v2.csv](../RabbitSense_ARCHIVO/actos_ventanas_claude_v2.csv) (156 ventanas). Segmentos: [actos_cinna_claude_v2.csv](../RabbitSense_ARCHIVO/actos_cinna_claude_v2.csv). Recuento: [censo_claude_v2.json](cierre/actos/censo_claude_v2.json).
+- **Criterio «no visible» cambiado.** Ahora sigue el de la persona en la verificación: si la tocan pero el acto se ve, se etiqueta el acto.
+- **Contaminación de la primera verificación.** Claude conocía las 30 respuestas de esa verificación y su criterio influyó en algunas ventanas (972F 8–12 s y WhatsApp 18.44.38 como comer). Contra esa verificación, el acuerdo sube de 0,63 a 0,77, pero **esa cifra no vale como evidencia**.
+- **Verificación válida.** Una segunda verificación ciega con fragmentos nuevos, sin solaparse con los anteriores (`verify-page --exclude --seed 1`).
+
+| Acto | Segundos | Episodios | Sesiones | Ventanas de 2 s | ¿Evaluable? |
+|---|---:|---:|---:|---:|---|
+| Desplazarse | 64 | 17 | 4 | 32 | **sí** |
+| Comer | 62 | 11 | 5 | 31 | **sí** |
+| Agazapada | 50 | 11 | 4 | 25 | **sí** |
+| Explorar u olfatear | 42 | 13 | 4 | 21 | **sí** |
+| Tumbada o flop | 40 | 3 | 2 | 20 | no (2 sesiones) |
+| Acicalarse | 16 | 5 | 3 | 8 | no |
+| De pie | 4 | 1 | 1 | 2 | no |
+| No visible u otro | 34 | 8 | 4 | 17 | — |
+
 ## Desplazamiento respecto al suelo con CoTracker3 (pre-registrado el 2026-10-27, antes de ejecutar)
 
 **Por qué.** Los modelos aprendidos distinguen escenas, no desplazamiento: la AUC intra-vídeo queda cerca del azar. Se mide directamente lo que define la locomoción, sin entrenar nada y con una regla física fija, de modo que no hay selección sobre los 57 clips. El modelo es CoTracker3 offline de Meta (`facebookresearch/co-tracker`, `cotracker3_offline`, vía `torch.hub`).
