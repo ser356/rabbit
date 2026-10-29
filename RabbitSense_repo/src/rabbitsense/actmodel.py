@@ -1,6 +1,6 @@
 """Modelo propio de actos de Cinna (exploratorio, fijado el 2026-10-29 antes de ejecutar).
 
-Clases: desplazarse, comer, tumbada y «otra» (agazapada, explorar, acicalarse, de pie). Se excluye «no visible».
+Clases: desplazarse, comer, tumbado y «otra» (agazapado, explorar, acicalarse, de pie). Se excluye «no visible».
 La agrupación se decidió después de ver la verificación de las etiquetas (kappa 0,63): resultado exploratorio.
 
 Unidad: ventanas de 2 s en tiempo real (`acts motion-sheets`, cierre/actos/ventanas_indice.csv).

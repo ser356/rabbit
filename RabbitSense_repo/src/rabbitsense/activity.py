@@ -26,7 +26,7 @@ from .motion import sha256
 REPO = Path(__file__).resolve().parents[2]
 OUT = REPO / 'runs' / 'actividad'
 PLOT_CAP = 2.  # tamaños por intervalo representados como barra completa
-NET_STEP = 2.  # desplazamiento neto por bloques de 2 s: el temblor de una Cinna quieta no se acumula paso a paso
+NET_STEP = 2.  # desplazamiento neto por bloques de 2 s: el temblor de una Cinna quieto no se acumula paso a paso
 # Criterio fijado antes de ver resultados (2026-10-28): los bloques de 2 s pasan a ser la medida principal si la
 # mediana de la tasa en los clips de reposo grabados en mano (IMG_519x, WhatsApp) baja al menos un 30 % y la AUC por
 # clip de la tasa frente a las etiquetas ciegas no baja más de 0,02 respecto a los pasos de 0,5 s.

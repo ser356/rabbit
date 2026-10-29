@@ -12,8 +12,8 @@
 4. Comer
 5. Acicalarse
 6. Explorar u olfatear
-7. Tumbada o flop
-8. Agazapada
+7. Tumbado o flop
+8. Agazapado
 9. No visible u otro
 
 **Etiquetado continuo, no por clips.** Mientras se reproduce el vídeo, una tecla marca el acto que empieza en ese instante. Así se evitan los clips de 4 s que mezclan actos (en el reetiquetado de locomoción, la kappa entre revisiones fue 0,60).
@@ -39,27 +39,27 @@ Claude ha etiquetado 602 fotogramas (uno cada 0,5 s en tiempo real, recortados a
 
 | Acto | Segundos | Episodios | Vídeos | Sesiones | Ventanas de 2 s | ¿Evaluable? |
 |---|---:|---:|---:|---:|---:|---|
-| Agazapada | 65,5 | 15 | 9 | 4 | 28 | **sí** |
+| Agazapado | 65,5 | 15 | 9 | 4 | 28 | **sí** |
 | Explorar u olfatear | 62,5 | 19 | 8 | 4 | 25 | **sí** |
 | Desplazarse | 54,0 | 25 | 8 | 3 | 18 | no (18 < 20) |
 | Comer | 33,0 | 5 | 2 | 2 | 15 | no |
-| Tumbada o flop | 28,5 | 3 | 2 | 2 | 13 | no |
+| Tumbado o flop | 28,5 | 3 | 2 | 2 | 13 | no |
 | Acicalarse | 11,5 | 4 | 3 | 2 | 5 | no |
 | De pie | 2,5 | 1 | 1 | 1 | 1 | no |
 | Binky | 0 | 0 | 0 | 0 | 0 | no |
 | No visible u otro | 43,5 | 15 | 10 | 5 | 17 | — |
 
-Con estos 17 vídeos, solo agazapada y explorar cumplen el mínimo fijado antes de etiquetar (20 ventanas, 3 sesiones, 5 episodios). Desplazarse se queda a dos ventanas del mínimo. Comer, tumbada, acicalarse, de pie y binky necesitan más grabación; la cámara fija es la vía prevista.
+Con estos 17 vídeos, solo agazapado y explorar cumplen el mínimo fijado antes de etiquetar (20 ventanas, 3 sesiones, 5 episodios). Desplazarse se queda a dos ventanas del mínimo. Comer, tumbado, acicalarse, de pie y binky necesitan más grabación; la cámara fija es la vía prevista.
 
 ### Verificación ciega de las etiquetas de actos (2026-10-28)
 
 La persona etiquetó a ciegas 30 fragmentos de 2 s en vídeo ([mapa](cierre/actos/verificacion_mapa.csv), [respuestas](cierre/actos/verificacion_respuestas.csv), [acuerdo](cierre/actos/acuerdo.json)).
 
 - **Resultado.** Acuerdo 0,63 y kappa 0,58, por debajo del 0,7 exigido para entrenar. **Las etiquetas de Claude no se usan como verdad.**
-- **Comer, el error principal.** 4 fragmentos que Claude marcó como agazapada o acicalarse eran comer. En fotogramas sueltos cada 0,5 s no se ve masticar: el animal parece agazapado.
+- **Comer, el error principal.** 4 fragmentos que Claude marcó como agazapado o acicalarse eran comer. En fotogramas sueltos cada 0,5 s no se ve masticar: el animal parece agazapado.
 - **Desplazarse y explorar.** 2 fragmentos que Claude marcó como desplazarse eran explorar.
-- **Criterio «no visible».** En 3 fragmentos que Claude marcó como «no visible» (la tocan o la están grabando muy de cerca), la persona etiquetó el acto que se ve: tumbada o desplazarse.
-- **Coincidencia total** en tumbada (4/4), comer cuando Claude lo marcó (4/4) y de pie (3/3).
+- **Criterio «no visible».** En 3 fragmentos que Claude marcó como «no visible» (la tocan o la están grabando muy de cerca), la persona etiquetó el acto que se ve: tumbado o desplazarse.
+- **Coincidencia total** en tumbado (4/4), comer cuando Claude lo marcó (4/4) y de pie (3/3).
 
 **Consecuencia.** Los actos que dependen de movimientos finos (comer, acicalarse) no se pueden etiquetar bien con hojas de fotogramas. La referencia de actos debe salir del etiquetado continuo en vídeo con la página `acts page`, hecho por la persona.
 
@@ -76,9 +76,9 @@ La persona etiquetó a ciegas 30 fragmentos de 2 s en vídeo ([mapa](cierre/acto
 |---|---:|---:|---:|---:|---|
 | Desplazarse | 64 | 17 | 4 | 32 | **sí** |
 | Comer | 62 | 11 | 5 | 31 | **sí** |
-| Agazapada | 50 | 11 | 4 | 25 | **sí** |
+| Agazapado | 50 | 11 | 4 | 25 | **sí** |
 | Explorar u olfatear | 42 | 13 | 4 | 21 | **sí** |
-| Tumbada o flop | 40 | 3 | 2 | 20 | no (2 sesiones) |
+| Tumbado o flop | 40 | 3 | 2 | 20 | no (2 sesiones) |
 | Acicalarse | 16 | 5 | 3 | 8 | no |
 | De pie | 4 | 1 | 1 | 2 | no |
 | No visible u otro | 34 | 8 | 4 | 17 | — |
@@ -93,16 +93,16 @@ La persona etiquetó a ciegas 30 fragmentos de 2 s en vídeo ([mapa](cierre/acto
 | Acto | Acierto | Lectura |
 |---|---:|---|
 | Desplazarse | 4/4 | fiable |
-| Tumbada | 4/4 | fiable |
+| Tumbado | 4/4 | fiable |
 | De pie | 1/1 | fiable |
 | Comer | 3/4 | fiable; el fallo se confunde con acicalarse |
-| Agazapada | 2/5 | se confunde con explorar |
-| Explorar | 2/4 | se confunde con agazapada |
+| Agazapado | 2/5 | se confunde con explorar |
+| Explorar | 2/4 | se confunde con agazapado |
 | Acicalarse | 1/2 | — |
 | No visible | 2/4 | en 5177 entre 22 y 28 s, con la cámara muy movida, la persona sí ve comer |
 
-- **Fiables:** desplazarse, tumbada y, en menor medida, comer.
-- **No fiables:** la frontera entre agazapada y explorar.
+- **Fiables:** desplazarse, tumbado y, en menor medida, comer.
+- **No fiables:** la frontera entre agazapado y explorar.
 - **Advertencia.** Con 28 fragmentos, estas proporciones son muy imprecisas.
 
 ### Modelo propio de actos (fijado el 2026-10-29, antes de ejecutar)
@@ -118,8 +118,8 @@ La persona etiquetó a ciegas 30 fragmentos de 2 s en vídeo ([mapa](cierre/acto
 |---|---|
 | desplazarse | desplazarse |
 | comer | comer |
-| tumbada | tumbada |
-| otra | agazapada, explorar, acicalarse, de pie, binky |
+| tumbado | tumbado |
+| otra | agazapado, explorar, acicalarse, de pie, binky |
 
 Las ventanas «no visible» quedan fuera. El azar en exactitud equilibrada es 0,25.
 
@@ -140,13 +140,13 @@ Si falta la máscara o el seguimiento, el valor se marca como ausente. Ausente n
 **Criterio fijado.** Una variante cumple si la exactitud equilibrada es ≥ 0,6 y la sensibilidad es ≥ 0,5 en cada una de las cuatro clases.
 
 **Límites conocidos.**
-- «Tumbada» solo aparece en 2 sesiones: al dejar fuera una de ellas, el modelo aprende tumbada de una sola sesión.
+- «Tumbado» solo aparece en 2 sesiones: al dejar fuera una de ellas, el modelo aprende tumbado de una sola sesión.
 - Probar tres variantes da más de una oportunidad de cumplir el criterio.
 - Aunque una variante cumpla, el resultado no valida nada. Solo indica si merece la pena una prueba independiente con la cámara fija.
 
 **Resultado (2026-10-29): ninguna variante cumple.** [Evaluación](cierre/actos_modelo/evaluacion.json), [predicciones](cierre/actos_modelo/predicciones.csv). 139 ventanas evaluables.
 
-| Variante | Exactitud equilibrada | Desplazarse | Comer | Tumbada | Otra |
+| Variante | Exactitud equilibrada | Desplazarse | Comer | Tumbado | Otra |
 |---|---:|---:|---:|---:|---:|
 | Medidas | 0,49 | 0,56 | 0,39 | 0,90 | 0,11 |
 | V-JEPA 2 | 0,39 | 0,75 | 0,26 | 0,10 | 0,46 |
@@ -158,17 +158,17 @@ Criterio: exactitud equilibrada ≥ 0,6 y ≥ 0,5 en cada clase.
 
 1. **Clases y sesiones casi no se cruzan.** Así, dejar fuera una sesión mide sobre todo el paso a otra escena:
    - comer no aparece nunca en IMG_519x (53 ventanas: 22 desplazarse y 31 otra);
-   - tumbada solo aparece en WhatsApp y en resting_4944;
+   - tumbado solo aparece en WhatsApp y en resting_4944;
    - 5177, locomotion y resting son casi solo comer.
 
-   El área de la máscara separa tumbada porque esos vídeos están grabados de cerca, no por la postura. V-JEPA 2 aprende la escena: tumbada 0,10.
+   El área de la máscara separa tumbado porque esos vídeos están grabados de cerca, no por la postura. V-JEPA 2 aprende la escena: tumbado 0,10.
 2. **Desplazarse se mide bien, cuando hay medida.** El desplazamiento neto de CoTracker en 2 s, sin entrenar, frente al resto:
    - AUC 0,97 sobre 110 ventanas (17 de desplazarse y 93 del resto);
    - con el umbral 0,5 (el mismo de la regla anterior): sensibilidad 0,94 y especificidad 0,96;
    - pero falta la medida en el 47 % de las ventanas de desplazarse, frente al 6–25 % del resto: el seguimiento se pierde precisamente cuando se mueve.
 3. **Comer frente a otra.** Dentro de cada vídeo solo hay de 1 a 4 ventanas de la otra clase. No se puede saber si el movimiento interno distingue masticar.
 
-**Conclusión.** Con estos 17 vídeos no se puede entrenar ni evaluar un clasificador de actos: cada acto está casi encerrado en su escena, y más modelo no arregla eso. Lo que sí funciona es medir el desplazamiento, sin aprender, y su punto débil es la cobertura del seguimiento. Para comer, tumbada y otra hacen falta sesiones en las que la misma escena contenga varios actos, que es lo que da la cámara fija.
+**Conclusión.** Con estos 17 vídeos no se puede entrenar ni evaluar un clasificador de actos: cada acto está casi encerrado en su escena, y más modelo no arregla eso. Lo que sí funciona es medir el desplazamiento, sin aprender, y su punto débil es la cobertura del seguimiento. Para comer, tumbado y otra hacen falta sesiones en las que la misma escena contenga varios actos, que es lo que da la cámara fija.
 
 ## Desplazamiento respecto al suelo con CoTracker3 (pre-registrado el 2026-10-27, antes de ejecutar)
 
@@ -306,7 +306,7 @@ Los resultados están en [runs/actividad](runs/actividad/) y se generaron con el
 Las dos últimas columnas usan las etiquetas ciegas.
 
 - **Diferencia entre clases.** La tasa agrupada es de 40,0/min en los clips de locomoción (mínimo 36,4) y de 8,8/min en los de reposo (mínimo 6,7). Como puntuación por clip, la tasa da AUC 0,83, frente a 0,91 del diámetro en ±1 s.
-- **Suelo de ruido.** Con la cámara casi fija y Cinna quieta (972F, 4944), la tasa es de 0,6–1,1/min. En los reposos grabados con la cámara en mano sube a 8–30/min.
+- **Suelo de ruido.** Con la cámara casi fija y Cinna quieto (972F, 4944), la tasa es de 0,6–1,1/min. En los reposos grabados con la cámara en mano sube a 8–30/min.
 - **Por qué sube.** Al sumar pasos de 0,5 s, el temblor del seguimiento y los pequeños cambios de postura se acumulan.
 - **Consecuencia.** La tasa compara bien tramos de un mismo vídeo. Entre vídeos grabados con cámaras distintas, no es comparable sin tener en cuenta ese suelo.
 
@@ -443,7 +443,7 @@ Cinco enfoques distintos fallan:
 
 ## Reapertura: suelo + silueta con vídeos nuevos (pre-registrado el 2026-10-26)
 
-**Por qué otro intento.** SAM2 sigue a Cinna, pero su posición en la imagen mezcla su movimiento y el de la cámara: si la cámara la sigue, parece quieta; si la cámara gira, parece moverse. Los métodos anteriores estimaban la cámara con todo lo que rodea la caja, muebles incluidos, y con la caja, que contiene suelo. El método nuevo ([silhouette.py](src/rabbitsense/silhouette.py)):
+**Por qué otro intento.** SAM2 sigue a Cinna, pero su posición en la imagen mezcla su movimiento y el de la cámara: si la cámara lo sigue, parece quieto; si la cámara gira, parece moverse. Los métodos anteriores estimaban la cámara con todo lo que rodea la caja, muebles incluidos, y con la caja, que contiene suelo. El método nuevo ([silhouette.py](src/rabbitsense/silhouette.py)):
 
 1. **Suelo.** Homografía RANSAC solo con puntos del anillo que rodea la máscara, entre 0,15 y 1,0 × √área desde su borde. Exige 20 puntos en al menos 3 cuadrantes, validación con puntos reservados (≤ 3 px) y una deformación plausible.
 2. **Conejo.** Centroide de la **máscara** frente al centroide anterior proyectado por esa homografía, normalizado por √área. Se agrega con el diámetro de trayectoria y los errores en cuadratura de `flow`; umbral 0,2/s.

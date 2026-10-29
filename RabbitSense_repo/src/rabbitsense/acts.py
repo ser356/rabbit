@@ -27,9 +27,9 @@ ETHOGRAM = [
     dict(key='3', code='grooming', name='Acicalarse', definition='Se lame o se frota cara, orejas o cuerpo con la lengua o las patas.'),
     dict(key='4', code='exploring', name='Explorar u olfatear',
          definition='Hocico al suelo u objetos, cabeza en movimiento; puede avanzar menos de medio cuerpo.'),
-    dict(key='6', code='lying', name='Tumbada o flop',
-         definition='Tumbada de lado o estirada con las patas extendidas; incluye dejarse caer de lado (flop).'),
-    dict(key='5', code='loaf', name='Agazapada', definition='Quieta con las patas recogidas bajo el cuerpo, en bola.'),
+    dict(key='6', code='lying', name='Tumbado o flop',
+         definition='Tumbado de lado o estirada con las patas extendidas; incluye dejarse caer de lado (flop).'),
+    dict(key='5', code='loaf', name='Agazapado', definition='Quieto con las patas recogidas bajo el cuerpo, en bola.'),
     dict(key='0', code='not_visible', name='No visible u otro',
          definition='No se ve bien, la tocan o la sujetan, o ninguna de las anteriores.'),
 ]
