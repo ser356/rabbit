@@ -31,10 +31,17 @@ NET_STEP = 2.  # desplazamiento neto por bloques de 2 s: el temblor de una Cinna
 # mediana de la tasa en los clips de reposo grabados en mano (IMG_519x, WhatsApp) baja al menos un 30 % y la AUC por
 # clip de la tasa frente a las etiquetas ciegas no baja más de 0,02 respecto a los pasos de 0,5 s.
 ADOPT = dict(handheld_rest_median_drop=.3, auc_tolerance=.02)
+# Respaldo con el centro de la máscara cuando CoTracker pierde los puntos del conejo (fijado el 2026-10-30, antes de
+# ejecutar): se adopta si, en los bloques de 2 s medidos con puntos, la medida solo con máscara difiere en mediana
+# ≤ 0,15 tamaños; la cobertura de las ventanas de desplazarse sube al menos 0,15; y la AUC del desplazamiento neto
+# (desplazarse frente al resto, etiquetas de actos de Claude) con respaldo es ≥ 0,9.
+ADOPT_MASK = dict(consistency_median=.15, locomotion_coverage_gain=.15, auc_min=.9)
 
 
-def load_chunks(folder, times):
-    """Tramos guardados con su tiempo real y su trayectoria estabilizada (None si no hay medida)."""
+def load_chunks(folder, times, masks=None, mode='auto'):
+    """Tramos guardados con su tiempo real y su trayectoria estabilizada (None si no hay medida).
+
+    Con `masks`, el centro de la máscara SAM2 sustituye a los puntos del conejo cuando CoTracker los pierde."""
     chunks = {}
     for path in sorted(Path(folder).glob('chunk_*.npz')):
         chunk = dict(np.load(path))
@@ -43,7 +50,11 @@ def load_chunks(folder, times):
             continue
         chunk['times'] = times[frames]
         k = int(path.stem.split('_')[1])
-        chunks[k] = (chunk, pointtrack.stabilised(chunk)) if int(chunk['query']) >= 0 else (chunk, None)
+        if int(chunk['query']) < 0:
+            chunks[k] = (chunk, None)
+            continue
+        centroids = pointtrack.mask_centroids(masks, frames) if masks is not None else None
+        chunks[k] = (chunk, pointtrack.stabilised(chunk, centroids, mode))
     return chunks
 
 
@@ -52,7 +63,7 @@ def position(chunk, stable, instant):
 
     Interpola entre los fotogramas válidos que lo rodean (los fotogramas analizados no caen en los límites de 0,5 s);
     si solo hay uno a menos de `tolerance`, usa ese."""
-    offsets, errors = stable[0], stable[1]
+    offsets, errors, status = stable[0], stable[1], stable[4]
     times = np.asarray(chunk['times'])
     spacing = float(np.median(np.diff(times))) if len(times) > 1 else 0.
     tolerance = max(.1, .6 * spacing)
@@ -61,12 +72,22 @@ def position(chunk, stable, instant):
     if len(before) and len(after) and times[after[0]] - times[before[-1]] <= 2 * tolerance:
         i, j = before[-1], after[0]
         w = 0. if j == i else (instant - times[i]) / (times[j] - times[i])
-        return (1 - w) * offsets[i] + w * offsets[j], float(max(errors[i], errors[j]))
+        return (1 - w) * offsets[i] + w * offsets[j], float(max(errors[i], errors[j])), int(max(status[i], status[j]))
     near = valid[np.abs(times[valid] - instant) <= tolerance]
     if not len(near):
         return None
     j = near[np.argmin(np.abs(times[near] - instant))]
-    return offsets[j], float(errors[j])
+    return offsets[j], float(errors[j]), int(status[j])
+
+
+def failure(chunk, stable, instant):
+    """Por qué no hay posición en `instant`: el estado del fotograma más cercano del tramo."""
+    if chunk is None:
+        return 'sin_tramo'
+    if stable is None:
+        return 'sin_mascara_en_consulta'
+    times = np.asarray(chunk['times'])
+    return pointtrack.STATUS[int(stable[4][np.argmin(np.abs(times - instant))])]
 
 
 def block_grid(times, step):
@@ -80,27 +101,29 @@ def block_grid(times, step):
     return grid
 
 
-def step_rows(times, folder, step=.5):
+def step_rows(times, folder, step=.5, masks=None, mode='auto'):
     """Desplazamiento neto de cada bloque (a, b] de `step` s dentro del tramo cuyo centro está más cerca.
 
     Con 0,5 s se suman pasos cortos (más resolución, más ruido acumulado); con 2 s, el desplazamiento neto del bloque."""
     starts, grid = pointtrack.chunk_starts(pointtrack.duration(times)), block_grid(times, step)
-    chunks = load_chunks(folder, times)
+    chunks = load_chunks(folder, times, masks, mode)
     rows = []
     for i, b in enumerate(grid):
         row = dict(seconds=b, interval_seconds=b - grid[i - 1] if i else 0., displacement=np.nan,
-                   displacement_lower=np.nan, displacement_upper=np.nan, measured=False)
+                   displacement_lower=np.nan, displacement_upper=np.nan, measured=False, source='', reason='')
         if i:
             a = grid[i - 1]
             chunk, stable = chunks.get(pointtrack.nearest_chunk(starts, (a + b) / 2), (None, None))
-            if stable is not None:
-                start, end = position(chunk, stable, a), position(chunk, stable, b)
-                if start is not None and end is not None:
-                    unit = float(chunk['unit'])
-                    d = float(np.linalg.norm(end[0] - start[0]) / unit)
-                    margin = (start[1] + end[1]) / unit
-                    row.update(displacement=d, displacement_lower=max(0., d - margin), displacement_upper=d + margin,
-                               measured=True)
+            start = position(chunk, stable, a) if stable is not None else None
+            end = position(chunk, stable, b) if stable is not None else None
+            if start is not None and end is not None:
+                unit = float(chunk['unit'])
+                d = float(np.linalg.norm(end[0] - start[0]) / unit)
+                margin = (start[1] + end[1]) / unit
+                row.update(displacement=d, displacement_lower=max(0., d - margin), displacement_upper=d + margin,
+                           measured=True, source=pointtrack.STATUS[max(start[2], end[2])])
+            else:
+                row['reason'] = failure(chunk, stable, a if start is None else b)
         rows.append(row)
     return rows
 
@@ -180,21 +203,25 @@ def plot(rows, summary, path, width=1200, height=320):
     cv2.imwrite(str(path), image)
 
 
-def measure(video, masks, out, tracks=None, tracker=None):
-    """Actividad de un vídeo completo; si se da `tracker`, sigue antes los tramos que falten."""
+def measure(video, masks, out, tracks=None, tracker=None, fallback=False):
+    """Actividad de un vídeo completo; si se da `tracker`, sigue antes los tramos que falten.
+
+    Con `fallback`, el centro de la máscara sustituye a los puntos del conejo cuando se pierden (ADOPT_MASK)."""
     video, out = Path(video).resolve(), Path(out)
     tracks = Path(tracks) if tracks else pointtrack.TRACKS / video.stem
     times = pointtrack.frame_times(video, tracks.parent / 'tiempos')
     if tracker is not None:
         pointtrack.track_case(video, masks, tracks, tracker, None, times)
-    steps = step_rows(times, tracks)
-    blocks = step_rows(times, tracks, NET_STEP)
+    backup = masks if fallback else None
+    steps = step_rows(times, tracks, masks=backup)
+    blocks = step_rows(times, tracks, NET_STEP, masks=backup)
     rule = pointtrack.analyze(video, tracks, times)
     rows = [dict(s, movement=r['movement'], span=r['span'], span_lower=r['span_lower'], span_upper=r['span_upper'],
                  valid_fraction=r['valid_fraction']) for s, r in zip(steps, rule)]
     summary = summarize(rows, video, times)
     summary.update(source_sha256={name: sha256(Path(__file__).parent / f'{name}.py') for name in ('activity', 'pointtrack')},
-                   python=platform.python_version(), tracks=str(tracks),
+                   python=platform.python_version(), tracks=str(tracks), mask_fallback=bool(fallback),
+                   sources_2s={k: int(v) for k, v in pd.Series([b['source'] for b in blocks if b['measured']]).value_counts().items()},
                    net_2s=dict(totals(blocks), note='Desplazamiento neto por bloques de 2 s (actividad_2s.csv).'))
     out.mkdir(parents=True, exist_ok=True)
     pd.DataFrame(rows).to_csv(out / 'actividad.csv', index=False)
@@ -258,6 +285,64 @@ def evaluate(out, manifest):
     return result
 
 
+def coverage(manifest, labels, out):
+    """Cobertura de los bloques de 2 s sin y con respaldo de máscara, motivos de los huecos y criterio ADOPT_MASK."""
+    from .actmodel import GROUPS
+    manifest, out = Path(manifest).resolve(), Path(out)
+    acts = pd.read_csv(labels, dtype={'case': str})
+    acts['start'] = acts.start.round(3)
+    tables = []
+    for case in json.loads(manifest.read_text())['cases']:
+        if case['name'] not in set(acts.case):
+            continue
+        video = (manifest.parent / Path(case['video']).expanduser()).resolve()
+        masks = (manifest.parent / Path(case['masks']).expanduser()).resolve()
+        times = pointtrack.frame_times(video, pointtrack.TRACKS / 'tiempos')
+        folder = pointtrack.TRACKS / video.stem
+        runs = {name: pd.DataFrame(step_rows(times, folder, NET_STEP, backup, mode)) for name, backup, mode in
+                (('sin', None, 'auto'), ('con', masks, 'auto'), ('mascara', masks, 'mask'))}
+        table = runs['sin'][['seconds', 'interval_seconds']].copy()
+        for name, run in runs.items():
+            for column in ('measured', 'displacement', 'source', 'reason'):
+                table[f'{column}_{name}'] = run[column]
+        table = table[table.interval_seconds > 0].assign(case=case['name'])
+        table['start'] = (table.seconds - table.interval_seconds).round(3)
+        tables.append(table.merge(acts[['case', 'start', 'act']], on=['case', 'start'], how='inner'))
+        print(f"{case['name']}: {len(tables[-1])} bloques", flush=True)
+    table = pd.concat(tables, ignore_index=True)
+    table['locomotion'] = table.act == 'locomotion'
+    evaluable = table[table.act.isin(GROUPS)]
+    cover = {name: {act: float(g[f'measured_{name}'].mean()) for act, g in evaluable.groupby('act')} |
+             {'todas': float(evaluable[f'measured_{name}'].mean())} for name in ('sin', 'con')}
+    reasons = {name: {str(k): int(v) for k, v in evaluable[~evaluable[f'measured_{name}']].groupby('locomotion')[
+        f'reason_{name}'].value_counts().items()} for name in ('sin', 'con')}
+    both = table[table.measured_sin & (table.source_sin == 'puntos') & table.measured_mascara]
+    difference = (both.displacement_mascara - both.displacement_sin).abs()
+    aucs = {}
+    for name in ('sin', 'con'):
+        scored = evaluable[evaluable[f'measured_{name}']]
+        aucs[name] = pointtrack.auc(scored[f'displacement_{name}'], scored.locomotion)
+    gain = cover['con'].get('locomotion', 0.) - cover['sin'].get('locomotion', 0.)
+    adopt = bool(len(both) and difference.median() <= ADOPT_MASK['consistency_median'] and
+                 gain >= ADOPT_MASK['locomotion_coverage_gain'] and aucs['con'] is not None and
+                 aucs['con'] >= ADOPT_MASK['auc_min'])
+    result = dict(criterion=ADOPT_MASK, coverage=cover, locomotion_coverage_gain=gain, unmeasured_reasons=reasons,
+                  consistency=dict(blocks=int(len(both)), median_abs_difference=float(difference.median()) if len(both) else None,
+                                   p90_abs_difference=float(difference.quantile(.9)) if len(both) else None),
+                  auc=aucs, mask_blocks_added=int((table.measured_con & ~table.measured_sin).sum()), adopt_mask=adopt,
+                  labels_sha256=sha256(labels), source_sha256={n: sha256(Path(__file__).parent / f'{n}.py')
+                                                               for n in ('activity', 'pointtrack')},
+                  note='Etiquetas de actos de Claude (kappa 0,63); bloques de 2 s del índice de ventanas.')
+    out.mkdir(parents=True, exist_ok=True)
+    table.to_csv(out / 'bloques.csv', index=False)
+    (out / 'cobertura.json').write_text(json.dumps(result, indent=2, ensure_ascii=False, default=float))
+    print(f"Desplazarse medido: {cover['sin'].get('locomotion', 0):.2f} → {cover['con'].get('locomotion', 0):.2f} | "
+          f"todas: {cover['sin']['todas']:.2f} → {cover['con']['todas']:.2f} | diferencia mediana máscara/puntos "
+          f"{result['consistency']['median_abs_difference']} | AUC {aucs['sin']} → {aucs['con']} → "
+          f"{'se adopta' if adopt else 'no se adopta'}", flush=True)
+    return result
+
+
 def main():
     parser = argparse.ArgumentParser(description='Actividad continua: desplazamiento respecto al suelo con CoTracker3')
     source = parser.add_mutually_exclusive_group(required=True)
@@ -269,7 +354,15 @@ def main():
     parser.add_argument('--device', choices=['mps', 'cpu'], default='mps')
     parser.add_argument('--no-track', action='store_true', help='Usar solo los tramos ya guardados')
     parser.add_argument('--evaluate', help='Manifest con etiquetas para comparar 0,5 s y 2 s (criterio ADOPT)')
+    parser.add_argument('--mask-fallback', action='store_true', help='Centro de la máscara cuando se pierden los puntos')
+    parser.add_argument('--coverage', help='Etiquetas de actos por ventana: cobertura con y sin respaldo (ADOPT_MASK)')
+    parser.add_argument('--coverage-out', default=str(REPO / 'cierre' / 'cobertura'))
     args = parser.parse_args()
+    if args.coverage:
+        if not args.manifest:
+            parser.error('--coverage requiere --manifest')
+        coverage(args.manifest, args.coverage, args.coverage_out)
+        return
     if args.video and not args.masks:
         parser.error('--video requiere --masks')
     holder = {}
@@ -288,13 +381,13 @@ def main():
             return tracker().memory()
     model = None if args.no_track else Lazy()
     if args.video:
-        measure(args.video, args.masks, args.out, args.tracks, model)
+        measure(args.video, args.masks, args.out, args.tracks, model, args.mask_fallback)
         return
     manifest = Path(args.manifest).resolve()
     for case in json.loads(manifest.read_text())['cases']:
         video = (manifest.parent / Path(case['video']).expanduser()).resolve()
         masks = (manifest.parent / Path(case['masks']).expanduser()).resolve()
-        measure(video, masks, Path(args.out) / case['name'], None, model)
+        measure(video, masks, Path(args.out) / case['name'], None, model, args.mask_fallback)
     if args.evaluate:
         evaluate(args.out, args.evaluate)
 

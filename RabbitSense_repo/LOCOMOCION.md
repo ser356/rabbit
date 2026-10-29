@@ -444,6 +444,29 @@ El código ejecutado coincide por hash con [pointtrack.py](src/rabbitsense/point
 
 **Conclusión.** CoTracker3 con tiempo real es la mejor medida de desplazamiento del proyecto y concuerda con la definición física (AUC 0,91). La clasificación binaria por clips de 4 s no alcanza los criterios ni con umbral ajustado. Los límites están en las propias etiquetas por clip (kappa 0,60 entre revisiones) y en los cambios de postura dentro del reposo, no en el seguimiento.
 
+### Cobertura del seguimiento cuando Cinna se mueve (fijado el 2026-10-30, antes de ejecutar)
+
+**Problema.** En el modelo de actos falta el desplazamiento neto en el 47 % de las ventanas de desplazarse, frente al 6–25 % del resto. La medida no existe justo cuando más falta hace.
+
+**Causa probable** (sin confirmar). Un fotograma solo se mide si al menos 5 puntos del conejo siguen «visibles» para CoTracker. Con el desenfoque del movimiento, CoTracker los da por ocultos, aunque la máscara SAM2 siga existiendo.
+
+**Cambio** ([pointtrack.py](src/rabbitsense/pointtrack.py) `stabilised`, [activity.py](src/rabbitsense/activity.py)):
+- **Motivo de cada hueco:** cada fotograma guarda con qué se midió o por qué no:
+  - `puntos` o `mascara` si se midió;
+  - `pocos_puntos_conejo`, `poco_fondo` o `homografia` si no.
+
+  Cada bloque sin medida guarda su motivo: uno de esos, `sin_tramo` o `sin_mascara_en_consulta`.
+- **Medida de respaldo:** si quedan menos de 5 puntos del conejo pero el fondo permite estimar la homografía, la posición es el centro de la máscara SAM2. Se lleva al fotograma de consulta con esa misma homografía.
+- **Protección:** la medida de respaldo no se usa si el área de la máscara no está entre la mitad y el doble de la del fotograma de consulta. Así se evita medir una máscara que SAM2 ha arrastrado a otra cosa.
+- **Por defecto, nada cambia:** el respaldo solo se activa con `--mask-fallback`.
+
+**Criterio de adopción** (`ADOPT_MASK`; `activity --coverage`, sin seguir nada nuevo). Se adopta solo si se cumplen las tres condiciones:
+1. **Coherencia:** en los bloques de 2 s medidos con puntos, la medida solo con máscara difiere en mediana ≤ 0,15 tamaños.
+2. **Cobertura:** la cobertura de las ventanas de desplazarse sube al menos 0,15.
+3. **Separación:** la AUC del desplazamiento neto (desplazarse frente al resto) con respaldo es ≥ 0,9.
+
+Se usan las etiquetas de actos de Claude (kappa 0,63), así que el resultado es exploratorio.
+
 ## Línea experimental nueva: adaptación del modelo temporal a Cinna (pre-registrada el 2026-10-27)
 
 Esta línea no modifica los veredictos `not_resolved` anteriores ni sus modelos congelados. Es una evaluación exploratoria con validación cruzada agrupada, no un test independiente.

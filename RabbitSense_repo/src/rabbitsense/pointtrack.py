@@ -250,17 +250,45 @@ def track_case(video, masks, folder, tracker, clips=None, times=None):
     return len(plan)
 
 
-def stabilised(chunk):
-    """Por fotograma: desplazamiento del conejo en el fotograma de consulta, error del fondo y validez."""
+# Estado de cada fotograma en `stabilised`: con qué se midió o por qué no.
+STATUS = {0: 'puntos', 1: 'mascara', 2: 'pocos_puntos_conejo', 3: 'poco_fondo', 4: 'homografia'}
+# Respaldo con la máscara (2026-10-30): el área del fotograma debe estar entre la mitad y el doble de la del fotograma
+# de consulta, para no medir una máscara que SAM2 ha arrastrado a otra cosa.
+MASK_AREA_RATIO = (.5, 2.)
+
+
+def mask_centroids(masks, frames):
+    """Centro (x, y) y área de la máscara SAM2 en cada fotograma, en píxeles del fotograma seguido (lado largo SIDE)."""
+    result = np.full((len(frames), 3), np.nan)
+    for j, f in enumerate(frames):
+        raw = cv2.imread(str(Path(masks) / 'masks' / f'{int(f):06d}.png'), cv2.IMREAD_GRAYSCALE)
+        if raw is None or np.count_nonzero(raw) < MIN_MASK * raw.size:
+            continue
+        scale = SIDE / max(raw.shape[:2])
+        ys, xs = np.nonzero(raw > 0)
+        result[j] = (xs.mean() + .5) * scale - .5, (ys.mean() + .5) * scale - .5, len(xs) * scale ** 2
+    return result
+
+
+def stabilised(chunk, centroids=None, mode='auto'):
+    """Por fotograma: desplazamiento del conejo en el fotograma de consulta, error del fondo, validez y estado.
+
+    La posición es la mediana de los puntos del conejo llevados al fotograma de consulta. Con `centroids`
+    (`mask_centroids`), si quedan menos de MIN_RABBIT puntos visibles (al moverse deprisa CoTracker los da por
+    ocultos), se usa el centro de la máscara llevado con la misma homografía del fondo; `mode='mask'` lo usa siempre
+    (solo para comprobar que ambas medidas coinciden)."""
     tracks, visible, kinds, q = chunk['tracks'], chunk['visible'], chunk['kinds'], int(chunk['query'])
     offsets = np.full((len(tracks), 2), np.nan)
     errors, shifts, background_count = np.full(len(tracks), np.nan), np.full(len(tracks), np.nan), np.zeros(len(tracks), int)
+    status = np.full(len(tracks), 2)
+    reference = centroids[q] if centroids is not None else None
     for f in range(len(tracks)):
         both = visible[f] & visible[q]
         near = both & (kinds == 2)
         use = near if near.sum() >= MIN_BACKGROUND else both & (kinds > 0)
         rabbit = both & (kinds == 0)
-        if use.sum() < MIN_BACKGROUND or rabbit.sum() < MIN_RABBIT:
+        if use.sum() < MIN_BACKGROUND:
+            status[f] = 3
             continue
         if f == q:
             H, inliers = np.eye(3), np.ones(use.sum(), bool)
@@ -268,17 +296,27 @@ def stabilised(chunk):
             H, inliers = cv2.findHomography(tracks[f][use].astype(np.float32), tracks[q][use].astype(np.float32),
                                             cv2.RANSAC, RANSAC_PX)
             if H is None:
+                status[f] = 4
                 continue
             inliers = inliers.ravel().astype(bool)
         if inliers.sum() < MIN_BACKGROUND:
+            status[f] = 4
             continue
         mapped = cv2.perspectiveTransform(tracks[f][use][inliers][None].astype(np.float64), H)[0]
-        errors[f] = float(np.percentile(np.linalg.norm(mapped - tracks[q][use][inliers], axis=1), 95))
-        rabbit_mapped = cv2.perspectiveTransform(tracks[f][rabbit][None].astype(np.float64), H)[0]
-        offsets[f] = np.median(rabbit_mapped - tracks[q][rabbit], axis=0)
+        error = float(np.percentile(np.linalg.norm(mapped - tracks[q][use][inliers], axis=1), 95))
+        if mode != 'mask' and rabbit.sum() >= MIN_RABBIT:
+            rabbit_mapped = cv2.perspectiveTransform(tracks[f][rabbit][None].astype(np.float64), H)[0]
+            offsets[f], status[f] = np.median(rabbit_mapped - tracks[q][rabbit], axis=0), 0
+        elif (reference is not None and np.isfinite(reference).all() and np.isfinite(centroids[f]).all() and
+              MASK_AREA_RATIO[0] <= centroids[f][2] / reference[2] <= MASK_AREA_RATIO[1]):
+            centre = cv2.perspectiveTransform(centroids[f][None, None, :2].astype(np.float64), H)[0, 0]
+            offsets[f], status[f] = centre - reference[:2], 1
+        else:
+            continue
+        errors[f] = error
         shifts[f] = float(np.median(np.linalg.norm(tracks[f][use] - tracks[q][use], axis=1)))
         background_count[f] = int(inliers.sum())
-    return offsets, errors, shifts, background_count
+    return offsets, errors, shifts, background_count, status
 
 
 def decide(chunk, centre, cached=None):
@@ -287,7 +325,7 @@ def decide(chunk, centre, cached=None):
                  valid_fraction=0., camera_shift=np.nan, background_inliers=0)
     if chunk is None or int(chunk['query']) < 0:
         return empty
-    offsets, errors, shifts, background = cached if cached is not None else stabilised(chunk)
+    offsets, errors, shifts, background = (cached if cached is not None else stabilised(chunk))[:4]
     times = np.asarray(chunk['times'])  # tiempo real de cada fotograma del tramo (analyze lo fija)
     window = (times >= centre - HALF - 1e-6) & (times <= centre + HALF + 1e-6)
     valid = window & np.isfinite(offsets[:, 0])
