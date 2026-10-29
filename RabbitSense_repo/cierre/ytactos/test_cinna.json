@@ -1,0 +1,108 @@
+{
+  "windows": 139,
+  "balanced_accuracy": 0.6083453341013825,
+  "accuracy": 0.6187050359712231,
+  "recall": {
+    "locomotion": 0.71875,
+    "eating": 0.0967741935483871,
+    "lying": 0.85,
+    "other": 0.7678571428571429
+  },
+  "precision": {
+    "locomotion": 0.5897435897435898,
+    "eating": 0.75,
+    "lying": 0.8095238095238095,
+    "other": 0.5733333333333334
+  },
+  "confusion": {
+    "eating": {
+      "eating": 3,
+      "locomotion": 2,
+      "lying": 3,
+      "other": 23
+    },
+    "locomotion": {
+      "eating": 0,
+      "locomotion": 23,
+      "lying": 0,
+      "other": 9
+    },
+    "lying": {
+      "eating": 0,
+      "locomotion": 3,
+      "lying": 17,
+      "other": 0
+    },
+    "other": {
+      "eating": 1,
+      "locomotion": 11,
+      "lying": 1,
+      "other": 43
+    }
+  },
+  "passes": false,
+  "accuracy_by_original_act": {
+    "eating": 0.0967741935483871,
+    "exploring": 0.6666666666666666,
+    "grooming": 0.875,
+    "loaf": 0.8,
+    "locomotion": 0.71875,
+    "lying": 0.85,
+    "rearing": 1.0
+  },
+  "accuracy_with_detection": 0.6015037593984962,
+  "windows_without_detection": 6,
+  "well_detected": {
+    "windows": 116,
+    "balanced_accuracy": 0.5755837203302374,
+    "accuracy": 0.5775862068965517,
+    "recall": {
+      "locomotion": 0.5625,
+      "eating": 0.1,
+      "lying": 0.8947368421052632,
+      "other": 0.7450980392156863
+    },
+    "precision": {
+      "locomotion": 0.391304347826087,
+      "eating": 0.75,
+      "lying": 0.8095238095238095,
+      "other": 0.5588235294117647
+    },
+    "confusion": {
+      "eating": {
+        "eating": 3,
+        "locomotion": 1,
+        "lying": 3,
+        "other": 23
+      },
+      "locomotion": {
+        "eating": 0,
+        "locomotion": 9,
+        "lying": 0,
+        "other": 7
+      },
+      "lying": {
+        "eating": 0,
+        "locomotion": 2,
+        "lying": 17,
+        "other": 0
+      },
+      "other": {
+        "eating": 1,
+        "locomotion": 11,
+        "lying": 1,
+        "other": 38
+      }
+    },
+    "passes": false
+  },
+  "status": "not_resolved",
+  "criterion": {
+    "balanced_accuracy": 0.6,
+    "min_recall": 0.5
+  },
+  "model_sha256": "a5deaebc811f82a8643668e7950231da08e416b9c0cfd71f74138b6565bf3e57",
+  "labels_sha256": "a9f6feacfe4302573c485ddbc9880967b44e9e901adce4e0b1ce24d8ffc40567",
+  "source_sha256": "1a0c6fd17c7a45ce662140d49817fcbf634e225be6583c1f7cd04482a642e7c2",
+  "scope": "Cinna no entra en el entrenamiento. Las etiquetas de Cinna son de Claude (kappa 0,63 frente a la persona) y la agrupación de clases se fijó tras verlas: exploratorio, no una validación."
+}

@@ -239,6 +239,43 @@ Desglose de «otra»: agazapado 63, acicalarse 46, explorar 43, binky 3 y de pie
 
 **Siguiente paso, sin tocar Cinna:** 10 búsquedas más, solo de desplazamiento ([youtube_actos_busquedas_2.tsv](benchmarks/youtube_actos_busquedas_2.tsv)). Se añaden datos de entrenamiento hasta llegar al mínimo, que se fijó antes; nada de esto mira las etiquetas de Cinna. Si aun así no llega, la línea se cierra para desplazarse, que sigue midiéndose con CoTracker.
 
+**Más vídeos de desplazamiento (2026-10-29).**
+- **Datos nuevos:** 39 vídeos más, de los que 31 aportan 136 ventanas. Claude las etiquetó igual que las anteriores.
+- **Total:** 485 ventanas.
+- **Todas las clases llegan al mínimo:**
+
+| Clase | Ventanas | Vídeos |
+|---|---:|---:|
+| desplazarse | 68 | 36 |
+| comer | 59 | 19 |
+| tumbado | 48 | 16 |
+| otra | 201 | 67 |
+
+- **Modelo:** congelado en [ytactos_modelo.json](benchmarks/ytactos_modelo.json), con commit propio antes del test.
+- **Validación por vídeo dentro de YouTube** (informativa): exactitud equilibrada 0,59. Por clase: desplazarse 0,72, comer 0,53, tumbado 0,35 y otra 0,76.
+
+**Test en Cinna, una sola vez (2026-10-29): `not_resolved`.** [test_cinna.json](cierre/ytactos/test_cinna.json), [predicciones](cierre/ytactos/predicciones_cinna.csv). 139 ventanas.
+
+| | Exactitud equilibrada | Desplazarse | Comer | Tumbado | Otra |
+|---|---:|---:|---:|---:|---:|
+| **YouTube → Cinna** | **0,61** | 0,72 | **0,10** | 0,85 | 0,77 |
+| Ventanas bien detectadas (116) | 0,58 | 0,56 | 0,10 | 0,89 | 0,75 |
+| Referencia: entrenado con Cinna, una sesión fuera | 0,39–0,49 | 0,56–0,75 | 0,26–0,39 | 0,10–0,90 | 0,11–0,46 |
+
+Criterio: exactitud equilibrada ≥ 0,6 y ≥ 0,5 en cada clase.
+
+- **No cumple por comer.** 23 de 31 ventanas de comer salen como «otra». El modelo solo acierta comer en un vídeo de WhatsApp (3/3). En 5177, locomotion, resting y 972F no acierta ninguna.
+- **El resto mejora claramente** respecto a entrenar con Cinna:
+  - tumbado 0,85, con precisión 0,81 (antes 0,10 con V-JEPA 2);
+  - otra 0,77;
+  - desplazarse 0,72, con precisión 0,59 (11 ventanas de «otra» salen como desplazarse).
+- **La enmienda de la puerta no cambia la lectura:** con solo las ventanas bien detectadas sale 0,58.
+- **Posible causa de lo de comer** (posterior, sin comprobar):
+  - en YouTube, comer es casi siempre un primer plano con la comida a la vista;
+  - en 5177, locomotion y resting, mis etiquetas de comer salen de ver masticar en el mapa de movimiento, a veces sin la comida a la vista;
+  - además, la verificación de esas etiquetas fue 3/4.
+- **Siguiente paso:** no se reentrena mirando a Cinna. Una prueba nueva necesita etiquetas de comer de Cinna más fiables o la cámara fija.
+
 ## Desplazamiento respecto al suelo con CoTracker3 (pre-registrado el 2026-10-27, antes de ejecutar)
 
 **Por qué.** Los modelos aprendidos distinguen escenas, no desplazamiento: la AUC intra-vídeo queda cerca del azar. Se mide directamente lo que define la locomoción, sin entrenar nada y con una regla física fija, de modo que no hay selección sobre los 57 clips. El modelo es CoTracker3 offline de Meta (`facebookresearch/co-tracker`, `cotracker3_offline`, vía `torch.hub`).
