@@ -467,6 +467,32 @@ El código ejecutado coincide por hash con [pointtrack.py](src/rabbitsense/point
 
 Se usan las etiquetas de actos de Claude (kappa 0,63), así que el resultado es exploratorio.
 
+**Resultado (2026-10-30): no se adopta.** [cobertura.json](cierre/cobertura/cobertura.json), [bloques.csv](cierre/cobertura/bloques.csv).
+
+| Condición | Resultado | Exigido |
+|---|---:|---:|
+| Coherencia máscara/puntos (mediana; 111 bloques) | 0,05 tamaños (p90 0,37) | ≤ 0,15 ✔ |
+| Cobertura de desplazarse | 0,53 → 0,63 (+0,09) | +0,15 ✘ |
+| AUC desplazarse frente al resto | 0,970 → 0,975 | ≥ 0,9 ✔ |
+
+- **Cobertura del resto:** la general sube de 0,79 a 0,86; comer y explorar llegan a 1,0.
+- **Desplazarse:** el respaldo recupera 3 ventanas (IMG_5190, IMG_5193 y locomotion).
+- **Por qué no llega:** la medida con máscara es buena, pero la mayoría de los huecos de desplazarse no se deben a los puntos. Motivos de las 15 ventanas sin medida:
+
+| Motivo | Ventanas | Dónde |
+|---|---:|---|
+| pocos puntos del conejo | 6 (3 recuperadas) | 5177, IMG_5191, IMG_5193 |
+| sin máscara SAM2 | 4 | IMG_5191, 14–22 s |
+| la cámara no se compensa (homografía o poco fondo) | 5 | 5177, 32–42 s; IMG_5192; WhatsApp 18.44.37 |
+
+  En IMG_5191 hay una quinta ventana sin medida: tampoco tiene máscara, pero cuenta como «pocos puntos».
+- **Conclusión:** el respaldo queda en el código, pero desactivado (`--mask-fallback`). Los huecos restantes se reparten entre tres causas:
+  - SAM2 pierde a Cinna en IMG_5191, donde OWLv2 tampoco lo detecta;
+  - la cámara se mueve demasiado deprisa para compensarla;
+  - quedan sin medida tanto los puntos como la máscara.
+
+  Ninguna se arregla sin datos nuevos o sin volver a segmentar a mano. Con una cámara fija desaparecen los dos primeros motivos.
+
 ## Línea experimental nueva: adaptación del modelo temporal a Cinna (pre-registrada el 2026-10-27)
 
 Esta línea no modifica los veredictos `not_resolved` anteriores ni sus modelos congelados. Es una evaluación exploratoria con validación cruzada agrupada, no un test independiente.
