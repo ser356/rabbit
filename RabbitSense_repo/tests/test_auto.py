@@ -147,3 +147,21 @@ def test_validate_compares_automatic_with_manual_masks(tmp_path, fake_frames, mo
     assert result['mask_iou_median'] > .8 and result['displacement_median_difference'] < .05
     assert result['auc'] == 1. and result['adopt_auto']
     assert (tmp_path / 'out' / 'validacion.json').is_file()
+
+
+def test_sheets_have_no_predictions_and_score_uses_prior_labels(tmp_path):
+    late_video(tmp_path / 'late.mp4')
+    assert auto.sheets([tmp_path / 'late.mp4'], tmp_path / 'hojas', Bright()) == 3
+    table = pd.read_csv(tmp_path / 'hojas' / 'ventanas.csv')
+    assert list(table.start) == [0., 2., 4.] and list(table.found) == [0, 4, 4] and 'act' not in table
+    assert cv2.imread(str(tmp_path / 'hojas' / 'hojas' / 'late_00.jpg')).shape[0] == 3 * 200
+    (tmp_path / 'analisis' / 'late').mkdir(parents=True)
+    pd.DataFrame(dict(start=[0., 2., 4.], act=['not_visible', 'eating', 'other'])).to_csv(
+        tmp_path / 'analisis' / 'late' / 'ventanas.csv', index=False)
+    pd.DataFrame(dict(video='late', start=[0., 2., 4.], act=['not_visible', 'eating', 'eating'])).to_csv(
+        tmp_path / 'labels.csv', index=False)
+    result = auto.score(tmp_path / 'analisis', tmp_path / 'labels.csv', tmp_path / 'out')
+    assert result['eating_windows'] == 2 and result['eating_hits'] == 1 and result['verdict'] == 'sin_veredicto'
+    assert result['predicted_as'] == {'eating': 1, 'other': 1}
+    low, high = result['eating_recall_interval']
+    assert low < .5 < high

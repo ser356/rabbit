@@ -40,6 +40,22 @@ Será el primer test independiente de verdad: ni el modelo ni los umbrales habr�
 4. **Criterio** (el mismo que en las pruebas anteriores, ahora con comer incluido): exactitud equilibrada ≥ 0,6 y ≥ 0,5 en cada clase evaluable. Desplazamiento: AUC del desplazamiento neto de 2 s (desplazarse frente al resto) ≥ 0,9.
 5. **Una sola ejecución.** Si falla, se documenta y no se reajusta con esos vídeos.
 
+### Prueba de comer con dos vídeos nuevos (fijada el 2026-10-31, antes de verlos)
+
+**Por qué.** Comer falló en Cinna, con 0,10 de aciertos. No sabemos si falla el modelo o fallan mis etiquetas, que salían de ver masticar en el mapa de movimiento, a veces sin comida a la vista. Estos dos vídeos de Cinna comiendo son nuevos para el modelo.
+
+**Orden** ([auto.py](src/rabbitsense/auto.py)):
+1. `auto sheets`: hojas de movimiento de cada ventana de 2 s, con la caja del detector y sin predicciones.
+2. Claude etiqueta todas las ventanas con el etograma (`RabbitSense_ARCHIVO/actos_comiendo_claude.csv`) y hace commit antes del paso 3.
+3. `auto analyze` con el modelo congelado, sin cambiar nada.
+4. `auto score` compara las predicciones con las etiquetas.
+
+**Criterio.**
+- Comer se reconoce si acierta en al menos el 50 % de las ventanas etiquetadas como comer, con al menos 20 de ellas.
+- Con menos de 20, el resultado se informa sin veredicto.
+- Se informa también el intervalo de Wilson y en qué se confunden las ventanas de comer.
+- Hay menos de 3 sesiones, así que no sustituye a la prueba con cámara fija.
+
 ## Actos de Cinna: etograma y modelo propio (fijado el 2026-10-28, antes de etiquetar)
 
 **Objetivo:** detectar qué hace Cinna, más allá de si se desplaza, para construir más adelante un diario de comportamiento comparado con su propia normalidad, cuando haya cámara fija. **No se estimará estado de ánimo ni salud:** como mucho habrá avisos de cambios para revisión humana.

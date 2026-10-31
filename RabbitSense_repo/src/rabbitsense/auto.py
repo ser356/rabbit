@@ -336,6 +336,80 @@ def analyze(videos, out=OUT, device='mps', stage=None, segment_fn=None, model_fi
     return summaries
 
 
+def sheets(videos, out, detector):
+    """Hojas de movimiento de cada ventana de 2 s, con la caja del detector y sin ninguna predicción de actos:
+    las etiquetas se ponen antes de ver lo que dice el modelo."""
+    from .acts import MOTION, sheet_line, square, write_sheets
+    from .pointtrack import frame_times
+    from .ytacts import probe_frames, window_detection
+    out = Path(out)
+    (out / 'hojas').mkdir(parents=True, exist_ok=True)
+    rows = []
+    for video in [Path(v).resolve() for v in videos]:
+        times, lines = frame_times(video), []
+        for k, frames, images in stream_windows(video, times):
+            if len(frames) < 2:
+                continue
+            summary = window_detection(detector([images[f] for f in probe_frames(frames)]))
+            box = square_around(*summary['union'], images[frames[0]].shape) if summary['union'] else None
+            start = k * AUTO['window']
+            line, _ = sheet_line([square(images[f], box, MOTION['size']) for f in frames], f'{start:.0f}s', box is not None)
+            lines.append(line)
+            rows.append(dict(video=video.stem, start=round(start, 3), end=round(min(start + AUTO['window'], times[-1]), 3),
+                             sheet=f'{video.stem}_{(len(lines) - 1) // MOTION["rows"]:02d}',
+                             row=(len(lines) - 1) % MOTION['rows'], found=summary['found']))
+        write_sheets(lines, out / 'hojas', video.stem)
+        print(f'{video.name}: {len(lines)} ventanas', flush=True)
+    pd.DataFrame(rows).to_csv(out / 'ventanas.csv', index=False)
+    return len(rows)
+
+
+def score(analysis, labels, out):
+    """Predicciones de `analyze` frente a etiquetas puestas antes de verlas (prueba de comer, fijada el 2026-10-31)."""
+    from .acts import EVALUABLE
+    from .actmodel import CLASSES, CRITERION, GROUPS
+    from .ytacts import metrics
+    labels_table = pd.read_csv(labels, dtype={'video': str})
+    labels_table['start'] = labels_table.start.round(3)
+    parts = []
+    for video in sorted(set(labels_table.video)):
+        predicted = pd.read_csv(Path(analysis) / video / 'ventanas.csv')
+        predicted['start'] = predicted.start.round(3)
+        parts.append(labels_table[labels_table.video == video].merge(
+            predicted[['start', 'act']].rename(columns=dict(act='model')), on='start', how='inner'))
+    table = pd.concat(parts, ignore_index=True)
+    table = table[table.act.isin(GROUPS)].assign(truth=lambda t: t.act.map(GROUPS))
+    result = metrics(table.truth.to_numpy(), table.model.to_numpy())
+    eating = table[table.truth == 'eating']
+    hits = int((eating.model == 'eating').sum())
+    evaluable = len(eating) >= EVALUABLE['min_disjoint_windows']
+    result.update(eating_windows=int(len(eating)), eating_hits=hits, eating_recall_interval=wilson(hits, len(eating)),
+                  eating_videos=int(eating.video.nunique()), predicted_as={str(k): int(v) for k, v in
+                                                                          eating.model.value_counts().items()},
+                  classes_present=sorted(set(table.truth)), criterion=dict(min_recall=CRITERION['min_recall'],
+                                                                           min_windows=EVALUABLE['min_disjoint_windows']),
+                  verdict=('sin_veredicto' if not evaluable else
+                           'comer_reconocido' if hits / len(eating) >= CRITERION['min_recall'] else 'comer_no_reconocido'),
+                  scope=('Vídeos nuevos que el modelo no ha visto; etiquetas de Claude puestas antes de las predicciones. '
+                         'Menos de 3 sesiones: no sustituye a la prueba con cámara fija.'),
+                  labels_sha256=sha256(labels), classes=CLASSES)
+    out = Path(out)
+    out.mkdir(parents=True, exist_ok=True)
+    table.to_csv(out / 'predicciones.csv', index=False)
+    (out / 'prueba.json').write_text(json.dumps(result, indent=2, ensure_ascii=False, default=str))
+    low, high = result['eating_recall_interval']
+    print(f"Comer: {hits}/{len(eating)} ventanas reconocidas ({low:.2f}–{high:.2f}) → {result['verdict']}", flush=True)
+    return result
+
+
+def wilson(k, n, z=1.96):
+    if not n:
+        return (None, None)
+    p, d = k / n, 1 + z * z / n
+    centre, half = p + z * z / (2 * n), z * np.sqrt(p * (1 - p) / n + z * z / (4 * n * n))
+    return (float((centre - half) / d), float((centre + half) / d))
+
+
 def mask_agreement(manual, auto, every=5):
     """IoU mediana (fotogramas con ambas máscaras, uno de cada `every`) y fracción de fotogramas con máscara."""
     files = sorted((Path(manual) / 'masks').glob('*.png'))
@@ -419,8 +493,21 @@ def main():
     command.add_argument('--labels', default=str(REPO.parent / 'RabbitSense_ARCHIVO' / 'actos_ventanas_claude_v2.csv'))
     command.add_argument('--out', default=str(REPO / 'cierre' / 'auto'))
     command.add_argument('--device', choices=['mps', 'cpu'], default='mps')
+    command = sub.add_parser('sheets', help='Hojas de movimiento para etiquetar, sin predicciones')
+    command.add_argument('videos', nargs='+')
+    command.add_argument('--out', default=str(REPO / 'runs' / 'hojas_nuevas'))
+    command.add_argument('--device', choices=['mps', 'cpu'], default='mps')
+    command = sub.add_parser('score', help='Predicciones de analyze frente a etiquetas previas')
+    command.add_argument('--analysis', default=str(OUT))
+    command.add_argument('--labels', default=str(REPO.parent / 'RabbitSense_ARCHIVO' / 'actos_comiendo_claude.csv'))
+    command.add_argument('--out', default=str(REPO / 'cierre' / 'comiendo'))
     args = parser.parse_args()
-    if args.command == 'analyze':
+    if args.command == 'sheets':
+        from .ytacts import Detector
+        sheets(args.videos, args.out, Detector(args.device))
+    elif args.command == 'score':
+        score(args.analysis, args.labels, args.out)
+    elif args.command == 'analyze':
         analyze(args.videos, args.out, args.device)
     else:
         validate(args.manifest, args.labels, args.out, args.device)
