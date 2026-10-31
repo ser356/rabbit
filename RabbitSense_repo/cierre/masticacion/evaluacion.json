@@ -1,0 +1,57 @@
+{
+  "criterion": {
+    "band": [
+      1.5,
+      4.5
+    ],
+    "total": [
+      0.5,
+      12.0
+    ],
+    "block": 8,
+    "size": 256,
+    "min_frames": 16,
+    "top": 0.05,
+    "still": 0.5,
+    "false_alarms": 0.1,
+    "min_auc": 0.7,
+    "min_recall": 0.5
+  },
+  "threshold": 0.337868486170528,
+  "development": {
+    "windows": 129,
+    "eating": 31,
+    "auc": 0.6010533245556287,
+    "recall_at_threshold": 0.22580645161290322,
+    "false_alarms_by_act": {
+      "exploring": 0.05,
+      "grooming": 0.25,
+      "loaf": 0.041666666666666664,
+      "locomotion": 0.18518518518518517,
+      "lying": 0.058823529411764705,
+      "rearing": 0.0
+    },
+    "median_score": {
+      "eating": 0.1989448987144522,
+      "exploring": 0.14164717692901274,
+      "grooming": 0.29256435419434323,
+      "loaf": 0.18720573037572655,
+      "locomotion": 0.0,
+      "lying": 0.1383096142043872,
+      "rearing": 0.14366790839298466
+    }
+  },
+  "test": {
+    "windows": 34,
+    "hits": 2,
+    "recall": 0.058823529411764705,
+    "interval": [
+      0.01628231306384244,
+      0.1909393688946371
+    ],
+    "median_score": 0.12723741140621275
+  },
+  "adopted": false,
+  "source_sha256": "fd0b3e44fd3620f893a7af1a96a47c039bbca3cca7e1c7152b618af0ca28653c",
+  "scope": "Etiquetas de Claude; prueba con dos vídeos de una sola sesión, todos de comer (solo mide sensibilidad)."
+}

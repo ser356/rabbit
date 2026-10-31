@@ -85,6 +85,12 @@ Será el primer test independiente de verdad: ni el modelo ni los umbrales habr�
 - **Prueba** (los dos vídeos nuevos, 34 ventanas de comer): se adopta si la AUC de desarrollo es ≥ 0,7 y reconoce al menos 17 de las 34 ventanas.
 - **Límite:** en la prueba solo hay comer, así que mide la sensibilidad. Las falsas alarmas se miden en desarrollo.
 
+**Resultado (2026-10-31): no se adopta.** [evaluacion.json](cierre/masticacion/evaluacion.json).
+- **Desarrollo:** AUC 0,60 de comer frente al resto, por debajo del 0,7 exigido. Con el umbral fijado (0,34) solo reconoce el 23 % de comer.
+- **Falsas alarmas:** sobre todo con acicalarse (25 %) y desplazarse (19 %), que también son movimientos rítmicos.
+- **Prueba:** 2 de 34 ventanas (0,06; intervalo de Wilson 0,02–0,19). La puntuación mediana de comer en la prueba (0,13) queda por debajo de la de agazapado en desarrollo (0,19).
+- **Lectura:** con este encuadre, el cuerpo entero y la boca de un belier tapada por las orejas y el pelo, el ritmo de masticar no se distingue del resto del movimiento. Ni el modelo de actos ni el ritmo reconocen comer en estos vídeos.
+
 ## Actos de Cinna: etograma y modelo propio (fijado el 2026-10-28, antes de etiquetar)
 
 **Objetivo:** detectar qué hace Cinna, más allá de si se desplaza, para construir más adelante un diario de comportamiento comparado con su propia normalidad, cuando haya cámara fija. **No se estimará estado de ánimo ni salud:** como mucho habrá avisos de cambios para revisión humana.
