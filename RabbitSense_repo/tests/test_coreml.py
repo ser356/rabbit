@@ -99,4 +99,7 @@ def test_check_applies_the_equivalence_criterion(tmp_path):
     assert not coreml.adopted(tmp_path / 'sin_modelos', record)  # sin modelos convertidos no se usa
     (tmp_path / 'modelos').mkdir()
     (tmp_path / 'modelos' / 'modelos.json').write_text('{}')
-    assert coreml.adopted(tmp_path / 'modelos', record)
+    assert coreml.adopted(tmp_path / 'modelos', record) == (result['seconds_per_call']['detector_coreml'] <
+                                                        result['seconds_per_call']['detector_torch'] and
+                                                        result['seconds_per_call']['vjepa_coreml'] <
+                                                        result['seconds_per_call']['vjepa_torch'])

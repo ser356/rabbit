@@ -267,10 +267,17 @@ def check(manifest, windows, videos, out, device='mps', compute='all', torch_mod
 
 
 def adopted(folder=FOLDER, record=REPO / 'cierre' / 'coreml' / 'equivalencia.json'):
-    """Core ML se usa solo si los modelos existen y pasaron la comprobación de equivalencia."""
+    """Core ML se usa por defecto solo si los modelos existen, pasaron la comprobación de equivalencia y son más rápidos
+    que PyTorch en los dos modelos (añadido el 2026-10-31 tras ver que, con compute='all', eran más lentos; no afecta a
+    la validez, solo a la velocidad). Con `--backend coreml` se usan igualmente."""
     record = Path(record)
-    return ((Path(folder) / 'modelos.json').is_file() and record.is_file() and
-            json.loads(record.read_text()).get('adopt_coreml', False))
+    if not (Path(folder) / 'modelos.json').is_file() or not record.is_file():
+        return False
+    result = json.loads(record.read_text())
+    speed = result.get('seconds_per_call', {})
+    faster = all(speed.get(f'{m}_coreml') is not None and speed.get(f'{m}_torch') is not None and
+                 speed[f'{m}_coreml'] < speed[f'{m}_torch'] for m in ('detector', 'vjepa'))
+    return bool(result.get('adopt_coreml', False) and faster)
 
 
 def main():

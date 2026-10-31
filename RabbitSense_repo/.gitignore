@@ -21,3 +21,11 @@ dist/
 *.npz
 *.zip
 *.log
+
+# Swift
+swift/**/.build/
+swift/**/.swiftpm/
+swift/RabbitSenseKit/Tests/RabbitSenseKitTests/Fixtures/models/
+
+# Modelos convertidos y descargados (cientos de MB)
+weights/
