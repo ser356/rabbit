@@ -68,6 +68,23 @@ Será el primer test independiente de verdad: ni el modelo ni los umbrales habr�
   - desplazamiento medido el 100 % del tiempo: 3,0 y 2,1 tamaños por minuto, es decir, casi quieto;
   - ninguna ventana sale como desplazarse ni como tumbado.
 
+### Detector de masticación por ritmo (fijado el 2026-10-31, antes de calcular nada con vídeos reales)
+
+**Por qué.** El modelo de actos no reconoce comer (1/34 en vídeos donde Cinna come heno a la vista): en el recorte del cuerpo entero, la boca ocupa muy poco. En cambio, un conejo mastica a un ritmo regular, de unas 2 a 4 veces por segundo, y ese ritmo se mide sin entrenar nada ([chew.py](src/rabbitsense/chew.py)).
+
+**Método.**
+1. Se usa el recorte fijo de cada ventana de 2 s con la caja del detector, a 256 px y en gris. En cada bloque de 8×8 px se calcula el espectro del brillo, sin tendencia y con ventana de Hann.
+2. Del 5 % de bloques con más movimiento se calcula una proporción: potencia en 1,5–4,5 Hz frente a potencia en 0,5–12 Hz.
+3. Si el desplazamiento neto de la ventana es ≥ 0,5 tamaños, no cuenta como masticar, porque los saltos también tienen ritmo.
+4. **Cambio antes de ver datos reales:** primero se usó el percentil 95 de todos los bloques en movimiento. En vídeo sintético, el ruido ocultaba la zona que mastica, y se cambió al 5 % de bloques con más energía.
+
+**Evaluación** (`chew evaluate`, una sola vez).
+- **Desarrollo** (17 vídeos, etiquetas de actos de Claude):
+  - el umbral deja pasar al 10 % de las ventanas que no son comer;
+  - se informa la AUC de comer frente al resto.
+- **Prueba** (los dos vídeos nuevos, 34 ventanas de comer): se adopta si la AUC de desarrollo es ≥ 0,7 y reconoce al menos 17 de las 34 ventanas.
+- **Límite:** en la prueba solo hay comer, así que mide la sensibilidad. Las falsas alarmas se miden en desarrollo.
+
 ## Actos de Cinna: etograma y modelo propio (fijado el 2026-10-28, antes de etiquetar)
 
 **Objetivo:** detectar qué hace Cinna, más allá de si se desplaza, para construir más adelante un diario de comportamiento comparado con su propia normalidad, cuando haya cámara fija. **No se estimará estado de ánimo ni salud:** como mucho habrá avisos de cambios para revisión humana.
