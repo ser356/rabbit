@@ -1,0 +1,25 @@
+{
+  "criterion": {
+    "act_agreement": 0.95,
+    "detection_agreement": 0.95,
+    "box_iou": 0.9,
+    "embedding_cosine": 0.99
+  },
+  "windows": 178,
+  "frames": 760,
+  "act_agreement": 1.0,
+  "detection_agreement": 0.9763157894736842,
+  "box_iou_median": 0.9953459480159659,
+  "embedding_cosine_median": 0.9999820291996002,
+  "embedding_cosine_min": 0.9999315738677979,
+  "seconds_per_call": {
+    "detector_torch": 0.47775046875085536,
+    "detector_coreml": 1.288139974000842,
+    "vjepa_torch": 0.7466302920001908,
+    "vjepa_coreml": 1.1365420414986147
+  },
+  "compute": "all",
+  "device": "mps",
+  "source_sha256": "5610fe92f93312accc88d00eed5a5ccaa3d03df2dc8cdcd5ad0bd83a44a3bdca",
+  "adopt_coreml": true
+}
