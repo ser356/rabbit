@@ -56,6 +56,18 @@ Será el primer test independiente de verdad: ni el modelo ni los umbrales habr�
 - Se informa también el intervalo de Wilson y en qué se confunden las ventanas de comer.
 - Hay menos de 3 sesiones, así que no sustituye a la prueba con cámara fija.
 
+**Resultado (2026-10-31): comer no se reconoce.** [prueba.json](cierre/comiendo/prueba.json).
+- **Aciertos:** 1 de 34 ventanas (0,03; intervalo de Wilson 0,01–0,15). Las otras 33 salen como «otra», casi siempre con una confianza mayor de 0,8.
+- **Lo que descarta:** en estos vídeos la comida se ve y comer es inequívoco, así que el fallo de la primera prueba (0,10) no venía de mis etiquetas. Es el modelo el que no reconoce a Cinna comiendo heno.
+- **Causa probable** (posterior, sin comprobar):
+  - en YouTube, comer es casi siempre un primer plano de la boca masticando;
+  - el modelo ve el recorte del cuerpo entero, de unas dos veces el tamaño del conejo, y la boca ocupa muy poco;
+  - Cinna comiendo heno, con el cuerpo quieto y la cabeza baja, se parece a «agazapado».
+- **Decisión de la persona:** esta prueba contaba como validación de comer. Como ha fallado, comer sigue marcado en el informe, ahora como **no fiable**.
+- **Otras salidas en estos vídeos:**
+  - desplazamiento medido el 100 % del tiempo: 3,0 y 2,1 tamaños por minuto, es decir, casi quieto;
+  - ninguna ventana sale como desplazarse ni como tumbado.
+
 ## Actos de Cinna: etograma y modelo propio (fijado el 2026-10-28, antes de etiquetar)
 
 **Objetivo:** detectar qué hace Cinna, más allá de si se desplaza, para construir más adelante un diario de comportamiento comparado con su propia normalidad, cuando haya cámara fija. **No se estimará estado de ánimo ni salud:** como mucho habrá avisos de cambios para revisión humana.

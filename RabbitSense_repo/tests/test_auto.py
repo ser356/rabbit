@@ -110,7 +110,7 @@ def test_analyze_writes_windows_summary_and_report(tmp_path, fake_frames):
     assert summary['time_by_act']['eating']['validated'] is False and summary['visible_seconds'] > 9
     assert sum(v['seconds'] for v in summary['time_by_act'].values()) == pytest.approx(summary['visible_seconds'])
     page = (folder / 'informe.html').read_text()
-    assert 'comer (sin validar)' in page and '<svg' in page and 'estado de ánimo' in page
+    assert 'comer (no fiable)' in page and '<svg' in page and 'estado de ánimo' in page
 
 
 def test_windows_without_rabbit_are_not_visible(tmp_path):

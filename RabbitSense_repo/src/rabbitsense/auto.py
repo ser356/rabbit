@@ -35,7 +35,7 @@ AUTO = dict(anchor_step=1., score=.3, window=2.)
 # en mediana ≤ 0,15 tamaños; y su AUC (desplazarse frente al resto, etiquetas de actos de Claude) es ≥ 0,9.
 ADOPT_AUTO = dict(mask_iou_median=.7, mask_coverage_drop=.05, displacement_median_difference=.15, auc_min=.9)
 NAMES = dict(locomotion='desplazarse', lying='tumbado', other='otra (agazapado, explorar, acicalarse)',
-             eating='comer (sin validar)', not_visible='no visible')
+             eating='comer (no fiable)', not_visible='no visible')
 VALIDATED = dict(locomotion=True, lying=True, other=True, eating=False)
 COLOURS = dict(locomotion='#e8710a', lying='#1a73e8', other='#7cb342', eating='#a142f4', not_visible='#c7c7c7')
 
@@ -228,7 +228,7 @@ def report(video, out, acts, activity_dir, model_file=None):
         displacement=dict(body_units=net['displacement_body_units'], per_measured_minute=net['displacement_per_measured_minute'],
                           measured_seconds=net['measured_seconds']),
         model_sha256=sha256(model_file or REPO / 'benchmarks' / 'ytactos_modelo.json'),
-        caveats=['Comer no está validado: en Cinna solo se reconoció 1 de cada 10 ventanas de comer.',
+        caveats=['Comer no es fiable: en las dos pruebas con Cinna reconoció 3 de 31 y 1 de 34 ventanas de comer.',
                  'Desplazarse, tumbado y otra: 0,72, 0,85 y 0,77 de aciertos en la única prueba con Cinna (etiquetas '
                  'de Claude, kappa 0,63 frente a la persona).',
                  'El desplazamiento está en tamaños corporales (√área de la máscara), no en centímetros.',
