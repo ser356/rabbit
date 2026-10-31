@@ -135,6 +135,9 @@ def autosegment(video, out, detector, device='mps', model=SAM_MODEL, segment_fn=
             cv2.imwrite(str(masks / 'masks' / f'{f:06d}.png'), empty)
     if start:
         source.unlink(missing_ok=True)
+    # Las máscaras ya están en `mascaras`; el vídeo de control de SAM2 ocupa cientos de MB por vídeo.
+    shutil.rmtree(out / 'sam2' / 'masks', ignore_errors=True)
+    (out / 'sam2' / 'overlay.mp4').unlink(missing_ok=True)
     result.update(status='ok', start_frame=int(start), start_seconds=float(start / fps),
                   prompt_frames=summary.get('prompt_frames'), heldout_mean_iou=summary.get('heldout_mean_iou'),
                   nonempty_frames=summary.get('nonempty_frames'))

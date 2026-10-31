@@ -66,6 +66,7 @@ def test_segmentation_starts_where_the_rabbit_first_appears(tmp_path):
     again = Bright()
     assert auto.autosegment(tmp_path / 'late.mp4', tmp_path / 'seg', again, 'cpu', segment_fn=sam) == masks
     assert calls and again.calls == 0 and len(sam.calls) == 1  # ya segmentado: no se repite
+    assert not (tmp_path / 'seg' / 'sam2' / 'masks').exists()  # sin copias duplicadas
 
 
 def test_no_rabbit_gives_empty_masks_and_no_segmentation(tmp_path):
