@@ -40,6 +40,23 @@ Ambos siguen en PyTorch (MPS).
 
 Si se cumple, `analyze` usa Core ML para esos dos modelos (`--backend auto`); si no, sigue con PyTorch. Así los resultados ya validados siguen valiendo. Se informa también el tiempo por llamada de cada versión.
 
+### Segmentación solo en los fotogramas de consulta (fijada el 2026-10-31, antes de ejecutar)
+
+**Por qué.** En la cadena automática, las máscaras solo se usan en un fotograma por tramo de CoTracker, uno cada 2 s: colocar los puntos y medir el tamaño de Cinna. SAM2 de vídeo segmenta todos los fotogramas, unos 60 por cada uno que se usa, y es la fase más lenta.
+
+**Cambio** ([queryseg.py](src/rabbitsense/queryseg.py)):
+- **Dónde:** en el fotograma central de cada tramo o, si ahí no se ve al conejo, en el más cercano, hasta 3 fotogramas de seguimiento a cada lado.
+- **Cómo:** OWLv2 da la caja y SAM2 de imagen segmenta con ella. Cada fotograma se segmenta desde cero, así que un error no se arrastra al siguiente.
+- **Motor:** el mismo `sam2.1_s.pt` en PyTorch o el SAM2 de Core ML de Apple (`apple/coreml-sam2.1-small`).
+
+**Criterio** (`ADOPT_QUERY`; `queryseg validate`, sustituye a `auto validate`). Frente a la semilla manual en los 17 vídeos, se adopta solo si se cumplen las cuatro condiciones:
+1. IoU mediana de las máscaras en los fotogramas de consulta ≥ 0,7.
+2. El desplazamiento neto de 2 s difiere en mediana ≤ 0,15 tamaños.
+3. AUC (desplazarse frente al resto) ≥ 0,9.
+4. La cobertura de bloques medidos no baja más de 0,05.
+
+Si se adopta, `analyze` la usa por defecto (`--segmentation auto`). Si no, sigue con SAM2 de vídeo.
+
 ### Prueba con la cámara fija (fijada el 2026-10-30, antes de que existan los vídeos)
 
 Será el primer test independiente de verdad: ni el modelo ni los umbrales habrán visto esos vídeos.

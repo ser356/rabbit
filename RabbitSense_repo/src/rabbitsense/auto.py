@@ -319,14 +319,24 @@ class Stage:
             pass
 
 
-def analyze(videos, out=OUT, device='mps', stage=None, segment_fn=None, model_file=None, backend='auto'):
+def analyze(videos, out=OUT, device='mps', stage=None, segment_fn=None, model_file=None, backend='auto',
+            segmentation='auto', sam=None):
     """Análisis completo de cada vídeo, por fases para no tener todos los modelos a la vez en memoria."""
     from . import activity, pointtrack
     stage = stage or Stage(device, backend)
     out = Path(out)
     videos = [Path(v).resolve() for v in videos]
-    masks = {v: autosegment(v, out / v.stem / 'segmentacion', stage.get('detector'), device, segment_fn=segment_fn)
-             for v in videos}
+    from . import queryseg
+    if segmentation == 'auto':
+        segmentation = 'query' if queryseg.adopted() else 'video'
+    if segmentation == 'query':
+        sam = sam or queryseg.make_segmenter('coreml' if stage.coreml else 'torch', device)
+        masks = {v: queryseg.segment_queries(v, out / v.stem / 'segmentacion_consultas', stage.get('detector'), sam,
+                                             pointtrack.frame_times(v, out / v.stem / 'tiempos')) for v in videos}
+        sam = None
+    else:
+        masks = {v: autosegment(v, out / v.stem / 'segmentacion', stage.get('detector'), device, segment_fn=segment_fn)
+                 for v in videos}
     stage.drop('detector')
     for v in videos:
         times = pointtrack.frame_times(v, out / v.stem / 'tiempos')
@@ -418,9 +428,14 @@ def wilson(k, n, z=1.96):
     return (float((centre - half) / d), float((centre + half) / d))
 
 
-def mask_agreement(manual, auto, every=5):
-    """IoU mediana (fotogramas con ambas máscaras, uno de cada `every`) y fracción de fotogramas con máscara."""
+def mask_agreement(manual, auto, every=5, only_auto=False):
+    """IoU mediana (fotogramas con ambas máscaras, uno de cada `every`) y fracción de fotogramas con máscara.
+
+    Con `only_auto`, solo los fotogramas que tienen máscara automática (segmentación en los fotogramas de consulta)."""
     files = sorted((Path(manual) / 'masks').glob('*.png'))
+    if only_auto:
+        names = {p.name for p in (Path(auto) / 'masks').glob('*.png')}
+        files = [p for p in files if p.name in names]
     ious, have_manual, have_auto = [], 0, 0
     for path in files[::every]:
         a = cv2.imread(str(path), cv2.IMREAD_GRAYSCALE)
@@ -498,6 +513,8 @@ def main():
     command.add_argument('--device', choices=['mps', 'cpu'], default='mps')
     command.add_argument('--backend', choices=['auto', 'torch', 'coreml'], default='auto',
                          help='auto: Core ML si está convertido y pasó coreml check; si no, PyTorch')
+    command.add_argument('--segmentation', choices=['auto', 'query', 'video'], default='auto',
+                         help='query: SAM2 solo en los fotogramas de consulta (si pasó queryseg validate); video: SAM2 en todos')
     command = sub.add_parser('validate', help='Automático frente a semilla manual (ADOPT_AUTO)')
     command.add_argument('--manifest', required=True)
     command.add_argument('--labels', default=str(REPO.parent / 'RabbitSense_ARCHIVO' / 'actos_ventanas_claude_v2.csv'))
@@ -518,7 +535,7 @@ def main():
     elif args.command == 'score':
         score(args.analysis, args.labels, args.out)
     elif args.command == 'analyze':
-        analyze(args.videos, args.out, args.device, backend=args.backend)
+        analyze(args.videos, args.out, args.device, backend=args.backend, segmentation=args.segmentation)
     else:
         validate(args.manifest, args.labels, args.out, args.device)
 
