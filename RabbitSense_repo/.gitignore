@@ -26,6 +26,7 @@ dist/
 swift/**/.build/
 swift/**/.swiftpm/
 swift/RabbitSenseKit/Tests/RabbitSenseKitTests/Fixtures/models/
+swift/**/build/
 
 # Modelos convertidos y descargados (cientos de MB)
 weights/

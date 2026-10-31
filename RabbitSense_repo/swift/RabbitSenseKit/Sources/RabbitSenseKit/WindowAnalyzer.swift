@@ -38,7 +38,20 @@ public struct WindowAnalyzer {
     /// - Parameter frames: todos los fotogramas de la ventana, en orden, reducidos a lado largo 640 y en RGB.
     public func analyze(frames: [RGBImage], start: Double, end: Double) throws -> WindowResult {
         let probe = probeIndices(count: frames.count, n: Self.probes)
-        let summary = WindowDetection(try probe.map { try detect(frames[$0]) })
+        return try classify(frames: frames, summary: WindowDetection(try probe.map { try detect(frames[$0]) }),
+                            start: start, end: end)
+    }
+
+    /// Igual, pero con las cajas de un seguidor en lugar de buscar al conejo en cada fotograma muestreado (modo en
+    /// directo). `boxes[i]` es la caja del fotograma i, o nil si el seguidor lo había perdido.
+    public func analyze(frames: [RGBImage], boxes: [Detection?], start: Double, end: Double) throws -> WindowResult {
+        precondition(boxes.count == frames.count)
+        let probe = probeIndices(count: frames.count, n: Self.probes)
+        return try classify(frames: frames, summary: WindowDetection(probe.map { i in boxes[i].map { [$0] } ?? [] }),
+                            start: start, end: end)
+    }
+
+    func classify(frames: [RGBImage], summary: WindowDetection, start: Double, end: Double) throws -> WindowResult {
         guard let union = summary.union, frames.count >= 2 else {
             return WindowResult(start: start, end: end, found: summary.found, box: nil, act: "not_visible",
                                 confidence: nil, probabilities: [:])
