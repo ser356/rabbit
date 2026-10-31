@@ -35,8 +35,8 @@ final class Pipeline {
 
     /// Resultado de cada ventana (en la cola interna; quien lo use debe pasar a la principal).
     var onRecord: ((WindowRecord) -> Void)?
-    /// Caja actual del seguidor, para mostrarla.
-    var onBox: ((Detection?) -> Void)?
+    /// Caja actual del seguidor, normalizada (0–1, origen arriba a la izquierda), y proporción ancho/alto del fotograma.
+    var onBox: ((CGRect?, CGFloat) -> Void)?
 
     init(detector: OwlDetector, analyzer: WindowAnalyzer) {
         self.detector = detector
@@ -83,7 +83,9 @@ final class Pipeline {
             }
         }
         let box = tracker.track(image)
-        onBox?(box)
+        let w = Double(rgb.width), h = Double(rgb.height)
+        onBox?(box.map { CGRect(x: $0.x0 / w, y: $0.y0 / h, width: ($0.x1 - $0.x0) / w, height: ($0.y1 - $0.y0) / h) },
+               CGFloat(w / h))
         if let window = current, time.timeIntervalSince(window.start) >= Self.window {
             close(window, end: time)
             current = nil

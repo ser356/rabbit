@@ -14,12 +14,18 @@ final class Monitor: ObservableObject {
     @Published var today: [WindowRecord] = []
     @Published var latest: WindowRecord?
     @Published var alerts: [RabbitAlert] = []
+    /// Días anteriores con diario, del más reciente al más antiguo (hasta 14).
+    @Published var pastDays: [[WindowRecord]] = []
+    /// Caja del seguidor sobre la imagen (normalizada) y proporción del fotograma.
+    @Published var box: CGRect?
+    @Published var frameAspect: CGFloat = 16 / 9
+    /// Último problema que impide observar, para enseñarlo en grande.
+    @Published var problem: String?
 
     let journal: Journal
     private let camera = Camera()
     private var pipeline: Pipeline?
     private var rules = AlertRules()
-    private var history: [[WindowRecord]] = []
     private var historyDay = Date.distantPast
     private var lastCheck = Date.distantPast
     private var sent: [String: Date] = [:]
@@ -46,6 +52,8 @@ final class Monitor: ObservableObject {
     init() {
         journal = Journal(folder: Self.support.appendingPathComponent("diario"))
         today = journal.records(on: Date())
+        pastDays = journal.history(before: Date(), days: 14)
+        historyDay = Date()
         UNUserNotificationCenter.current().delegate = notifications
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { _, _ in }
         Task { await load() }
@@ -68,11 +76,19 @@ final class Monitor: ObservableObject {
                 return Pipeline(detector: detector, analyzer: analyzer)
             }.value
             pipeline.onRecord = { [weak self] record in Task { @MainActor in self?.add(record) } }
+            pipeline.onBox = { [weak self] box, aspect in
+                Task { @MainActor in
+                    guard let self, self.running else { return }
+                    self.box = box
+                    if abs(self.frameAspect - aspect) > 0.01 { self.frameAspect = aspect }
+                }
+            }
             self.pipeline = pipeline
             ready = true
             status = "Listo"
         } catch {
-            status = "No se pudieron cargar los modelos de \(weights.path): \(error)"
+            status = "No se pudieron cargar los modelos"
+            problem = "No encuentro o no puedo abrir los modelos en \(weights.path). Ejecuta rabbitsense.coreml convert. (\(error))"
         }
     }
 
@@ -81,11 +97,11 @@ final class Monitor: ObservableObject {
         AVCaptureDevice.requestAccess(for: .video) { granted in
             Task { @MainActor in
                 guard granted else {
-                    self.status = "Sin permiso de cámara: actívalo en Ajustes del Sistema › Privacidad › Cámara"
+                    self.problem = "Sin permiso de cámara: actívalo en Ajustes del Sistema › Privacidad › Cámara"
                     return
                 }
                 guard let device = Camera.preferred() else {
-                    self.status = "No hay cámara. Acerca el iPhone al Mac (Continuity Camera)."
+                    self.problem = "No hay cámara. Acerca el iPhone al Mac (Continuity Camera)."
                     return
                 }
                 do {
@@ -96,9 +112,10 @@ final class Monitor: ObservableObject {
                         options: [.userInitiated, .idleSystemSleepDisabled], reason: "Observando a Cinna")
                     self.cameraName = self.camera.deviceName
                     self.running = true
+                    self.problem = nil
                     self.status = "Observando"
                 } catch {
-                    self.status = "No se pudo abrir la cámara: \(error)"
+                    self.problem = "No se pudo abrir la cámara: \(error)"
                 }
             }
         }
@@ -110,7 +127,12 @@ final class Monitor: ObservableObject {
         if let activity { ProcessInfo.processInfo.endActivity(activity) }
         activity = nil
         running = false
+        box = nil
         status = "En pausa"
+    }
+
+    func toggle() {
+        if running { stop() } else { start() }
     }
 
     var session: AVCaptureSession { camera.session }
@@ -124,10 +146,10 @@ final class Monitor: ObservableObject {
         guard now.timeIntervalSince(lastCheck) >= 60 else { return }
         lastCheck = now
         if !Calendar.current.isDate(historyDay, inSameDayAs: now) {
-            history = journal.history(before: now, days: 14)
+            pastDays = journal.history(before: now, days: 14)
             historyDay = now
         }
-        alerts = rules.evaluate(today: today, history: history, now: now)
+        alerts = rules.evaluate(today: today, history: pastDays, now: now)
         for alert in alerts where now.timeIntervalSince(sent[alert.identifier] ?? .distantPast) >= 3600 {
             sent[alert.identifier] = now
             let content = UNMutableNotificationContent()
