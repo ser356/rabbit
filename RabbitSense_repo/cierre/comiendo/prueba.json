@@ -1,0 +1,51 @@
+{
+  "windows": 34,
+  "balanced_accuracy": 0.029411764705882353,
+  "accuracy": 0.029411764705882353,
+  "recall": {
+    "locomotion": null,
+    "eating": 0.029411764705882353,
+    "lying": null,
+    "other": null
+  },
+  "precision": {
+    "locomotion": null,
+    "eating": 1.0,
+    "lying": null,
+    "other": 0.0
+  },
+  "confusion": {
+    "eating": {
+      "eating": 1,
+      "other": 33
+    }
+  },
+  "passes": false,
+  "eating_windows": 34,
+  "eating_hits": 1,
+  "eating_recall_interval": [
+    0.005210771925596642,
+    0.1491590221634482
+  ],
+  "eating_videos": 2,
+  "predicted_as": {
+    "other": 33,
+    "eating": 1
+  },
+  "classes_present": [
+    "eating"
+  ],
+  "criterion": {
+    "min_recall": 0.5,
+    "min_windows": 20
+  },
+  "verdict": "comer_no_reconocido",
+  "scope": "Vídeos nuevos que el modelo no ha visto; etiquetas de Claude puestas antes de las predicciones. Menos de 3 sesiones: no sustituye a la prueba con cámara fija.",
+  "labels_sha256": "6acadae120a97543378ffeeff48c83ff2dfcd4dd0cf0c3161accb7c5d9ba961f",
+  "classes": [
+    "locomotion",
+    "eating",
+    "lying",
+    "other"
+  ]
+}
