@@ -61,7 +61,17 @@ struct ModelParityTests {
                 let found = try detector(image)
                 seconds.append(Date().timeIntervalSince(started))
                 total += 1
-                if found.isEmpty == expected.isEmpty && (found.isEmpty || iou(found[0], expected[0]) >= 0.9) { same += 1 }
+                if found.isEmpty == expected.isEmpty && (found.isEmpty || iou(found[0], expected[0]) >= 0.9) {
+                    same += 1
+                } else {
+                    func describe(_ d: [Detection]) -> String {
+                        d.first.map { String(format: "%.3f [%.0f %.0f %.0f %.0f]", $0.score, $0.x0, $0.y0, $0.x1, $0.y1) }
+                            ?? "nada"
+                    }
+                    let overlap = (found.first != nil && expected.first != nil) ? iou(found[0], expected[0]) : 0
+                    print("  distinto \(window.name)/\(f): Python \(describe(expected)) | Swift \(describe(found)) | " +
+                          String(format: "IoU %.3f", overlap))
+                }
             }
         }
         print("OWLv2 Swift: \(same)/\(total) iguales; \(seconds.sorted()[seconds.count / 2]) s por fotograma")
