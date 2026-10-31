@@ -1,0 +1,52 @@
+{
+  "video": "/Users/sergiogarciaseco/Developer/Code/rabbit/RabbitSense_Training/data/cinna_comiendo/IMG_5274.MOV",
+  "video_sha256": "b9c0f774e26874974f718a1727208fc8fb3511c9fea4c4079d190bfbedd5db8f",
+  "duration_seconds": 26.628,
+  "visible_seconds": 26.628,
+  "not_visible_seconds": 0.0,
+  "time_by_act": {
+    "locomotion": {
+      "seconds": 0.0,
+      "share_of_visible": 0.0,
+      "validated": true
+    },
+    "lying": {
+      "seconds": 0.0,
+      "share_of_visible": 0.0,
+      "validated": true
+    },
+    "other": {
+      "seconds": 26.628,
+      "share_of_visible": 1.0,
+      "validated": true
+    },
+    "eating": {
+      "seconds": 0.0,
+      "share_of_visible": 0.0,
+      "validated": false
+    }
+  },
+  "longest_lying_bout_seconds": 0.0,
+  "lying_bouts": 0,
+  "locomotion_bouts": 0,
+  "displacement": {
+    "body_units": {
+      "estimate": 0.918623457188978,
+      "lower": 0.7488707607909144,
+      "upper": 1.139108427869706
+    },
+    "per_measured_minute": {
+      "estimate": 2.069878228628854,
+      "lower": 1.6873848274690442
+    },
+    "measured_seconds": 26.628333333333334
+  },
+  "model_sha256": "a5deaebc811f82a8643668e7950231da08e416b9c0cfd71f74138b6565bf3e57",
+  "caveats": [
+    "Comer no está validado: en Cinna solo se reconoció 1 de cada 10 ventanas de comer.",
+    "Desplazarse, tumbado y otra: 0,72, 0,85 y 0,77 de aciertos en la única prueba con Cinna (etiquetas de Claude, kappa 0,63 frente a la persona).",
+    "El desplazamiento está en tamaños corporales (√área de la máscara), no en centímetros.",
+    "El tiempo sin medida o «no visible» no es reposo.",
+    "No es un indicador de estado de ánimo ni de salud."
+  ]
+}
