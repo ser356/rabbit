@@ -14,7 +14,7 @@ Lógica de RabbitSense en Swift para la app de macOS. Usa la cámara fija y los 
 
 ## Probarlo en el Mac
 
-Requisito: Xcode 15 o posterior.
+Requisito: las Command Line Tools de Xcode con Swift 6 (o Xcode 16 o posterior). Los tests usan Swift Testing, que no necesita Xcode completo.
 
 1. **Partes sin modelos.** Los datos de referencia ya están en el repositorio:
    ```zsh

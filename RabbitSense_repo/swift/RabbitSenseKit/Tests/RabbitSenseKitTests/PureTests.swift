@@ -1,140 +1,140 @@
 import Foundation
-import XCTest
+import Testing
 @testable import RabbitSenseKit
 
-/// Compara las partes sin modelos con los resultados del código Python validado (Fixtures/pure.json, generado con
-/// `python -m rabbitsense.swiftgolden pure`).
-final class PureTests: XCTestCase {
-    static let fixtures = URL(fileURLWithPath: #filePath).deletingLastPathComponent().appendingPathComponent("Fixtures")
+/// Carpeta de datos de referencia, junto a este archivo.
+let fixtures = URL(fileURLWithPath: #filePath).deletingLastPathComponent().appendingPathComponent("Fixtures")
 
-    lazy var golden: [String: Any] = {
-        let data = try! Data(contentsOf: Self.fixtures.appendingPathComponent("pure.json"))
-        return try! JSONSerialization.jsonObject(with: data) as! [String: Any]
-    }()
+/// Casos de Fixtures/pure.json (generado con `python -m rabbitsense.swiftgolden pure` desde el código validado).
+func cases(_ name: String) throws -> [[String: Any]] {
+    let data = try Data(contentsOf: fixtures.appendingPathComponent("pure.json"))
+    let golden = try #require(try JSONSerialization.jsonObject(with: data) as? [String: Any])
+    return try #require(golden[name] as? [[String: Any]])
+}
 
-    func cases(_ name: String) -> [[String: Any]] { golden[name] as! [[String: Any]] }
+func doubles(_ value: Any?) -> [Double] { (value as! [NSNumber]).map(\.doubleValue) }
+func bytes(_ value: Any?) -> [UInt8] { (value as! [NSNumber]).map(\.uint8Value) }
+func int(_ value: Any?) -> Int { (value as! NSNumber).intValue }
+func number(_ value: Any?) -> Double { (value as! NSNumber).doubleValue }
 
-    func doubles(_ value: Any?) -> [Double] { (value as! [NSNumber]).map(\.doubleValue) }
-
-    func bytes(_ value: Any?) -> [UInt8] { (value as! [NSNumber]).map(\.uint8Value) }
-
-    func testClassifierMatchesPython() throws {
+/// Partes sin modelos frente a los resultados del código Python validado.
+struct PureTests {
+    @Test func classifierMatchesPython() throws {
         let classifier = try ActClassifier.bundled()
-        for c in cases("classifier") {
+        for c in try cases("classifier") {
             let p = classifier.probabilities(doubles(c["x"]).map(Float.init))
-            for (a, b) in zip(p, doubles(c["p"])) { XCTAssertEqual(a, b, accuracy: 1e-5) }
+            for (a, b) in zip(p, doubles(c["p"])) { #expect(abs(a - b) < 1e-5) }
         }
     }
 
-    func testDetectionsMatchPython() {
-        for c in cases("detections") {
+    @Test func detectionsMatchPython() throws {
+        for c in try cases("detections") {
             let found = detections(scores: doubles(c["scores"]), boxes: doubles(c["boxes"]),
-                                   width: (c["width"] as! NSNumber).intValue, height: (c["height"] as! NSNumber).intValue)
+                                   width: int(c["width"]), height: int(c["height"]))
             let expected = c["found"] as! [[String: NSNumber]]
-            XCTAssertEqual(found.count, expected.count)
+            #expect(found.count == expected.count)
             for (a, b) in zip(found, expected) {
-                XCTAssertEqual(a.score, b["score"]!.doubleValue, accuracy: 1e-9)
-                XCTAssertEqual(a.x0, b["x0"]!.doubleValue, accuracy: 1e-6)
-                XCTAssertEqual(a.y0, b["y0"]!.doubleValue, accuracy: 1e-6)
-                XCTAssertEqual(a.x1, b["x1"]!.doubleValue, accuracy: 1e-6)
-                XCTAssertEqual(a.y1, b["y1"]!.doubleValue, accuracy: 1e-6)
+                #expect(abs(a.score - b["score"]!.doubleValue) < 1e-9)
+                #expect(abs(a.x0 - b["x0"]!.doubleValue) < 1e-6)
+                #expect(abs(a.y0 - b["y0"]!.doubleValue) < 1e-6)
+                #expect(abs(a.x1 - b["x1"]!.doubleValue) < 1e-6)
+                #expect(abs(a.y1 - b["y1"]!.doubleValue) < 1e-6)
             }
         }
     }
 
-    func testWindowSummaryMatchesPython() {
-        for c in cases("windows") {
+    @Test func windowSummaryMatchesPython() throws {
+        for c in try cases("windows") {
             let perFrame = (c["found"] as! [[[String: NSNumber]]]).map { frame in
                 frame.map { Detection(score: $0["score"]!.doubleValue, x0: $0["x0"]!.doubleValue, y0: $0["y0"]!.doubleValue,
                                       x1: $0["x1"]!.doubleValue, y1: $0["y1"]!.doubleValue) }
             }
             let summary = WindowDetection(perFrame)
-            XCTAssertEqual(summary.found, (c["count"] as! NSNumber).intValue)
-            XCTAssertEqual(summary.probed, (c["probed"] as! NSNumber).intValue)
-            XCTAssertEqual(summary.multiple, (c["multiple"] as! NSNumber).boolValue)
+            #expect(summary.found == int(c["count"]))
+            #expect(summary.probed == int(c["probed"]))
+            #expect(summary.multiple == (c["multiple"] as! NSNumber).boolValue)
             if let union = c["union"] as? [NSNumber] {
-                for (a, b) in zip(summary.union!, union) { XCTAssertEqual(a, b.doubleValue, accuracy: 1e-9) }
+                let got = try #require(summary.union)
+                for (a, b) in zip(got, union) { #expect(abs(a - b.doubleValue) < 1e-9) }
             } else {
-                XCTAssertNil(summary.union)
+                #expect(summary.union == nil)
             }
         }
     }
 
-    func testSquareAroundMatchesPython() {
-        for c in cases("square_around") {
+    @Test func squareAroundMatchesPython() throws {
+        for c in try cases("square_around") {
             let box = doubles(c["box"]), square = (c["square"] as! [NSNumber]).map(\.intValue)
             let got = squareAround(x0: box[0], y0: box[1], x1: box[2], y1: box[3],
-                                   width: (c["width"] as! NSNumber).intValue, height: (c["height"] as! NSNumber).intValue)
-            XCTAssertEqual(got, SquareBox(left: square[0], top: square[1], side: square[2]))
+                                   width: int(c["width"]), height: int(c["height"]))
+            #expect(got == SquareBox(left: square[0], top: square[1], side: square[2]))
         }
     }
 
-    func testProbeIndicesMatchPython() {
-        for c in cases("probe") {
-            XCTAssertEqual(probeIndices(count: (c["count"] as! NSNumber).intValue, n: (c["n"] as! NSNumber).intValue),
-                           (c["indices"] as! [NSNumber]).map(\.intValue))
+    @Test func probeIndicesMatchPython() throws {
+        for c in try cases("probe") {
+            #expect(probeIndices(count: int(c["count"]), n: int(c["n"])) == (c["indices"] as! [NSNumber]).map(\.intValue))
         }
     }
 
-    func testSquareCropMatchesOpenCV() {
-        for c in cases("crops") {
-            let image = RGBImage(width: (c["width"] as! NSNumber).intValue, height: (c["height"] as! NSNumber).intValue,
-                                 pixels: bytes(c["pixels"]))
+    @Test func squareCropMatchesOpenCV() throws {
+        for c in try cases("crops") {
+            let image = RGBImage(width: int(c["width"]), height: int(c["height"]), pixels: bytes(c["pixels"]))
             let box = (c["box"] as? [NSNumber]).map { SquareBox(left: $0[0].intValue, top: $0[1].intValue, side: $0[2].intValue) }
-            let got = squareCrop(image, box: box, size: (c["size"] as! NSNumber).intValue)
+            let got = squareCrop(image, box: box, size: int(c["size"]))
             let expected = bytes(c["out"])
-            XCTAssertEqual(got.pixels.count, expected.count)
+            #expect(got.pixels.count == expected.count)
             let worst = zip(got.pixels, expected).map { abs(Int($0) - Int($1)) }.max() ?? 0
-            XCTAssertLessThanOrEqual(worst, 1, "OpenCV redondea en punto fijo al ampliar: ±1 como mucho")
+            #expect(worst <= 1, "OpenCV redondea en punto fijo al ampliar: ±1 como mucho")
         }
     }
 
-    func testOwlPreprocessingMatchesTransformers() {
-        for c in cases("owl") {
-            let image = RGBImage(width: (c["width"] as! NSNumber).intValue, height: (c["height"] as! NSNumber).intValue,
-                                 pixels: bytes(c["rgb"]))
-            let got = owlPixels(image, size: (c["size"] as! NSNumber).intValue)
+    @Test func owlPreprocessingMatchesTransformers() throws {
+        for c in try cases("owl") {
+            let image = RGBImage(width: int(c["width"]), height: int(c["height"]), pixels: bytes(c["rgb"]))
+            let got = owlPixels(image, size: int(c["size"]))
             let expected = doubles(c["pixels"])
-            XCTAssertEqual(got.count, expected.count)
+            #expect(got.count == expected.count)
             let worst = zip(got, expected).map { abs(Double($0) - $1) }.max() ?? 0
-            XCTAssertLessThan(worst, 1e-4)
+            #expect(worst < 1e-4)
         }
     }
 
-    func testFixedCameraDisplacementMatchesPython() {
-        for c in cases("fixedcam") {
+    @Test func fixedCameraDisplacementMatchesPython() throws {
+        for c in try cases("fixedcam") {
             let times = doubles(c["times"]), ys = doubles(c["ys"]), areas = doubles(c["areas"])
             let xs = (c["xs"] as! [Any]).map { ($0 as? NSNumber)?.doubleValue }
             let samples = times.indices.map { i in
                 MaskSample(time: times[i], x: xs[i], y: xs[i] == nil ? nil : ys[i], area: areas[i])
             }
-            let got = FixedCamera.netDisplacement(samples, start: (c["start"] as! NSNumber).doubleValue,
-                                                  end: (c["end"] as! NSNumber).doubleValue)
+            let got = FixedCamera.netDisplacement(samples, start: number(c["start"]), end: number(c["end"]))
             if let expected = c["displacement"] as? NSNumber {
-                XCTAssertEqual(got!, expected.doubleValue, accuracy: 1e-9)
+                let value = try #require(got)
+                #expect(abs(value - expected.doubleValue) < 1e-9)
             } else {
-                XCTAssertNil(got)
+                #expect(got == nil)
             }
         }
     }
 
-    func testWindowAnalyzerFlow() throws {
+    @Test func windowAnalyzerFlow() throws {
         let classifier = try ActClassifier.bundled()
         var frames = [RGBImage](repeating: RGBImage(width: 64, height: 36), count: 30)
         let empty = WindowAnalyzer(detect: { _ in [] }, embed: { _ in [] }, classifier: classifier)
-        XCTAssertEqual(try empty.analyze(frames: frames, start: 0, end: 2).act, "not_visible")
+        #expect(try empty.analyze(frames: frames, start: 0, end: 2).act == "not_visible")
         frames[0].pixels[0] = 255
-        var clips: [[RGBImage]] = []
+        final class Seen { var clips: [[RGBImage]] = [] }
+        let seen = Seen()
         let analyzer = WindowAnalyzer(
             detect: { _ in [Detection(score: 0.9, x0: 10, y0: 5, x1: 30, y1: 20)] },
-            embed: { clip in clips.append(clip); return [Float](repeating: 0, count: classifier.dimension) },
+            embed: { clip in seen.clips.append(clip); return [Float](repeating: 0, count: classifier.dimension) },
             classifier: classifier)
         let result = try analyzer.analyze(frames: frames, start: 2, end: 4)
-        XCTAssertEqual(result.found, 4)
-        XCTAssertEqual(result.box, squareAround(x0: 10, y0: 5, x1: 30, y1: 20, width: 64, height: 36))
-        XCTAssertEqual(clips.first?.count, 16)
-        XCTAssertEqual(clips.first?.first?.width, 256)
-        XCTAssertTrue(classifier.classes.contains(result.act))
-        XCTAssertEqual(result.probabilities.values.reduce(0, +), 1, accuracy: 1e-9)
+        #expect(result.found == 4)
+        #expect(result.box == squareAround(x0: 10, y0: 5, x1: 30, y1: 20, width: 64, height: 36))
+        #expect(seen.clips.first?.count == 16)
+        #expect(seen.clips.first?.first?.width == 256)
+        #expect(classifier.classes.contains(result.act))
+        #expect(abs(result.probabilities.values.reduce(0, +) - 1) < 1e-9)
     }
 }
