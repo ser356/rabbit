@@ -23,6 +23,23 @@
 
 Si no se cumplen, el análisis automático no se da por bueno.
 
+### Core ML para la fase de actos (fijado el 2026-10-31, antes de ejecutar)
+
+**Qué se convierte** ([coreml.py](src/rabbitsense/coreml.py)): V-JEPA 2 y la parte de imagen de OWLv2. En OWLv2, la consulta «a photo of a rabbit» se calcula una vez y queda dentro del modelo. La cabeza de clasificación y la de cajas se reescriben con operaciones que Core ML admite; en las pruebas da lo mismo que transformers (diferencia < 10⁻⁵).
+
+**Qué no se convierte:**
+- **SAM2:** el SAM2 de Core ML de Apple es de imagen suelta, sin la memoria entre fotogramas que usa la segmentación de vídeo.
+- **CoTracker3:** tiene bucles y tamaños variables.
+
+Ambos siguen en PyTorch (MPS).
+
+**Criterio para usar Core ML** (`ADOPT_COREML`; `coreml check` en las ventanas de los 17 vídeos y de los dos vídeos nuevos). Debe cumplir las tres condiciones:
+1. el mismo acto que PyTorch en ≥ 95 % de las ventanas;
+2. la misma detección (conejo sí/no e IoU ≥ 0,9) en ≥ 95 % de los fotogramas;
+3. similitud coseno mediana de V-JEPA 2 ≥ 0,99.
+
+Si se cumple, `analyze` usa Core ML para esos dos modelos (`--backend auto`); si no, sigue con PyTorch. Así los resultados ya validados siguen valiendo. Se informa también el tiempo por llamada de cada versión.
+
 ### Prueba con la cámara fija (fijada el 2026-10-30, antes de que existan los vídeos)
 
 Será el primer test independiente de verdad: ni el modelo ni los umbrales habrán visto esos vídeos.

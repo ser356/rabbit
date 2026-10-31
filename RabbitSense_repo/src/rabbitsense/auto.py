@@ -284,12 +284,17 @@ rojo: sin medida).</p>
 class Stage:
     """Carga los modelos solo cuando hacen falta y los libera al cambiar de fase (memoria del Mac)."""
 
-    def __init__(self, device):
+    def __init__(self, device, backend='auto'):
+        from . import coreml
         self.device, self.models = device, {}
+        self.coreml = backend == 'coreml' or (backend == 'auto' and coreml.adopted())
 
     def get(self, name):
         if name not in self.models:
-            if name == 'detector':
+            if name in ('detector', 'encoder') and self.coreml:
+                from .coreml import CoreMLDetector, CoreMLVJEPA
+                self.models[name] = CoreMLDetector() if name == 'detector' else CoreMLVJEPA()
+            elif name == 'detector':
                 from .ytacts import Detector
                 self.models[name] = Detector(self.device)
             elif name == 'encoder':
@@ -314,10 +319,10 @@ class Stage:
             pass
 
 
-def analyze(videos, out=OUT, device='mps', stage=None, segment_fn=None, model_file=None):
+def analyze(videos, out=OUT, device='mps', stage=None, segment_fn=None, model_file=None, backend='auto'):
     """Análisis completo de cada vídeo, por fases para no tener todos los modelos a la vez en memoria."""
     from . import activity, pointtrack
-    stage = stage or Stage(device)
+    stage = stage or Stage(device, backend)
     out = Path(out)
     videos = [Path(v).resolve() for v in videos]
     masks = {v: autosegment(v, out / v.stem / 'segmentacion', stage.get('detector'), device, segment_fn=segment_fn)
@@ -491,6 +496,8 @@ def main():
     command.add_argument('videos', nargs='+')
     command.add_argument('--out', default=str(OUT))
     command.add_argument('--device', choices=['mps', 'cpu'], default='mps')
+    command.add_argument('--backend', choices=['auto', 'torch', 'coreml'], default='auto',
+                         help='auto: Core ML si está convertido y pasó coreml check; si no, PyTorch')
     command = sub.add_parser('validate', help='Automático frente a semilla manual (ADOPT_AUTO)')
     command.add_argument('--manifest', required=True)
     command.add_argument('--labels', default=str(REPO.parent / 'RabbitSense_ARCHIVO' / 'actos_ventanas_claude_v2.csv'))
@@ -511,7 +518,7 @@ def main():
     elif args.command == 'score':
         score(args.analysis, args.labels, args.out)
     elif args.command == 'analyze':
-        analyze(args.videos, args.out, args.device)
+        analyze(args.videos, args.out, args.device, backend=args.backend)
     else:
         validate(args.manifest, args.labels, args.out, args.device)
 
