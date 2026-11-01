@@ -10,7 +10,8 @@ extension View {
         if #available(macOS 26, *) {
             self.glassEffect(Glass.regular.tint(tint).interactive(interactive), in: shape)
         } else {
-            self.background(.regularMaterial, in: shape)
+            self.background(shape.fill((tint ?? .clear).opacity(0.7)))
+                .background(.regularMaterial, in: shape)
                 .overlay(shape.stroke(Color.white.opacity(0.12), lineWidth: 1))
         }
     }
@@ -25,6 +26,16 @@ extension View {
         }
     }
 
+    /// Permite arrastrar la ventana desde esta vista (la ventana no tiene barra de título).
+    @ViewBuilder
+    func draggableWindow() -> some View {
+        if #available(macOS 15, *) {
+            self.gesture(WindowDragGesture())
+        } else {
+            self
+        }
+    }
+
     /// Junta varias piezas de cristal cercanas para que se fundan entre sí al moverse.
     @ViewBuilder
     func glassGroup(spacing: CGFloat = 12) -> some View {
@@ -36,22 +47,18 @@ extension View {
     }
 }
 
-/// Fondo de la ventana: oscuro, con un resplandor del color del acto actual que se mueve despacio. Es lo que se ve a
-/// través del cristal.
+/// Fondo de la ventana en pausa: oscuro y neutro, con un resplandor tenue. Es lo que se ve a través del cristal.
 struct Backdrop: View {
     let tint: Color
 
     var body: some View {
         ZStack {
-            Color(red: 0.06, green: 0.07, blue: 0.09)
-            RadialGradient(colors: [tint.opacity(0.55), .clear], center: UnitPoint(x: 0.2, y: 0.15),
-                           startRadius: 20, endRadius: 700)
-            RadialGradient(colors: [Color.indigo.opacity(0.45), .clear], center: UnitPoint(x: 0.95, y: 0.9),
-                           startRadius: 20, endRadius: 650)
-            RadialGradient(colors: [tint.opacity(0.25), .clear], center: UnitPoint(x: 0.75, y: 0.1),
-                           startRadius: 10, endRadius: 400)
+            Color(red: 0.05, green: 0.055, blue: 0.065)
+            RadialGradient(colors: [tint.opacity(0.16), .clear], center: UnitPoint(x: 0.32, y: 0.42),
+                           startRadius: 10, endRadius: 620)
+            RadialGradient(colors: [Color.white.opacity(0.05), .clear], center: UnitPoint(x: 0.85, y: 0.05),
+                           startRadius: 10, endRadius: 500)
         }
-        .animation(.easeInOut(duration: 1.2), value: tint)
         .ignoresSafeArea()
     }
 }
