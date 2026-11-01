@@ -5,7 +5,8 @@ import RabbitSenseKit
 /// Cadena en directo: cada fotograma pasa por el seguidor; cada 2 s se cierra una ventana y se analiza en segundo
 /// plano (V-JEPA 2 + clasificador). OWLv2 recoloca el seguidor al empezar, cuando se pierde y cada 15 s.
 /// Si el análisis va por detrás, se analiza siempre la ventana más reciente y las intermedias quedan «sin analizar».
-final class Pipeline {
+/// Todo su estado se toca solo desde su cola interna.
+final class Pipeline: @unchecked Sendable {
     static let window = 2.0
     static let redetect = 15.0
     static let noCameraAfter = 4.0

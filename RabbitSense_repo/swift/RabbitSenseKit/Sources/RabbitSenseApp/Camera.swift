@@ -4,7 +4,7 @@ import RabbitSenseKit
 
 /// Cámara del Mac: prefiere el iPhone (Continuity Camera), luego una externa y por último la integrada. Entrega
 /// fotogramas reducidos a lado largo 640, a ~15 por segundo, sin guardar nada en disco.
-final class Camera: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
+final class Camera: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate, @unchecked Sendable {
     let session = AVCaptureSession()
     private let queue = DispatchQueue(label: "rabbitsense.camera")
     private let context = CIContext()

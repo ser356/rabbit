@@ -92,7 +92,8 @@ enum Page: String, CaseIterable, Identifiable {
 
 struct ContentView: View {
     @EnvironmentObject var monitor: Monitor
-    @State private var page = Page.today
+    // @AppStorage es un envoltorio normal; @State es una macro y las Command Line Tools no traen su plugin.
+    @AppStorage("pagina") private var page = Page.today
 
     var body: some View {
         HStack(alignment: .top, spacing: 20) {
