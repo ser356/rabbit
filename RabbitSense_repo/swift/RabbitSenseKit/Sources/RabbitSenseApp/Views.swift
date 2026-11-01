@@ -124,7 +124,8 @@ struct ContentView: View {
             ZStack {
                 HStack(spacing: 12) {
                     StatusPill()
-                    Text("RabbitSense").font(.title3.weight(.semibold))
+                    Label("RabbitSense", systemImage: "hare")
+                        .font(.title3.weight(.semibold))
                     Spacer()
                 }
                 HStack(spacing: 10) {
