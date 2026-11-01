@@ -112,7 +112,7 @@ struct ContentView: View {
 
     var body: some View {
         ZStack {
-            Backdrop(tint: .green)
+            Backdrop()
             if monitor.running {
                 LiveLayer()
             } else {

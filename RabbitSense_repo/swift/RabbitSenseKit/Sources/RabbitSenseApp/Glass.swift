@@ -47,18 +47,9 @@ extension View {
     }
 }
 
-/// Fondo de la ventana en pausa: oscuro y neutro, con un resplandor tenue. Es lo que se ve a través del cristal.
+/// Fondo de la ventana en pausa: negro liso.
 struct Backdrop: View {
-    let tint: Color
-
     var body: some View {
-        ZStack {
-            Color(red: 0.05, green: 0.055, blue: 0.065)
-            RadialGradient(colors: [tint.opacity(0.16), .clear], center: UnitPoint(x: 0.32, y: 0.42),
-                           startRadius: 10, endRadius: 620)
-            RadialGradient(colors: [Color.white.opacity(0.05), .clear], center: UnitPoint(x: 0.85, y: 0.05),
-                           startRadius: 10, endRadius: 500)
-        }
-        .ignoresSafeArea()
+        Color.black.ignoresSafeArea()
     }
 }
