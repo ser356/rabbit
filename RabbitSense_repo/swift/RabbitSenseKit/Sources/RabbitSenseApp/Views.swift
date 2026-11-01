@@ -77,6 +77,7 @@ struct MenuContent: View {
             openWindow(id: "main")
             NSApp.activate(ignoringOtherApps: true)
         }
+        Button("Empezar el diario de cero…") { monitor.resetJournal() }
         Divider()
         Button("Salir") { NSApp.terminate(nil) }
     }
@@ -464,6 +465,9 @@ struct DayRow: Identifiable {
     let hours: Double
 }
 
+/// La gráfica solo enseña lo que se vio (el tiempo sin cámara va en el resumen).
+let chartActs = ["lying", "other", "locomotion", "eating", "not_visible"]
+
 struct DaysPanel: View {
     @EnvironmentObject var monitor: Monitor
 
@@ -476,7 +480,7 @@ struct DaysPanel: View {
             guard let first = records.first else { return [] }
             let day = Calendar.current.startOfDay(for: first.start)
             let summary = ActivitySummary(records)
-            return shownActs.compactMap { act in
+            return chartActs.compactMap { act in
                 let seconds = summary.secondsByAct[act] ?? 0
                 return seconds > 0 ? DayRow(day: day, name: style(act).name, hours: seconds / 3600) : nil
             }
@@ -490,15 +494,22 @@ struct DaysPanel: View {
                     BarMark(x: .value("Día", row.day, unit: .day), y: .value("Horas", row.hours))
                         .foregroundStyle(by: .value("Acto", row.name))
                 }
-                .chartForegroundStyleScale(domain: shownActs.map { style($0).name },
-                                           range: shownActs.map { style($0).color })
+                .chartForegroundStyleScale(domain: chartActs.map { style($0).name },
+                                           range: chartActs.map { style($0).color })
+                .chartXAxis {
+                    AxisMarks(values: .stride(by: .day)) { _ in
+                        AxisGridLine()
+                        AxisValueLabel(format: .dateTime.day().month(.abbreviated), centered: true)
+                    }
+                }
+                .chartYAxisLabel("horas")
                 .chartLegend(position: .bottom, alignment: .leading)
                 .frame(height: 230)
             }
         }
 
         Card("Línea base") {
-            let count = monitor.pastDays.count
+            let count = monitor.baselineDays
             HStack(alignment: .firstTextBaseline, spacing: 6) {
                 Text("\(min(count, 7)) / 7")
                     .font(.system(size: 26, weight: .semibold, design: .rounded))
@@ -508,8 +519,12 @@ struct DaysPanel: View {
             ProgressView(value: Double(min(count, 7)), total: 7)
             Text(count >= 7
                  ? "Ya compara la actividad de hoy con la de los mismos tramos de otros días."
-                 : "Con 7 días de diario empieza a avisar si se mueve mucho menos de lo normal en él.")
+                 : "Con 7 días en los que se le vea al menos 1 h, empieza a avisar si se mueve mucho menos de lo normal.")
                 .font(.caption).foregroundStyle(.secondary)
+            Button(role: .destructive) { monitor.resetJournal() } label: {
+                Label("Empezar de cero…", systemImage: "arrow.counterclockwise")
+            }
+            .help("Borra el diario (va a la Papelera) y la línea base vuelve a 0")
         }
 
         if !days.isEmpty {
@@ -520,6 +535,9 @@ struct DaysPanel: View {
                         Text(days[i][0].start.formatted(.dateTime.weekday(.abbreviated).day().month(.abbreviated)))
                         Spacer()
                         Text("visible \(duration(summary.visibleSeconds))").foregroundStyle(.secondary)
+                        if let noCamera = summary.secondsByAct["no_camera"], noCamera >= 60 {
+                            Text("· sin cámara \(duration(noCamera))").foregroundStyle(.tertiary)
+                        }
                         if let rate = summary.displacementPerMinute {
                             Text(String(format: "%.2f/min", rate)).monospacedDigit().frame(width: 72, alignment: .trailing)
                         }

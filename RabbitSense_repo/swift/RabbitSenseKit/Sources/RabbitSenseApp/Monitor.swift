@@ -1,3 +1,4 @@
+import AppKit
 import AVFoundation
 import CoreML
 import Foundation
@@ -129,6 +130,33 @@ final class Monitor: ObservableObject {
         running = false
         box = nil
         status = "En pausa"
+    }
+
+    /// Días anteriores que cuentan para la línea base.
+    var baselineDays: Int { pastDays.filter(AlertRules.countsForBaseline).count }
+
+    /// Borra el diario (a la Papelera), tras confirmarlo, y empieza la línea base de cero.
+    func resetJournal() {
+        let alert = NSAlert()
+        alert.messageText = "¿Empezar el diario de cero?"
+        alert.informativeText = "Se borran todos los días registrados, también el de hoy, y la línea base vuelve a 0. "
+            + "Los archivos van a la Papelera por si quieres recuperarlos."
+        alert.alertStyle = .warning
+        alert.addButton(withTitle: "Empezar de cero")
+        alert.addButton(withTitle: "Cancelar")
+        guard alert.runModal() == .alertFirstButtonReturn else { return }
+        do {
+            try journal.reset()
+        } catch {
+            problem = "No se pudo borrar el diario: \(error)"
+            return
+        }
+        today = []
+        pastDays = []
+        latest = nil
+        alerts = []
+        sent = [:]
+        lastCheck = .distantPast
     }
 
     func toggle() {

@@ -32,6 +32,12 @@ struct JournalTests {
         #expect(s.displacementPerMinute == 15 / 1.5)
     }
 
+    @Test func onlyDaysWithAnHourOfCinnaCountForBaseline() {
+        #expect(!AlertRules.countsForBaseline(windows(from: date(1, 10), count: 3000, act: "no_camera")))
+        #expect(!AlertRules.countsForBaseline(windows(from: date(1, 10), count: 1799, act: "lying")))
+        #expect(AlertRules.countsForBaseline(windows(from: date(1, 10), count: 1800, act: "lying")))
+    }
+
     @Test func journalRoundTripsByDay() throws {
         let folder = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         let journal = Journal(folder: folder, calendar: calendar)

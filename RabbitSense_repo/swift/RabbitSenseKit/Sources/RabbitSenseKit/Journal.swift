@@ -88,6 +88,15 @@ public final class Journal {
         return text.split(separator: "\n").compactMap { try? decoder.decode(WindowRecord.self, from: Data($0.utf8)) }
     }
 
+    /// Manda todos los días del diario a la Papelera (se pueden recuperar desde allí). La línea base vuelve a cero.
+    public func reset() throws {
+        let manager = FileManager.default
+        for file in try manager.contentsOfDirectory(at: folder, includingPropertiesForKeys: nil)
+        where file.pathExtension == "jsonl" {
+            try manager.trashItem(at: file, resultingItemURL: nil)
+        }
+    }
+
     /// Días anteriores a `day` (hasta `days`), del más reciente al más antiguo; solo los que tienen datos.
     public func history(before day: Date, days: Int) -> [[WindowRecord]] {
         (1...max(1, days)).compactMap { k in
@@ -116,6 +125,12 @@ public struct AlertRules {
     public var minimumVisibleMinutes = 30.0
 
     public init() {}
+
+    /// Si un día sirve de línea base: al menos una hora viendo a Cinna. Los días de pruebas o sin cámara no cuentan
+    /// (la regla de actividad ya los descarta porque no tienen desplazamiento en las mismas horas).
+    public static func countsForBaseline(_ records: [WindowRecord]) -> Bool {
+        ActivitySummary(records).visibleSeconds >= 3600
+    }
 
     /// Minutos seguidos, contando hacia atrás desde la última ventana, en que se cumple `condition`.
     func trailingMinutes(_ records: [WindowRecord], _ condition: (WindowRecord) -> Bool) -> Double {
