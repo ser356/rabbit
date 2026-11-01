@@ -97,27 +97,38 @@ struct ContentView: View {
     @AppStorage("pagina") private var page = Page.today
 
     var body: some View {
-        HStack(alignment: .top, spacing: 20) {
-            VStack(alignment: .leading, spacing: 12) {
-                LiveView()
-                ForEach(monitor.alerts, id: \.identifier) { AlertBanner(alert: $0) }
-                Spacer(minLength: 0)
-            }
-            .frame(minWidth: 560, maxWidth: .infinity)
-
-            ScrollView {
-                VStack(spacing: 14) {
-                    switch page {
-                    case .today: TodayPanel()
-                    case .days: DaysPanel()
+        ZStack {
+            Backdrop(tint: monitor.running ? style(monitor.latest?.act ?? "other").color : .blue)
+            HStack(alignment: .top, spacing: 16) {
+                VStack(spacing: 12) {
+                    LiveView()
+                    VStack(spacing: 8) {
+                        ForEach(monitor.alerts, id: \.identifier) { AlertBanner(alert: $0) }
                     }
+                    .glassGroup()
+                    Spacer(minLength: 0)
                 }
-                .padding(.bottom, 8)
+                .frame(minWidth: 560, maxWidth: .infinity)
+
+                // Panel lateral flotante de cristal; dentro, secciones sin más cristal (no se apila cristal sobre cristal).
+                ScrollView {
+                    VStack(spacing: 12) {
+                        switch page {
+                        case .today: TodayPanel()
+                        case .days: DaysPanel()
+                        }
+                    }
+                    .padding(14)
+                }
+                .scrollIndicators(.never)
+                .frame(width: 372)
+                .clipShape(RoundedRectangle(cornerRadius: 26, style: .continuous))
+                .glassSurface(RoundedRectangle(cornerRadius: 26, style: .continuous))
             }
-            .scrollIndicators(.never)
-            .frame(width: 360)
+            .padding(16)
         }
-        .padding(20)
+        .preferredColorScheme(.dark)
+        .toolbarBackground(.hidden, for: .windowToolbar)
         .toolbar {
             ToolbarItem(placement: .navigation) { StatusPill() }
             ToolbarItem(placement: .principal) {
@@ -133,6 +144,8 @@ struct ContentView: View {
                     Label(monitor.running ? "Pausar" : "Empezar", systemImage: monitor.running ? "pause.fill" : "play.fill")
                         .labelStyle(.titleAndIcon)
                 }
+                .glassButton(prominent: true)
+                .tint(monitor.running ? .orange : .green)
                 .disabled(!monitor.ready)
                 .help(monitor.running ? "Dejar de observar" : "Empezar a observar con la cámara")
             }
@@ -155,9 +168,7 @@ struct StatusPill: View {
             }
         }
         .font(.callout)
-        .padding(.horizontal, 10)
-        .padding(.vertical, 4)
-        .background(Capsule().fill(Color.primary.opacity(0.06)))
+        .padding(.horizontal, 8)
     }
 }
 
@@ -188,10 +199,10 @@ struct LiveView: View {
             }
         }
         .aspectRatio(monitor.frameAspect, contentMode: .fit)
-        .background(Color.black)
-        .clipShape(RoundedRectangle(cornerRadius: 14))
-        .overlay(RoundedRectangle(cornerRadius: 14).strokeBorder(Color.primary.opacity(0.08)))
-        .environment(\.colorScheme, .dark)
+        .background(monitor.running ? Color.black : Color.white.opacity(0.03))
+        .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
+        .overlay(RoundedRectangle(cornerRadius: 22, style: .continuous).strokeBorder(Color.white.opacity(0.1)))
+        .shadow(color: .black.opacity(0.35), radius: 24, y: 10)
     }
 }
 
@@ -216,7 +227,9 @@ struct Placeholder: View {
             }
         }
         .multilineTextAlignment(.center)
-        .frame(maxWidth: 420)
+        .frame(maxWidth: 400)
+        .padding(28)
+        .glassSurface(RoundedRectangle(cornerRadius: 28, style: .continuous))
         .foregroundStyle(.white)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
@@ -235,9 +248,10 @@ struct ActChip: View {
             }
         }
         .font(.title3)
-        .padding(.horizontal, 14)
-        .padding(.vertical, 8)
-        .background(.ultraThinMaterial, in: Capsule())
+        .padding(.horizontal, 16)
+        .padding(.vertical, 9)
+        .glassSurface(Capsule(), tint: s.color.opacity(0.35))
+        .animation(.smooth, value: record.act)
     }
 }
 
@@ -253,8 +267,8 @@ struct AlertBanner: View {
             }
             Spacer(minLength: 0)
         }
-        .padding(12)
-        .background(RoundedRectangle(cornerRadius: 10).fill(Color.orange.opacity(0.12)))
+        .padding(14)
+        .glassSurface(RoundedRectangle(cornerRadius: 18, style: .continuous), tint: .orange.opacity(0.3))
     }
 }
 
@@ -266,7 +280,7 @@ struct CameraPreview: NSViewRepresentable {
         let view = NSView()
         let layer = AVCaptureVideoPreviewLayer(session: session)
         layer.videoGravity = .resizeAspect
-        layer.backgroundColor = NSColor.black.cgColor
+        layer.backgroundColor = NSColor.clear.cgColor
         view.layer = layer
         view.wantsLayer = true
         return view
@@ -296,8 +310,7 @@ struct Card<Content: View>: View {
         }
         .padding(14)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(RoundedRectangle(cornerRadius: 12).fill(Color(nsColor: .controlBackgroundColor)))
-        .overlay(RoundedRectangle(cornerRadius: 12).strokeBorder(Color.primary.opacity(0.07)))
+        .background(RoundedRectangle(cornerRadius: 18, style: .continuous).fill(Color.white.opacity(0.06)))
     }
 }
 
@@ -524,6 +537,7 @@ struct DaysPanel: View {
             Button(role: .destructive) { monitor.resetJournal() } label: {
                 Label("Empezar de cero…", systemImage: "arrow.counterclockwise")
             }
+            .glassButton()
             .help("Borra el diario (va a la Papelera) y la línea base vuelve a 0")
         }
 
